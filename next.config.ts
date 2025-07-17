@@ -1,12 +1,8 @@
-const isProd = process.env.NODE_ENV === 'production';
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   images: {
-    unoptimized: true,
+    domains: ['ik.imagekit.io'],
   },
-  trailingSlash: true,
-  // REMOVE basePath and assetPrefix
 };
 
-export default nextConfig;
+module.exports = nextConfig;
