@@ -25,7 +25,7 @@ const AboutSection: React.FC = () => {
           className="relative w-full h-80 md:h-[450px] rounded-3xl overflow-hidden shadow-xl"
         >
           <Image
-            src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/about-me.jpg"
+            src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/AboutMe.png"
             alt="Khalil Abdel Majeed working on a project"
             fill
             style={{ objectFit: 'cover' }}
