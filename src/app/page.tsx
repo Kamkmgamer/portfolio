@@ -8,6 +8,8 @@ import AboutSection from "../components/AboutSection";
 import ContactSection from "../components/ContactSection";
 import ProjectsSection from '../components/ProjectsSection';
 import SkillsSection from '../components/SkillsSection';
+import ProjectsCarousel from '@/components/ProjectsCarousel'
+
 
 export default function Home() {
   return (
@@ -18,6 +20,7 @@ export default function Home() {
       <ProjectsSection />
       <ContactSection />
       <SkillsSection />
+      <ProjectsCarousel />
       
     </>
   );
