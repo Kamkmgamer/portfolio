@@ -2,15 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { getBasePath } from '../utils/getBasePath';
 
 const HeroSection: React.FC = () => {
-  const basePath = getBasePath();
   const [isInside, setIsInside] = useState(false);
-  // track raw mouse position
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // convert mouse position into centered percentage (−50…+50)
   const xPct = useMotionValue(0);
   const yPct = useMotionValue(0);
   const xParallax1 = useTransform(xPct, [-50, 50], [-20, 20]);
@@ -20,11 +16,11 @@ const HeroSection: React.FC = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const cx = window.innerWidth  / 2;
+      const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       setMousePos({ x: e.clientX, y: e.clientY });
-      xPct.set((e.clientX - cx) / cx * 50);
-      yPct.set((e.clientY - cy) / cy * 50);
+      xPct.set(((e.clientX - cx) / cx) * 50);
+      yPct.set(((e.clientY - cy) / cy) * 50);
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);

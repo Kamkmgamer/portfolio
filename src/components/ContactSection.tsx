@@ -2,12 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { getBasePath } from '../utils/getBasePath';
 import { contactMethods } from '../data/contactMethods';
 import { useTheme } from 'next-themes';
 
 const ContactSection: React.FC = () => {
-  const basePath = getBasePath();
   const { resolvedTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
@@ -62,9 +60,9 @@ const ContactSection: React.FC = () => {
                   src={
                     mounted
                       ? resolvedTheme === 'dark'
-                        ? `${basePath}${method.iconDark}`
-                        : `${basePath}${method.iconLight}`
-                      : `${basePath}${method.iconLight}`
+                        ? method.iconDark
+                        : method.iconLight
+                      : method.iconLight
                   }
                   alt={method.title}
                   className="w-full h-full object-contain transition-all duration-500 group-hover:scale-110"

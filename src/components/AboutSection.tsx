@@ -3,10 +3,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
-import { getBasePath } from '../utils/getBasePath';
 
 const AboutSection: React.FC = () => {
-  const basePath = getBasePath();
   const { scrollY } = useViewportScroll();
   // Parallax: move image up/down as user scrolls
   const y = useTransform(scrollY, [0, 500], [0, -50]);
@@ -27,7 +25,7 @@ const AboutSection: React.FC = () => {
           className="relative w-full h-80 md:h-[450px] rounded-3xl overflow-hidden shadow-xl"
         >
           <Image
-            src={`https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/about-me.png?updatedAt=1752777671112`}
+            src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/about-me.png?updatedAt=1752777671112"
             alt="Khalil Abdel Majeed working on a project"
             fill
             style={{ objectFit: 'cover' }}

@@ -3,24 +3,21 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { projects } from '../data/projects'; // Ensure your projects data is correctly structured
-import { getBasePath } from '../utils/getBasePath'; // Utility to get base path for images
+import { projects } from '../data/projects';
 
 interface Project {
   id: string;
   title: string;
   description: string;
-  image: string; // Relative path to image, e.g., '/images/project1.jpg'
+  image: string; // Full external URL
   tags: string[];
-  gradient: string; // Tailwind gradient class, e.g., 'from-blue-500 to-purple-600'
-  demo?: string; // Optional URL for live demo
-  github?: string; // Optional URL for GitHub repository
-  category?: string; // Optional: Add a category for project type
+  gradient: string;
+  demo?: string;
+  github?: string;
+  category?: string;
 }
 
 const ProjectsSection: React.FC = () => {
-  const basePath = getBasePath();
-
   return (
     <section
       id="projects"
@@ -34,13 +31,8 @@ const ProjectsSection: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-5xl sm:text-6xl font-extrabold text-center mb-16"
         >
-          {/* Main "My" text using the standard text color */}
           <span className="text-text dark:text-text">My </span>
-
-          {/* "Projects" text with the gradient effect */}
-          <span
-            className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400"
-          >
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400">
             Projects
           </span>
         </motion.h2>
@@ -54,7 +46,7 @@ const ProjectsSection: React.FC = () => {
               rel="noopener noreferrer"
               whileHover={{
                 scale: 1.03,
-                boxShadow: "var(--box-shadow-hover-light, 0 10px 20px rgba(0,0,0,0.1)), 0 6px 6px rgba(0,0,0,0.05)"
+                boxShadow: 'var(--box-shadow-hover-light, 0 10px 20px rgba(0,0,0,0.1)), 0 6px 6px rgba(0,0,0,0.05)',
               }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -64,7 +56,7 @@ const ProjectsSection: React.FC = () => {
             >
               <div className="relative h-56 w-full overflow-hidden">
                 <Image
-                  src={`${basePath}${project.image}`}
+                  src={project.image} // Full external URL
                   alt={project.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
