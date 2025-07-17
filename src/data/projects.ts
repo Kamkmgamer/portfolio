@@ -15,7 +15,7 @@ export const projects: Project[] = [
     id: 1,
     title: "SoftMedics.sd",
     description: "A modern e-learning platform for professionals in Sudan.",
-    image: "/images/projects/softmedics.png",
+    image: "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/projects/softmedics.png",
     tags: ["Odoo", "Web Design", "Responsive"],
     gradient: "from-purple-500 via-pink-500 to-red-500",
     github: "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/projects/softmedics.png",
