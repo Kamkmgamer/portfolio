@@ -17,12 +17,12 @@ export const metadata: Metadata = {
   title: "Khalil Abdel Majeed | Web Developer & Designer",
   description:
     "Portfolio of Khalil Abdel Majeed, a web developer and designer specializing in Next.js, React, and modern responsive design.",
-  metadataBase: new URL("https://khalil.excellence.sd"),
+  metadataBase: new URL("https://kamkmgamer.github.io/portfolio"),
   openGraph: {
     title: "Khalil Abdel Majeed | Web Developer & Designer",
     description:
       "Explore Khalil Abdel Majeed’s portfolio of SEO-friendly, responsive websites built with React and Next.js.",
-    url: "https://khalil.excellence.sd/",
+    url: "https://kamkmgamer.github.io/portfolio",
     siteName: "Khalil Abdel Majeed Portfolio",
     images: [
       {
@@ -48,10 +48,10 @@ export const metadata: Metadata = {
   authors: [{ name: "Khalil Abdel Majeed", url: "https://khalil.excellence.sd" }],
   robots: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/portfolio/favicon.ico",
+    shortcut: "/portfolio/favicon.ico",
   },
-  manifest: "/site.webmanifest",
+  manifest: "/portfolio/site.webmanifest",
 };
 
 export const viewport: Viewport = {
