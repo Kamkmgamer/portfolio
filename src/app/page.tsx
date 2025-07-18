@@ -11,6 +11,8 @@ import SkillsSection from '../components/SkillsSection';
 import ProjectsCarousel from '@/components/ProjectsCarousel';
 import InteractiveCursor from '@/components/CursorProvider';
 import ServicesSection from "@/components/ServicesSection";
+import GitHubActivitySection from "@/components/GitHubActivitySection";
+
 
 
 
@@ -26,7 +28,7 @@ export default function Home() {
       <ProjectsCarousel />
       <InteractiveCursor />
       <ServicesSection />
-      
+      <GitHubActivitySection />
     </>
   );
 }
