@@ -7,9 +7,9 @@
 }
 
 html.dark {
-  --background: 222 47% 11%; /* dark gray (#111827) */
-  --surface: 213 27% 17%;    /* slightly lighter gray */
-  --text: 210 40% 98%;       /* almost white */
+  --background: 225 30% 5%;   /* almost black (#0a0a0a) */
+  --surface: 225 15% 10%;     /* very dark gray (#1a1a1a) */
+  --text: 210 40% 98%;        /* nearly white (#fafafa) */
 }
 
 @theme inline {
@@ -25,4 +25,30 @@ body {
   position: relative;
   z-index: 0;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(270deg, #000000, #0a0a0a, #1a1a1a, #000000);
+  background-size: 800% 800%;
+  animation: gradientShift 20s ease infinite;
+  z-index: -1;
+  opacity: 0.1; /* more subtle in dark mode */
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

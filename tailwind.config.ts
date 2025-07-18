@@ -15,6 +15,22 @@ module.exports = {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui'],
         mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular'],
       },
+      backgroundImage: {
+        'gradient-animated': 'linear-gradient(-45deg, #a1c4fd, #c2e9fb, #fbc2eb, #a6c1ee)',
+      },
+      backgroundSize: {
+        '400': '400% 400%',
+      },
+      keyframes: {
+        gradientShift: {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+      },
+      animation: {
+        gradientShift: 'gradientShift 15s ease infinite',
+      },
     },
   },
   plugins: [
