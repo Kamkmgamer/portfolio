@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={toggleMenu}
-          className="md:hidden text-text-light dark:text-text-dark focus:outline-none"
+          className="md:hidden cursor-hover text-text-light dark:text-text-dark focus:outline-none"
           aria-label="Toggle Mobile Menu"
         >
           {isOpen ? (

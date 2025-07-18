@@ -18,7 +18,9 @@ export const metadata: Metadata = {
   title: "Khalil Abdel Majeed | Web Developer & Designer",
   description:
     "Portfolio of Khalil Abdel Majeed, a web developer and designer specializing in Next.js, React, and modern responsive design.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   openGraph: {
     title: "Khalil Abdel Majeed | Web Developer & Designer",
     description:
@@ -76,7 +78,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Dynamic theme color for browser UI */}
         <meta
           name="theme-color"
           content="#f9fafb"

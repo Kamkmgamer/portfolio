@@ -8,7 +8,10 @@ import AboutSection from "../components/AboutSection";
 import ContactSection from "../components/ContactSection";
 import ProjectsSection from '../components/ProjectsSection';
 import SkillsSection from '../components/SkillsSection';
-import ProjectsCarousel from '@/components/ProjectsCarousel'
+import ProjectsCarousel from '@/components/ProjectsCarousel';
+import InteractiveCursor from '@/components/CursorProvider';
+import ServicesSection from "@/components/ServicesSection";
+
 
 
 export default function Home() {
@@ -21,6 +24,8 @@ export default function Home() {
       <ContactSection />
       <SkillsSection />
       <ProjectsCarousel />
+      <InteractiveCursor />
+      <ServicesSection />
       
     </>
   );

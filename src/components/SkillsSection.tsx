@@ -36,7 +36,7 @@ const SkillsSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.05, boxShadow: '0 10px 20px rgba(0,0,0,0.15)' }}
-              className="relative group rounded-2xl bg-surface-light dark:bg-surface-dark p-5 shadow-lg transition-transform duration-300 cursor-default overflow-hidden" // Added overflow-hidden for the hover effect
+              className="relative group rounded-2xl bg-surface-light dark:bg-surface-dark p-5 shadow-lg transition-transform duration-300 cursor-default overflow-hidden cursor-hover" // Added overflow-hidden for the hover effect
             >
               {/* Icon */}
               <div className="flex justify-center mb-4">
