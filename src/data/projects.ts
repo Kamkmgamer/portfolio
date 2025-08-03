@@ -29,7 +29,7 @@ export const projects: Project[] = [
     image: "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/projects/bluenilepaint.png",
     tags: ["Webflow", "CMS", "Animations"],
     gradient: "from-blue-500 via-green-400 to-teal-400",
-    demo: "https://blue-nile-paint.webflow.io",
+    demo: "https://blue-nile-painting-6aeab3.webflow.io/",
     category: "Web Design",
   },
   {
@@ -39,7 +39,7 @@ export const projects: Project[] = [
     image: "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/projects/fitnesskhalil.png",
     tags: ["Webflow", "SEO", "Responsive"],
     gradient: "from-yellow-500 via-orange-500 to-red-500",
-    demo: "https://fitness-khalil.webflow.io",
+    demo: "http://khalils-example-site.webflow.io/",
     category: "Web Design",
   },
   {
@@ -49,7 +49,7 @@ export const projects: Project[] = [
     image: "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/projects/excellencesd.png",
     tags: ["Webflow", "Portfolio", "Responsive"],
     gradient: "from-indigo-500 via-purple-500 to-pink-500",
-    demo: "https://khalil.excellence.sd",
+    demo: "http://khalils-website.webflow.io/",
     category: "Web Design",
   },
 ];
