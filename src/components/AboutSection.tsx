@@ -143,7 +143,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
             <span className="font-semibold text-primary-light dark:text-primary-dark">
               {name}
             </span>
-            , a {role} passionate about crafting immersive user experiences.
+            , a {role} love crafting immersive user experiences.
           </p>
 
           <p className="text-lg sm:text-xl leading-relaxed mb-6 text-pretty">
