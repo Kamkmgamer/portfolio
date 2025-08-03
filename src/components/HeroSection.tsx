@@ -1,65 +1,120 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import React from 'react';
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+  cubicBezier,
+} from 'framer-motion';
+
+const ease = cubicBezier(0.22, 1, 0.36, 1);
 
 const HeroSection: React.FC = () => {
-  const [isInside, setIsInside] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const reduceMotion = useReducedMotion();
+  const [isInside, setIsInside] = React.useState(false);
 
-  const xPct = useMotionValue(0);
-  const yPct = useMotionValue(0);
-  const xParallax1 = useTransform(xPct, [-50, 50], [-20, 20]);
-  const yParallax1 = useTransform(yPct, [-50, 50], [-20, 20]);
-  const xParallax2 = useTransform(xPct, [-50, 50], [-40, 40]);
-  const yParallax2 = useTransform(yPct, [-50, 50], [-40, 40]);
+  // Pointer position as MotionValues
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      setMousePos({ x: e.clientX, y: e.clientY });
-      xPct.set(((e.clientX - cx) / cx) * 50);
-      yPct.set(((e.clientY - cy) / cy) * 50);
+  // Normalize to percentage offset from center (-50 to 50)
+  const xPct = useTransform(x, (val) => {
+    const cx = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+    return cx ? ((val - cx) / cx) * 50 : 0;
+  });
+  const yPct = useTransform(y, (val) => {
+    const cy = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
+    return cy ? ((val - cy) / cy) * 50 : 0;
+  });
+
+  // Springs for smoother parallax (respect reduced motion)
+  const springCfg = React.useMemo(
+    () =>
+      reduceMotion
+        ? { stiffness: 1000, damping: 100 }
+        : { stiffness: 60, damping: 20 },
+    [reduceMotion]
+  );
+
+  const xParallax1 = useSpring(
+    useTransform(xPct, [-50, 50], [-20, 20]),
+    springCfg
+  );
+  const yParallax1 = useSpring(
+    useTransform(yPct, [-50, 50], [-20, 20]),
+    springCfg
+  );
+  const xParallax2 = useSpring(
+    useTransform(xPct, [-50, 50], [-40, 40]),
+    springCfg
+  );
+  const yParallax2 = useSpring(
+    useTransform(yPct, [-50, 50], [-40, 40]),
+    springCfg
+  );
+
+  // Spotlight gradient center as derived style; no React state needed
+  const spotlightBg = useTransform([x, y], ([mx, my]) => {
+    const alpha = 0.18;
+    const radius = 240;
+    return `radial-gradient(circle at ${mx}px ${my}px, rgba(0,0,0,${alpha}), transparent ${radius}px)`;
+  });
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined' || reduceMotion) return;
+
+    const onMove = (e: PointerEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [xPct, yPct]);
+    const onEnter = () => setIsInside(true);
+    const onLeave = () => setIsInside(false);
+
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerenter', onEnter);
+    window.addEventListener('pointerleave', onLeave);
+
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerenter', onEnter);
+      window.removeEventListener('pointerleave', onLeave);
+    };
+  }, [x, y, reduceMotion]);
 
   return (
     <section
       id="hero"
-      onMouseEnter={() => setIsInside(true)}
-      onMouseLeave={() => setIsInside(false)}
-      className="relative flex items-center justify-center w-full min-h-screen overflow-hidden bg-gradient-to-br-light dark:bg-gradient-to-br-dark text-text-light dark:text-text-dark transition-colors duration-500"
+      className="relative flex items-center justify-center w-full min-h-screen overflow-hidden bg-gradient-to-br from-background-light to-surface-light dark:from-background-dark dark:to-surface-dark text-text-light dark:text-text-dark transition-colors duration-500"
+      aria-labelledby="hero-title"
     >
       {/* Parallax Blob #1 */}
       <motion.div
-        style={{ x: xParallax1, y: yParallax1 }}
-        className="absolute w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+        style={{ x: reduceMotion ? 0 : xParallax1, y: reduceMotion ? 0 : yParallax1 }}
+        className="absolute w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply blur-3xl opacity-20 will-change-transform"
         transition={{ type: 'spring', stiffness: 30 }}
       />
 
       {/* Parallax Blob #2 */}
       <motion.div
-        style={{ x: xParallax2, y: yParallax2 }}
-        className="absolute w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+        style={{ x: reduceMotion ? 0 : xParallax2, y: reduceMotion ? 0 : yParallax2 }}
+        className="absolute w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply blur-3xl opacity-20 will-change-transform"
         transition={{ type: 'spring', stiffness: 30 }}
       />
 
-      {/* Spotlight Glow */}
+      {/* Spotlight Glow (disabled if reduced motion) */}
       <AnimatePresence>
-        {isInside && (
+        {!reduceMotion && isInside && (
           <motion.div
             key="spotlight"
-            className="pointer-events-none fixed inset-0 z-0"
+            className="pointer-events-none fixed inset-0 z-0 will-change-opacity"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              background: `radial-gradient(circle at ${mousePos.x}px ${mousePos.y}px, rgba(0, 0, 0, 0.15), transparent 200px)`,
-            }}
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
+            animate={{ opacity: 1, transition: { duration: 0.4, ease } }}
+            exit={{ opacity: 0, transition: { duration: 0.3, ease } }}
+            style={{ background: spotlightBg }}
           />
         )}
       </AnimatePresence>
@@ -67,30 +122,36 @@ const HeroSection: React.FC = () => {
       {/* Hero content */}
       <div className="relative z-10 text-center px-4">
         <motion.h1
+          id="hero-title"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight drop-shadow-lg"
+          transition={{ duration: 0.9, delay: 0.15, ease }}
+          className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight drop-shadow-lg tracking-tight"
         >
-          Hi, I&apos;m{' '}
+          Hi, I&rsquo;m{' '}
           <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
             Khalil Abdel Majeed
           </span>
         </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="text-xl sm:text-2xl lg:text-3xl mb-8 max-w-2xl mx-auto"
+          transition={{ duration: 0.9, delay: 0.3, ease }}
+          className="text-xl sm:text-2xl lg:text-3xl mb-8 max-w-2xl mx-auto text-balance"
         >
-          A Web Developer & Designer crafting modern, interactive, and responsive web experiences.
+          A Web Developer & Designer crafting modern, interactive, and responsive
+          web experiences.
         </motion.p>
+
         <motion.a
           href="#projects"
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="inline-block bg-yellow-400 text-gray-900 font-semibold py-3 px-8 rounded-full shadow-xl hover:bg-yellow-300 hover:scale-105 transform transition-all duration-300 ease-in-out"
+          whileHover={reduceMotion ? undefined : { scale: 1.04, y: -2 }}
+          transition={{ duration: 0.5, delay: 0.45, ease }}
+          className="inline-block bg-yellow-400 text-gray-900 font-semibold py-3 px-8 rounded-full shadow-xl hover:bg-yellow-300 transform transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/70 focus-visible:ring-offset-2"
+          aria-label="View my projects"
         >
           View My Work
         </motion.a>

@@ -52,3 +52,29 @@ body::before {
     background-position: 0% 50%;
   }
 }
+
+/* Ripple base: initial state (scale 0) */
+.ripple {
+  transform: scale(0);
+  transform-origin: center;
+}
+
+/* Triggered state: scales and fades out */
+.ripple-animate {
+  animation: ripple-expand 550ms ease-out forwards;
+}
+
+@keyframes ripple-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0.35;
+  }
+  60% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
