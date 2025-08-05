@@ -13,7 +13,7 @@ export const contactMethods = [
     id: 2,
     title: 'LinkedIn',
     description: ' ',
-    href: 'https://www.linkedin.com/in/kamkmgamer',
+    href: 'https://www.linkedin.com/in/kamkm-gamer',
     iconLight: 'https://www.svgrepo.com/show/512419/linkedin-161.svg',
     iconDark: 'https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/linkedin-161-svgrepo-com.svg',
     glowColor: 'rgba(10, 102, 194)',
