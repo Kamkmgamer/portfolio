@@ -4,12 +4,20 @@
   --background: 0 0% 99%; /* lighter off-white (#fcfcfd-ish) */
   --surface: 0 0% 100%;   /* white */
   --text: 220 13% 20%;    /* dark gray */
+  /* Scrollbar (light) */
+  --scrollbar-bg: hsl(var(--background));
+  --scrollbar-thumb: hsl(220 10% 70% / 0.6);
+  --scrollbar-thumb-hover: hsl(220 10% 55% / 0.7);
 }
 
 html.dark {
   --background: 225 30% 5%;   /* almost black (#0a0a0a) */
   --surface: 225 15% 10%;     /* very dark gray (#1a1a1a) */
   --text: 210 40% 98%;        /* nearly white (#fafafa) */
+  /* Scrollbar (dark) */
+  --scrollbar-bg: hsl(var(--background));
+  --scrollbar-thumb: hsl(220 10% 40% / 0.6);
+  --scrollbar-thumb-hover: hsl(220 10% 55% / 0.8);
 }
 
 @theme inline {
@@ -82,4 +90,36 @@ html:not(.dark) body::before {
     transform: scale(1.25);
     opacity: 0;
   }
+}
+
+/*
+  Custom Scrollbars (WebKit + Firefox)
+  - Honors light/dark via CSS variables
+  - Thin, rounded thumb with subtle hover state
+*/
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+}
+
+/* WebKit (Chromium, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-corner {
+  background: var(--scrollbar-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
 }
