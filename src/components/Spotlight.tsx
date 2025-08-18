@@ -18,6 +18,10 @@ export default function Spotlight() {
   // Track viewport to clamp values
   const size = React.useRef({ w: 0, h: 0 });
 
+  // Ensure client-only visual state to avoid SSR/client mismatch
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
   React.useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -98,11 +102,12 @@ export default function Spotlight() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-[-1]"
       style={{
-        // Initial subtle background to avoid flash pre-first pointer move
-        background:
-          resolvedTheme === 'dark'
+        // Neutral initial background until mounted to avoid SSR/client mismatch
+        background: mounted
+          ? resolvedTheme === 'dark'
             ? 'radial-gradient(40rem 28rem at 50% 30%, rgba(255,255,255,0.08), transparent 60%)'
-            : 'radial-gradient(40rem 28rem at 50% 30%, rgba(0,0,0,0.06), transparent 60%)',
+            : 'radial-gradient(40rem 28rem at 50% 30%, rgba(0,0,0,0.06), transparent 60%)'
+          : 'transparent',
         willChange: 'background',
       }}
     />

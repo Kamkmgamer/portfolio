@@ -15,6 +15,7 @@ const links: NavLink[] = [
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
+  { label: 'Case Studies', href: '/case-studies' },
 ];
 
 const ease = cubicBezier(0.22, 1, 0.36, 1);
@@ -124,6 +125,21 @@ const Navbar: React.FC = () => {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener('resize', onResize);
     };
+  }, [isOpen]);
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      const menuEl = document.getElementById(menuId);
+      const target = e.target as Node | null;
+      const clickedToggle = !!(toggleBtnRef.current && target && toggleBtnRef.current.contains(target));
+      const clickedInsideMenu = !!(menuEl && target && menuEl.contains(target));
+      if (!clickedInsideMenu && !clickedToggle) {
+        closeMenu();
+      }
+    };
+    document.addEventListener('mousedown', onDocClick, true);
+    return () => document.removeEventListener('mousedown', onDocClick, true);
   }, [isOpen]);
 
   const getAriaCurrent = (href: string) => {
