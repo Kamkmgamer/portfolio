@@ -16,6 +16,7 @@ const links: NavLink[] = [
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
   { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Carousels', href: '/carousels' },
 ];
 
 const ease = cubicBezier(0.22, 1, 0.36, 1);
