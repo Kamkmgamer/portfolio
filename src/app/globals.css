@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: 0 0% 98%; /* light gray (#f9fafb) */
+  --background: 0 0% 99%; /* lighter off-white (#fcfcfd-ish) */
   --surface: 0 0% 100%;   /* white */
   --text: 220 13% 20%;    /* dark gray */
 }
@@ -39,6 +39,11 @@ body::before {
   animation: gradientShift 20s ease infinite;
   z-index: -1;
   opacity: 0.1; /* more subtle in dark mode */
+}
+
+/* Make the animated backdrop lighter on light theme for a cleaner off-white */
+html:not(.dark) body::before {
+  opacity: 0.06;
 }
 
 @keyframes gradientShift {

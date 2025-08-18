@@ -16,18 +16,20 @@ const ease = cubicBezier(0.22, 1, 0.36, 1);
 const HeroSection: React.FC = () => {
   const reduceMotion = useReducedMotion();
   const [isInside, setIsInside] = React.useState(false);
+  // Viewport center stored in state to avoid reading window during render
+  const [center, setCenter] = React.useState<{ cx: number; cy: number }>({ cx: 0, cy: 0 });
 
   // Pointer position as MotionValues
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Normalize to percentage offset from center (-50 to 50)
+  // Normalize to percentage offset from center (-50 to 50), based on state (SSR-safe)
   const xPct = useTransform(x, (val) => {
-    const cx = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+    const cx = center.cx;
     return cx ? ((val - cx) / cx) * 50 : 0;
   });
   const yPct = useTransform(y, (val) => {
-    const cy = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
+    const cy = center.cy;
     return cy ? ((val - cy) / cy) * 50 : 0;
   });
 
@@ -67,6 +69,21 @@ const HeroSection: React.FC = () => {
   React.useEffect(() => {
     if (typeof window === 'undefined' || reduceMotion) return;
 
+    // Set initial center to current viewport and align pointer values to center
+    const initCx = window.innerWidth / 2;
+    const initCy = window.innerHeight / 2;
+    x.set(initCx);
+    y.set(initCy);
+    setCenter({ cx: initCx, cy: initCy });
+
+    const onResize = () => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      setCenter({ cx, cy });
+    };
+
+    window.addEventListener('resize', onResize);
+
     const onMove = (e: PointerEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
@@ -82,6 +99,7 @@ const HeroSection: React.FC = () => {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerenter', onEnter);
       window.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('resize', onResize);
     };
   }, [x, y, reduceMotion]);
 
