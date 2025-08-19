@@ -93,10 +93,10 @@ export default async function ResearchPaperPage({ params }: { params: Promise<{ 
               download
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-light text-white dark:bg-primary-dark hover:opacity-90 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white bg-gradient-to-r from-primary-light to-primary-light/80 dark:from-primary-dark dark:to-primary-dark/80 shadow-sm hover:shadow-md ring-1 ring-white/10 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
-              Download PDF
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <span className="font-semibold">Download PDF</span>
+              <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
