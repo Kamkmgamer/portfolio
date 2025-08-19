@@ -1,60 +1,63 @@
 import React from "react";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import CaseStudiesGrid from "./CaseStudiesGrid";
 
 export const metadata = {
   title: "Case Studies | Khalil Abdel Majeed",
   description:
     "Selected case studies showcasing end-to-end delivery, architecture, and execution. Includes DevServe — an enterprise-grade SaaS built in 35 days.",
+  openGraph: {
+    title: "Case Studies | Khalil Abdel Majeed",
+    description:
+      "Deep-dives into projects that demonstrate speed, quality, and measurable impact.",
+    url: "https://khalil.excellence.sd/case-studies",
+    siteName: "Khalil Abdel Majeed Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Case Studies | Khalil Abdel Majeed",
+    description: "Explore impactful case studies with speed, scale, and execution.",
+  },
 };
 
 export default function CaseStudiesIndexPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-        <header className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Case Studies</h1>
-          <p className="mt-3 text-text-light/80 dark:text-text-dark/80 max-w-2xl">
-            Deep-dives into projects that demonstrate speed, quality, and measurable impact.
-          </p>
-        </header>
+      <main className="relative">
+        {/* Decorative background */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -top-24 left-1/2 h-72 w-[60rem] -translate-x-1/2 rounded-full blur-3xl opacity-30 dark:opacity-20 bg-[radial-gradient(closest-side,_rgba(59,130,246,0.35),_transparent_65%)]" />
+          <div className="absolute top-64 right-[-10%] h-56 w-[40rem] rounded-full blur-3xl opacity-25 dark:opacity-15 bg-[radial-gradient(closest-side,_rgba(168,85,247,0.35),_transparent_60%)]" />
+        </div>
 
-        <ul className="grid gap-6 sm:grid-cols-2">
-          <li className="rounded-2xl border border-black/10 dark:border-white/10 p-5 bg-surface-light/60 dark:bg-surface-dark/60">
-            <div className="flex flex-col h-full">
-              <h2 className="text-xl font-semibold">DevServe — Enterprise-Grade SaaS Platform</h2>
-              <p className="mt-2 text-sm text-text-light/70 dark:text-text-dark/70">
-                Built in 35 days. Industry-estimated cost: $90k–$130k.
-              </p>
-              <p className="mt-1 text-sm text-text-light/70 dark:text-text-dark/70">
-                React, Node/Express, Prisma, PostgreSQL, Docker, Stripe/PayPal, CI/CD, monitoring.
-              </p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-2 rounded-full bg-green-500/15 text-green-700 dark:text-green-300 px-2.5 py-0.5 text-xs font-medium border border-green-500/20">
-                  ✅ 35 days
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 px-2.5 py-0.5 text-xs font-medium border border-amber-500/20">
-                  💰 $100k+ value
-                </span>
-                <span className="inline-flex items-center gap-2 rounded-full bg-blue-500/15 text-blue-700 dark:text-blue-300 px-2.5 py-0.5 text-xs font-medium border border-blue-500/20">
-                  🔒 Security
-                </span>
-              </div>
-              <div className="mt-5">
-                <Link
-                  href="/case-studies/devserve"
-                  className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 text-sm font-medium shadow hover:opacity-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                >
-                  Read case study
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-                    <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h9.19L9.22 5.53a.75.75 0 1 1 1.06-1.06l5.5 5.5a.75.75 0 0 1 0 1.06l-5.5 5.5a.75.75 0 1 1-1.06-1.06l3.72-3.72H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
-                  </svg>
-                </Link>
-              </div>
+        <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <header className="text-center mb-10 sm:mb-14">
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Case Studies
+            </h1>
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Deep-dives into projects that demonstrate speed, quality, and measurable impact.
+            </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-3 py-1 text-xs font-semibold shadow-sm">
+                <svg width="10" height="10" viewBox="0 0 10 10" className="fill-green-500"><circle cx="5" cy="5" r="5" /></svg>
+                Production-grade delivery
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-3 py-1 text-xs font-semibold shadow-sm">
+                <svg width="10" height="10" viewBox="0 0 10 10" className="fill-amber-500"><circle cx="5" cy="5" r="5" /></svg>
+                Fast iterations
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-3 py-1 text-xs font-semibold shadow-sm">
+                <svg width="10" height="10" viewBox="0 0 10 10" className="fill-blue-500"><circle cx="5" cy="5" r="5" /></svg>
+                Measurable outcomes
+              </span>
             </div>
-          </li>
-        </ul>
+          </header>
+
+          <CaseStudiesGrid />
+        </div>
       </main>
     </>
   );
