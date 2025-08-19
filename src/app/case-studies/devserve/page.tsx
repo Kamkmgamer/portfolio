@@ -83,7 +83,7 @@ export default function DevServeCaseStudyPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8"
             >
-              {stats.map((stat, i) => (
+              {stats.map((stat, index) => (
                 <Card key={stat.label} className="text-center border-0 shadow-lg bg-white/60 dark:bg-white/5 backdrop-blur">
                   <CardContent className="pt-6">
                     <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-3 ${
@@ -149,8 +149,8 @@ export default function DevServeCaseStudyPage() {
                       "Implemented enterprise security practices",
                       "Set up production monitoring and CI/CD",
                       "Delivered comprehensive testing suite"
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2">
+                    ].map((item, index) => (
+                      <li key={index} className="flex items-start gap-2">
                         <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                         <span className="text-sm">{item}</span>
                       </li>
@@ -168,8 +168,8 @@ export default function DevServeCaseStudyPage() {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3">
-                    {achievements.slice(0, 4).map((achievement, i) => (
-                      <li key={i} className="flex items-start gap-2">
+                    {achievements.slice(0, 4).map((achievement, index) => (
+                      <li key={index} className="flex items-start gap-2">
                         <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                         <span className="text-sm">{achievement}</span>
                       </li>
@@ -196,13 +196,13 @@ export default function DevServeCaseStudyPage() {
             </div>
             
             <div className="space-y-6">
-              {timeline.map((week, i) => (
+              {timeline.map((week, index) => (
                 <motion.div
                   key={week.week}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="relative"
                 >
                   <div className="flex items-center gap-4">
@@ -213,8 +213,8 @@ export default function DevServeCaseStudyPage() {
                     <Card className="flex-1 shadow-sm border-l-4 border-l-blue-500">
                       <CardContent className="pt-4">
                         <div className="flex flex-wrap gap-2">
-                          {week.tasks.map((task, j) => (
-                            <span key={j} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 text-sm font-medium">
+                          {week.tasks.map((task, index) => (
+                            <span key={index} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 text-sm font-medium">
                               <CheckCircle className="h-3 w-3" />
                               {task}
                             </span>
@@ -223,7 +223,7 @@ export default function DevServeCaseStudyPage() {
                       </CardContent>
                     </Card>
                   </div>
-                  {i < timeline.length - 1 && (
+                  {index < timeline.length - 1 && (
                     <div className="absolute left-[7.5rem] top-8 w-0.5 h-6 bg-gradient-to-b from-blue-500 to-purple-500"></div>
                   )}
                 </motion.div>
@@ -247,13 +247,13 @@ export default function DevServeCaseStudyPage() {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {techStack.map((stack, i) => (
+              {techStack.map((stack, index) => (
                 <motion.div
                   key={stack.category}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
                   <Card className="h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <CardHeader>
@@ -261,8 +261,8 @@ export default function DevServeCaseStudyPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
-                        {stack.techs.map((tech, j) => (
-                          <div key={j} className="flex items-center gap-2">
+                        {stack.techs.map((tech, index) => (
+                          <div key={index} className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
                             <span className="text-sm text-muted-foreground">{tech}</span>
                           </div>
@@ -286,14 +286,14 @@ export default function DevServeCaseStudyPage() {
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold mb-4">Ready to Build Something Amazing?</h2>
               <p className="text-lg text-muted-foreground mb-8">
-                DevServe demonstrates my ability to deliver enterprise-grade solutions with exceptional speed and quality. Let's discuss your next project.
+                DevServe demonstrates my ability to deliver enterprise-grade solutions with exceptional speed and quality. Let&apos;s discuss your next project.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
                   href="/#contact"
                   className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
                 >
-                  Let's Work Together
+                  Let&apos;s Work Together
                   <ArrowRight className="h-5 w-5" />
                 </Link>
                 <Link
