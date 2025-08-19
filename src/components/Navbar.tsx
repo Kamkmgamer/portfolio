@@ -153,11 +153,14 @@ const Navbar: React.FC = () => {
     return pathname === href ? 'page' : undefined;
   };
 
+  const navBase = "fixed top-0 left-0 right-0 z-50";
+  const navTranslucentClosed = "bg-transparent";
+  const navTranslucentOpen = "bg-transparent";
+
   return (
     <nav
       aria-label="Main"
-      className="fixed top-0 left-0 right-0 z-50 bg-surface-light/60 dark:bg-surface-dark/60 backdrop-blur-xl supports-[backdrop-filter]:backdrop-blur-xl border-b border-black/5 dark:border-white/5"
-      style={{ WebkitBackdropFilter: 'blur(12px)' }}
+      className={`${navBase} ${isOpen ? navTranslucentOpen : navTranslucentClosed}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
         {/* Logo */}
@@ -258,7 +261,7 @@ const Navbar: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.2, ease } }}
               exit={{ opacity: 0, transition: { duration: 0.2, ease } }}
-              className="md:hidden fixed inset-0 z-40 bg-black/40"
+              className="md:hidden fixed inset-0 z-[70] bg-transparent"
             />
             <motion.div
               id={menuId}
@@ -275,10 +278,10 @@ const Navbar: React.FC = () => {
                 opacity: 0,
                 transition: { duration: 0.2, ease },
               }}
-              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-50"
+              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-[80]"
             >
-              <div className="mx-3 rounded-2xl border border-black/10 dark:border-white/10 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-xl shadow-lg">
-                <div className="flex flex-col gap-1 p-2">
+              <div className="mx-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 shadow-2xl ring-1 ring-black/5 dark:ring-white/5">
+                <div className="flex flex-col gap-1 p-3 pb-4 divide-y divide-black/5 dark:divide-white/10">
                   {links.map((item) => {
                     const isActive = getAriaCurrent(item.href) === 'page';
                     return (
@@ -288,7 +291,7 @@ const Navbar: React.FC = () => {
                         role="menuitem"
                         aria-current={isActive ? 'page' : undefined}
                         onClick={closeMenu}
-                        className="relative flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-text-light dark:text-text-dark hover:bg-black/[0.06] dark:hover:bg-white/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        className="relative flex items-center gap-3 rounded-xl px-3 py-3 text-lg font-semibold tracking-wide text-gray-900 dark:text-gray-100 hover:bg-black/[0.04] dark:hover:bg-white/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                       >
                         {item.label}
                         {isActive && (
@@ -297,11 +300,13 @@ const Navbar: React.FC = () => {
                       </Link>
                     );
                   })}
-                  <div className="flex items-center justify-between rounded-xl px-3 py-2">
-                    <span className="text-sm text-text-light/70 dark:text-text-dark/70">
+                  <div className="mt-2 pt-2 flex items-center justify-between gap-3 rounded-xl px-4 py-4 border-t border-black/10 dark:border-white/10">
+                    <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
                       Theme
                     </span>
-                    <ThemeToggle />
+                    <div className="shrink-0 ml-auto">
+                      <ThemeToggle />
+                    </div>
                   </div>
                 </div>
               </div>

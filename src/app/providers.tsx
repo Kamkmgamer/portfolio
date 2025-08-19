@@ -6,8 +6,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="light" // 🔥 Default to light theme
-      enableSystem={false} // 🔒 Lock system preference (manual toggle only)
+      defaultTheme="system" // Follow user's OS preference by default
+      enableSystem={true} // Respect system light/dark mode
     >
       {children}
     </ThemeProvider>

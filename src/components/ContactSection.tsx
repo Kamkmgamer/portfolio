@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useReducedMotion, cubicBezier, type Variants } from 'framer-motion';
 import { contactMethods } from '../data/contactMethods';
 import { useTheme } from 'next-themes';
@@ -39,11 +39,15 @@ const itemVariants: Variants = {
 
 const ContactSection: React.FC = () => {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const reduceMotion = useReducedMotion();
 
-  // Avoid hydration flicker by deriving icon URL on render but fading it in subtly
+  // Avoid hydration mismatch by using a deterministic icon on the server
+  // and swapping to the theme-specific icon after mount.
   const getIcon = (m: ContactMethod) =>
-    resolvedTheme === 'dark' ? m.iconDark : m.iconLight;
+    (mounted ? (resolvedTheme === 'dark' ? m.iconDark : m.iconLight) : m.iconLight);
 
   return (
     <section
@@ -95,6 +99,7 @@ const ContactSection: React.FC = () => {
                   {/* Icon + Glow */}
                   <div className="relative w-16 h-16 mb-4">
                     <motion.img
+                      suppressHydrationWarning
                       src={icon}
                       alt=""
                       aria-hidden="true"

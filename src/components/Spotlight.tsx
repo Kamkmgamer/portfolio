@@ -105,8 +105,8 @@ export default function Spotlight() {
         // Neutral initial background until mounted to avoid SSR/client mismatch
         background: mounted
           ? resolvedTheme === 'dark'
-            ? 'radial-gradient(40rem 28rem at 50% 30%, rgba(255,255,255,0.08), transparent 60%)'
-            : 'radial-gradient(40rem 28rem at 50% 30%, rgba(0,0,0,0.06), transparent 60%)'
+            ? 'radial-gradient(40rem 28rem at 50% 30%, rgba(255,255,255,0.04), transparent 60%)'
+            : 'radial-gradient(40rem 28rem at 50% 30%, rgba(0,0,0,0.03), transparent 60%)'
           : 'transparent',
         willChange: 'background',
       }}
