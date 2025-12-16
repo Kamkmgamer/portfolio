@@ -91,7 +91,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark relative`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-text relative`}
       >
         <Providers>
           <Navbar />

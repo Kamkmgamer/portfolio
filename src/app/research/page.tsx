@@ -1,10 +1,10 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { researchPapers } from '@/data/research';
+import Image from "next/image";
+import Link from "next/link";
+import { researchPapers } from "@/data/research";
 
 export const metadata = {
-  title: 'Research',
-  description: 'Research papers and publications',
+  title: "Research",
+  description: "Research papers and publications",
 };
 
 export default function ResearchPage() {
@@ -13,7 +13,9 @@ export default function ResearchPage() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <h1 className="text-5xl sm:text-6xl font-extrabold text-center mb-16 tracking-tight">
           <span className="text-text dark:text-text">My </span>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400">Research</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-600 dark:from-blue-400 dark:to-cyan-400">
+            Research
+          </span>
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -25,7 +27,7 @@ export default function ResearchPage() {
             >
               <div className="relative h-56 w-full overflow-hidden">
                 <Image
-                  src={paper.image || '/file.svg'}
+                  src={paper.image || "/file.svg"}
                   alt={paper.title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -34,7 +36,8 @@ export default function ResearchPage() {
                 />
                 {paper.venue && (
                   <span className="absolute top-4 left-4 px-3 py-1 bg-black/60 text-white text-xs font-semibold rounded-full z-10">
-                    {paper.venue}{paper.year ? ` · ${paper.year}` : ''}
+                    {paper.venue}
+                    {paper.year ? ` · ${paper.year}` : ""}
                   </span>
                 )}
               </div>

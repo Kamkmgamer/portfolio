@@ -1,35 +1,107 @@
 "use client";
 
 import React from "react";
-import Navbar from "@/components/Navbar";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar, Users, Zap, Shield, DollarSign, CheckCircle, ExternalLink, Github } from "lucide-react";
+import {
+  ArrowRight,
+  Calendar,
+  Users,
+  Zap,
+  Shield,
+  DollarSign,
+  CheckCircle,
+  ExternalLink,
+  Github,
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-
 const stats = [
-  { label: "Development Time", value: "35 Days", icon: <Calendar className="h-5 w-5" />, color: "green" },
-  { label: "Industry Cost Estimate", value: "$90k-$130k", icon: <DollarSign className="h-5 w-5" />, color: "amber" },
-  { label: "Team Size", value: "Solo Developer", icon: <Users className="h-5 w-5" />, color: "blue" },
-  { label: "Test Coverage", value: "80%+", icon: <Shield className="h-5 w-5" />, color: "violet" },
+  {
+    label: "Development Time",
+    value: "35 Days",
+    icon: <Calendar className="h-5 w-5" />,
+    color: "green",
+  },
+  {
+    label: "Industry Cost Estimate",
+    value: "$90k-$130k",
+    icon: <DollarSign className="h-5 w-5" />,
+    color: "amber",
+  },
+  {
+    label: "Team Size",
+    value: "Solo Developer",
+    icon: <Users className="h-5 w-5" />,
+    color: "blue",
+  },
+  {
+    label: "Test Coverage",
+    value: "80%+",
+    icon: <Shield className="h-5 w-5" />,
+    color: "violet",
+  },
 ];
 
 const timeline = [
-  { week: "Week 1", tasks: ["Architecture design", "Database schema", "Auth system"], progress: 100 },
-  { week: "Week 2", tasks: ["Core API endpoints", "Frontend components", "Payment integration"], progress: 100 },
-  { week: "Week 3", tasks: ["UI/UX polish", "Testing suite", "Security hardening"], progress: 100 },
-  { week: "Week 4", tasks: ["CI/CD pipeline", "Monitoring setup", "Documentation"], progress: 100 },
-  { week: "Week 5", tasks: ["Final testing", "Performance optimization", "Deployment"], progress: 100 },
+  {
+    week: "Week 1",
+    tasks: ["Architecture design", "Database schema", "Auth system"],
+    progress: 100,
+  },
+  {
+    week: "Week 2",
+    tasks: ["Core API endpoints", "Frontend components", "Payment integration"],
+    progress: 100,
+  },
+  {
+    week: "Week 3",
+    tasks: ["UI/UX polish", "Testing suite", "Security hardening"],
+    progress: 100,
+  },
+  {
+    week: "Week 4",
+    tasks: ["CI/CD pipeline", "Monitoring setup", "Documentation"],
+    progress: 100,
+  },
+  {
+    week: "Week 5",
+    tasks: ["Final testing", "Performance optimization", "Deployment"],
+    progress: 100,
+  },
 ];
 
 const techStack = [
-  { category: "Frontend", techs: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-  { category: "Backend", techs: ["Node.js", "Express 5", "Prisma ORM", "PostgreSQL"] },
-  { category: "Security", techs: ["JWT Auth", "CSRF Protection", "Rate Limiting", "Input Validation"] },
-  { category: "Payments", techs: ["Stripe API", "PayPal SDK", "Webhook Handling", "Subscription Logic"] },
-  { category: "DevOps", techs: ["Docker", "GitHub Actions", "Prometheus", "Grafana"] },
-  { category: "Testing", techs: ["Jest", "Supertest", "Cypress", "Unit & Integration"] },
+  {
+    category: "Frontend",
+    techs: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion"],
+  },
+  {
+    category: "Backend",
+    techs: ["Node.js", "Express 5", "Prisma ORM", "PostgreSQL"],
+  },
+  {
+    category: "Security",
+    techs: ["JWT Auth", "CSRF Protection", "Rate Limiting", "Input Validation"],
+  },
+  {
+    category: "Payments",
+    techs: [
+      "Stripe API",
+      "PayPal SDK",
+      "Webhook Handling",
+      "Subscription Logic",
+    ],
+  },
+  {
+    category: "DevOps",
+    techs: ["Docker", "GitHub Actions", "Prometheus", "Grafana"],
+  },
+  {
+    category: "Testing",
+    techs: ["Jest", "Supertest", "Cypress", "Unit & Integration"],
+  },
 ];
 
 const achievements = [
@@ -44,7 +116,6 @@ const achievements = [
 export default function DevServeCaseStudyPage() {
   return (
     <>
-      <Navbar />
       <main className="relative">
         {/* Hero Background */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -54,7 +125,7 @@ export default function DevServeCaseStudyPage() {
 
         <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           {/* Hero */}
-          <motion.header 
+          <motion.header
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -66,49 +137,63 @@ export default function DevServeCaseStudyPage() {
                 Case Study
               </span>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent mb-6">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-800 bg-clip-text text-transparent mb-6">
               DevServe
             </h1>
             <p className="text-xl sm:text-2xl font-medium text-muted-foreground mb-2">
               Enterprise-Grade SaaS Platform
             </p>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-              A full-stack SaaS platform with secure payments, monitoring, and enterprise features — built solo in 35 days with an industry-estimated value of $90k-$130k.
+              A full-stack SaaS platform with secure payments, monitoring, and
+              enterprise features — built solo in 35 days with an
+              industry-estimated value of $90k-$130k.
             </p>
 
             {/* Key Stats */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8"
             >
               {stats.map((stat, index) => (
-                <Card key={stat.label} className="text-center border-0 shadow-lg bg-white/60 dark:bg-white/5 backdrop-blur">
+                <Card
+                  key={stat.label}
+                  className="text-center border-0 shadow-lg bg-white/60 dark:bg-white/5 backdrop-blur"
+                >
                   <CardContent className="pt-6">
-                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-3 ${
-                      stat.color === 'green' ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' :
-                      stat.color === 'amber' ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400' :
-                      stat.color === 'blue' ? 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400' :
-                      'bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400'
-                    }`}>
+                    <div
+                      className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-3 ${
+                        stat.color === "green"
+                          ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
+                          : stat.color === "amber"
+                          ? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
+                          : stat.color === "blue"
+                          ? "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                          : "bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400"
+                      }`}
+                    >
                       {stat.icon}
                     </div>
-                    <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                    <div className="text-sm text-muted-foreground">{stat.label}</div>
+                    <div className="text-2xl font-bold text-foreground">
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {stat.label}
+                    </div>
                   </CardContent>
                 </Card>
               ))}
             </motion.div>
 
             {/* Action Buttons */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
                 <ExternalLink className="h-4 w-4" />
                 Live Demo
               </button>
@@ -120,7 +205,7 @@ export default function DevServeCaseStudyPage() {
           </motion.header>
 
           {/* Overview */}
-          <motion.section 
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -130,10 +215,12 @@ export default function DevServeCaseStudyPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Project Overview</h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                DevServe showcases enterprise-grade development practices, delivering a complete SaaS platform with the speed and quality typically reserved for large development teams.
+                DevServe showcases enterprise-grade development practices,
+                delivering a complete SaaS platform with the speed and quality
+                typically reserved for large development teams.
               </p>
             </div>
-            
+
             <div className="grid lg:grid-cols-2 gap-8">
               <Card className="shadow-lg border-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
                 <CardHeader>
@@ -148,7 +235,7 @@ export default function DevServeCaseStudyPage() {
                       "Full-stack architect and sole developer",
                       "Implemented enterprise security practices",
                       "Set up production monitoring and CI/CD",
-                      "Delivered comprehensive testing suite"
+                      "Delivered comprehensive testing suite",
                     ].map((item, index) => (
                       <li key={index} className="flex items-start gap-2">
                         <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
@@ -181,7 +268,7 @@ export default function DevServeCaseStudyPage() {
           </motion.section>
 
           {/* Development Timeline */}
-          <motion.section 
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -189,12 +276,14 @@ export default function DevServeCaseStudyPage() {
             className="mb-20"
           >
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">35-Day Development Timeline</h2>
+              <h2 className="text-3xl font-bold mb-4">
+                35-Day Development Timeline
+              </h2>
               <p className="text-lg text-muted-foreground">
                 From concept to production-ready platform in just 5 weeks
               </p>
             </div>
-            
+
             <div className="space-y-6">
               {timeline.map((week, index) => (
                 <motion.div
@@ -207,14 +296,19 @@ export default function DevServeCaseStudyPage() {
                 >
                   <div className="flex items-center gap-4">
                     <div className="flex-shrink-0 w-24 text-right">
-                      <span className="text-sm font-semibold text-muted-foreground">{week.week}</span>
+                      <span className="text-sm font-semibold text-muted-foreground">
+                        {week.week}
+                      </span>
                     </div>
-                    <div className="flex-shrink-0 w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    <div className="flex-shrink-0 w-4 h-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
                     <Card className="flex-1 shadow-sm border-l-4 border-l-blue-500">
                       <CardContent className="pt-4">
                         <div className="flex flex-wrap gap-2">
                           {week.tasks.map((task, index) => (
-                            <span key={index} className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 text-sm font-medium">
+                            <span
+                              key={index}
+                              className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 text-sm font-medium"
+                            >
                               <CheckCircle className="h-3 w-3" />
                               {task}
                             </span>
@@ -224,7 +318,7 @@ export default function DevServeCaseStudyPage() {
                     </Card>
                   </div>
                   {index < timeline.length - 1 && (
-                    <div className="absolute left-[7.5rem] top-8 w-0.5 h-6 bg-gradient-to-b from-blue-500 to-purple-500"></div>
+                    <div className="absolute left-[7.5rem] top-8 w-0.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-500"></div>
                   )}
                 </motion.div>
               ))}
@@ -232,7 +326,7 @@ export default function DevServeCaseStudyPage() {
           </motion.section>
 
           {/* Tech Stack */}
-          <motion.section 
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -242,10 +336,11 @@ export default function DevServeCaseStudyPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Technology Stack</h2>
               <p className="text-lg text-muted-foreground">
-                Modern, scalable technologies chosen for enterprise-grade performance
+                Modern, scalable technologies chosen for enterprise-grade
+                performance
               </p>
             </div>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {techStack.map((stack, index) => (
                 <motion.div
@@ -257,14 +352,18 @@ export default function DevServeCaseStudyPage() {
                 >
                   <Card className="h-full shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <CardHeader>
-                      <CardTitle className="text-lg">{stack.category}</CardTitle>
+                      <CardTitle className="text-lg">
+                        {stack.category}
+                      </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
                         {stack.techs.map((tech, index) => (
                           <div key={index} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                            <span className="text-sm text-muted-foreground">{tech}</span>
+                            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                            <span className="text-sm text-muted-foreground">
+                              {tech}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -276,7 +375,7 @@ export default function DevServeCaseStudyPage() {
           </motion.section>
 
           {/* Call to Action */}
-          <motion.section 
+          <motion.section
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -284,14 +383,18 @@ export default function DevServeCaseStudyPage() {
             className="text-center py-20"
           >
             <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold mb-4">Ready to Build Something Amazing?</h2>
+              <h2 className="text-3xl font-bold mb-4">
+                Ready to Build Something Amazing?
+              </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                DevServe demonstrates my ability to deliver enterprise-grade solutions with exceptional speed and quality. Let&apos;s discuss your next project.
+                DevServe demonstrates my ability to deliver enterprise-grade
+                solutions with exceptional speed and quality. Let&apos;s discuss
+                your next project.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
                   href="/#contact"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
                 >
                   Let&apos;s Work Together
                   <ArrowRight className="h-5 w-5" />

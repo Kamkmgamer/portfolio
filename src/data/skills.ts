@@ -34,7 +34,7 @@ export const skills: Skill[] = [
     icon: 'https://odoocdn.com/openerp_website/static/src/img/assets/svg/odoo_logo.svg',
     level: 80,
     years: 4,
-    color: 'from-purple-100 to-purple-300',
+    color: 'from-cyan-100 to-cyan-300',
   },
   {
     name: 'Webflow',

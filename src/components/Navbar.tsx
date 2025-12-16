@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
-import { ThemeToggle } from './ThemeToggle';
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence, cubicBezier, useScroll } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 type NavLink = {
   label: string;
@@ -12,12 +12,12 @@ type NavLink = {
 };
 
 const links: NavLink[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
-  { label: 'Research', href: '/research' },
-  { label: 'Case Studies', href: '/case-studies' },
-  { label: 'Carousels', href: '/carousels' },
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" },
+  { label: "Research", href: "/research" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Carousels", href: "/carousels" },
 ];
 
 const ease = cubicBezier(0.22, 1, 0.36, 1);
@@ -42,38 +42,48 @@ const useActiveHash = (ids: string[]) => {
               (b.target as HTMLElement).offsetTop
           );
         if (visible[0]) {
-          setActive('#' + visible[0].target.id);
+          setActive("#" + visible[0].target.id);
         }
       },
       {
-        rootMargin: '0px 0px -60% 0px',
+        rootMargin: "0px 0px -60% 0px",
         threshold: [0.1, 0.25, 0.5],
       }
     );
 
     sections.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [ids.join('|')]);
+  }, [ids]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return active;
 };
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const menuId = 'mobile-nav-menu';
-  const backdropId = 'mobile-nav-backdrop';
+  const menuId = "mobile-nav-menu";
+  const backdropId = "mobile-nav-backdrop";
   const toggleBtnRef = React.useRef<HTMLButtonElement | null>(null);
 
-  // If your links are hash links, use IntersectionObserver to track active section
-  const activeHash = useActiveHash(links.map((l) => l.href).filter((h) => h.startsWith('#')));
+  // Scroll-based effects
+  const { scrollY } = useScroll();
+  const [hasScrolled, setHasScrolled] = React.useState(false);
 
-  // If you have route-based pages, you can still read the pathname
+  React.useEffect(() => {
+    return scrollY.on("change", (y) => {
+      setHasScrolled(y > 50);
+    });
+  }, [scrollY]);
+
+  // Active section tracking
+  const activeHash = useActiveHash(
+    links.map((l) => l.href).filter((h) => h.startsWith("#"))
+  );
   const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen((v) => !v);
   const closeMenu = () => setIsOpen(false);
 
-  // Focus trap minimal implementation for the mobile menu
+  // Focus trap for mobile menu
   React.useEffect(() => {
     if (!isOpen) return;
 
@@ -89,12 +99,12 @@ const Navbar: React.FC = () => {
     const last = focusable[focusable.length - 1];
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.preventDefault();
         closeMenu();
         toggleBtnRef.current?.focus();
       }
-      if (e.key === 'Tab') {
+      if (e.key === "Tab") {
         if (focusable.length === 0) return;
         if (e.shiftKey && document.activeElement === first) {
           e.preventDefault();
@@ -106,26 +116,26 @@ const Navbar: React.FC = () => {
       }
     };
 
-    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener("keydown", onKeyDown);
     first?.focus({ preventScroll: true });
-    return () => document.removeEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
-  // Lock body scroll and close on resize to md+
+  // Lock body scroll and close on resize
   React.useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) closeMenu();
     };
 
-    window.addEventListener('resize', onResize);
+    window.addEventListener("resize", onResize);
 
     const prevOverflow = document.body.style.overflow;
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     }
     return () => {
       document.body.style.overflow = prevOverflow;
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener("resize", onResize);
     };
   }, [isOpen]);
 
@@ -134,187 +144,269 @@ const Navbar: React.FC = () => {
     const onDocClick = (e: MouseEvent) => {
       const menuEl = document.getElementById(menuId);
       const target = e.target as Node | null;
-      const clickedToggle = !!(toggleBtnRef.current && target && toggleBtnRef.current.contains(target));
+      const clickedToggle = !!(
+        toggleBtnRef.current &&
+        target &&
+        toggleBtnRef.current.contains(target)
+      );
       const clickedInsideMenu = !!(menuEl && target && menuEl.contains(target));
       if (!clickedInsideMenu && !clickedToggle) {
         closeMenu();
       }
     };
-    document.addEventListener('mousedown', onDocClick, true);
-    return () => document.removeEventListener('mousedown', onDocClick, true);
+    document.addEventListener("mousedown", onDocClick, true);
+    return () => document.removeEventListener("mousedown", onDocClick, true);
   }, [isOpen]);
 
   const getAriaCurrent = (href: string) => {
-    // If it's a hash link, compare with activeHash
-    if (href.startsWith('#')) {
-      return activeHash === href ? 'page' : undefined;
+    if (href.startsWith("#")) {
+      return activeHash === href ? "page" : undefined;
     }
-    // If it's a route link, compare pathname
-    return pathname === href ? 'page' : undefined;
+    return pathname === href ? "page" : undefined;
   };
 
-  const navBase = "fixed top-0 left-0 right-0 z-50";
-  const navTranslucentClosed = "bg-transparent";
-  const navTranslucentOpen = "bg-transparent";
-
   return (
-    <nav
+    <motion.nav
       aria-label="Main"
-      className={`${navBase} ${isOpen ? navTranslucentOpen : navTranslucentClosed}`}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        hasScrolled ? "py-2" : "py-4"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+      {/* Glassmorphism background - fades in on scroll */}
+      <motion.div
+        className="absolute inset-0 -z-10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: hasScrolled ? 1 : 0,
+          backdropFilter: hasScrolled
+            ? "blur(20px) saturate(180%)"
+            : "blur(0px)",
+        }}
+        transition={{ duration: 0.3 }}
+        style={{
+          background: hasScrolled ? "var(--glass-bg)" : "transparent",
+          borderBottom: hasScrolled
+            ? "1px solid var(--glass-border)"
+            : "1px solid transparent",
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-400 dark:to-purple-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
+          className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-extrabold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
         >
-          Khalil
+          <motion.span
+            className="relative bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent"
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+          >
+            Khalil
+            {/* Glow effect on hover */}
+            <span
+              className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+              aria-hidden="true"
+            >
+              Khalil
+            </span>
+          </motion.span>
           <span className="sr-only">Home</span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-2">
-          <div className="flex items-center gap-1 rounded-full bg-black/[0.04] dark:bg-white/[0.04] p-1">
+        <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center gap-1 rounded-full glass-card px-2 py-1.5">
             {links.map((item) => {
-              const isActive = getAriaCurrent(item.href) === 'page';
+              const isActive = getAriaCurrent(item.href) === "page";
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  aria-current={isActive ? 'page' : undefined}
-                  className="relative group px-3 py-1.5 rounded-full text-sm font-medium text-text-light/80 dark:text-text-dark/80 hover:text-text-light dark:hover:text-text-dark outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  aria-current={isActive ? "page" : undefined}
+                  className="relative group px-4 py-2 rounded-full text-sm font-medium text-text/70 hover:text-text outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-colors duration-200"
                 >
                   <span className="relative z-10">{item.label}</span>
+
+                  {/* Active background pill */}
                   <AnimatePresence>
                     {isActive && (
                       <motion.span
-                        layoutId="active-pill"
-                        className="absolute inset-0 rounded-full bg-primary-light/15 dark:bg-primary-dark/15"
+                        layoutId="active-nav-pill"
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 dark:from-blue-500/20 dark:via-cyan-500/20 dark:to-emerald-500/20"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.3, ease }}
                       />
                     )}
                   </AnimatePresence>
-                  <span className="pointer-events-none absolute left-3 right-3 -bottom-0.5 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-blue-500 to-purple-500 transition-transform duration-300" />
+
+                  {/* Hover underline effect */}
+                  <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 transition-transform duration-300 rounded-full" />
                 </Link>
               );
             })}
           </div>
-          <div className="ml-2">
+
+          {/* Theme toggle with glow effect */}
+          <motion.div
+            className="ml-2 p-1 rounded-full glass-card"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
             <ThemeToggle />
-          </div>
+          </motion.div>
         </div>
 
         {/* Mobile Toggle */}
-        <button
+        <motion.button
           ref={toggleBtnRef}
           type="button"
           onClick={toggleMenu}
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg text-text-light dark:text-text-dark hover:bg-black/[0.06] dark:hover:bg-white/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          whileTap={{ scale: 0.95 }}
+          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl glass-card text-text/80 hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition-colors duration-200"
           aria-label="Toggle mobile menu"
           aria-expanded={isOpen}
           aria-controls={menuId}
         >
-          {isOpen ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          )}
-        </button>
+          <AnimatePresence mode="wait">
+            {isOpen ? (
+              <motion.svg
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </motion.svg>
+            ) : (
+              <motion.svg
+                key="menu"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </motion.svg>
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
 
-      {/* Mobile Backdrop + Drawer */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.button
+            {/* Backdrop */}
+            <motion.div
               id={backdropId}
               aria-hidden
               onClick={closeMenu}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.2, ease } }}
               exit={{ opacity: 0, transition: { duration: 0.2, ease } }}
-              className="md:hidden fixed inset-0 z-[70] bg-transparent"
+              className="md:hidden fixed inset-0 z-[70] bg-black/20 backdrop-blur-sm"
             />
+
+            {/* Menu Panel */}
             <motion.div
               id={menuId}
               role="menu"
               aria-label="Mobile navigation"
-              initial={{ y: -24, opacity: 0 }}
+              initial={{ y: -20, opacity: 0, scale: 0.95 }}
               animate={{
                 y: 0,
                 opacity: 1,
-                transition: { duration: 0.25, ease },
+                scale: 1,
+                transition: { duration: 0.3, ease },
               }}
               exit={{
-                y: -24,
+                y: -20,
                 opacity: 0,
+                scale: 0.95,
                 transition: { duration: 0.2, ease },
               }}
-              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-[80]"
+              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-[80] pt-20 px-4"
             >
-              <div className="mx-3 rounded-2xl border border-black/10 dark:border-white/10 bg-white dark:bg-gray-900 shadow-2xl ring-1 ring-black/5 dark:ring-white/5">
-                <div className="flex flex-col gap-1 p-3 pb-4 divide-y divide-black/5 dark:divide-white/10">
-                  {links.map((item) => {
-                    const isActive = getAriaCurrent(item.href) === 'page';
+              <div className="rounded-3xl glass-card shadow-2xl overflow-hidden">
+                <div className="flex flex-col gap-1 p-4">
+                  {links.map((item, index) => {
+                    const isActive = getAriaCurrent(item.href) === "page";
                     return (
-                      <Link
+                      <motion.div
                         key={item.href}
-                        href={item.href}
-                        role="menuitem"
-                        aria-current={isActive ? 'page' : undefined}
-                        onClick={closeMenu}
-                        className="relative flex items-center gap-3 rounded-xl px-3 py-3 text-lg font-semibold tracking-wide text-gray-900 dark:text-gray-100 hover:bg-black/[0.04] dark:hover:bg-white/[0.06] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05, duration: 0.3 }}
                       >
-                        {item.label}
-                        {isActive && (
-                          <span className="ml-auto inline-block h-2 w-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
-                        )}
-                      </Link>
+                        <Link
+                          href={item.href}
+                          role="menuitem"
+                          aria-current={isActive ? "page" : undefined}
+                          onClick={closeMenu}
+                          className={`relative flex items-center gap-3 rounded-2xl px-4 py-4 text-lg font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                            isActive
+                              ? "bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
+                              : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
+                          }`}
+                        >
+                          {item.label}
+                          {isActive && (
+                            <motion.span
+                              layoutId="mobile-active-indicator"
+                              className="ml-auto inline-block h-2 w-2 rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500"
+                            />
+                          )}
+                        </Link>
+                      </motion.div>
                     );
                   })}
-                  <div className="mt-2 pt-2 flex items-center justify-between gap-3 rounded-xl px-4 py-4 border-t border-black/10 dark:border-white/10">
-                    <span className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+
+                  {/* Theme toggle row */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: links.length * 0.05, duration: 0.3 }}
+                    className="mt-2 pt-4 flex items-center justify-between rounded-2xl px-4 py-4 border-t border-gray-200/50 dark:border-white/10"
+                  >
+                    <span className="text-base font-semibold text-text/80">
                       Theme
                     </span>
-                    <div className="shrink-0 ml-auto">
-                      <ThemeToggle />
-                    </div>
-                  </div>
+                    <ThemeToggle />
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 };
 
