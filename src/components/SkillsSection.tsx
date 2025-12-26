@@ -33,8 +33,8 @@ const SkillsSection: React.FC = () => {
     >
       {/* Background elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-green-500/10 dark:bg-green-500/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/10 dark:bg-blue-500/15 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[hsl(var(--accent-gold))]/10 rounded-full blur-3xl opacity-20" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[hsl(var(--accent-bronze))]/10 rounded-full blur-3xl opacity-20" />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,19 +46,19 @@ const SkillsSection: React.FC = () => {
           transition={{ duration: 0.7, ease }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-green-600 dark:text-green-400 mb-4">
-            <span className="w-8 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 rounded-full" />
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-gold))] mb-6">
+            <span className="w-12 h-[1px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent" />
             Expertise
-            <span className="w-8 h-0.5 bg-gradient-to-l from-green-500 to-blue-500 rounded-full" />
+            <span className="w-12 h-[1px] bg-gradient-to-l from-[hsl(var(--accent-gold))] to-transparent" />
           </span>
 
           <h2
             id="skills-title"
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight"
+            className="text-5xl sm:text-6xl lg:text-7xl font-display tracking-tight"
           >
-            <span className="text-text">My </span>
-            <span className="bg-gradient-to-r from-green-400 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
-              Skills & Tools
+            <span className="text-text italic font-normal">Technical </span>
+            <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))] bg-clip-text text-transparent">
+              Mastery
             </span>
           </h2>
 
@@ -94,39 +94,37 @@ const SkillsSection: React.FC = () => {
                 >
                   {/* Gradient border glow */}
                   <div
-                    className={`absolute -inset-0.5 bg-gradient-to-r ${
-                      skill.color
-                    } rounded-2xl blur opacity-0 transition-opacity duration-500 ${
-                      isHovered ? "opacity-40" : ""
+                    className={`absolute -inset-0.5 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] rounded-xl blur-sm opacity-0 transition-opacity duration-500 ${
+                      isHovered ? "opacity-30" : ""
                     }`}
                   />
 
                   {/* Card */}
                   <div className="relative h-full glass-card rounded-2xl p-6 flex flex-col items-center text-center">
                     {/* Icon with glow */}
-                    <div className="relative mb-4">
+                    <div className="relative mb-6">
                       <div
-                        className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${skill.color} p-3 flex items-center justify-center ring-1 ring-black/5 dark:ring-white/10 shadow-lg`}
+                        className={`w-16 h-16 rounded-xl bg-black px-4 py-4 flex items-center justify-center border border-[hsl(var(--accent-gold))]/20 shadow-xl`}
                       >
                         <img
                           src={skill.icon}
                           alt=""
                           decoding="async"
                           loading="lazy"
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-contain grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500"
                         />
                       </div>
 
                       {/* Glow effect */}
                       <motion.div
-                        className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${skill.color} blur-xl`}
-                        animate={{ opacity: isHovered ? 0.4 : 0 }}
+                        className={`absolute inset-0 rounded-xl bg-[hsl(var(--accent-gold))] blur-xl`}
+                        animate={{ opacity: isHovered ? 0.2 : 0 }}
                         transition={{ duration: 0.3 }}
                       />
                     </div>
 
                     {/* Skill name */}
-                    <h3 className="text-base font-semibold text-text mb-3">
+                    <h3 className="text-sm font-bold uppercase tracking-widest text-text mb-4">
                       {skill.name}
                     </h3>
 
@@ -143,11 +141,11 @@ const SkillsSection: React.FC = () => {
                         whileInView={{ width: `${level}%` }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{
-                          duration: 1.2,
+                          duration: 1.5,
                           ease,
                           delay: index * 0.05,
                         }}
-                        className={`h-2 rounded-full bg-gradient-to-r ${skill.color}`}
+                        className={`h-full bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]`}
                       />
                     </div>
 

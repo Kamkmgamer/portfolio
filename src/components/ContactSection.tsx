@@ -57,8 +57,8 @@ const ContactSection: React.FC = () => {
     >
       {/* Background elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-emerald-500/10 dark:bg-emerald-500/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-yellow-500/10 dark:bg-yellow-500/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-[hsl(var(--accent-gold))]/5 rounded-full blur-3xl opacity-20" />
+        <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-[hsl(var(--accent-bronze))]/5 rounded-full blur-3xl opacity-20" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -70,18 +70,18 @@ const ContactSection: React.FC = () => {
           viewport={{ once: true, amount: 0.35 }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-4">
-            <span className="w-8 h-0.5 bg-gradient-to-r from-emerald-500 to-yellow-500 rounded-full" />
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-gold))] mb-6">
+            <span className="w-12 h-[1px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent" />
             Get In Touch
-            <span className="w-8 h-0.5 bg-gradient-to-l from-emerald-500 to-yellow-500 rounded-full" />
+            <span className="w-12 h-[1px] bg-gradient-to-l from-[hsl(var(--accent-gold))] to-transparent" />
           </span>
 
           <h2
             id="contact-title"
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight"
+            className="text-5xl sm:text-6xl lg:text-7xl font-display tracking-tight"
           >
-            <span className="text-text">Let&apos;s </span>
-            <span className="bg-gradient-to-r from-emerald-500 via-red-400 to-yellow-400 bg-clip-text text-transparent">
+            <span className="text-text italic font-normal">Let&apos;s </span>
+            <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))] bg-clip-text text-transparent">
               Connect
             </span>
           </h2>
@@ -118,16 +118,15 @@ const ContactSection: React.FC = () => {
                   transition={{ duration: 0.3, ease }}
                   className="relative h-full"
                 >
-                  {/* Colored glow based on contact method */}
+                  {/* Gold glow */}
                   <motion.div
-                    className="absolute -inset-1 rounded-3xl blur-xl"
-                    style={{ background: method.glowColor }}
-                    animate={{ opacity: isHovered ? 0.4 : 0 }}
+                    className="absolute -inset-1 rounded-3xl blur-xl bg-[hsl(var(--accent-gold))]"
+                    animate={{ opacity: isHovered ? 0.15 : 0 }}
                     transition={{ duration: 0.3 }}
                   />
 
                   {/* Card */}
-                  <div className="relative h-full glass-card rounded-3xl p-8 flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2">
+                  <div className="relative h-full glass-card rounded-3xl p-8 flex flex-col focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2">
                     {/* Icon with animated glow */}
                     <div className="relative w-20 h-20 mb-6">
                       <motion.img
@@ -140,16 +139,16 @@ const ContactSection: React.FC = () => {
 
                       {/* Glow ring */}
                       <motion.div
-                        className="absolute inset-0 rounded-full"
-                        style={{
-                          boxShadow: `0 0 30px ${method.glowColor}, 0 0 60px ${method.glowColor}`,
+                        className="absolute inset-0 rounded-full border border-[hsl(var(--accent-gold))]/20"
+                        animate={{
+                          opacity: isHovered ? 1 : 0.2,
+                          scale: isHovered ? 1.2 : 1,
                         }}
-                        animate={{ opacity: isHovered ? 0.6 : 0 }}
                         transition={{ duration: 0.3 }}
                       />
                     </div>
 
-                    <h3 className="text-2xl font-bold mb-2 text-text group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    <h3 className="text-2xl font-display mb-2 text-text group-hover:text-[hsl(var(--accent-gold))] transition-colors">
                       {method.title}
                     </h3>
 
@@ -158,8 +157,8 @@ const ContactSection: React.FC = () => {
                     </p>
 
                     {/* Arrow indicator */}
-                    <div className="flex items-center gap-2 text-sm font-medium text-text/50 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                      <span>{method.external ? "Open" : "Contact"}</span>
+                    <div className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-widest text-text/40 group-hover:text-[hsl(var(--accent-gold))] transition-colors">
+                      <span>{method.external ? "Explore" : "Discover"}</span>
                       <motion.svg
                         className="w-4 h-4"
                         fill="none"
@@ -178,7 +177,7 @@ const ContactSection: React.FC = () => {
                     </div>
 
                     {/* Hover overlay gradient */}
-                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-emerald-500/5 via-transparent to-yellow-500/5" />
+                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-[hsl(var(--accent-gold))]/5 via-transparent to-[hsl(var(--accent-bronze))]/5" />
                   </div>
                 </motion.div>
               </motion.a>
@@ -200,28 +199,11 @@ const ContactSection: React.FC = () => {
 
           <motion.a
             href="mailto:contact@khalilmajeed.com"
-            whileHover={reduceMotion ? undefined : { scale: 1.02, y: -2 }}
+            whileHover={reduceMotion ? undefined : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-shadow duration-300 overflow-hidden relative group"
+            className="btn-premium"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-red-500 to-yellow-500" />
-            <span className="absolute inset-0 bg-gradient-to-r from-red-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10 flex items-center gap-2">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              Send Me an Email
-            </span>
+            <span>Send Me an Email</span>
           </motion.a>
         </motion.div>
       </div>

@@ -131,10 +131,10 @@ export default function ProjectsCarousel() {
           transition={{ duration: 0.6, ease }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-            <span className="text-text">Featured </span>
-            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent">
-              Work
+          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-display tracking-tight">
+            <span className="text-text italic font-normal">Featured </span>
+            <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+              Showcase
             </span>
           </h2>
         </motion.div>
@@ -146,9 +146,9 @@ export default function ProjectsCarousel() {
           <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background dark:from-gray-950 to-transparent z-10 pointer-events-none" />
 
           {/* Main carousel */}
-          <div className="relative overflow-hidden rounded-3xl">
+          <div className="relative overflow-hidden">
             {/* Glow behind carousel */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-emerald-500/20 blur-3xl -z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-bronze))]/10 to-transparent blur-3xl -z-10" />
 
             <motion.div
               ref={containerRef}
@@ -175,31 +175,31 @@ export default function ProjectsCarousel() {
                     alt={project.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 80vw"
-                    className="object-cover rounded-3xl select-none pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover select-none pointer-events-none transition-transform duration-1000 group-hover:scale-110"
                     draggable={false}
                     priority={idx === 0}
                   />
 
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent rounded-3xl" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
                   {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <div className="glass-card rounded-2xl p-6 max-w-lg">
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  <div className="absolute bottom-0 left-0 right-0 p-12">
+                    <div className="max-w-2xl">
+                      <h3 className="text-3xl md:text-5xl font-display text-white mb-4 group-hover:text-[hsl(var(--accent-gold))] transition-colors duration-500 leading-tight">
                         {project.title}
                       </h3>
                       {project.description && (
-                        <p className="text-white/80 text-sm md:text-base mb-4 line-clamp-2">
+                        <p className="text-white/70 text-base md:text-lg mb-6 line-clamp-2 font-light">
                           {project.description}
                         </p>
                       )}
                       {project.tags?.length > 0 && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-3">
                           {project.tags.slice(0, 4).map((tag, i) => (
                             <span
                               key={tag + i}
-                              className="text-xs px-3 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm"
+                              className="text-[0.65rem] font-bold uppercase tracking-[0.2em] px-4 py-1.5 border border-[hsl(var(--accent-gold))]/30 text-[hsl(var(--accent-gold))] bg-black/40 backdrop-blur-md"
                             >
                               {tag}
                             </span>
@@ -213,11 +213,11 @@ export default function ProjectsCarousel() {
             </motion.div>
 
             {/* Progress bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/10">
               <motion.div
                 animate={progressControls}
                 initial={{ scaleX: 0 }}
-                className="h-full bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 origin-left"
+                className="h-full bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-gold))] origin-left"
               />
             </div>
           </div>
@@ -237,7 +237,7 @@ export default function ProjectsCarousel() {
             </motion.button>
 
             {/* Dot indicators */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {projects.map((_, idx) => (
                 <button
                   key={idx}
@@ -247,10 +247,10 @@ export default function ProjectsCarousel() {
                     resetProgressBar();
                   }}
                   aria-label={`Go to slide ${idx + 1}`}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  className={`h-0.5 transition-all duration-500 ${
                     current === idx
-                      ? "w-8 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500"
-                      : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                      ? "w-12 bg-[hsl(var(--accent-gold))]"
+                      : "w-6 bg-white/10 hover:bg-white/30"
                   }`}
                 />
               ))}
@@ -276,16 +276,14 @@ export default function ProjectsCarousel() {
               whileTap={{ scale: 0.95 }}
               aria-pressed={autoPlay}
               aria-label={autoPlay ? "Pause autoplay" : "Resume autoplay"}
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
-                autoPlay
-                  ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/30"
-                  : "glass-card text-gray-700 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/10"
+              className={`w-12 h-12 flex items-center justify-center transition-all duration-300 ${
+                autoPlay ? "text-[hsl(var(--accent-gold))]" : "text-text/30"
               }`}
             >
               {autoPlay ? (
-                <Pause className="w-5 h-5" />
+                <Pause className="w-4 h-4" />
               ) : (
-                <Play className="w-5 h-5 ml-0.5" />
+                <Play className="w-4 h-4 ml-0.5" />
               )}
             </motion.button>
           </div>

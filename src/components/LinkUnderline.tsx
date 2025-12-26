@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion, cubicBezier } from 'framer-motion';
-import Link from 'next/link';
+import React from "react";
+import { motion, cubicBezier } from "framer-motion";
+import Link from "next/link";
 
 type LinkUnderlineProps = {
   href: string;
@@ -17,7 +17,7 @@ export function LinkUnderline({
   href,
   children,
   external = false,
-  className = '',
+  className = "",
 }: LinkUnderlineProps) {
   const content = (
     <motion.span
@@ -25,25 +25,25 @@ export function LinkUnderline({
       whileHover="hover"
       whileFocus="hover"
       animate="rest"
-      className={`relative inline-flex items-baseline overflow-hidden text-primary-light dark:text-primary-dark focus:outline-none ${className}`}
+      className={`relative inline-flex items-baseline overflow-hidden text-[hsl(var(--accent-gold))] focus:outline-none ${className}`}
     >
       <span className="relative z-10">{children}</span>
       <motion.span
         aria-hidden="true"
         variants={{
           rest: { width: 0 },
-          hover: { width: '100%' },
+          hover: { width: "100%" },
         }}
         transition={{ duration: 0.28, ease }}
-        className="absolute bottom-0 left-0 h-0.5 bg-primary-light dark:bg-primary-dark"
+        className="absolute bottom-0 left-0 h-[1.5px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]"
       />
       {/* Focus ring */}
-      <span className="absolute inset-0 rounded-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light/50 dark:focus-visible:ring-primary-dark/50 pointer-events-none" />
+      <span className="absolute inset-0 rounded-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))]/50 pointer-events-none" />
     </motion.span>
   );
 
   // Use Next.js Link for internal routes, <a> with target for external
-  if (external || href.startsWith('http')) {
+  if (external || href.startsWith("http")) {
     return (
       <a
         href={href}

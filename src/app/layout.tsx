@@ -1,17 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Italiana, Outfit } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Spotlight from "@/components/Spotlight";
 import Navbar from "@/components/Navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const italiana = Italiana({
+  weight: "400",
+  variable: "--font-italiana",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -81,17 +82,17 @@ export default function RootLayout({
       <head>
         <meta
           name="theme-color"
-          content="#f9fafb"
+          content="#ffffff"
           media="(prefers-color-scheme: light)"
         />
         <meta
           name="theme-color"
-          content="#0f172a"
+          content="#050505"
           media="(prefers-color-scheme: dark)"
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-text relative`}
+        className={`${italiana.variable} ${outfit.variable} antialiased bg-background text-text relative font-sans`}
       >
         <Providers>
           <Navbar />

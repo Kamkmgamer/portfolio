@@ -19,8 +19,8 @@ const ProjectsSection: React.FC = () => {
     >
       {/* Background gradient elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-cyan-500/10 dark:bg-cyan-500/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-blue-500/10 dark:bg-blue-500/15 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[hsl(var(--accent-gold))]/10 rounded-full blur-3xl opacity-20" />
+        <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-[hsl(var(--accent-bronze))]/10 rounded-full blur-3xl opacity-20" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -32,19 +32,19 @@ const ProjectsSection: React.FC = () => {
           transition={{ duration: 0.8, ease }}
           className="text-center mb-16"
         >
-          <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-4">
-            <span className="w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full" />
+          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-gold))] mb-6">
+            <span className="w-12 h-[1px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent" />
             Portfolio
-            <span className="w-8 h-0.5 bg-gradient-to-l from-cyan-500 to-emerald-500 rounded-full" />
+            <span className="w-12 h-[1px] bg-gradient-to-l from-[hsl(var(--accent-gold))] to-transparent" />
           </span>
 
           <h2
             id="projects-title"
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight"
+            className="text-5xl sm:text-6xl lg:text-7xl font-display tracking-tight"
           >
-            <span className="text-text">My </span>
-            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent">
-              Projects
+            <span className="text-text italic font-normal">Selected </span>
+            <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))] bg-clip-text text-transparent">
+              Works
             </span>
           </h2>
 
@@ -84,13 +84,13 @@ const ProjectsSection: React.FC = () => {
                 }
                 onHoverStart={() => setHoveredId(project.id)}
                 onHoverEnd={() => setHoveredId(null)}
-                className="group relative block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-offset-4 dark:focus-visible:ring-offset-gray-900"
+                className="group relative block rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-4 dark:focus-visible:ring-offset-black"
               >
                 <div className="relative h-full rounded-3xl overflow-hidden isolate">
                   {/* Gradient border glow */}
                   <div
-                    className={`absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 rounded-3xl blur opacity-0 transition-opacity duration-500 ${
-                      isHovered ? "opacity-50" : ""
+                    className={`absolute -inset-0.5 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] rounded-xl blur-sm opacity-0 transition-opacity duration-700 ${
+                      isHovered ? "opacity-30" : ""
                     }`}
                   />
 
@@ -114,7 +114,7 @@ const ProjectsSection: React.FC = () => {
 
                       {/* Category badge */}
                       {project.category && (
-                        <span className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-semibold glass-card text-text z-10 backdrop-blur-md border border-white/20">
+                        <span className="absolute top-4 left-4 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-widest bg-black/60 text-[hsl(var(--accent-gold))] z-10 backdrop-blur-md border border-[hsl(var(--accent-gold))]/20">
                           {project.category}
                         </span>
                       )}
@@ -147,8 +147,8 @@ const ProjectsSection: React.FC = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-text mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                    <div className="p-8">
+                      <h3 className="text-2xl font-display text-text mb-3 group-hover:text-[hsl(var(--accent-gold))] transition-colors">
                         {project.title}
                       </h3>
 
@@ -164,16 +164,11 @@ const ProjectsSection: React.FC = () => {
                             .map((tag: string, i: number) => (
                               <span
                                 key={`${project.id}-tag-${i}`}
-                                className="px-2.5 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-cyan-600 dark:text-cyan-400 ring-1 ring-cyan-500/20"
+                                className="px-3 py-1 text-[0.6rem] font-bold uppercase tracking-widest bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))] border border-[hsl(var(--accent-gold))]/20"
                               >
                                 {tag}
                               </span>
                             ))}
-                          {project.tags.length > 3 && (
-                            <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                              +{project.tags.length - 3}
-                            </span>
-                          )}
                         </div>
                       )}
                     </div>
@@ -199,24 +194,11 @@ const ProjectsSection: React.FC = () => {
         >
           <motion.a
             href="/case-studies"
-            whileHover={reduceMotion ? undefined : { scale: 1.02, y: -2 }}
+            whileHover={reduceMotion ? undefined : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold glass-card hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-300"
+            className="uppercase tracking-[0.3em] text-[0.65rem] font-bold text-text/50 hover:text-text transition-colors py-4 border-b border-[hsl(var(--accent-gold))]/20 hover:border-[hsl(var(--accent-gold))]"
           >
-            <span className="text-text">View All Case Studies</span>
-            <svg
-              className="w-5 h-5 text-gray-600 dark:text-gray-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+            <span>View All Works</span>
           </motion.a>
         </motion.div>
       </div>

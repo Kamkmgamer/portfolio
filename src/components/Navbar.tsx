@@ -198,17 +198,17 @@ const Navbar: React.FC = () => {
         {/* Logo */}
         <Link
           href="/"
-          className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-extrabold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded"
+          className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-display tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 rounded"
         >
           <motion.span
-            className="relative bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent"
+            className="relative bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             Khalil
             {/* Glow effect on hover */}
             <span
-              className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+              className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
               aria-hidden="true"
             >
               Khalil
@@ -227,16 +227,18 @@ const Navbar: React.FC = () => {
                   key={item.href}
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
-                  className="relative group px-4 py-2 rounded-full text-sm font-medium text-text/70 hover:text-text outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition-colors duration-200"
+                  className="relative group px-4 py-2 rounded-full text-sm font-medium text-text/70 hover:text-text outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 transition-colors duration-200"
                 >
-                  <span className="relative z-10">{item.label}</span>
+                  <span className="relative z-10 uppercase tracking-widest text-[0.7rem] font-semibold">
+                    {item.label}
+                  </span>
 
                   {/* Active background pill */}
                   <AnimatePresence>
                     {isActive && (
                       <motion.span
                         layoutId="active-nav-pill"
-                        className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 dark:from-blue-500/20 dark:via-cyan-500/20 dark:to-emerald-500/20"
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-gold))]/5 to-transparent"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -246,7 +248,7 @@ const Navbar: React.FC = () => {
                   </AnimatePresence>
 
                   {/* Hover underline effect */}
-                  <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 transition-transform duration-300 rounded-full" />
+                  <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent transition-transform duration-300 rounded-full" />
                 </Link>
               );
             })}

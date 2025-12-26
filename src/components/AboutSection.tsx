@@ -103,8 +103,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({
     >
       {/* Background gradient orbs */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[hsla(45,60%,55%,0.1)] rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[hsla(35,50%,45%,0.08)] rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -123,7 +123,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({
           className="relative group"
         >
           {/* Gradient border glow */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 rounded-3xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] rounded-3xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
           {/* Image container */}
           <div className="relative w-full h-80 lg:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 transform-gpu">
@@ -137,8 +137,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({
             />
 
             {/* Overlay gradients */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/20 via-transparent to-cyan-500/20 mix-blend-overlay" />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30 dark:to-black/50" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[hsl(var(--accent-gold))]/10 via-transparent to-[hsl(var(--accent-bronze))]/10 mix-blend-overlay" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 dark:to-black/60" />
           </div>
         </motion.div>
 
@@ -156,29 +156,29 @@ const AboutSection: React.FC<AboutSectionProps> = ({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: easeOutExpo }}
-            className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-4"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-gold))] mb-6"
           >
-            <span className="w-8 h-0.5 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full" />
+            <span className="w-12 h-[1px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent" />
             Introduction
           </motion.span>
 
           <h2
             id={`${id}-title`}
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-tight"
+            className="text-5xl sm:text-6xl lg:text-7xl font-display leading-tight mb-8 tracking-tight"
           >
-            <span className="text-text">{heading} </span>
-            <span className="bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 bg-clip-text text-transparent">
+            <span className="text-text italic font-normal">{heading} </span>
+            <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))] bg-clip-text text-transparent">
               Me
             </span>
           </h2>
 
-          <p className="text-lg sm:text-xl leading-relaxed mb-4 text-text/70">
+          <p className="text-xl sm:text-2xl leading-relaxed mb-6 text-text/80 font-light">
             Hi, I&apos;m{" "}
-            <span className="font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
+            <span className="font-semibold text-[hsl(var(--accent-gold))]">
               {name}
             </span>
-            , a passionate {role} who loves crafting immersive digital
-            experiences.
+            , a <span className="italic">{role}</span> dedicated to
+            extraordinary digital experiences.
           </p>
 
           <p className="text-lg leading-relaxed mb-8 text-text/60">
@@ -205,9 +205,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({
                   whileHover={
                     shouldReduceMotion ? undefined : { scale: 1.05, y: -2 }
                   }
-                  className="inline-flex items-center rounded-full px-4 py-2 text-sm font-medium glass-card cursor-default"
+                  className="inline-flex items-center px-4 py-2 text-[0.7rem] font-bold uppercase tracking-widest border border-[hsl(var(--accent-gold))]/30 bg-[hsl(var(--accent-gold))]/10 cursor-default"
                 >
-                  <span className="mr-2 w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500" />
                   <span className="text-text">{h}</span>
                 </motion.span>
               </motion.li>
@@ -215,57 +214,27 @@ const AboutSection: React.FC<AboutSectionProps> = ({
           </ul>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
+          <div className="flex flex-col sm:flex-row gap-8 items-center lg:items-start justify-center lg:justify-start">
             <motion.a
               href="#projects"
               whileHover={
-                shouldReduceMotion ? undefined : { scale: 1.02, y: -2 }
+                shouldReduceMotion ? undefined : { scale: 1.05, y: -2 }
               }
               whileTap={{ scale: 0.98 }}
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-white overflow-hidden shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow duration-300"
+              className="btn-premium"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600" />
-              <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="relative z-10 flex items-center gap-2">
-                View Projects
-                <svg
-                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </span>
+              <span>View Projects</span>
             </motion.a>
 
             <motion.a
               href="#contact"
               whileHover={
-                shouldReduceMotion ? undefined : { scale: 1.02, y: -2 }
+                shouldReduceMotion ? undefined : { scale: 1.05, y: -2 }
               }
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold glass-card hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300"
+              className="uppercase tracking-[0.2em] text-xs font-semibold text-text/50 hover:text-text transition-colors py-4 border-b border-transparent hover:border-[hsl(var(--accent-gold))]"
             >
-              <span className="text-text">Contact Me</span>
-              <svg
-                className="w-4 h-4 text-gray-600 dark:text-gray-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
+              Contact Me
             </motion.a>
           </div>
         </motion.div>

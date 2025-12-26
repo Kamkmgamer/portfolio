@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useReducedMotion } from 'framer-motion';
+import React from "react";
+import { useReducedMotion } from "framer-motion";
 
 interface RippleButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -12,9 +12,9 @@ interface RippleButtonProps
 
 export function RippleButton({
   children,
-  className = '',
-  rippleColorClass = 'bg-white dark:bg-white',
-  rippleOpacityClass = 'opacity-30',
+  className = "",
+  rippleColorClass = "bg-[hsl(var(--accent-gold))]",
+  rippleOpacityClass = "opacity-20",
   onClick,
   onKeyDown,
   ...props
@@ -29,16 +29,16 @@ export function RippleButton({
 
     const rect = target.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
-    const ripple = document.createElement('span');
+    const ripple = document.createElement("span");
 
     ripple.className = [
-      'ripple',
-      'pointer-events-none',
-      'absolute',
-      'rounded-full',
+      "ripple",
+      "pointer-events-none",
+      "absolute",
+      "rounded-full",
       rippleColorClass,
       rippleOpacityClass,
-    ].join(' ');
+    ].join(" ");
     ripple.style.width = `${size}px`;
     ripple.style.height = `${size}px`;
     ripple.style.left = `${x - rect.left - size / 2}px`;
@@ -46,15 +46,15 @@ export function RippleButton({
 
     // Remove after animation ends
     const cleanup = () => {
-      ripple.removeEventListener('animationend', cleanup);
+      ripple.removeEventListener("animationend", cleanup);
       ripple.remove();
     };
-    ripple.addEventListener('animationend', cleanup);
+    ripple.addEventListener("animationend", cleanup);
 
     // Insert and kick off animation on next frame for consistent styles
     target.appendChild(ripple);
     requestAnimationFrame(() => {
-      ripple.classList.add('ripple-animate');
+      ripple.classList.add("ripple-animate");
     });
   };
 
@@ -67,7 +67,7 @@ export function RippleButton({
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLButtonElement> = (e) => {
     // Simulate ripple on keyboard activation
-    if (!reduceMotion && (e.key === 'Enter' || e.key === ' ')) {
+    if (!reduceMotion && (e.key === "Enter" || e.key === " ")) {
       const target = btnRef.current;
       if (target) {
         const rect = target.getBoundingClientRect();

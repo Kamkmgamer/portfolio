@@ -159,7 +159,7 @@ const HeroSection: React.FC = () => {
 
   // Spotlight gradient center
   const spotlightBg = useTransform([x, y], ([mx, my]) => {
-    return `radial-gradient(circle 600px at ${mx}px ${my}px, rgba(139, 92, 246, 0.15), transparent 50%)`;
+    return `radial-gradient(circle 600px at ${mx}px ${my}px, hsla(42, 65%, 38%, 0.1), transparent 50%)`;
   });
 
   React.useEffect(() => {
@@ -200,7 +200,7 @@ const HeroSection: React.FC = () => {
         <>
           <FloatingOrb
             size={400}
-            color="rgba(139, 92, 246, 0.3)"
+            color="rgba(212, 175, 55, 0.15)"
             initialX={20}
             initialY={20}
             duration={20}
@@ -208,7 +208,7 @@ const HeroSection: React.FC = () => {
           />
           <FloatingOrb
             size={350}
-            color="rgba(59, 130, 246, 0.25)"
+            color="rgba(166, 124, 0, 0.1)"
             initialX={70}
             initialY={60}
             duration={25}
@@ -216,7 +216,7 @@ const HeroSection: React.FC = () => {
           />
           <FloatingOrb
             size={300}
-            color="rgba(236, 72, 153, 0.2)"
+            color="rgba(247, 231, 206, 0.08)"
             initialX={40}
             initialY={80}
             duration={22}
@@ -224,7 +224,7 @@ const HeroSection: React.FC = () => {
           />
           <FloatingOrb
             size={250}
-            color="rgba(6, 182, 212, 0.15)"
+            color="rgba(212, 175, 55, 0.1)"
             initialX={80}
             initialY={20}
             duration={18}
@@ -252,13 +252,13 @@ const HeroSection: React.FC = () => {
 
       {/* Grid pattern overlay */}
       <div
-        className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(139, 92, 246, 0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(139, 92, 246, 0.5) 1px, transparent 1px)
+            linear-gradient(rgba(212, 175, 55, 0.2) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(212, 175, 55, 0.2) 1px, transparent 1px)
           `,
-          backgroundSize: "60px 60px",
+          backgroundSize: "80px 80px",
         }}
       />
 
@@ -275,7 +275,7 @@ const HeroSection: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          <span className="text-sm font-medium bg-gradient-to-r from-gray-600 to-gray-800 dark:from-gray-300 dark:to-gray-100 bg-clip-text text-transparent">
+          <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
             Available for new projects
           </span>
         </motion.div>
@@ -285,10 +285,12 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.15, ease }}
-          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-6 leading-[1.1] tracking-tight"
+          className="text-5xl sm:text-6xl lg:text-7xl xl:text-9xl font-display mb-6 leading-[1.1] tracking-tight"
         >
-          <span className="block text-text">Hi, I&rsquo;m</span>
-          <span className="block mt-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 text-transparent bg-clip-text animate-gradient pb-2">
+          <span className="block text-text italic font-normal">
+            Hi, I&rsquo;m
+          </span>
+          <span className="block mt-2 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] text-transparent bg-clip-text animate-gradient pb-4">
             Khalil Abdel Majeed
           </span>
         </motion.h1>
@@ -298,16 +300,14 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease }}
-          className="text-xl sm:text-2xl lg:text-3xl mb-10 h-10 flex items-center justify-center gap-2"
+          className="text-lg sm:text-xl lg:text-2xl mb-10 h-10 flex items-center justify-center gap-2 uppercase tracking-[0.3em] font-light"
         >
-          <span className="text-text/60">A</span>
-          <span className="font-semibold bg-gradient-to-r from-cyan-600 to-emerald-600 dark:from-cyan-400 dark:to-emerald-400 bg-clip-text text-transparent">
-            {typedRole}
-          </span>
+          <span className="text-text/40">A</span>
+          <span className="text-[hsl(var(--accent-gold))]">{typedRole}</span>
           <motion.span
             animate={{ opacity: [1, 0, 1] }}
             transition={{ duration: 0.8, repeat: Infinity }}
-            className="inline-block w-0.5 h-8 bg-cyan-500 dark:bg-cyan-400"
+            className="inline-block w-[1px] h-6 bg-[hsl(var(--accent-gold))]"
           />
         </motion.div>
 
@@ -326,56 +326,26 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 20, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.5, ease }}
-          className="flex flex-col sm:flex-row gap-4 items-center justify-center"
+          className="flex flex-col sm:flex-row gap-6 items-center justify-center"
         >
           <motion.a
             href="#projects"
-            whileHover={reduceMotion ? undefined : { scale: 1.02, y: -2 }}
+            whileHover={reduceMotion ? undefined : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-white overflow-hidden shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow duration-300"
+            className="btn-premium"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600"></span>
-            <span className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-            <span className="relative z-10 flex items-center gap-2">
-              View My Work
-              <svg
-                className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </span>
+            <span>View My Work</span>
           </motion.a>
 
           <motion.a
             href="#contact"
-            whileHover={reduceMotion ? undefined : { scale: 1.02, y: -2 }}
+            whileHover={reduceMotion ? undefined : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold glass-card hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300"
+            className="group relative inline-flex items-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500"
           >
-            <span className="bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-100 dark:to-white bg-clip-text text-transparent">
+            <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text px-4">
               Get In Touch
             </span>
-            <svg
-              className="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:rotate-12 transition-transform"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
           </motion.a>
         </motion.div>
 
@@ -389,7 +359,7 @@ const HeroSection: React.FC = () => {
           <motion.a
             href="#about"
             aria-label="Scroll to about section"
-            className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors"
+            className="flex flex-col items-center gap-2 text-text/30 hover:text-[hsl(var(--accent-gold))] transition-colors duration-500"
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useTheme } from 'next-themes';
-import { useReducedMotion } from 'framer-motion';
+import React from "react";
+import { useTheme } from "next-themes";
+import { useReducedMotion } from "framer-motion";
 
 export default function Spotlight() {
   const { resolvedTheme } = useTheme();
@@ -23,14 +23,14 @@ export default function Spotlight() {
   React.useEffect(() => setMounted(true), []);
 
   React.useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const updateSize = () => {
       size.current.w = window.innerWidth;
       size.current.h = window.innerHeight;
     };
     updateSize();
-    window.addEventListener('resize', updateSize);
+    window.addEventListener("resize", updateSize);
 
     const handleMove = (e: PointerEvent) => {
       pos.current.x = Math.max(0, Math.min(e.clientX, size.current.w));
@@ -55,9 +55,9 @@ export default function Spotlight() {
 
         // Update background using smooth position
         const glowColor =
-          resolvedTheme === 'dark'
-            ? 'rgba(255, 255, 255, 0.20)'
-            : 'rgba(0, 0, 0, 0.15)';
+          resolvedTheme === "dark"
+            ? "hsla(45, 60%, 55%, 0.15)"
+            : "hsla(42, 65%, 38%, 0.12)";
         const radius = 240;
 
         el.style.background = `radial-gradient(circle at ${smooth.current.x}px ${smooth.current.y}px, ${glowColor}, transparent ${radius}px)`;
@@ -73,21 +73,21 @@ export default function Spotlight() {
       const el = ref.current;
       if (el) {
         const glowColor =
-          resolvedTheme === 'dark'
-            ? 'rgba(255, 255, 255, 0.10)'
-            : 'rgba(0, 0, 0, 0.08)';
+          resolvedTheme === "dark"
+            ? "hsla(45, 60%, 55%, 0.08)"
+            : "hsla(42, 65%, 38%, 0.06)";
         el.style.background = `radial-gradient(60rem 40rem at 50% 30%, ${glowColor}, transparent 60%)`;
       }
       return () => {
-        window.removeEventListener('resize', updateSize);
+        window.removeEventListener("resize", updateSize);
       };
     }
 
-    window.addEventListener('pointermove', handleMove, { passive: true });
+    window.addEventListener("pointermove", handleMove, { passive: true });
 
     return () => {
-      window.removeEventListener('pointermove', handleMove);
-      window.removeEventListener('resize', updateSize);
+      window.removeEventListener("pointermove", handleMove);
+      window.removeEventListener("resize", updateSize);
       if (rafRef.current != null) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
@@ -104,11 +104,11 @@ export default function Spotlight() {
       style={{
         // Neutral initial background until mounted to avoid SSR/client mismatch
         background: mounted
-          ? resolvedTheme === 'dark'
-            ? 'radial-gradient(40rem 28rem at 50% 30%, rgba(255,255,255,0.04), transparent 60%)'
-            : 'radial-gradient(40rem 28rem at 50% 30%, rgba(0,0,0,0.03), transparent 60%)'
-          : 'transparent',
-        willChange: 'background',
+          ? resolvedTheme === "dark"
+            ? "radial-gradient(40rem 28rem at 50% 30%, hsla(45, 60%, 55%, 0.05), transparent 60%)"
+            : "radial-gradient(40rem 28rem at 50% 30%, hsla(42, 65%, 38%, 0.04), transparent 60%)"
+          : "transparent",
+        willChange: "background",
       }}
     />
   );

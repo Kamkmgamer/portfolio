@@ -17,7 +17,6 @@ export default function ShareButton({ title, className }: ShareButtonProps) {
       } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(url);
         // Optional: simple UX feedback
-        // eslint-disable-next-line no-alert
         alert("Link copied to clipboard");
       }
     } catch {
@@ -30,7 +29,7 @@ export default function ShareButton({ title, className }: ShareButtonProps) {
       type="button"
       className={
         className ??
-        "inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-gray-300 dark:border-gray-700 text-foreground hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+        "inline-flex items-center gap-2 px-5 py-3 rounded-none border border-[hsl(var(--accent-gold))]/20 text-text/70 hover:text-text hover:bg-[hsl(var(--accent-gold))]/5 transition focus:outline-none focus:ring-2 focus:ring-[hsl(var(--accent-gold))] focus:ring-offset-2 dark:focus:ring-offset-black uppercase tracking-widest text-[0.7rem] font-bold"
       }
       onClick={onClick}
     >
