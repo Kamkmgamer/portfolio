@@ -52,7 +52,7 @@ const useActiveHash = (ids: string[]) => {
 
     sections.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [ids]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ids]);
 
   return active;
 };
