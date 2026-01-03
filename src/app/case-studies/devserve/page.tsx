@@ -156,7 +156,7 @@ export default function DevServeCaseStudyPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8"
             >
-              {stats.map((stat, index) => (
+              {stats.map((stat) => (
                 <Card
                   key={stat.label}
                   className="text-center border-0 shadow-lg bg-white/60 dark:bg-white/5 backdrop-blur"
