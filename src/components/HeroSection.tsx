@@ -192,7 +192,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center w-full min-h-screen overflow-hidden"
+      className="relative flex items-center justify-center w-full min-h-screen overflow-hidden pt-32"
       aria-labelledby="hero-title"
     >
       {/* Floating Orbs Background */}
