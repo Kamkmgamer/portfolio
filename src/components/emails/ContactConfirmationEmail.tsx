@@ -69,13 +69,13 @@ export const ContactConfirmationEmail = ({
                 </Text>
 
                 <Text className="text-gray-600 text-lg leading-relaxed mb-6">
-                  Thank you for taking the time to reach out! I've received your
-                  message and I'm genuinely excited to connect with you.
+                  Thank you for taking the time to reach out! I&apos;ve received
+                  your message and I&apos;m genuinely excited to connect with you.
                 </Text>
 
                 <Section className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 mb-6 border-l-4 border-[#D4AF37]">
                   <Text className="text-gray-700 m-0 font-medium">
-                    I'll carefully review your message and get back to you as
+                    I&apos;ll carefully review your message and get back to you as
                     soon as possible. Typically, I respond within 24-48 hours.
                   </Text>
                 </Section>
