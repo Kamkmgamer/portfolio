@@ -10,8 +10,8 @@ import {
   DollarSign,
   Rocket,
   Server,
+  Layout,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type BadgeColor = "green" | "amber" | "blue" | "violet";
 
@@ -26,10 +26,9 @@ type Study = {
 
 const caseStudies: Study[] = [
   {
-    title: "DevServe — Enterprise-Grade SaaS Platform",
-    summary: "Built in 35 days. Industry-estimated cost: $90k–$130k.",
-    stack:
-      "React, Node/Express, Prisma, PostgreSQL, Docker, Stripe/PayPal, CI/CD, monitoring.",
+    title: "DevServe — SaaS Platform",
+    summary: "Built in 35 days. Estimated value $100k+.",
+    stack: "React, Node/Express, Prisma, PostgreSQL, Docker, Stripe.",
     category: "SaaS",
     badges: [
       {
@@ -44,17 +43,16 @@ const caseStudies: Study[] = [
       },
       {
         icon: <ShieldCheck className="h-3.5 w-3.5" />,
-        label: "Security",
+        label: "Secure",
         color: "blue",
       },
     ],
     href: "/case-studies/devserve",
   },
   {
-    title: "Realtime Analytics Pipeline",
-    summary: "Stream processing for 20M+ events/day with <200ms dashboards.",
-    stack:
-      "Kafka, ClickHouse, Node, Timeseries modeling, edge caching, Grafana.",
+    title: "Realtime Analytics",
+    summary: "Stream processing for 20M+ events/day.",
+    stack: "Kafka, ClickHouse, Node, Timeseries, Edge Caching.",
     category: "Data Platform",
     badges: [
       {
@@ -76,10 +74,9 @@ const caseStudies: Study[] = [
     href: "/case-studies/realtime-analytics",
   },
   {
-    title: "Go-to-Market Launch Site",
-    summary: "High-converting marketing experience shipped in one week.",
-    stack:
-      "Next.js App Router, ISR, SEO, A/B testing hooks, PostHog analytics.",
+    title: "GTM Launch Site",
+    summary: "High-converting marketing experience.",
+    stack: "Next.js App Router, ISR, SEO, A/B Testing.",
     category: "Growth",
     badges: [
       {
@@ -93,8 +90,8 @@ const caseStudies: Study[] = [
         color: "green",
       },
       {
-        icon: <ShieldCheck className="h-3.5 w-3.5" />,
-        label: "Core Web Vitals",
+        icon: <Layout className="h-3.5 w-3.5" />,
+        label: "Vitals",
         color: "blue",
       },
     ],
@@ -112,17 +109,12 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
 };
-
-const badgeColor = (c: BadgeColor) =>
-  c === "green"
-    ? "bg-gradient-to-r from-green-400 to-emerald-500 border-green-500 text-white shadow-lg shadow-green-500/25 dark:from-green-500 dark:to-emerald-600 dark:shadow-green-400/20"
-    : c === "amber"
-    ? "bg-gradient-to-r from-amber-400 to-orange-500 border-amber-500 text-white shadow-lg shadow-amber-500/25 dark:from-amber-500 dark:to-orange-600 dark:shadow-amber-400/20"
-    : c === "blue"
-    ? "bg-gradient-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 dark:from-blue-600 dark:to-cyan-700 dark:shadow-blue-400/20"
-    : "bg-gradient-to-r from-violet-500 to-cyan-600 border-violet-600 text-white shadow-lg shadow-violet-500/25 dark:from-violet-600 dark:to-cyan-700 dark:shadow-violet-400/20";
 
 export default function CaseStudiesGrid() {
   return (
@@ -132,34 +124,38 @@ export default function CaseStudiesGrid() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
-        className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
       >
         {caseStudies.map((study) => (
           <motion.article key={study.title} variants={item}>
-            <Card className="group h-full overflow-hidden shadow-sm ring-1 ring-black/5 dark:ring-white/5 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
-              <CardHeader className="relative">
-                {study.category && (
-                  <span className="mb-2 inline-flex w-fit items-center gap-1 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-2.5 py-1 text-[11px] font-semibold tracking-wide shadow-sm">
-                    {study.category}
-                  </span>
-                )}
-                <CardTitle className="text-xl font-semibold leading-tight">
+            <div className="group relative h-full flex flex-col justify-between p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-[hsl(var(--accent-gold))]/30 hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-500">
+              <div>
+                <div className="flex justify-between items-start mb-6">
+                  {study.category && (
+                    <span className="text-[hsl(var(--accent-gold))] text-xs font-bold uppercase tracking-widest border border-[hsl(var(--accent-gold))]/20 px-3 py-1 bg-[hsl(var(--accent-gold))]/5">
+                      {study.category}
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="text-2xl font-display mb-4 group-hover:text-[hsl(var(--accent-gold))] transition-colors duration-300">
                   {study.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{study.summary}</p>
-                <p className="mt-2 text-sm text-muted-foreground">
+                </h3>
+
+                <p className="text-text/70 text-sm mb-4 leading-relaxed">
+                  {study.summary}
+                </p>
+                <p className="text-text/50 text-xs mb-8 font-mono">
                   {study.stack}
                 </p>
+              </div>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+              <div>
+                <div className="flex flex-wrap gap-2 mb-8">
                   {study.badges.map((b, idx) => (
                     <span
                       key={`${study.title}-badge-${idx}`}
-                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium ${badgeColor(
-                        b.color
-                      )}`}
+                      className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] uppercase tracking-wider text-text/60 border border-text/10"
                     >
                       {b.icon}
                       {b.label}
@@ -167,18 +163,15 @@ export default function CaseStudiesGrid() {
                   ))}
                 </div>
 
-                <div className="mt-6">
-                  <Link
-                    href={study.href}
-                    className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-600 text-white px-4 py-2 text-sm font-medium shadow hover:opacity-90 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    aria-label={`Read case study: ${study.title}`}
-                  >
-                    Read case study
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
+                <Link
+                  href={study.href || "#"}
+                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))] group/link"
+                >
+                  Read case study
+                  <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
           </motion.article>
         ))}
       </motion.div>

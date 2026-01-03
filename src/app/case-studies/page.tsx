@@ -1,86 +1,59 @@
+"use client";
+
 import React from "react";
-
+import { motion } from "framer-motion";
 import CaseStudiesGrid from "./CaseStudiesGrid";
-
-export const metadata = {
-  title: "Case Studies | Khalil Abdel Majeed",
-  description:
-    "Selected case studies showcasing end-to-end delivery, architecture, and execution. Includes DevServe — an enterprise-grade SaaS built in 35 days.",
-  openGraph: {
-    title: "Case Studies | Khalil Abdel Majeed",
-    description:
-      "Deep-dives into projects that demonstrate speed, quality, and measurable impact.",
-    url: "https://khalil.excellence.sd/case-studies",
-    siteName: "Khalil Abdel Majeed Portfolio",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Case Studies | Khalil Abdel Majeed",
-    description:
-      "Explore impactful case studies with speed, scale, and execution.",
-  },
-};
 
 export default function CaseStudiesIndexPage() {
   return (
-    <>
-      <main className="relative">
-        {/* Decorative background */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-24 left-1/2 h-72 w-[60rem] -translate-x-1/2 rounded-full blur-3xl opacity-30 dark:opacity-20 bg-[radial-gradient(closest-side,_rgba(59,130,246,0.35),_transparent_65%)]" />
-          <div className="absolute top-64 right-[-10%] h-56 w-[40rem] rounded-full blur-3xl opacity-25 dark:opacity-15 bg-[radial-gradient(closest-side,_rgba(168,85,247,0.35),_transparent_60%)]" />
-        </div>
+    <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
 
-        <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-          <header className="text-center mb-10 sm:mb-14">
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-cyan-600 bg-clip-text text-transparent">
-              Case Studies
-            </h1>
-            <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-              Deep-dives into projects that demonstrate speed, quality, and
-              measurable impact.
-            </p>
-            <div className="mt-5 flex flex-wrap justify-center gap-2">
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-3 py-1 text-xs font-semibold shadow-sm">
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  className="fill-green-500"
-                >
-                  <circle cx="5" cy="5" r="5" />
-                </svg>
-                Production-grade delivery
+      <div className="max-w-7xl mx-auto">
+        <header className="mb-24 text-center max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <span className="h-[1px] w-12 bg-[hsl(var(--accent-gold))]" />
+              <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
+                Case Studies
               </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-3 py-1 text-xs font-semibold shadow-sm">
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  className="fill-amber-500"
-                >
-                  <circle cx="5" cy="5" r="5" />
-                </svg>
-                Fast iterations
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/20 dark:border-white/15 bg-white text-gray-900 dark:bg-zinc-900 dark:text-gray-100 px-3 py-1 text-xs font-semibold shadow-sm">
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  className="fill-blue-500"
-                >
-                  <circle cx="5" cy="5" r="5" />
-                </svg>
-                Measurable outcomes
-              </span>
+              <span className="h-[1px] w-12 bg-[hsl(var(--accent-gold))]" />
             </div>
-          </header>
 
-          <CaseStudiesGrid />
-        </div>
-      </main>
-    </>
+            <h1 className="text-5xl md:text-7xl font-display mb-8">
+              Engineering <br />
+              <span className="italic text-text/50">Impact</span>
+            </h1>
+
+            <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-12">
+              Deep-dives into specific projects that demonstrate architectural
+              complexity, speed of delivery, and measurable business outcomes.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4">
+              <Badge color="bg-green-500" label="Production-Ready" />
+              <Badge color="bg-amber-500" label="Fast Iteration" />
+              <Badge color="bg-blue-500" label="High Scale" />
+            </div>
+          </motion.div>
+        </header>
+
+        <CaseStudiesGrid />
+      </div>
+    </main>
+  );
+}
+
+function Badge({ color, label }: { color: string; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm text-xs font-bold uppercase tracking-widest text-text/80">
+      <span className={`w-2 h-2 rounded-full ${color}`} />
+      {label}
+    </span>
   );
 }
