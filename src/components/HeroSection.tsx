@@ -329,7 +329,7 @@ const HeroSection: React.FC = () => {
           className="flex flex-col sm:flex-row gap-6 items-center justify-center"
         >
           <motion.a
-            href="#projects"
+            href="/projects"
             whileHover={reduceMotion ? undefined : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="btn-premium"
@@ -338,7 +338,7 @@ const HeroSection: React.FC = () => {
           </motion.a>
 
           <motion.a
-            href="#contact"
+            href="/contact"
             whileHover={reduceMotion ? undefined : { scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="group relative inline-flex items-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500"
@@ -357,14 +357,14 @@ const HeroSection: React.FC = () => {
           className="mt-20 flex justify-center"
         >
           <motion.a
-            href="#about"
-            aria-label="Scroll to about section"
+            href="/about"
+            aria-label="Go to about page"
             className="flex flex-col items-center gap-2 text-text/30 hover:text-[hsl(var(--accent-gold))] transition-colors duration-500"
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
             <span className="text-xs font-medium uppercase tracking-widest">
-              Scroll
+              About Me
             </span>
             <svg
               className="w-5 h-5"

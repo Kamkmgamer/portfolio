@@ -197,7 +197,7 @@ export default function ServicesSection() {
 
                     {/* CTA link */}
                     <motion.a
-                      href="#contact"
+                      href="/contact"
                       className={`inline-flex items-center gap-2 text-sm font-semibold bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent`}
                       whileHover={{ x: 4 }}
                       transition={{ duration: 0.2 }}
