@@ -57,7 +57,13 @@ export default function ResearchPage() {
   );
 }
 
-function ResearchCard({ paper, index }: { paper: any; index: number }) {
+function ResearchCard({
+  paper,
+  index,
+}: {
+  paper: ResearchPaper;
+  index: number;
+}) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 50 }}
