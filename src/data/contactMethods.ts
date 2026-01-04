@@ -4,7 +4,7 @@ export const contactMethods = [
     title: 'Email',
     description: ' ',
     href: 'mailto:contact@khalil.excellence.sd',
-    iconLight: 'https://www.svgrepo.com/show/488179/email.svg', // Dark icon for light mode
+    iconLight: 'https://www.svgrepo.com/show/488179/email.svg',
     iconDark: 'https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/email-svgrepo-com%20(2).svg',
     glowColor: 'rgba(255, 0, 0)',
     external: false,
