@@ -1,489 +1,372 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { MouseEvent as ReactMouseEvent } from "react";
+import React from "react";
 import Link from "next/link";
-import { Home, Rocket, Sparkles, Stars, Zap } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+  useReducedMotion,
+  cubicBezier,
+} from "framer-motion";
+import { Home, ArrowLeft, Compass } from "lucide-react";
 
-function useSystemTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const apply = (isDark: boolean) => {
-      const t = isDark ? "dark" : "light";
-      setTheme(t);
-      document.documentElement.classList.toggle("dark", t === "dark");
-    };
-    apply(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => apply(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-  return theme;
-}
+const ease = cubicBezier(0.22, 1, 0.36, 1);
 
-function usePerformanceController() {
-  const fpsRef = useRef(60);
-  const [visible, setVisible] = useState(
-    typeof document === "undefined" ? true : !document.hidden
+// Floating gold orb component
+const FloatingOrb: React.FC<{
+  size: number;
+  color: string;
+  initialX: number;
+  initialY: number;
+  duration: number;
+  delay: number;
+}> = ({ size, color, initialX, initialY, duration, delay }) => {
+  return (
+    <motion.div
+      className="absolute rounded-full mix-blend-screen blur-3xl will-change-transform"
+      style={{
+        width: size,
+        height: size,
+        background: color,
+        left: `${initialX}%`,
+        top: `${initialY}%`,
+      }}
+      animate={{
+        x: [0, 40, -25, 15, 0],
+        y: [0, -35, 25, -15, 0],
+        scale: [1, 1.08, 0.96, 1.04, 1],
+      }}
+      transition={{
+        duration,
+        delay,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    />
   );
-  const [lowPerf, setLowPerf] = useState(false);
-  const [shouldAnimate, setShouldAnimate] = useState(true);
-  useEffect(() => {
-    let frames = 0;
-    let raf: number | null = null;
-    let last = performance.now();
-    const loop = (t: number) => {
-      frames++;
-      if (t - last >= 1000) {
-        fpsRef.current = frames;
-        const nowLow = frames < 50;
-        if (nowLow !== lowPerf) setLowPerf(nowLow);
-        if (visible) {
-          if (frames < 28 && shouldAnimate) setShouldAnimate(false);
-          else if (frames > 35 && !shouldAnimate) setShouldAnimate(true);
-        }
-        frames = 0;
-        last = t;
-      }
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    const onVis = () => {
-      const v = !document.hidden;
-      setVisible(v);
-      setShouldAnimate(v);
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => {
-      document.removeEventListener("visibilitychange", onVis);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [lowPerf, shouldAnimate, visible]);
-  const deviceScale = lowPerf ? 0.6 : 1;
-  return { fps: fpsRef.current, lowPerf, deviceScale, shouldAnimate };
-}
+};
 
-function useSupernovaExplosion({
-  enabled = true,
-  theme = "dark",
-  perfScale = 1,
-}: {
-  enabled?: boolean;
-  theme?: "light" | "dark";
-  perfScale?: number;
-}) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const afRef = useRef<number | null>(null);
-
-  const supernova = useCallback(
-    (x?: number, y?: number, power = 1) => {
-      if (!enabled) return;
-      const canvas = canvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-      if (afRef.current) cancelAnimationFrame(afRef.current);
-
-      const rect = canvas.getBoundingClientRect();
-      const cx = x ?? rect.width / 2;
-      const cy = y ?? rect.height / 2;
-
-      // Lower count to reduce overdraw and visual artifacts on some GPUs
-      const N = Math.max(60, Math.floor(160 * power * perfScale));
-      let active = N;
-      const colorLightness = theme === "dark" ? 72 : 58;
-      const colorSat = theme === "dark" ? 100 : 95;
-
-      type P = {
-        x: number;
-        y: number;
-        vx: number;
-        vy: number;
-        r: number;
-        life: number;
-        ttl: number;
-        hue: number;
-      };
-      const particles: P[] = Array.from({ length: N }, () => {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = (Math.random() ** 2 * 10 + 8) * power;
-        const life = Math.random() * 70 + 70;
-        const hue = Math.floor(Math.random() * 360);
-        return {
-          x: cx,
-          y: cy,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          r: Math.random() * 3 + 2,
-          life,
-          ttl: life,
-          hue,
-        };
-      });
-
-      const animate = () => {
-        if (!ctx || !canvas) return;
-        const prev = ctx.getTransform();
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.setTransform(prev);
-        particles.forEach((p) => {
-          if (p.life <= 0) return;
-          p.life--;
-          if (p.life <= 0) {
-            active--;
-            return;
-          }
-          p.vy += 0.1;
-          p.x += p.vx;
-          p.y += p.vy;
-          const fade = p.life / p.ttl;
-          ctx.globalAlpha = fade;
-          ctx.fillStyle = `hsl(${p.hue} ${colorSat}% ${colorLightness}%)`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fill();
-        });
-        ctx.globalAlpha = 1;
-        if (active > 0) afRef.current = requestAnimationFrame(animate);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
-      };
-      animate();
-    },
-    [enabled, perfScale, theme]
-  );
-
-  useEffect(() => {
-    const c = canvasRef.current;
-    if (!c) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const resize = () => {
-      c.width = c.clientWidth * dpr;
-      c.height = c.clientHeight * dpr;
-      const ctx = c.getContext("2d");
-      if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
-  }, []);
-
-  useEffect(
-    () => () => {
-      if (afRef.current) cancelAnimationFrame(afRef.current);
-    },
-    []
-  );
-
-  return { canvasRef, supernova };
-}
-
-function useCosmicCursor({
-  enabled = true,
-  theme = "dark",
-  perfScale = 1,
-  active = true,
-}: {
-  enabled?: boolean;
-  theme?: "light" | "dark";
-  perfScale?: number;
-  active?: boolean;
-}) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const last = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el || !enabled || !active) return;
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReduced) return;
-
-    const POOL = Math.max(10, Math.floor(28 * perfScale));
-    const pool: HTMLDivElement[] = [];
-    let idx = 0;
-    for (let i = 0; i < POOL; i++) {
-      const d = document.createElement("div");
-      d.className =
-        "pointer-events-none absolute rounded-full will-change-transform";
-      d.style.opacity = "0";
-      el.appendChild(d);
-      pool.push(d);
-    }
-
-    const onMove = (e: MouseEvent) => {
-      last.current = { x: e.clientX, y: e.clientY };
-      if (rafRef.current) return;
-      rafRef.current = requestAnimationFrame(() => {
-        const { x, y } = last.current;
-        const dot = pool[idx]!;
-        idx = (idx + 1) % POOL;
-        const size = Math.random() * 5 + 3;
-        const ox = (Math.random() - 0.5) * 18;
-        const oy = (Math.random() - 0.5) * 18;
-        const color =
-          theme === "dark"
-            ? `hsl(${200 + Math.random() * 40},100%,80%)`
-            : `hsl(${200 + Math.random() * 40},90%,60%)`;
-        const filter =
-          theme === "dark"
-            ? "blur(2px) brightness(1.5)"
-            : "blur(1px) brightness(0.95)";
-        dot.style.transition = "none";
-        dot.style.transform = "translate(-50%,-50%)";
-        dot.style.width = `${size}px`;
-        dot.style.height = `${size}px`;
-        dot.style.left = `${x + ox}px`;
-        dot.style.top = `${y + oy}px`;
-        dot.style.background = `radial-gradient(circle, ${color} 0%, transparent 80%)`;
-        dot.style.filter = filter;
-        dot.style.opacity = "1";
-        setTimeout(() => {
-          const t = 800 + Math.random() * 400;
-          dot.style.transition = `transform ${
-            700 + Math.random() * 300
-          }ms ease-out, opacity ${t}ms ease-out`;
-          dot.style.transform = `translate(${(Math.random() - 0.5) * 40}px, ${
-            (Math.random() - 0.5) * 40 - 32
-          }px) scale(0)`;
-          dot.style.opacity = "0";
-        }, 20);
-        rafRef.current = null;
-      });
-    };
-
-    window.addEventListener("mousemove", onMove);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      pool.forEach((d) => d.remove());
-    };
-  }, [enabled, theme, perfScale, active]);
-
-  return { containerRef };
-}
-
-export default function NotFound() {
-  const theme = useSystemTheme();
-  const { deviceScale, shouldAnimate } = usePerformanceController();
-  const [features] = useState({
-    supernova: true,
-    cosmicCursor: true,
-    floatingDust: true,
-    typewriter: true,
-  });
-
-  const { canvasRef, supernova } = useSupernovaExplosion({
-    enabled: features.supernova && shouldAnimate,
-    theme,
-    perfScale: deviceScale,
-  });
-  const { containerRef } = useCosmicCursor({
-    enabled: features.cosmicCursor,
-    theme,
-    perfScale: deviceScale,
-    active: shouldAnimate,
-  });
-
-  const message = useMemo(
+// Floating luxury particles
+const LuxuryParticles: React.FC = () => {
+  const particles = React.useMemo(
     () =>
-      "This page hasn't just been lost; it has achieved glorious, explosive transcendence.",
+      Array.from({ length: 16 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 10,
+        duration: 18 + Math.random() * 12,
+        size: 3 + Math.random() * 3,
+      })),
     []
-  );
-  const [typed, setTyped] = useState("");
-  useEffect(() => {
-    let i = 0;
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (reduced || !features.typewriter) {
-      setTyped(message);
-      return;
-    }
-    let id: number;
-    const tick = () => {
-      setTyped(message.slice(0, i) + (Math.random() > 0.95 ? "█" : ""));
-      i++;
-      if (i > message.length) setTyped(message);
-      else id = window.setTimeout(tick, 40);
-    };
-    tick();
-    return () => clearTimeout(id);
-  }, [message, features.typewriter]);
-
-  useEffect(() => {
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (!reduced) setTimeout(() => supernova(undefined, undefined, 1.0), 300);
-  }, [supernova]);
-
-  type Particle = {
-    x: number;
-    y: number;
-    size: number;
-    dur: number;
-    delay: number;
-    hue: number;
-  };
-  const [particles, setParticles] = useState<Particle[]>([]);
-  useEffect(() => {
-    const margin = 6;
-    const count = Math.max(10, Math.floor(24 * deviceScale));
-    const rand = (m: number, M: number) => m + Math.random() * (M - m);
-    const arr: Particle[] = Array.from({ length: count }, () => ({
-      x: rand(margin, 100 - margin),
-      y: rand(margin, 100 - margin),
-      size: Math.random() * 18 + 8,
-      dur: Math.random() * 14 + 14,
-      delay: Math.random() * 8,
-      hue: Math.floor(Math.random() * 360),
-    }));
-    setParticles(arr);
-  }, [deviceScale]);
-
-  const particleNodes = useMemo(
-    () =>
-      particles.map((p, i) => (
-        <span
-          key={i}
-          className="gpu absolute rounded-full opacity-25 blur-md"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            backgroundColor: `hsl(${p.hue}deg 100% ${
-              theme === "dark" ? "70%" : "60%"
-            })`,
-            filter: "saturate(1.2) brightness(1.05)",
-            animationName: "floatY",
-            animationDuration: `${p.dur}s`,
-            animationTimingFunction: "ease-in-out",
-            animationDelay: `${p.delay}s`,
-            animationIterationCount: "infinite",
-            animationDirection: "alternate",
-            animationPlayState: shouldAnimate ? "running" : "paused",
-            mixBlendMode:
-              theme === "dark" ? ("screen" as const) : ("normal" as const),
-          }}
-        />
-      )),
-    [particles, shouldAnimate, theme]
-  );
-
-  const onBurst = useCallback(
-    (e: ReactMouseEvent) => {
-      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-      supernova(e.clientX - rect.left, e.clientY - rect.top, 2.4);
-    },
-    [supernova]
   );
 
   return (
-    <main
-      ref={containerRef}
-      className="relative isolate min-h-[100svh] overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-900 antialiased dark:from-slate-950 dark:via-slate-950 dark:to-black dark:text-slate-100"
-    >
-      {/* background dust */}
-      {features.floatingDust && (
-        <div className="absolute inset-0 overflow-hidden">{particleNodes}</div>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.left}%`,
+            width: p.size,
+            height: p.size,
+            background: "hsl(var(--accent-gold))",
+            opacity: 0.25,
+            filter: "blur(1px)",
+          }}
+          initial={{ y: "110vh", opacity: 0 }}
+          animate={{
+            y: "-10vh",
+            opacity: [0, 0.4, 0.4, 0],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Typewriter effect hook
+const useTypewriter = (text: string, speed = 50) => {
+  const [displayText, setDisplayText] = React.useState("");
+  const reduceMotion = useReducedMotion();
+
+  React.useEffect(() => {
+    if (reduceMotion) {
+      setDisplayText(text);
+      return;
+    }
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i <= text.length) {
+        setDisplayText(text.slice(0, i));
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed, reduceMotion]);
+
+  return displayText;
+};
+
+export default function NotFound() {
+  const reduceMotion = useReducedMotion();
+  const [mounted, setMounted] = React.useState(false);
+  const [isHovering, setIsHovering] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Pointer tracking for spotlight effect
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const spotlightBg = useTransform([x, y], ([mx, my]) => {
+    return `radial-gradient(circle 500px at ${mx}px ${my}px, hsla(42, 65%, 38%, 0.08), transparent 50%)`;
+  });
+
+  React.useEffect(() => {
+    if (typeof window === "undefined" || reduceMotion) return;
+
+    const onMove = (e: PointerEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+    };
+    const onEnter = () => setIsHovering(true);
+    const onLeave = () => setIsHovering(false);
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerenter", onEnter);
+    window.addEventListener("pointerleave", onLeave);
+
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerenter", onEnter);
+      window.removeEventListener("pointerleave", onLeave);
+    };
+  }, [x, y, reduceMotion]);
+
+  const typedMessage = useTypewriter(
+    "The page you're looking for has drifted beyond the horizon.",
+    45
+  );
+
+  return (
+    <main className="relative min-h-screen overflow-hidden flex items-center justify-center">
+      {/* Floating Orbs Background */}
+      {mounted && !reduceMotion && (
+        <>
+          <FloatingOrb
+            size={450}
+            color="rgba(212, 175, 55, 0.12)"
+            initialX={15}
+            initialY={15}
+            duration={22}
+            delay={0}
+          />
+          <FloatingOrb
+            size={380}
+            color="rgba(166, 124, 0, 0.08)"
+            initialX={75}
+            initialY={55}
+            duration={26}
+            delay={2}
+          />
+          <FloatingOrb
+            size={320}
+            color="rgba(247, 231, 206, 0.06)"
+            initialX={45}
+            initialY={85}
+            duration={24}
+            delay={4}
+          />
+          <FloatingOrb
+            size={280}
+            color="rgba(212, 175, 55, 0.08)"
+            initialX={85}
+            initialY={25}
+            duration={20}
+            delay={1}
+          />
+        </>
       )}
-      {/* supernova canvas */}
-      <canvas
-        ref={canvasRef}
-        className="gpu pointer-events-none absolute inset-0 h-full w-full"
-      />
-      {/* noise overlay (use existing asset) */}
+
+      {/* Luxury Particles */}
+      {mounted && !reduceMotion && <LuxuryParticles />}
+
+      {/* Spotlight Effect */}
+      <AnimatePresence>
+        {!reduceMotion && isHovering && (
+          <motion.div
+            key="spotlight"
+            className="pointer-events-none fixed inset-0 z-0 will-change-opacity"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.4, ease } }}
+            exit={{ opacity: 0, transition: { duration: 0.3, ease } }}
+            style={{ background: spotlightBg }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Grid pattern overlay */}
       <div
-        className="pointer-events-none absolute inset-0 z-10 opacity-[0.04] dark:opacity-15"
+        className="absolute inset-0 opacity-[0.012] dark:opacity-[0.018] pointer-events-none"
         style={{
-          backgroundImage: "url('/noise.svg')",
-          backgroundBlendMode: theme === "dark" ? "overlay" : "normal",
+          backgroundImage: `
+            linear-gradient(rgba(212, 175, 55, 0.2) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(212, 175, 55, 0.2) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
         }}
       />
 
-      <section className="relative z-20 mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center sm:py-20 md:py-28">
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/60 px-3 py-1 text-xs shadow-sm backdrop-blur dark:bg-white/10">
-          <Shield /> 404 &mdash; Lost in the cosmos
-        </div>
-
-        <h1 className="mt-6 text-5xl font-extrabold tracking-tight text-slate-900 drop-shadow-sm dark:text-white sm:text-6xl md:text-7xl">
-          <span className="inline-flex items-center gap-3">
-            <Sparkles className="h-[1em] w-[1em] text-fuchsia-500" />
-            Page not found
-            <Stars className="h-[1em] w-[1em] text-blue-500" />
+      {/* Main Content */}
+      <section className="relative z-10 text-center px-4 max-w-4xl mx-auto py-20">
+        {/* Status Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, ease }}
+          className="inline-flex items-center gap-2 px-4 py-2 mb-10 rounded-full glass-card"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
           </span>
-        </h1>
+          <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+            Page Not Found
+          </span>
+        </motion.div>
 
-        <p className="mx-auto mt-4 max-w-2xl text-balance text-slate-600 dark:text-slate-300">
-          {typed}
-        </p>
+        {/* 404 Number */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.1, ease }}
+          className="relative mb-6"
+        >
+          <h1 className="text-[8rem] sm:text-[10rem] md:text-[14rem] lg:text-[18rem] font-display leading-none tracking-tighter">
+            <span className="bg-gradient-to-b from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+              404
+            </span>
+          </h1>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/"
-            className="group relative inline-flex items-center gap-2 rounded-xl border border-token bg-white/80 px-4 py-2 text-sm font-medium text-slate-900 shadow-sm transition hover:shadow-md dark:bg-white/10 dark:text-white"
-          >
-            <span
-              className="absolute inset-0 -z-10 rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(600px circle at var(--x,50%) var(--y,50%), rgba(168,85,247,0.25), transparent 40%)",
-              }}
-            />
-            <Home className="h-4 w-4" />
-            Back to Home
-          </Link>
-          <button
-            onMouseMove={(e) => {
-              const t = e.currentTarget as HTMLButtonElement;
-              const r = t.getBoundingClientRect();
-              t.style.setProperty("--x", `${e.clientX - r.left}px`);
-              t.style.setProperty("--y", `${e.clientY - r.top}px`);
+          {/* Glow effect behind 404 */}
+          <div
+            className="absolute inset-0 -z-10 opacity-20 dark:opacity-30 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle at center, hsl(var(--accent-gold)) 0%, transparent 70%)",
             }}
-            onClick={onBurst}
-            className="group relative inline-flex items-center gap-2 rounded-xl border border-fuchsia-400/30 bg-fuchsia-500/10 px-4 py-2 text-sm font-medium text-fuchsia-700 shadow-sm ring-1 ring-inset ring-fuchsia-500/30 transition hover:bg-fuchsia-500/20 dark:text-fuchsia-200"
-          >
-            <span
-              className="absolute inset-0 -z-10 rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              style={{
-                background:
-                  "radial-gradient(600px circle at var(--x,50%) var(--y,50%), rgba(217,70,239,0.25), transparent 40%)",
-              }}
-            />
-            <Rocket className="h-4 w-4" />
-            Galaxy mode
-          </button>
-        </div>
+          />
+        </motion.div>
 
-        <div className="mt-10 text-xs text-slate-500 dark:text-slate-400">
-          Tip: move your mouse and click Galaxy mode for fireworks{" "}
-          <Zap className="inline h-3 w-3" />
-        </div>
+        {/* Title */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.25, ease }}
+          className="text-2xl sm:text-3xl md:text-4xl font-display tracking-tight mb-6"
+        >
+          <span className="text-text italic">Lost in</span>{" "}
+          <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+            Elegance
+          </span>
+        </motion.h2>
+
+        {/* Typewriter Message */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.4, ease }}
+          className="text-lg sm:text-xl text-text/60 mb-12 max-w-xl mx-auto leading-relaxed min-h-[2rem]"
+        >
+          {typedMessage}
+          <motion.span
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ duration: 0.8, repeat: Infinity }}
+            className="inline-block w-[2px] h-5 ml-1 bg-[hsl(var(--accent-gold))] align-middle"
+          />
+        </motion.p>
+
+        {/* Decorative Divider */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.5, ease }}
+          className="w-32 h-px mx-auto mb-12 bg-gradient-to-r from-transparent via-[hsl(var(--accent-gold))] to-transparent"
+        />
+
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.6, ease }}
+          className="flex flex-col sm:flex-row gap-5 items-center justify-center"
+        >
+          <motion.div
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <Link
+              href="/"
+              className="btn-premium inline-flex items-center gap-3"
+            >
+              <Home className="w-4 h-4" />
+              <span>Return Home</span>
+            </Link>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <button
+              onClick={() => window.history.back()}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500 bg-transparent"
+            >
+              <ArrowLeft className="w-4 h-4 text-text/60 group-hover:text-[hsl(var(--accent-gold))] transition-colors" />
+              <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text">
+                Go Back
+              </span>
+            </button>
+          </motion.div>
+        </motion.div>
+
+        {/* Explore Hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="mt-16"
+        >
+          <motion.div
+            className="inline-flex items-center gap-2 text-text/30 hover:text-[hsl(var(--accent-gold))] transition-colors duration-500 cursor-pointer"
+            animate={reduceMotion ? {} : { y: [0, 6, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Compass className="w-4 h-4" />
+            <span className="text-xs uppercase tracking-widest font-medium">
+              Explore the portfolio
+            </span>
+          </motion.div>
+        </motion.div>
       </section>
 
-      <style jsx global>{`
-        @keyframes floatY {
-          from {
-            transform: translateY(-8px);
-          }
-          to {
-            transform: translateY(8px);
-          }
-        }
-      `}</style>
+      {/* Bottom Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none bg-gradient-to-t from-background to-transparent" />
     </main>
-  );
-}
-
-function Shield() {
-  return (
-    <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500/90 text-[10px] text-white shadow-sm">
-      !
-    </span>
   );
 }
