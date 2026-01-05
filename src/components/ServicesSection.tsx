@@ -98,10 +98,11 @@ export default function ServicesSection() {
     <section
       id="services"
       aria-labelledby="services-title"
-      className="relative py-28 overflow-hidden"
+      className="relative -mt-32 pt-48 sm:pt-60 overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-1/4 w-[700px] h-[700px] bg-[hsl(var(--accent-gold))]/8 rounded-full blur-3xl opacity-30" />
         <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-[hsl(var(--accent-gold))]/5 rounded-full blur-3xl opacity-20" />
         <div className="absolute bottom-1/3 right-0 w-[500px] h-[500px] bg-[hsl(var(--accent-bronze))]/5 rounded-full blur-3xl opacity-20" />
       </div>

@@ -192,7 +192,7 @@ const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative flex items-center justify-center w-full min-h-screen overflow-hidden pt-32"
+      className="relative flex items-center justify-center w-full min-h-screen pt-32 pb-24"
       aria-labelledby="hero-title"
     >
       {/* Floating Orbs Background */}
@@ -249,18 +249,6 @@ const HeroSection: React.FC = () => {
           />
         )}
       </AnimatePresence>
-
-      {/* Grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.02]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(212, 175, 55, 0.2) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(212, 175, 55, 0.2) 1px, transparent 1px)
-          `,
-          backgroundSize: "80px 80px",
-        }}
-      />
 
       {/* Hero content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
@@ -354,29 +342,29 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="mt-20 flex justify-center"
+          className="mt-16 sm:mt-20 lg:mt-24 flex justify-center"
         >
           <motion.a
-            href="/about"
-            aria-label="Go to about page"
-            className="flex flex-col items-center gap-2 text-text/30 hover:text-[hsl(var(--accent-gold))] transition-colors duration-500"
+            href="#services"
+            aria-label="Scroll to services section"
+            className="flex flex-col items-center gap-3 text-text/50 hover:text-[hsl(var(--accent-gold))] transition-colors duration-500 group"
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span className="text-xs font-medium uppercase tracking-widest">
+            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-text/60 group-hover:text-[hsl(var(--accent-gold))] transition-colors">
               About Me
             </span>
             <svg
-              className="w-5 h-5"
+              className="w-6 h-6 group-hover:text-[hsl(var(--accent-gold))] transition-colors"
               fill="none"
               stroke="currentColor"
+              strokeWidth={2}
               viewBox="0 0 24 24"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                d="M19 9l-7 7-7-7"
               />
             </svg>
           </motion.a>
