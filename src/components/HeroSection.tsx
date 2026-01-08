@@ -279,7 +279,7 @@ const HeroSection: React.FC = () => {
             Hi, I&rsquo;m
           </span>
           <span className="block mt-2 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] text-transparent bg-clip-text animate-gradient pb-4">
-            Khalil Abdel Majeed
+            Khalil AbdalMageed
           </span>
         </motion.h1>
 
