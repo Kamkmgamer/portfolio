@@ -17,25 +17,51 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Khalil Abdel Majeed | Web Developer & Designer",
+  title: {
+    default: "Khalil Abd Almageed | Web Developer & Designer",
+    template: "%s | Khalil Abd Almageed",
+  },
   description:
-    "Portfolio of Khalil Abdel Majeed, a web developer and designer specializing in Next.js, React, and modern responsive design.",
+    "Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design. delivering high-performance, SEO-friendly web solutions.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://khalil.mageed.net"
   ),
+  alternates: {
+    canonical: "/",
+  },
+  applicationName: "Khalil AbdalMageed Portfolio",
+  authors: [{ name: "Khalil AbdalMageed", url: "https://khalil.mageed.net" }],
+  generator: "Next.js",
+  keywords: [
+    "Web Developer",
+    "React Developer",
+    "Next.js Developer",
+    "Frontend Engineer",
+    "UI/UX Designer",
+    "Khalil AbdalMageed",
+    "Portfolio",
+    "JavaScript",
+    "TypeScript",
+    "Tailwind CSS",
+  ],
+  referrer: "origin-when-cross-origin",
+  creator: "Khalil AbdalMageed",
+  publisher: "Khalil AbdalMageed",
   openGraph: {
-    title: "Khalil Abdel Majeed | Web Developer & Designer",
+    title: {
+      default: "Khalil AbdalMageed | Web Developer & Designer",
+      template: "%s | Khalil AbdalMageed",
+    },
     description:
-      "Explore Khalil Abdel Majeed’s portfolio of SEO-friendly, responsive websites built with React and Next.js.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    siteName: "Khalil Abdel Majeed Portfolio",
+      "Explore Khalil AbdalMageed’s portfolio of SEO-friendly, responsive websites built with React and Next.js.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://khalil.mageed.net",
+    siteName: "Khalil AbdalMageed Portfolio",
     images: [
       {
-        url: "/images/projects/softmedics.png",
+        url: "/images/og-image.png", // Ensure this exists or fallback to a default
         width: 1200,
         height: 630,
-        alt: "Khalil Abdel Majeed Portfolio Homepage",
-        type: "image/jpeg",
+        alt: "Khalil AbdalMageed - Web Developer & Designer",
       },
     ],
     locale: "en_US",
@@ -43,24 +69,31 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: {
+      default: "Khalil AbdalMageed | Web Developer & Designer",
+      template: "%s | Khalil AbdalMageed",
+    },
+    description:
+      "Modern responsive web development and design by Khalil AbdalMageed. Specializing in high-performance web applications.",
     site: "@kamkmgamer",
     creator: "@kamkmgamer",
-    title: "Khalil Abdel Majeed | Web Developer & Designer",
-    description:
-      "Modern responsive web development and design by Khalil Abdel Majeed.",
-    images: ["https://photos.app.goo.gl/wS27crmYAs3ZUi9o7"],
+    images: ["/images/og-image.png"],
   },
-  authors: [
-    {
-      name: "Khalil Abdel Majeed",
-      url: "https://khalil.excellence.sd",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
-  ],
-  robots:
-    "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
 };
@@ -72,11 +105,47 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+import JsonLd from "@/components/seo/JsonLd";
+
+// ... existing imports
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLdData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        name: "Khalil AbdalMageed",
+        url: "https://khalil.mageed.net",
+        sameAs: [
+          "https://twitter.com/kamkmgamer",
+          "https://github.com/Kamkmgamer",
+          "https://www.linkedin.com/in/kamkm-gamer/",
+        ],
+        jobTitle: "Web Developer",
+        image: "https://khalil.mageed.net/images/og-image.png",
+        worksFor: {
+          "@type": "Organization",
+          name: "Freelance",
+        },
+      },
+      {
+        "@type": "WebSite",
+        name: "Khalil AbdalMageed Portfolio",
+        url: "https://khalil.mageed.net",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://khalil.mageed.net/?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+    ],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -94,6 +163,7 @@ export default function RootLayout({
       <body
         className={`${italiana.variable} ${outfit.variable} antialiased bg-background text-text relative font-sans`}
       >
+        <JsonLd data={jsonLdData} />
         <Providers>
           <Navbar />
           <Spotlight />
