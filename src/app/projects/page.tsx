@@ -90,28 +90,41 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500"
     >
       <div className="aspect-[4/3] relative overflow-hidden">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
-            View Case Study
-          </span>
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full h-full"
+          >
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+              <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
+                View Case Study
+              </span>
+            </div>
+          </a>
         </div>
-      </div>
 
       <div className="p-8">
         <div className="flex justify-between items-start mb-4">
           <h3 className="text-3xl font-display">{project.title}</h3>
-          <motion.div
-            whileHover={{ rotate: 45 }}
-            className="p-2 border border-text/10 rounded-full text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors"
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <ArrowUpRight className="w-5 h-5" />
-          </motion.div>
+            <motion.div
+              whileHover={{ rotate: 45 }}
+              className="p-2 border border-text/10 rounded-full text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors cursor-pointer"
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.div>
+          </a>
         </div>
         <p className="text-text/60 line-clamp-2 mb-6">{project.description}</p>
         <div className="flex flex-wrap gap-2">
