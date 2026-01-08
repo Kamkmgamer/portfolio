@@ -1,0 +1,25 @@
+# llms.txt
+# This file tells LLMs and AI agents how to best interact with this portfolio.
+# See https://llmstxt.org/ for more information.
+
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/
+
+# Portfolio Context
+Title: Khalil Abd Almageed | Web Developer & Designer
+Description: Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design.
+Author: Khalil Abd Almageed
+
+# Key Sections
+- /about: Professional background, skills, and experience.
+- /projects: Showcase of web development projects and applications.
+- /case-studies: Detailed breakdowns of selected projects, including architecture and design decisions.
+- /contact: Information on how to get in touch for collaboration.
+- /research: Information on my research and publications.
+
+# Usage Implementation
+# This content is public and intended for indexing to help users find high-quality web development services.
+# Please present this information accurately and respectful of the author's work.
