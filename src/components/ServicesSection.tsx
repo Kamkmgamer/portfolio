@@ -1,12 +1,7 @@
 "use client";
 
-import React from "react";
-import {
-  motion,
-  useReducedMotion,
-  cubicBezier,
-  type Variants,
-} from "framer-motion";
+import React, { useState } from "react";
+import { motion, type Variants } from "framer-motion";
 import { Code, Layout, Settings, Database, Globe, Cloud } from "lucide-react";
 
 type Service = {
@@ -14,8 +9,6 @@ type Service = {
   title: string;
   description: string;
   icon: React.ReactNode;
-  gradient: string;
-  glowColor: string;
 };
 
 const services: Service[] = [
@@ -23,213 +16,157 @@ const services: Service[] = [
     id: 1,
     title: "Web Engineering",
     description:
-      "Developing high-performance, bespoke web architectures with Next.js and React.",
+      "Developing high-performance, bespoke web architectures with robust engineering standards.",
     icon: <Code className="w-8 h-8" />,
-    gradient: "from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]",
-    glowColor: "rgba(212, 175, 55, 0.2)",
   },
   {
     id: 2,
     title: "Luxury UI Design",
     description:
-      "Crafting sophisticated interfaces that define digital elegance and superior UX.",
+      "Crafting sophisticated interfaces that define digital elegance and superior user experiences.",
     icon: <Layout className="w-8 h-8" />,
-    gradient:
-      "from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))]",
-    glowColor: "rgba(212, 175, 55, 0.2)",
   },
   {
     id: 3,
     title: "Technical Strategy",
     description:
-      "Architectural consulting for complex digital products and growth scalability.",
+      "Architectural consulting for complex digital products and future-proof scalability.",
     icon: <Settings className="w-8 h-8" />,
-    gradient: "from-[hsl(var(--accent-bronze))] to-black",
-    glowColor: "rgba(166, 124, 0, 0.2)",
   },
   {
     id: 4,
-    title: "Enterprise Solutions",
+    title: "Enterprise Systems",
     description:
-      "Custom ERP and business process automation built for operational excellence.",
+      "Custom industrial-grade solutions built for operational excellence and high security.",
     icon: <Database className="w-8 h-8" />,
-    gradient: "from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]",
-    glowColor: "rgba(212, 175, 55, 0.2)",
   },
   {
     id: 5,
-    title: "eCommerce Mastery",
+    title: "Digital Commerce",
     description:
-      "Distinctive online stores designed to convert and built to last.",
+      "Distinctive online experiences designed to resonate with high-end global audiences.",
     icon: <Globe className="w-8 h-8" />,
-    gradient:
-      "from-[hsl(var(--accent-bronze))] via-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]",
-    glowColor: "rgba(166, 124, 0, 0.2)",
   },
   {
     id: 6,
-    title: "Digital Ecosystems",
+    title: "Scale Ecosystems",
     description:
-      "Integrated multi-platform experiences that resonate with modern audiences.",
+      "Integrated multi-platform architectures that provide seamless and unified digital journeys.",
     icon: <Cloud className="w-8 h-8" />,
-    gradient:
-      "from-black via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))]",
-    glowColor: "rgba(212, 175, 55, 0.1)",
   },
 ];
 
-const ease = cubicBezier(0.22, 1, 0.36, 1);
+const containerVariants: Variants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants: Variants = {
+  initial: { opacity: 0, y: 40 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 export default function ServicesSection() {
-  const reduceMotion = useReducedMotion();
-  const [hoveredId, setHoveredId] = React.useState<number | null>(null);
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    show: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.5, delay: i * 0.1, ease },
-    }),
-  };
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
-    <section
-      id="services"
-      aria-labelledby="services-title"
-      className="relative -mt-32 pt-48 sm:pt-60 overflow-hidden"
-    >
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[700px] h-[700px] bg-[hsl(var(--accent-gold))]/8 rounded-full blur-3xl opacity-30" />
-        <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-[hsl(var(--accent-gold))]/5 rounded-full blur-3xl opacity-20" />
-        <div className="absolute bottom-1/3 right-0 w-[500px] h-[500px] bg-[hsl(var(--accent-bronze))]/5 rounded-full blur-3xl opacity-20" />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.7, ease }}
-          className="text-center mb-16"
-        >
-          <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-gold))] mb-6">
-            <span className="w-12 h-[1px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent" />
-            What I Do
-            <span className="w-12 h-[1px] bg-gradient-to-l from-[hsl(var(--accent-gold))] to-transparent" />
-          </span>
-
-          <h2
-            id="services-title"
-            className="text-5xl sm:text-6xl lg:text-7xl font-display tracking-tight"
+    <section id="services" className="relative py-32 bg-background z-20">
+      <div className="container mx-auto px-6">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+          <div className="max-w-2xl">
+            <motion.span
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-ember font-sans font-bold uppercase tracking-[0.4em] text-[10px] block mb-6"
+            >
+              Services / Expertise
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-5xl md:text-7xl font-display leading-[0.9]"
+            >
+              The <span className="italic text-text/50">Core</span> <br />
+              <span className="text-gradient">Specializations</span>
+            </motion.h2>
+          </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-text-muted text-lg max-w-sm mb-4 leading-relaxed"
           >
-            <span className="text-text italic font-normal">Our </span>
-            <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-bronze))] to-[hsl(var(--accent-gold))] bg-clip-text text-transparent">
-              Services
-            </span>
-          </h2>
+            Delivering high-fidelity digital solutions that bridge the gap
+            between conceptual vision and production reality.
+          </motion.p>
+        </div>
 
-          <p className="mt-4 text-lg text-text/60 max-w-2xl mx-auto">
-            Comprehensive solutions tailored to bring your digital vision to
-            life
-          </p>
-        </motion.div>
-
-        {/* Services grid */}
-        <motion.ul
-          role="list"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        {/* Services Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, amount: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-white/5 border border-white/5"
         >
-          {services.map((service, index) => {
-            const isHovered = hoveredId === service.id;
+          {services.map((service) => (
+            <motion.div
+              key={service.id}
+              variants={cardVariants}
+              onMouseEnter={() => setHoveredId(service.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              className="relative aspect-square p-12 bg-background hover:bg-surface transition-colors duration-700 group overflow-hidden"
+            >
+              {/* Animated corner accent */}
+              <div className="absolute top-0 right-0 w-12 h-12 flex items-start justify-end p-4">
+                <div className="w-[1px] h-4 bg-ember/20 group-hover:h-full transition-all duration-700" />
+                <div className="h-[1px] w-4 bg-ember/20 group-hover:w-full transition-all duration-700" />
+              </div>
 
-            return (
-              <motion.li
-                key={service.id}
-                custom={index}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.25 }}
-                onHoverStart={() => setHoveredId(service.id)}
-                onHoverEnd={() => setHoveredId(null)}
-              >
-                <motion.div
-                  whileHover={reduceMotion ? undefined : { y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3, ease }}
-                  className="relative h-full group"
-                >
-                  {/* Glow effect */}
-                  <motion.div
-                    className="absolute -inset-1 rounded-3xl blur-xl"
-                    style={{ background: service.glowColor }}
-                    animate={{ opacity: isHovered ? 0.5 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-
-                  {/* Card */}
-                  <div className="relative h-full glass-card rounded-3xl p-8 flex flex-col items-center text-center">
-                    {/* Icon container with gradient */}
-                    <div className="relative mb-8">
-                      <div
-                        className={`w-20 h-20 bg-black flex items-center justify-center text-[hsl(var(--accent-gold))] border border-[hsl(var(--accent-gold))]/30 shadow-2xl relative z-10`}
-                      >
-                        {service.icon}
-                      </div>
-
-                      {/* Animated glow ring */}
-                      <motion.div
-                        className={`absolute -inset-2 bg-gradient-to-br ${service.gradient} blur-xl`}
-                        animate={{ opacity: isHovered ? 0.3 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </div>
-
-                    <h3 className="text-2xl font-display mb-4 text-text uppercase tracking-widest text-[1rem]">
-                      {service.title}
-                    </h3>
-
-                    <p className="text-text/60 mb-6 flex-grow">
-                      {service.description}
-                    </p>
-
-                    {/* CTA link */}
-                    <motion.a
-                      href="/contact"
-                      className={`inline-flex items-center gap-2 text-sm font-semibold bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent`}
-                      whileHover={{ x: 4 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      Get Started
-                      <svg
-                        className="w-4 h-4"
-                        style={{ color: service.glowColor }}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </motion.a>
-
-                    {/* Shine effect */}
-                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none overflow-hidden">
-                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                    </div>
+              <div className="relative z-10 h-full flex flex-col items-start justify-end">
+                <div className="mb-auto text-ember">
+                  <div className="p-4 border border-ember/10 group-hover:border-ember/30 transition-colors duration-500">
+                    {service.icon}
                   </div>
-                </motion.div>
-              </motion.li>
-            );
-          })}
-        </motion.ul>
+                </div>
+
+                <h3 className="text-3xl font-display mb-4 group-hover:text-ember transition-colors duration-500">
+                  {service.title}
+                </h3>
+                <p className="text-text-muted leading-relaxed group-hover:text-text transition-colors duration-500">
+                  {service.description}
+                </p>
+
+                <div className="mt-8 flex items-center gap-4 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                  <span className="text-ember">Inquiry / Start</span>
+                  <div className="w-8 h-[1px] bg-ember" />
+                </div>
+              </div>
+
+              {/* Subtle background glow on hover */}
+              <motion.div
+                animate={{
+                  opacity: hoveredId === service.id ? 0.05 : 0,
+                  scale: hoveredId === service.id ? 1 : 0.8,
+                }}
+                className="absolute inset-0 bg-ember blur-[100px] pointer-events-none"
+              />
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

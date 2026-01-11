@@ -17,54 +17,50 @@ export default function ProjectsPage() {
       : projects.filter((p) => p.tags?.includes(filter));
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="min-h-screen pt-48 pb-32 px-6">
       <div className="max-w-[1800px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div>
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-12">
+          <div className="max-w-3xl">
             <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-4"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-ember text-[10px] font-sans font-bold uppercase tracking-[0.4em] block mb-8"
             >
-              Portfolio
+              Excellence / Selected Works
             </motion.span>
-            <h1 className="text-6xl md:text-8xl font-display leading-none">
-              Selected <span className="italic text-text/50">Works</span>
+            <h1 className="text-7xl md:text-9xl font-display leading-[0.85] tracking-tight">
+              Crafting <span className="italic text-text/50">Digital</span>{" "}
+              <br />
+              <span className="text-gradient">Masterpieces</span>
             </h1>
           </div>
 
-          <div className="flex flex-wrap gap-2 max-w-xl justify-end">
-            <button
+          <div className="flex flex-wrap gap-4 justify-end max-w-xl">
+            <FilterButton
+              isActive={filter === "All"}
               onClick={() => setFilter("All")}
-              className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${
-                filter === "All"
-                  ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
-                  : "border-text/10 text-text/50 hover:border-text/30"
-              }`}
             >
-              All
-            </button>
+              All Works
+            </FilterButton>
             {allTags.map((tag) => (
-              <button
+              <FilterButton
                 key={tag}
+                isActive={filter === tag}
                 onClick={() => setFilter(tag)}
-                className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${
-                  filter === tag
-                    ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
-                    : "border-text/10 text-text/50 hover:border-text/30"
-                }`}
               >
                 {tag}
-              </button>
+              </FilterButton>
             ))}
           </div>
         </div>
 
+        {/* Projects Grid */}
         <motion.div
           layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-white/5 border border-white/5"
         >
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <ProjectCard
                 key={project.title}
@@ -79,65 +75,84 @@ export default function ProjectsPage() {
   );
 }
 
+function FilterButton({
+  children,
+  isActive,
+  onClick,
+}: {
+  children: React.ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 border ${
+        isActive
+          ? "bg-text text-background border-text"
+          : "border-white/10 text-text/50 hover:border-ember hover:text-ember"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500"
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{
+        duration: 0.8,
+        delay: index * 0.05,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="group relative bg-background aspect-[4/5] overflow-hidden"
     >
-      <div className="aspect-[4/3] relative overflow-hidden">
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full h-full"
+      {/* Content wrapper */}
+      <div className="absolute inset-0 p-12 flex flex-col justify-between z-10">
+        <div className="flex justify-between items-start">
+          <span className="text-ember font-sans font-bold text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 -translate-y-4 group-hover:translate-y-0 transition-all duration-700">
+            {project.tags?.[0] || "Architecture"}
+          </span>
+          <motion.div
+            whileHover={{ rotate: 45, scale: 1.1 }}
+            className="w-12 h-12 flex items-center justify-center border border-white/10 group-hover:border-ember/30 rounded-full transition-colors duration-500"
           >
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
-                View Case Study
-              </span>
-            </div>
-          </a>
+            <ArrowUpRight className="w-5 h-5 text-text/20 group-hover:text-ember transition-colors" />
+          </motion.div>
         </div>
 
-      <div className="p-8">
-        <div className="flex justify-between items-start mb-4">
-          <h3 className="text-3xl font-display">{project.title}</h3>
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <motion.div
-              whileHover={{ rotate: 45 }}
-              className="p-2 border border-text/10 rounded-full text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors cursor-pointer"
-            >
-              <ArrowUpRight className="w-5 h-5" />
-            </motion.div>
-          </a>
-        </div>
-        <p className="text-text/60 line-clamp-2 mb-6">{project.description}</p>
-        <div className="flex flex-wrap gap-2">
-          {project.tags?.slice(0, 3).map((tag: string) => (
-            <span
-              key={tag}
-              className="text-[10px] uppercase tracking-widest text-text/40 border border-text/10 px-2 py-1"
-            >
-              {tag}
-            </span>
-          ))}
+        <div>
+          <h3 className="text-4xl md:text-5xl font-display mb-6 group-hover:text-ember transition-colors duration-700 leading-tight">
+            {project.title}
+          </h3>
+          <p className="text-text-muted text-sm leading-relaxed max-w-xs opacity-0 group-hover:opacity-100 translate-y-8 group-hover:translate-y-0 transition-all duration-700 delay-100">
+            {project.description}
+          </p>
         </div>
       </div>
+
+      {/* Image Background */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover opacity-20 grayscale group-hover:opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+      </div>
+
+      <a
+        href={project.demo}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute inset-0 z-20"
+      />
     </motion.div>
   );
 }
