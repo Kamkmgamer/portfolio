@@ -138,7 +138,6 @@ const FloatingLine = ({
 
 const HeroSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [mounted, setMounted] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -167,8 +166,6 @@ const HeroSection: React.FC = () => {
   const typedRole = useTypewriter(roles, 120, 70, 3500);
 
   useEffect(() => {
-    setMounted(true);
-
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
@@ -184,7 +181,7 @@ const HeroSection: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-x-clip pt-32 pb-32"
       aria-labelledby="hero-title"
     >
       {/* Decorative floating lines */}
@@ -225,11 +222,11 @@ const HeroSection: React.FC = () => {
         {/* Main headline */}
         <motion.h1
           id="hero-title"
-          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[0.9] tracking-tight mb-8"
+          className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight tracking-tight mb-8 overflow-visible"
           style={{ x: mouseXSpring, y: mouseYSpring }}
         >
           <motion.span
-            className="block text-[hsl(var(--text))] mb-2"
+            className="block text-[hsl(var(--text))] mb-2 relative z-10"
             initial={{ opacity: 0, y: 60 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4, ease }}
@@ -240,21 +237,25 @@ const HeroSection: React.FC = () => {
           </motion.span>
 
           <motion.span
-            className="block relative"
+            className="block relative z-20"
             initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6, ease }}
           >
-            <span className="gradient-text-animated font-medium">Khalil</span>
+            <span className="gradient-text-animated font-medium relative z-20">
+              Khalil
+            </span>
           </motion.span>
 
           <motion.span
-            className="block gradient-text font-medium"
+            className="block relative z-20"
             initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.75, ease }}
           >
-            AbdalMageed
+            <span className="gradient-text font-medium relative z-20">
+              AbdalMageed
+            </span>
           </motion.span>
         </motion.h1>
 
@@ -263,11 +264,13 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1, ease }}
-          className="flex items-center justify-center gap-3 mb-8 text-lg sm:text-xl uppercase tracking-[0.35em] font-light"
+          className="flex items-center justify-center gap-3 mb-8 text-lg sm:text-xl uppercase tracking-[0.35em] font-light min-h-[1.5em]"
           style={{ y: subtitleY }}
         >
           <span className="w-8 h-px bg-[hsl(var(--accent-ember)/0.5)]" />
-          <span className="text-[hsl(var(--accent-ember))]">{typedRole}</span>
+          <span className="text-[hsl(var(--accent-ember))] inline-block min-w-[10px]">
+            {typedRole}
+          </span>
           <motion.span
             className="w-px h-5 bg-[hsl(var(--accent-ember))]"
             animate={{ opacity: [1, 0, 1] }}
@@ -281,16 +284,19 @@ const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2, ease }}
-          className="text-lg sm:text-xl text-[hsl(var(--text)/0.6)] max-w-2xl mx-auto leading-relaxed mb-14 font-light"
+          className="text-lg sm:text-xl text-[hsl(var(--text)/0.6)] max-w-2xl mx-auto leading-loose mb-14 font-light relative z-100 isolate"
         >
           Crafting immersive digital experiences at the intersection of
-          <span className="text-[hsl(var(--accent-ember))]">
+          <span className="text-[hsl(var(--accent-ember))] inline-block pb-3 -mb-3 relative z-10">
             {" "}
             engineering
           </span>{" "}
           and
-          <span className="text-[hsl(var(--accent-sand))]"> artistry</span>.
-          Every pixel, every interaction — designed to captivate.
+          <span className="text-[hsl(var(--accent-sand))] inline-block pb-3 -mb-3 relative z-10">
+            {" "}
+            artistry
+          </span>
+          . Every pixel, every interaction — designed to captivate.
         </motion.p>
 
         {/* CTA Buttons */}
