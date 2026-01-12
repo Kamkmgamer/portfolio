@@ -56,7 +56,7 @@ export default function ProjectsPage() {
 
             {/* Title */}
             <motion.h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display leading-none tracking-tight"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display leading-tight tracking-tight overflow-visible"
               initial={{ opacity: 0, y: 60 }}
               animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2, ease }}
