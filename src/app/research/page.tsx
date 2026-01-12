@@ -28,7 +28,7 @@ export default function ResearchPage() {
             <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-6">
               Academic & Industry
             </span>
-            <h1 className="text-6xl md:text-8xl font-display leading-[0.9] mb-8">
+            <h1 className="text-6xl md:text-8xl font-display leading-[1] mb-8 overflow-visible">
               Research <br />
               <span className="italic text-text/50">& Publications</span>
             </h1>
