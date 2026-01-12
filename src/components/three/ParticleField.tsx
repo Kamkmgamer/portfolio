@@ -75,7 +75,6 @@ function ParticleSystem({
 }: ParticleSystemProps) {
   const meshRef = useRef<THREE.Points>(null);
   const mouseRef = useRef({ x: 0, y: 0 });
-  const { viewport } = useThree();
 
   const defaultColors = useMemo(
     () => [
