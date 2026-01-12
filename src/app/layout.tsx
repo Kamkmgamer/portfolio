@@ -3,20 +3,22 @@ import { Playfair_Display, Syne } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
-import ParticleField from "@/components/three/ParticleField";
-import SmoothScroll from "@/components/SmoothScroll";
-import JsonLd from "@/components/seo/JsonLd";
+import ClientProviders from "@/components/ClientProviders";
 
+// Distinctive typography pairing
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 const syne = Syne({
   subsets: ["latin"],
   variable: "--font-syne",
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -25,10 +27,80 @@ export const metadata: Metadata = {
     template: "%s | Khalil Abd Almageed",
   },
   description:
-    "Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design.",
+    "Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design. delivering high-performance, SEO-friendly web solutions.",
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "https://khalil.mageed.net"
   ),
+  alternates: {
+    canonical: "/",
+  },
+  applicationName: "Khalil AbdalMageed Portfolio",
+  authors: [{ name: "Khalil AbdalMageed", url: "https://khalil.mageed.net" }],
+  generator: "Next.js",
+  keywords: [
+    "Web Developer",
+    "React Developer",
+    "Next.js Developer",
+    "Frontend Engineer",
+    "UI/UX Designer",
+    "Khalil AbdalMageed",
+    "Portfolio",
+    "JavaScript",
+    "TypeScript",
+    "Tailwind CSS",
+  ],
+  referrer: "origin-when-cross-origin",
+  creator: "Khalil AbdalMageed",
+  publisher: "Khalil AbdalMageed",
+  openGraph: {
+    title: {
+      default: "Khalil AbdalMageed | Web Developer & Designer",
+      template: "%s | Khalil AbdalMageed",
+    },
+    description:
+      "Explore Khalil AbdalMageed's portfolio of SEO-friendly, responsive websites built with React and Next.js.",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://khalil.mageed.net",
+    siteName: "Khalil AbdalMageed Portfolio",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Khalil AbdalMageed - Web Developer & Designer",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: {
+      default: "Khalil AbdalMageed | Web Developer & Designer",
+      template: "%s | Khalil AbdalMageed",
+    },
+    description:
+      "Modern responsive web development and design by Khalil AbdalMageed. Specializing in high-performance web applications.",
+    site: "@kamkmgamer",
+    creator: "@kamkmgamer",
+    images: ["/images/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export const viewport: Viewport = {
@@ -37,6 +109,8 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
 };
+
+import JsonLd from "@/components/seo/JsonLd";
 
 export default function RootLayout({
   children,
@@ -50,25 +124,62 @@ export default function RootLayout({
         "@type": "Person",
         name: "Khalil AbdalMageed",
         url: "https://khalil.mageed.net",
+        sameAs: [
+          "https://twitter.com/kamkmgamer",
+          "https://github.com/Kamkmgamer",
+          "https://www.linkedin.com/in/kamkm-gamer/",
+        ],
         jobTitle: "Web Developer",
+        image: "https://khalil.mageed.net/images/og-image.png",
+        worksFor: {
+          "@type": "Organization",
+          name: "Freelance",
+        },
+      },
+      {
+        "@type": "WebSite",
+        name: "Khalil AbdalMageed Portfolio",
+        url: "https://khalil.mageed.net",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://khalil.mageed.net/?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
       },
     ],
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="theme-color"
+          content="#faf8f5"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#0a0705"
+          media="(prefers-color-scheme: dark)"
+        />
+        {/* Preconnect for performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
-        className={`${playfair.variable} ${syne.variable} antialiased bg-background text-text selection:bg-ember/30 selection:text-white`}
+        className={`${playfair.variable} ${syne.variable} antialiased bg-[hsl(var(--background))] text-[hsl(var(--text))] relative font-sans selection:bg-[hsl(var(--accent-ember)/0.3)]`}
       >
-        <div className="noise-overlay" />
         <JsonLd data={jsonLdData} />
-        <ParticleField />
-        <SmoothScroll>
-          <Providers>
+        <Providers>
+          <ClientProviders>
             <Navbar />
-            <main className="relative z-10">{children}</main>
-          </Providers>
-        </SmoothScroll>
+            {children}
+          </ClientProviders>
+        </Providers>
       </body>
     </html>
   );
