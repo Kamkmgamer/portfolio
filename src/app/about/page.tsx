@@ -32,7 +32,10 @@ function SplitText({
   return (
     <span ref={ref} className={`inline ${className}`}>
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden">
+        <span
+          key={i}
+          className="inline-block overflow-visible pb-[0.15em] -mb-[0.15em]"
+        >
           <motion.span
             className="inline-block"
             initial={{ y: "100%", opacity: 0 }}
@@ -120,7 +123,7 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Main headline */}
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display leading-[0.85] tracking-tight mb-10">
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display leading-[1] tracking-tight mb-10 overflow-visible">
             <motion.span
               className="block text-[hsl(var(--text))]"
               initial={{ opacity: 0, y: 80 }}
@@ -147,9 +150,14 @@ export default function AboutPage() {
             className="max-w-2xl mx-auto text-lg md:text-xl text-[hsl(var(--text)/0.6)] leading-relaxed"
           >
             I craft digital experiences where{" "}
-            <span className="text-[hsl(var(--accent-ember))]">engineering</span>{" "}
-            meets <span className="text-[hsl(var(--accent-sand))]">art</span>.
-            Every line of code is a brushstroke, every interaction a performed
+            <span className="text-[hsl(var(--accent-ember))] inline-block pb-3 -mb-3 relative z-10">
+              engineering
+            </span>{" "}
+            meets{" "}
+            <span className="text-[hsl(var(--accent-sand))] inline-block pb-3 -mb-3 relative z-10">
+              art
+            </span>
+            . Every line of code is a brushstroke, every interaction a performed
             note.
           </motion.p>
         </motion.div>
