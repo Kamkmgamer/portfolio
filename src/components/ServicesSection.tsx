@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import React, { useRef, useState } from "react";
+import {
+  motion,
+  useReducedMotion,
+  cubicBezier,
+  useScroll,
+  useTransform,
+  useInView,
+} from "framer-motion";
 import { Code, Layout, Settings, Database, Globe, Cloud } from "lucide-react";
 
 type Service = {
@@ -9,6 +16,7 @@ type Service = {
   title: string;
   description: string;
   icon: React.ReactNode;
+  features: string[];
 };
 
 const services: Service[] = [
@@ -16,156 +24,346 @@ const services: Service[] = [
     id: 1,
     title: "Web Engineering",
     description:
-      "Developing high-performance, bespoke web architectures with robust engineering standards.",
-    icon: <Code className="w-8 h-8" />,
+      "Architecting high-performance, scalable web solutions with cutting-edge technologies.",
+    icon: <Code className="w-7 h-7" />,
+    features: ["Next.js / React", "TypeScript", "Performance Optimization"],
   },
   {
     id: 2,
-    title: "Luxury UI Design",
+    title: "Interface Design",
     description:
-      "Crafting sophisticated interfaces that define digital elegance and superior user experiences.",
-    icon: <Layout className="w-8 h-8" />,
+      "Crafting sophisticated interfaces that blend form and function into seamless experiences.",
+    icon: <Layout className="w-7 h-7" />,
+    features: ["UI/UX Design", "Design Systems", "Prototyping"],
   },
   {
     id: 3,
     title: "Technical Strategy",
     description:
-      "Architectural consulting for complex digital products and future-proof scalability.",
-    icon: <Settings className="w-8 h-8" />,
+      "Architectural consulting for complex digital ecosystems built for scale.",
+    icon: <Settings className="w-7 h-7" />,
+    features: ["System Architecture", "Code Reviews", "Tech Stack Selection"],
   },
   {
     id: 4,
-    title: "Enterprise Systems",
+    title: "Enterprise Solutions",
     description:
-      "Custom industrial-grade solutions built for operational excellence and high security.",
-    icon: <Database className="w-8 h-8" />,
+      "Custom enterprise applications engineered for operational excellence.",
+    icon: <Database className="w-7 h-7" />,
+    features: ["ERP Systems", "API Development", "Database Design"],
   },
   {
     id: 5,
-    title: "Digital Commerce",
+    title: "eCommerce Mastery",
     description:
-      "Distinctive online experiences designed to resonate with high-end global audiences.",
-    icon: <Globe className="w-8 h-8" />,
+      "Building distinctive online stores designed to convert and built to last.",
+    icon: <Globe className="w-7 h-7" />,
+    features: ["Shopify / Custom", "Payment Integration", "Conversion Focus"],
   },
   {
     id: 6,
-    title: "Scale Ecosystems",
+    title: "Digital Ecosystems",
     description:
-      "Integrated multi-platform architectures that provide seamless and unified digital journeys.",
-    icon: <Cloud className="w-8 h-8" />,
+      "Integrated multi-platform experiences that resonate with modern audiences.",
+    icon: <Cloud className="w-7 h-7" />,
+    features: ["Cloud Architecture", "DevOps", "Scalability"],
   },
 ];
 
-const containerVariants: Variants = {
-  initial: { opacity: 0 },
-  animate: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+const ease = cubicBezier(0.22, 1, 0.36, 1);
 
-const cardVariants: Variants = {
-  initial: { opacity: 0, y: 40 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-export default function ServicesSection() {
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+// Animated section header
+function SectionHeader() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="services" className="relative py-32 bg-background z-20">
-      <div className="container mx-auto px-6">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-          <div className="max-w-2xl">
-            <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-ember font-sans font-bold uppercase tracking-[0.4em] text-[10px] block mb-6"
-            >
-              Services / Expertise
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl font-display leading-[0.9]"
-            >
-              The <span className="italic text-text/50">Core</span> <br />
-              <span className="text-gradient">Specializations</span>
-            </motion.h2>
-          </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-text-muted text-lg max-w-sm mb-4 leading-relaxed"
-          >
-            Delivering high-fidelity digital solutions that bridge the gap
-            between conceptual vision and production reality.
-          </motion.p>
+    <motion.div ref={ref} className="relative mb-24">
+      {/* Background number */}
+      <motion.span
+        className="absolute -top-20 left-0 text-[15rem] font-display font-bold text-[hsl(var(--accent-ember)/0.03)] leading-none select-none pointer-events-none hidden lg:block"
+        initial={{ opacity: 0, x: -100 }}
+        animate={isInView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 1.2, ease }}
+      >
+        02
+      </motion.span>
+
+      <motion.div
+        className="relative z-10"
+        initial={{ opacity: 0, y: 60 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8, ease }}
+      >
+        {/* Label */}
+        <div className="flex items-center gap-4 mb-6">
+          <motion.span
+            className="w-16 h-px bg-gradient-to-r from-[hsl(var(--accent-ember))] to-transparent"
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{ transformOrigin: "left" }}
+          />
+          <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-ember))]">
+            What I Do
+          </span>
         </div>
 
-        {/* Services Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-white/5 border border-white/5"
+        {/* Title */}
+        <h2
+          id="services-title"
+          className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-display tracking-tight"
         >
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              variants={cardVariants}
-              onMouseEnter={() => setHoveredId(service.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              className="relative aspect-square p-12 bg-background hover:bg-surface transition-colors duration-700 group overflow-hidden"
-            >
-              {/* Animated corner accent */}
-              <div className="absolute top-0 right-0 w-12 h-12 flex items-start justify-end p-4">
-                <div className="w-[1px] h-4 bg-ember/20 group-hover:h-full transition-all duration-700" />
-                <div className="h-[1px] w-4 bg-ember/20 group-hover:w-full transition-all duration-700" />
-              </div>
+          <motion.span
+            className="inline-block text-[hsl(var(--text))] font-light italic"
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2, ease }}
+          >
+            Specialized
+          </motion.span>{" "}
+          <motion.span
+            className="inline-block gradient-text"
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.35, ease }}
+          >
+            Services
+          </motion.span>
+        </h2>
 
-              <div className="relative z-10 h-full flex flex-col items-start justify-end">
-                <div className="mb-auto text-ember">
-                  <div className="p-4 border border-ember/10 group-hover:border-ember/30 transition-colors duration-500">
-                    {service.icon}
-                  </div>
-                </div>
+        <motion.p
+          className="mt-6 text-lg text-[hsl(var(--text)/0.6)] max-w-xl leading-relaxed"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.5, ease }}
+        >
+          Comprehensive digital solutions crafted with precision and passion
+        </motion.p>
+      </motion.div>
+    </motion.div>
+  );
+}
 
-                <h3 className="text-3xl font-display mb-4 group-hover:text-ember transition-colors duration-500">
-                  {service.title}
-                </h3>
-                <p className="text-text-muted leading-relaxed group-hover:text-text transition-colors duration-500">
-                  {service.description}
-                </p>
+// Service card component
+function ServiceCard({ service, index }: { service: Service; index: number }) {
+  const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [isHovered, setIsHovered] = useState(false);
 
-                <div className="mt-8 flex items-center gap-4 text-xs font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                  <span className="text-ember">Inquiry / Start</span>
-                  <div className="w-8 h-[1px] bg-ember" />
-                </div>
-              </div>
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 80 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.1, ease }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative"
+    >
+      {/* Glow effect */}
+      <motion.div
+        className="absolute -inset-px rounded-sm bg-gradient-to-br from-[hsl(var(--accent-ember)/0.3)] via-transparent to-[hsl(var(--accent-rust)/0.2)] opacity-0 blur-xl"
+        animate={{ opacity: isHovered ? 0.6 : 0 }}
+        transition={{ duration: 0.4 }}
+      />
 
-              {/* Subtle background glow on hover */}
+      {/* Card */}
+      <motion.div
+        className="relative h-full bg-[hsl(var(--surface))] border border-[hsl(var(--accent-ember)/0.1)] p-8 lg:p-10 overflow-hidden"
+        whileHover={reduceMotion ? {} : { y: -8, scale: 1.01 }}
+        transition={{ duration: 0.4, ease }}
+      >
+        {/* Corner accent */}
+        <div className="absolute top-0 right-0 w-24 h-24">
+          <motion.div
+            className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[hsl(var(--accent-ember)/0.1)] to-transparent"
+            animate={{ opacity: isHovered ? 1 : 0.3 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.div
+            className="absolute top-4 right-4 w-px h-8 bg-[hsl(var(--accent-ember)/0.3)]"
+            animate={{ scaleY: isHovered ? 1.5 : 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.div
+            className="absolute top-4 right-4 w-8 h-px bg-[hsl(var(--accent-ember)/0.3)]"
+            animate={{ scaleX: isHovered ? 1.5 : 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+
+        {/* Number */}
+        <motion.span
+          className="absolute top-6 left-8 text-6xl font-display text-[hsl(var(--accent-ember)/0.08)] font-bold"
+          animate={{ opacity: isHovered ? 0.15 : 0.08 }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </motion.span>
+
+        {/* Content */}
+        <div className="relative z-10 pt-12">
+          {/* Icon */}
+          <motion.div
+            className="mb-8 w-14 h-14 flex items-center justify-center bg-[hsl(var(--background))] border border-[hsl(var(--accent-ember)/0.2)] text-[hsl(var(--accent-ember))]"
+            animate={{
+              borderColor: isHovered
+                ? "hsl(var(--accent-ember))"
+                : "hsl(var(--accent-ember) / 0.2)",
+              boxShadow: isHovered
+                ? "0 0 30px hsl(var(--accent-ember) / 0.2)"
+                : "none",
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            {service.icon}
+          </motion.div>
+
+          {/* Title */}
+          <h3 className="text-xl lg:text-2xl font-display mb-4 tracking-tight text-[hsl(var(--text))]">
+            {service.title}
+          </h3>
+
+          {/* Description */}
+          <p className="text-[hsl(var(--text)/0.6)] mb-8 leading-relaxed">
+            {service.description}
+          </p>
+
+          {/* Features */}
+          <div className="space-y-2 mb-8">
+            {service.features.map((feature, i) => (
               <motion.div
-                animate={{
-                  opacity: hoveredId === service.id ? 0.05 : 0,
-                  scale: hoveredId === service.id ? 1 : 0.8,
-                }}
-                className="absolute inset-0 bg-ember blur-[100px] pointer-events-none"
+                key={feature}
+                className="flex items-center gap-3 text-sm text-[hsl(var(--text)/0.5)]"
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ delay: index * 0.1 + i * 0.1 + 0.3 }}
+              >
+                <span className="w-1 h-1 rounded-full bg-[hsl(var(--accent-ember))]" />
+                {feature}
+              </motion.div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <motion.a
+            href="/contact"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-[hsl(var(--accent-ember))] group/link"
+            whileHover={{ x: 4 }}
+          >
+            <span>Learn More</span>
+            <motion.svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              animate={{ x: isHovered ? 5 : 0 }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
               />
-            </motion.div>
+            </motion.svg>
+          </motion.a>
+        </div>
+
+        {/* Shine effect */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          initial={false}
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full"
+            animate={{ translateX: isHovered ? "200%" : "-100%" }}
+            transition={{ duration: 0.8, ease }}
+          />
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default function ServicesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="services"
+      aria-labelledby="services-title"
+      className="relative py-32 lg:py-48 overflow-hidden"
+    >
+      {/* Background decorative elements */}
+      <motion.div className="absolute inset-0 -z-10" style={{ y: backgroundY }}>
+        {/* Large blurred orb */}
+        <div className="absolute top-1/4 -left-1/4 w-[800px] h-[800px] bg-[hsl(var(--accent-ember)/0.05)] rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 -right-1/4 w-[600px] h-[600px] bg-[hsl(var(--accent-rust)/0.05)] rounded-full blur-[120px]" />
+
+        {/* Grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `
+              linear-gradient(hsl(var(--accent-ember)) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--accent-ember)) 1px, transparent 1px)
+            `,
+            backgroundSize: "100px 100px",
+          }}
+        />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <SectionHeader />
+
+        {/* Services grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {services.map((service, index) => (
+            <ServiceCard key={service.id} service={service} index={index} />
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          className="mt-24 text-center"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <p className="text-lg text-[hsl(var(--text)/0.5)] mb-8">
+            Have a project in mind? Let&apos;s create something extraordinary.
+          </p>
+          <motion.a
+            href="/contact"
+            className="inline-flex items-center gap-3 btn-premium"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span>Start a Project</span>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </motion.a>
         </motion.div>
       </div>
     </section>
