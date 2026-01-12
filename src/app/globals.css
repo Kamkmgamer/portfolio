@@ -93,6 +93,37 @@ h1, h2, h3, h4, .display-font {
   font-weight: 400;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESCENDER PROTECTION - Prevents clipping of g, y, p, q, j
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Apply protection to all headings and common text elements */
+h1, h2, h3, h4, h5, h6,
+.font-display,
+[class*="leading-none"],
+[class*="leading-tight"],
+[class*="leading-[0"] {
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* Ensure text containers allow overflow for descenders */
+.text-safe {
+  overflow: visible !important;
+}
+
+/* Fix inline elements with gradient or special styling */
+span[class*="gradient"],
+span.font-display,
+span.font-playfair {
+  display: inline-block;
+  padding-bottom: 0.4em;
+  margin-bottom: -0.4em;
+  position: relative;
+  z-index: 1;
+  vertical-align: baseline;
+}
+
 /* Dramatic ambient gradient mesh */
 body::before {
   content: "";
@@ -232,6 +263,12 @@ html.dark .glass-card {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* Prevent descender clipping (g, y, p, q, j) */
+  display: inline-block;
+  padding-bottom: 0.4em;
+  margin-bottom: -0.4em;
+  position: relative;
+  z-index: 1;
 }
 
 .gradient-text-animated {
@@ -248,6 +285,12 @@ html.dark .glass-card {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientFlow 4s linear infinite;
+  /* Prevent descender clipping (g, y, p, q, j) */
+  display: inline-block;
+  padding-bottom: 0.4em;
+  margin-bottom: -0.4em;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes gradientFlow {
@@ -494,10 +537,11 @@ html.dark .glass-card {
 
 .section-title {
   font-size: 2.5rem;
-  line-height: 1.1;
+  line-height: 1.2; /* Increased from 1.1 to prevent descender clipping */
   margin-bottom: 4rem;
   position: relative;
   display: inline-block;
+  padding-bottom: 0.15em;
 }
 
 @media (min-width: 768px) {
