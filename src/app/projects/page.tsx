@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView, cubicBezier } from "framer-motion";
 import { projects, type Project } from "@/data/projects";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Filter } from "lucide-react";
+
+const ease = cubicBezier(0.22, 1, 0.36, 1);
 
 const allTags = Array.from(new Set(projects.flatMap((p) => p.tags || [])));
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState("All");
+  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const headerRef = useRef(null);
+  const isHeaderInView = useInView(headerRef, { once: true });
 
   const filteredProjects =
     filter === "All"
@@ -17,142 +22,293 @@ export default function ProjectsPage() {
       : projects.filter((p) => p.tags?.includes(filter));
 
   return (
-    <main className="min-h-screen pt-48 pb-32 px-6">
+    <main className="min-h-screen pt-32 pb-32 px-6">
       <div className="max-w-[1800px] mx-auto">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-12">
-          <div className="max-w-3xl">
+        {/* Header */}
+        <div
+          ref={headerRef}
+          className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-20 gap-12"
+        >
+          {/* Title area */}
+          <div className="relative">
+            {/* Background number */}
             <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="text-ember text-[10px] font-sans font-bold uppercase tracking-[0.4em] block mb-8"
+              className="absolute -top-16 -left-4 text-[12rem] font-display font-bold text-[hsl(var(--accent-ember)/0.03)] leading-none select-none pointer-events-none hidden xl:block"
+              initial={{ opacity: 0, x: -50 }}
+              animate={isHeaderInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 1, ease }}
             >
-              Excellence / Selected Works
+              W
             </motion.span>
-            <h1 className="text-7xl md:text-9xl font-display leading-[0.85] tracking-tight">
-              Crafting <span className="italic text-text/50">Digital</span>{" "}
-              <br />
-              <span className="text-gradient">Masterpieces</span>
-            </h1>
+
+            {/* Label */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1, ease }}
+              className="flex items-center gap-4 mb-6"
+            >
+              <span className="w-12 h-px bg-gradient-to-r from-[hsl(var(--accent-ember))] to-transparent" />
+              <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-ember))]">
+                Portfolio
+              </span>
+            </motion.div>
+
+            {/* Title */}
+            <motion.h1
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display leading-none tracking-tight"
+              initial={{ opacity: 0, y: 60 }}
+              animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2, ease }}
+            >
+              <span className="block">Selected</span>
+              <span className="italic text-[hsl(var(--text)/0.5)]">Works</span>
+            </motion.h1>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4, ease }}
+              className="mt-6 text-lg text-[hsl(var(--text)/0.5)] max-w-md"
+            >
+              A curated collection of projects that showcase my passion for
+              crafting exceptional digital experiences.
+            </motion.p>
           </div>
 
-          <div className="flex flex-wrap gap-4 justify-end max-w-xl">
-            <FilterButton
-              isActive={filter === "All"}
+          {/* Filters */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5, ease }}
+            className="flex flex-wrap gap-2 lg:max-w-lg lg:justify-end"
+          >
+            <motion.button
               onClick={() => setFilter("All")}
+              className={`px-5 py-2.5 text-xs uppercase tracking-[0.15em] font-semibold border transition-all duration-400 ${
+                filter === "All"
+                  ? "border-[hsl(var(--accent-ember))] bg-[hsl(var(--accent-ember)/0.1)] text-[hsl(var(--accent-ember))]"
+                  : "border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] hover:border-[hsl(var(--text)/0.3)]"
+              }`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              All Works
-            </FilterButton>
+              All
+            </motion.button>
             {allTags.map((tag) => (
-              <FilterButton
+              <motion.button
                 key={tag}
-                isActive={filter === tag}
                 onClick={() => setFilter(tag)}
+                className={`px-5 py-2.5 text-xs uppercase tracking-[0.15em] font-semibold border transition-all duration-400 ${
+                  filter === tag
+                    ? "border-[hsl(var(--accent-ember))] bg-[hsl(var(--accent-ember)/0.1)] text-[hsl(var(--accent-ember))]"
+                    : "border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] hover:border-[hsl(var(--text)/0.3)]"
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {tag}
-              </FilterButton>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
         </div>
 
-        {/* Projects Grid */}
+        {/* Projects count */}
         <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-white/5 border border-white/5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="flex items-center gap-4 mb-12 text-xs uppercase tracking-widest text-[hsl(var(--text)/0.4)]"
         >
+          <Filter className="w-3 h-3" />
+          <span>
+            Showing {filteredProjects.length}{" "}
+            {filteredProjects.length === 1 ? "project" : "projects"}
+          </span>
+        </motion.div>
+
+        {/* Projects grid */}
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <ProjectCard
                 key={project.title}
                 project={project}
                 index={index}
+                isHovered={hoveredProject === project.title}
+                onHoverStart={() => setHoveredProject(project.title)}
+                onHoverEnd={() => setHoveredProject(null)}
               />
             ))}
           </AnimatePresence>
         </motion.div>
+
+        {/* Empty state */}
+        {filteredProjects.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-32"
+          >
+            <p className="text-xl text-[hsl(var(--text)/0.5)]">
+              No projects found for this filter.
+            </p>
+            <button
+              onClick={() => setFilter("All")}
+              className="mt-6 text-[hsl(var(--accent-ember))] underline underline-offset-4"
+            >
+              View all projects
+            </button>
+          </motion.div>
+        )}
       </div>
     </main>
   );
 }
 
-function FilterButton({
-  children,
-  isActive,
-  onClick,
+function ProjectCard({
+  project,
+  index,
+  isHovered,
+  onHoverStart,
+  onHoverEnd,
 }: {
-  children: React.ReactNode;
-  isActive: boolean;
-  onClick: () => void;
+  project: Project;
+  index: number;
+  isHovered: boolean;
+  onHoverStart: () => void;
+  onHoverEnd: () => void;
 }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 border ${
-        isActive
-          ? "bg-text text-background border-text"
-          : "border-white/10 text-text/50 hover:border-ember hover:text-ember"
-      }`}
-    >
-      {children}
-    </button>
-  );
-}
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
-    <motion.div
+    <motion.article
+      ref={ref}
       layout
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{
-        duration: 0.8,
-        delay: index * 0.05,
-        ease: [0.22, 1, 0.36, 1],
+      initial={{ opacity: 0, y: 80 }}
+      animate={{
+        opacity: isInView ? 1 : 0,
+        y: isInView ? 0 : 80,
       }}
-      className="group relative bg-background aspect-[4/5] overflow-hidden"
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease }}
+      onMouseEnter={onHoverStart}
+      onMouseLeave={onHoverEnd}
+      className="group relative h-full"
     >
-      {/* Content wrapper */}
-      <div className="absolute inset-0 p-12 flex flex-col justify-between z-10">
-        <div className="flex justify-between items-start">
-          <span className="text-ember font-sans font-bold text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 -translate-y-4 group-hover:translate-y-0 transition-all duration-700">
-            {project.tags?.[0] || "Architecture"}
-          </span>
-          <motion.div
-            whileHover={{ rotate: 45, scale: 1.1 }}
-            className="w-12 h-12 flex items-center justify-center border border-white/10 group-hover:border-ember/30 rounded-full transition-colors duration-500"
+      {/* Glow effect */}
+      <motion.div
+        className="absolute -inset-4 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-ember)/0.15)] to-transparent blur-2xl opacity-0"
+        animate={{ opacity: isHovered ? 0.8 : 0 }}
+        transition={{ duration: 0.4 }}
+      />
+
+      <motion.div
+        className="relative overflow-hidden bg-[hsl(var(--surface))] border border-[hsl(var(--accent-ember)/0.05)] h-full flex flex-col"
+        whileHover={{ y: -8 }}
+        transition={{ duration: 0.4, ease }}
+      >
+        {/* Image container */}
+        <div className="aspect-[16/10] relative overflow-hidden flex-shrink-0">
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full h-full"
           >
-            <ArrowUpRight className="w-5 h-5 text-text/20 group-hover:text-ember transition-colors" />
-          </motion.div>
+            <motion.div
+              className="relative w-full h-full"
+              animate={{ scale: isHovered ? 1.05 : 1 }}
+              transition={{ duration: 0.6, ease }}
+            >
+              <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+
+            {/* Overlay */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--background))] via-transparent to-transparent"
+              animate={{ opacity: isHovered ? 0.3 : 0.8 }}
+              transition={{ duration: 0.4 }}
+            />
+
+            {/* Hover overlay */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center bg-[hsl(var(--background)/0.8)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isHovered ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.span
+                className="px-8 py-4 border border-[hsl(var(--accent-ember))] text-[hsl(var(--accent-ember))] uppercase tracking-[0.2em] text-xs font-semibold"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                View Project
+              </motion.span>
+            </motion.div>
+          </a>
         </div>
 
-        <div>
-          <h3 className="text-4xl md:text-5xl font-display mb-6 group-hover:text-ember transition-colors duration-700 leading-tight">
-            {project.title}
-          </h3>
-          <p className="text-text-muted text-sm leading-relaxed max-w-xs opacity-0 group-hover:opacity-100 translate-y-8 group-hover:translate-y-0 transition-all duration-700 delay-100">
+        {/* Content */}
+        <div className="p-8 lg:p-10 flex flex-col flex-grow">
+          <div className="flex justify-between items-start mb-4">
+            <motion.h3
+              className="text-2xl lg:text-3xl font-display tracking-tight"
+              animate={{ x: isHovered ? 8 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              {project.title}
+            </motion.h3>
+
+            <motion.a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 border border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] group-hover:text-[hsl(var(--accent-ember))] group-hover:border-[hsl(var(--accent-ember))] transition-colors duration-300 transform-gpu"
+              whileHover={{ rotate: 45 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ArrowUpRight className="w-5 h-5" />
+            </motion.a>
+          </div>
+
+          <p className="text-[hsl(var(--text)/0.6)] line-clamp-2 mb-8 leading-relaxed">
             {project.description}
           </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mt-auto">
+            {project.tags?.slice(0, 4).map((tag: string) => (
+              <span
+                key={tag}
+                className="text-[10px] uppercase tracking-[0.15em] font-semibold text-[hsl(var(--text)/0.4)] px-3 py-1.5 border border-[hsl(var(--text)/0.08)] group-hover:border-[hsl(var(--accent-ember)/0.2)] transition-colors duration-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Image Background */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          className="object-cover opacity-20 grayscale group-hover:opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-      </div>
-
-      <a
-        href={project.demo}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="absolute inset-0 z-20"
-      />
-    </motion.div>
+        {/* Project number */}
+        <motion.span
+          className="absolute top-6 left-8 text-7xl font-display font-bold text-[hsl(var(--accent-ember)/0.05)]"
+          animate={{
+            opacity: isHovered ? 0.15 : 0.05,
+            scale: isHovered ? 1.1 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </motion.span>
+      </motion.div>
+    </motion.article>
   );
 }
