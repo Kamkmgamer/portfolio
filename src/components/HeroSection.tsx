@@ -393,11 +393,11 @@ const HeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
-        className="absolute top-24 left-8 sm:left-16 text-[hsl(var(--accent-ember)/0.3)] font-mono text-xs tracking-widest"
+        className="absolute top-32 left-8 sm:left-16 text-[hsl(var(--accent-ember)/0.3)] font-mono text-xs tracking-widest"
       >
         <div className="flex items-center gap-2">
           <span className="w-12 h-px bg-current" />
-          <span>2024</span>
+          <span>2026</span>
         </div>
       </motion.div>
 
@@ -405,7 +405,7 @@ const HeroSection: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
-        className="absolute top-24 right-8 sm:right-16 text-[hsl(var(--accent-ember)/0.3)] font-mono text-xs tracking-widest"
+        className="absolute top-32 right-8 sm:right-16 text-[hsl(var(--accent-ember)/0.3)] font-mono text-xs tracking-widest"
       >
         <div className="flex items-center gap-2">
           <span>PORTFOLIO</span>
