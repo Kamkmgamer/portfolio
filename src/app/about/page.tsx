@@ -133,7 +133,7 @@ export default function AboutPage() {
               Behind the
             </motion.span>
             <motion.span
-              className="block gradient-text-animated italic"
+              className="block gradient-text-animated italic pr-2"
               initial={{ opacity: 0, y: 80 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5, ease }}
