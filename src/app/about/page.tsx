@@ -102,7 +102,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative min-h-[100svh] flex flex-col items-center justify-center px-6"
+        className="relative min-h-100svh flex flex-col items-center justify-center px-6"
       >
         <motion.div
           style={{ opacity, scale, y: y1 }}
@@ -115,15 +115,15 @@ export default function AboutPage() {
             transition={{ duration: 0.8, delay: 0.2, ease }}
             className="flex items-center justify-center gap-4 mb-8"
           >
-            <span className="w-12 h-px bg-gradient-to-r from-transparent to-[hsl(var(--accent-ember))]" />
-            <span className="text-xs uppercase tracking-[0.4em] text-[hsl(var(--accent-ember))]">
+            <span className="w-12 h-px bg-linear-to-r from-ember to-transparent" />
+            <span className="text-xs uppercase tracking-[0.4em] text-ember">
               The Story
             </span>
-            <span className="w-12 h-px bg-gradient-to-l from-transparent to-[hsl(var(--accent-ember))]" />
+            <span className="w-12 h-px bg-linear-to-l from-ember to-transparent" />
           </motion.div>
 
           {/* Main headline */}
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display leading-[1] tracking-tight mb-10 overflow-visible">
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-display leading-1 tracking-tight mb-10 overflow-visible">
             <motion.span
               className="block text-[hsl(var(--text))]"
               initial={{ opacity: 0, y: 80 }}
@@ -150,11 +150,11 @@ export default function AboutPage() {
             className="max-w-2xl mx-auto text-lg md:text-xl text-[hsl(var(--text)/0.6)] leading-relaxed"
           >
             I craft digital experiences where{" "}
-            <span className="text-[hsl(var(--accent-ember))] inline-block pb-3 -mb-3 relative z-10">
+            <span className="text-ember inline-block pb-3 -mb-3 relative z-10">
               engineering
             </span>{" "}
             meets{" "}
-            <span className="text-[hsl(var(--accent-sand))] inline-block pb-3 -mb-3 relative z-10">
+            <span className="text-sand inline-block pb-3 -mb-3 relative z-10">
               art
             </span>
             . Every line of code is a brushstroke, every interaction a performed
@@ -165,11 +165,11 @@ export default function AboutPage() {
         {/* Decorative background elements */}
         <motion.div
           style={{ y: y2 }}
-          className="absolute top-[10%] right-[5%] w-[40vh] h-[40vh] rounded-full bg-gradient-to-br from-[hsl(var(--accent-ember)/0.08)] to-transparent blur-[120px] pointer-events-none"
+          className="absolute top-[10%] right-[5%] w-[40vh] h-[40vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-ember)/0.08)] to-transparent blur-[120px] pointer-events-none"
         />
         <motion.div
           style={{ y: y1 }}
-          className="absolute bottom-[10%] left-[5%] w-[50vh] h-[50vh] rounded-full bg-gradient-to-tr from-[hsl(var(--accent-rust)/0.08)] to-transparent blur-[120px] pointer-events-none"
+          className="absolute bottom-[10%] left-[5%] w-[50vh] h-[50vh] rounded-full bg-linear-to-tr from-[hsl(var(--accent-rust)/0.08)] to-transparent blur-[120px] pointer-events-none"
         />
 
         {/* Scroll indicator */}
@@ -177,14 +177,14 @@ export default function AboutPage() {
           style={{ opacity }}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
         >
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--accent-ember))]">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-ember">
             Scroll
           </span>
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <ArrowDown className="w-4 h-4 text-[hsl(var(--accent-ember))]" />
+            <ArrowDown className="w-4 h-4 text-ember" />
           </motion.div>
         </motion.div>
 
@@ -210,7 +210,7 @@ export default function AboutPage() {
               transition={{ duration: 1, ease }}
               className="relative"
             >
-              <div className="relative aspect-[3/4] overflow-hidden">
+              <div className="relative aspect-3/4 overflow-hidden">
                 <Image
                   src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/AboutMe.png"
                   alt="Khalil AbdalMageed"
@@ -218,7 +218,7 @@ export default function AboutPage() {
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
                 />
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--background))] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-[hsl(var(--background))] via-transparent to-transparent" />
                 <div className="absolute inset-0 bg-[hsl(var(--accent-ember)/0.1)] mix-blend-overlay" />
               </div>
 
@@ -331,9 +331,7 @@ export default function AboutPage() {
         >
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display mb-8">
             Let&apos;s Create{" "}
-            <span className="italic text-[hsl(var(--accent-ember))]">
-              Together
-            </span>
+            <span className="italic text-ember">Together</span>
           </h2>
           <p className="text-lg text-[hsl(var(--text)/0.6)] mb-12 max-w-xl mx-auto">
             Ready to transform your digital presence? Let&apos;s discuss how we
@@ -376,10 +374,8 @@ function BioBlock({
       transition={{ duration: 0.8, delay, ease }}
       className="group"
     >
-      <div className="flex items-baseline gap-6 mb-6 pb-4 border-b border-[hsl(var(--text)/0.1)] group-hover:border-[hsl(var(--accent-ember))] transition-colors duration-500">
-        <span className="text-3xl font-mono text-[hsl(var(--accent-ember))]">
-          {number}
-        </span>
+      <div className="flex items-baseline gap-6 mb-6 pb-4 border-b border-[hsl(var(--text)/0.1)] group-hover:border-ember transition-colors duration-500">
+        <span className="text-3xl font-mono text-ember">{number}</span>
         <h3 className="text-3xl lg:text-4xl font-display">{title}</h3>
       </div>
       <p className="text-[hsl(var(--text)/0.6)] leading-relaxed text-lg pl-16">
@@ -416,7 +412,7 @@ function ExperienceCard({
     >
       {/* Glow */}
       <motion.div
-        className="absolute -inset-px bg-gradient-to-br from-[hsl(var(--accent-ember)/0.2)] to-transparent blur-xl opacity-0"
+        className="absolute -inset-px bg-linear-to-br from-[hsl(var(--accent-ember)/0.2)] to-transparent blur-xl opacity-0"
         animate={{ opacity: isHovered ? 0.5 : 0 }}
       />
 
@@ -427,7 +423,7 @@ function ExperienceCard({
       >
         {/* Year badge */}
         <motion.span
-          className="inline-block text-xs font-mono tracking-widest px-3 py-1 mb-6 border border-[hsl(var(--accent-ember)/0.3)] text-[hsl(var(--accent-ember))]"
+          className="inline-block text-xs font-mono tracking-widest px-3 py-1 mb-6 border border-[hsl(var(--accent-ember)/0.3)] text-ember"
           animate={{
             backgroundColor: isHovered
               ? "hsl(var(--accent-ember) / 0.1)"
@@ -439,7 +435,7 @@ function ExperienceCard({
 
         <h4 className="text-2xl lg:text-3xl font-display mb-3">{role}</h4>
 
-        <div className="text-xs font-semibold uppercase tracking-[0.2em] mb-6 text-[hsl(var(--text)/0.4)] group-hover:text-[hsl(var(--accent-ember))] transition-colors duration-500">
+        <div className="text-xs font-semibold uppercase tracking-[0.2em] mb-6 text-[hsl(var(--text)/0.4)] group-hover:text-ember transition-colors duration-500">
           {company}
         </div>
 

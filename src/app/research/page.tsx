@@ -28,7 +28,7 @@ export default function ResearchPage() {
             <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-6">
               Academic & Industry
             </span>
-            <h1 className="text-6xl md:text-8xl font-display leading-[1] mb-8 overflow-visible">
+            <h1 className="text-6xl md:text-8xl font-display leading-1 mb-8 overflow-visible">
               Research <br />
               <span className="italic text-text/50">& Publications</span>
             </h1>
@@ -72,7 +72,7 @@ function ResearchCard({
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 p-8 lg:p-12 border-t border-text/10 hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500"
     >
-      <div className="lg:col-span-4 relative aspect-[4/3] lg:aspect-auto lg:h-full overflow-hidden rounded-lg bg-secondary/5">
+      <div className="lg:col-span-4 relative aspect-4/3 lg:aspect-auto lg:h-full overflow-hidden rounded-lg bg-secondary/5">
         <Image
           src={paper.image || "/file.svg"}
           alt={paper.title}
