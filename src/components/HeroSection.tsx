@@ -18,7 +18,7 @@ const useTypewriter = (
   texts: string[],
   typingSpeed = 100,
   deletingSpeed = 60,
-  pauseDuration = 3000
+  pauseDuration = 3000,
 ) => {
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -44,7 +44,7 @@ const useTypewriter = (
           }
         }
       },
-      isDeleting ? deletingSpeed : typingSpeed
+      isDeleting ? deletingSpeed : typingSpeed,
     );
 
     return () => clearTimeout(timeout);
@@ -80,7 +80,7 @@ const Counter = ({
           setIsInView(true);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     if (ref.current) {
@@ -128,7 +128,7 @@ const FloatingLine = ({
   delay: number;
 }) => (
   <motion.div
-    className="absolute h-px bg-gradient-to-r from-transparent via-[hsl(var(--accent-ember)/0.3)] to-transparent"
+    className="absolute h-px bg-linear-to-r from-transparent via-[hsl(var(--accent-ember)/0.3)] to-transparent"
     style={style}
     initial={{ scaleX: 0, opacity: 0 }}
     animate={{ scaleX: 1, opacity: 1 }}
@@ -144,13 +144,11 @@ const HeroSection: React.FC = () => {
     offset: ["start start", "end start"],
   });
 
-  // Parallax transforms
   const titleY = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const subtitleY = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
-  // Mouse parallax
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springConfig = { damping: 25, stiffness: 150 };
@@ -181,7 +179,7 @@ const HeroSection: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[100svh] flex flex-col items-center justify-center overflow-x-clip pt-32 pb-32"
+      className="relative min-h-svh flex flex-col items-center justify-center overflow-x-clip pt-32 pb-32"
       aria-labelledby="hero-title"
     >
       {/* Decorative floating lines */}
@@ -214,7 +212,7 @@ const HeroSection: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
           </span>
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[hsl(var(--accent-ember))]">
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-ember">
             Open for collaborations
           </span>
         </motion.div>
@@ -268,11 +266,11 @@ const HeroSection: React.FC = () => {
           style={{ y: subtitleY }}
         >
           <span className="w-8 h-px bg-[hsl(var(--accent-ember)/0.5)]" />
-          <span className="text-[hsl(var(--accent-ember))] inline-block min-w-[10px]">
+          <span className="text-ember inline-block min-w-[10px]">
             {typedRole}
           </span>
           <motion.span
-            className="w-px h-5 bg-[hsl(var(--accent-ember))]"
+            className="w-px h-5 bg-ember"
             animate={{ opacity: [1, 0, 1] }}
             transition={{ duration: 0.8, repeat: Infinity }}
           />
@@ -287,12 +285,12 @@ const HeroSection: React.FC = () => {
           className="text-lg sm:text-xl text-[hsl(var(--text)/0.6)] max-w-2xl mx-auto leading-loose mb-14 font-light relative z-100 isolate"
         >
           Crafting immersive digital experiences at the intersection of
-          <span className="text-[hsl(var(--accent-ember))] inline-block pb-3 -mb-3 relative z-10">
+          <span className="text-ember inline-block pb-3 -mb-3 relative z-10">
             {" "}
             engineering
           </span>{" "}
           and
-          <span className="text-[hsl(var(--accent-sand))] inline-block pb-3 -mb-3 relative z-10">
+          <span className="text-sand inline-block pb-3 -mb-3 relative z-10">
             {" "}
             artistry
           </span>
@@ -377,7 +375,7 @@ const HeroSection: React.FC = () => {
       >
         <motion.a
           href="#services"
-          className="flex flex-col items-center gap-3 text-[hsl(var(--text)/0.4)] hover:text-[hsl(var(--accent-ember))] transition-colors duration-500"
+          className="flex flex-col items-center gap-3 text-[hsl(var(--text)/0.4)] hover:text-ember transition-colors duration-500"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         >

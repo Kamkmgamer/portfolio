@@ -28,7 +28,6 @@ export default function MagneticButton({
   const xSpring = useSpring(x, springConfig);
   const ySpring = useSpring(y, springConfig);
 
-  // Scale on hover
   const scale = useSpring(1, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -76,7 +75,7 @@ export default function MagneticButton({
       >
         {/* Glow effect */}
         <motion.div
-          className="absolute -inset-4 rounded-lg bg-gradient-to-r from-ember/20 to-rust/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute -inset-4 rounded-lg bg-linear-to-r from-ember/20 to-rust/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           style={{
             opacity: isHovered ? 0.5 : 0,
           }}
@@ -91,7 +90,7 @@ export default function MagneticButton({
           initial={false}
         >
           <motion.div
-            className="absolute h-full w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+            className="absolute h-full w-1/2 bg-linear-to-r from-transparent via-white/10 to-transparent skew-x-12"
             initial={{ x: "-200%" }}
             animate={{ x: isHovered ? "300%" : "-200%" }}
             transition={{ duration: 0.6, ease: "easeOut" }}

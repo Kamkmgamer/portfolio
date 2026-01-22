@@ -38,7 +38,7 @@ const useActiveHash = (ids: string[]) => {
           .sort(
             (a, b) =>
               (a.target as HTMLElement).offsetTop -
-              (b.target as HTMLElement).offsetTop
+              (b.target as HTMLElement).offsetTop,
           );
         if (visible[0]) {
           setActive("#" + visible[0].target.id);
@@ -47,7 +47,7 @@ const useActiveHash = (ids: string[]) => {
       {
         rootMargin: "0px 0px -60% 0px",
         threshold: [0.1, 0.25, 0.5],
-      }
+      },
     );
 
     sections.forEach((el) => observer.observe(el));
@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
 
   // Active section tracking
   const activeHash = useActiveHash(
-    links.map((l) => l.href).filter((h) => h.startsWith("#"))
+    links.map((l) => l.href).filter((h) => h.startsWith("#")),
   );
   const pathname = usePathname();
 
@@ -90,8 +90,8 @@ const Navbar: React.FC = () => {
       document
         .getElementById(menuId)
         ?.querySelectorAll<HTMLElement>(
-          'a, button, [tabindex]:not([tabindex="-1"])'
-        ) ?? []
+          'a, button, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
     );
 
     const first = focusable[0];
@@ -200,14 +200,14 @@ const Navbar: React.FC = () => {
           className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-display tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 rounded"
         >
           <motion.span
-            className="relative bg-gradient-to-r from-[hsl(var(--accent-ember))] via-[hsl(var(--accent-sand))] to-[hsl(var(--accent-rust))] bg-clip-text text-transparent"
+            className="relative bg-linear-to-r from-ember via-sand to-rust bg-clip-text text-transparent"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.2 }}
           >
             Khalil
             {/* Glow effect on hover */}
             <span
-              className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--accent-ember))] via-[hsl(var(--accent-sand))] to-[hsl(var(--accent-rust))] bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
+              className="absolute inset-0 bg-linear-to-r from-ember via-sand to-rust bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
               aria-hidden="true"
             >
               Khalil
@@ -237,7 +237,7 @@ const Navbar: React.FC = () => {
                     {isActive && (
                       <motion.span
                         layoutId="active-nav-pill"
-                        className="absolute inset-0 rounded-full bg-gradient-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-gold))]/5 to-transparent"
+                        className="absolute inset-0 rounded-full bg-linear-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-gold))]/5 to-transparent"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -247,7 +247,7 @@ const Navbar: React.FC = () => {
                   </AnimatePresence>
 
                   {/* Hover underline effect */}
-                  <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-gradient-to-r from-[hsl(var(--accent-gold))] to-transparent transition-transform duration-300 rounded-full" />
+                  <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-linear-to-r from-[hsl(var(--accent-gold))] to-transparent transition-transform duration-300 rounded-full" />
                 </Link>
               );
             })}
@@ -332,7 +332,7 @@ const Navbar: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { duration: 0.2, ease } }}
               exit={{ opacity: 0, transition: { duration: 0.2, ease } }}
-              className="md:hidden fixed inset-0 z-[70] bg-black/20 backdrop-blur-sm"
+              className="md:hidden fixed inset-0 z-70 bg-black/20 backdrop-blur-sm"
             />
 
             {/* Menu Panel */}
@@ -353,7 +353,7 @@ const Navbar: React.FC = () => {
                 scale: 0.95,
                 transition: { duration: 0.2, ease },
               }}
-              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-[80] pt-20 px-4"
+              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-80 pt-20 px-4"
             >
               <div className="rounded-3xl glass-card shadow-2xl overflow-hidden">
                 <div className="flex flex-col gap-1 p-4">
@@ -373,7 +373,7 @@ const Navbar: React.FC = () => {
                           onClick={closeMenu}
                           className={`relative flex items-center gap-3 rounded-2xl px-4 py-4 text-lg font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
                             isActive
-                              ? "bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
+                              ? "bg-linear-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
                               : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
                           }`}
                         >
@@ -381,7 +381,7 @@ const Navbar: React.FC = () => {
                           {isActive && (
                             <motion.span
                               layoutId="mobile-active-indicator"
-                              className="ml-auto inline-block h-2 w-2 rounded-full bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500"
+                              className="ml-auto inline-block h-2 w-2 rounded-full bg-linear-to-r from-blue-500 via-cyan-500 to-emerald-500"
                             />
                           )}
                         </Link>

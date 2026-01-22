@@ -8,30 +8,35 @@ export default function CustomCursor() {
   const [isPointer, setIsPointer] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
-  // Start off-screen
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
+  const springConfig = { damping: 40, stiffness: 700, mass: 0.2 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  // Trail positions
   const trail1X = useSpring(cursorX, {
-    damping: 30,
-    stiffness: 200,
-    mass: 0.8,
+    damping: 35,
+    stiffness: 500,
+    mass: 0.3,
   });
   const trail1Y = useSpring(cursorY, {
-    damping: 30,
-    stiffness: 200,
-    mass: 0.8,
+    damping: 35,
+    stiffness: 500,
+    mass: 0.3,
   });
-  const trail2X = useSpring(cursorX, { damping: 35, stiffness: 150, mass: 1 });
-  const trail2Y = useSpring(cursorY, { damping: 35, stiffness: 150, mass: 1 });
+  const trail2X = useSpring(cursorX, {
+    damping: 40,
+    stiffness: 400,
+    mass: 0.4,
+  });
+  const trail2Y = useSpring(cursorY, {
+    damping: 40,
+    stiffness: 400,
+    mass: 0.4,
+  });
 
   useEffect(() => {
-    // Only activate on devices that support hover
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       return;
     }
@@ -60,9 +65,6 @@ export default function CustomCursor() {
       setIsPointer(isClickable);
     };
 
-    // Add classes to body to hide system cursor only when custom logic works
-    document.body.classList.add("custom-cursor-active");
-
     window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mousemove", handleElementHover, { passive: true });
     document.addEventListener("mouseenter", handleMouseEnter);
@@ -71,7 +73,6 @@ export default function CustomCursor() {
     window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      document.body.classList.remove("custom-cursor-active");
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mousemove", handleElementHover);
       document.removeEventListener("mouseenter", handleMouseEnter);
@@ -81,7 +82,6 @@ export default function CustomCursor() {
     };
   }, [cursorX, cursorY, isVisible]);
 
-  // Don't render until we have confirmation of mouse movement use or capability
   if (
     !isVisible &&
     typeof window !== "undefined" &&
@@ -94,7 +94,7 @@ export default function CustomCursor() {
     <>
       {/* Trail particles */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9997] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-9997 mix-blend-difference"
         style={{
           x: trail2X,
           y: trail2Y,
@@ -103,7 +103,7 @@ export default function CustomCursor() {
         }}
       >
         <motion.div
-          className="w-2 h-2 rounded-full bg-[hsl(var(--accent-ember))]"
+          className="w-2 h-2 rounded-full bg-ember"
           animate={{
             scale: isVisible ? 1 : 0,
             opacity: isVisible ? 0.3 : 0,
@@ -113,7 +113,7 @@ export default function CustomCursor() {
       </motion.div>
 
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9998] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-9998 mix-blend-difference"
         style={{
           x: trail1X,
           y: trail1Y,
@@ -122,7 +122,7 @@ export default function CustomCursor() {
         }}
       >
         <motion.div
-          className="w-3 h-3 rounded-full bg-[hsl(var(--accent-ember))]"
+          className="w-3 h-3 rounded-full bg-ember"
           animate={{
             scale: isVisible ? 1 : 0,
             opacity: isVisible ? 0.5 : 0,
@@ -133,7 +133,7 @@ export default function CustomCursor() {
 
       {/* Main cursor */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-9999 mix-blend-difference"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -170,7 +170,7 @@ export default function CustomCursor() {
 
           {/* Glow effect on hover */}
           <motion.div
-            className="absolute w-16 h-16 rounded-full bg-[hsl(var(--accent-ember))] blur-xl"
+            className="absolute w-16 h-16 rounded-full bg-ember blur-xl"
             animate={{
               scale: isPointer ? 1 : 0,
               opacity: isPointer ? 0.3 : 0,

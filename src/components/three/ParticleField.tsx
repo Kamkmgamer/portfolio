@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useMemo } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Particle shader for ethereal glow effect
@@ -83,7 +83,7 @@ function ParticleSystem({
       new THREE.Color("#614124"), // Bronze dark
       new THREE.Color("#d4a574"), // Warm sand
     ],
-    []
+    [],
   );
 
   const particleColors = colors || defaultColors;
@@ -119,7 +119,7 @@ function ParticleSystem({
       mouseX: { value: 0 },
       mouseY: { value: 0 },
     }),
-    []
+    [],
   );
 
   // Track mouse movement

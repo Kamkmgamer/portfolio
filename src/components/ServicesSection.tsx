@@ -98,13 +98,13 @@ function SectionHeader() {
         {/* Label */}
         <div className="flex items-center gap-4 mb-6">
           <motion.span
-            className="w-16 h-px bg-gradient-to-r from-[hsl(var(--accent-ember))] to-transparent"
+            className="w-16 h-px bg-linear-to-r from-ember to-transparent"
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
             style={{ transformOrigin: "left" }}
           />
-          <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-ember))]">
+          <span className="text-xs font-semibold uppercase tracking-[0.4em] text-ember">
             What I Do
           </span>
         </div>
@@ -164,7 +164,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
     >
       {/* Glow effect */}
       <motion.div
-        className="absolute -inset-px rounded-sm bg-gradient-to-br from-[hsl(var(--accent-ember)/0.3)] via-transparent to-[hsl(var(--accent-rust)/0.2)] opacity-0 blur-xl"
+        className="absolute -inset-px rounded-sm bg-linear-to-br from-[hsl(var(--accent-ember)/0.3)] via-transparent to-[hsl(var(--accent-rust)/0.2)] opacity-0 blur-xl"
         animate={{ opacity: isHovered ? 0.6 : 0 }}
         transition={{ duration: 0.4 }}
       />
@@ -178,7 +178,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         {/* Corner accent */}
         <div className="absolute top-0 right-0 w-24 h-24">
           <motion.div
-            className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[hsl(var(--accent-ember)/0.1)] to-transparent"
+            className="absolute top-0 right-0 w-full h-full bg-linear-to-bl from-[hsl(var(--accent-ember)/0.1)] to-transparent"
             animate={{ opacity: isHovered ? 1 : 0.3 }}
             transition={{ duration: 0.3 }}
           />
@@ -206,7 +206,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         <div className="relative z-10 pt-12">
           {/* Icon */}
           <motion.div
-            className="mb-8 w-14 h-14 flex items-center justify-center bg-[hsl(var(--background))] border border-[hsl(var(--accent-ember)/0.2)] text-[hsl(var(--accent-ember))]"
+            className="mb-8 w-14 h-14 flex items-center justify-center bg-[hsl(var(--background))] border border-[hsl(var(--accent-ember)/0.2)] text-ember"
             animate={{
               borderColor: isHovered
                 ? "hsl(var(--accent-ember))"
@@ -240,7 +240,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: index * 0.1 + i * 0.1 + 0.3 }}
               >
-                <span className="w-1 h-1 rounded-full bg-[hsl(var(--accent-ember))]" />
+                <span className="w-1 h-1 rounded-full bg-ember" />
                 {feature}
               </motion.div>
             ))}
@@ -249,7 +249,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           {/* CTA */}
           <motion.a
             href="/contact"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-[hsl(var(--accent-ember))] group/link"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-ember group/link"
             whileHover={{ x: 4 }}
           >
             <span>Learn More</span>
@@ -276,7 +276,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           initial={false}
         >
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full"
             animate={{ translateX: isHovered ? "200%" : "-100%" }}
             transition={{ duration: 0.8, ease }}
           />
