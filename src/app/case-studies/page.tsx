@@ -8,7 +8,7 @@ export default function CaseStudiesIndexPage() {
   return (
     <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
 
       <div className="max-w-7xl mx-auto">
         <header className="mb-24 text-center max-w-4xl mx-auto">
@@ -18,11 +18,11 @@ export default function CaseStudiesIndexPage() {
             transition={{ duration: 0.8 }}
           >
             <div className="flex items-center justify-center gap-4 mb-8">
-              <span className="h-[1px] w-12 bg-[hsl(var(--accent-gold))]" />
+              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
               <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
                 Case Studies
               </span>
-              <span className="h-[1px] w-12 bg-[hsl(var(--accent-gold))]" />
+              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
             </div>
 
             <h1 className="text-5xl md:text-7xl font-display mb-8">

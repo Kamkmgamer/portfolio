@@ -119,8 +119,8 @@ export default function DevServeCaseStudyPage() {
       <main className="relative">
         {/* Hero Background */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute -top-24 left-1/2 h-96 w-[80rem] -translate-x-1/2 rounded-full blur-3xl opacity-20 dark:opacity-10 bg-[radial-gradient(closest-side,_rgba(59,130,246,0.4),_transparent_70%)]" />
-          <div className="absolute top-96 right-[-20%] h-72 w-[60rem] rounded-full blur-3xl opacity-15 dark:opacity-8 bg-[radial-gradient(closest-side,_rgba(168,85,247,0.4),_transparent_65%)]" />
+          <div className="absolute -top-24 left-1/2 h-96 w-80rem -translate-x-1/2 rounded-full blur-3xl opacity-20 dark:opacity-10 bg-[radial-gradient(closest-side,rgba(59,130,246,0.4),transparent_70%)]" />
+          <div className="absolute top-96 right-[-20%] h-72 w-60rem rounded-full blur-3xl opacity-15 dark:opacity-8 bg-[radial-gradient(closest-side,rgba(168,85,247,0.4),transparent_65%)]" />
         </div>
 
         <div className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -137,7 +137,7 @@ export default function DevServeCaseStudyPage() {
                 Case Study
               </span>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-800 bg-clip-text text-transparent mb-6">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight bg-linear-to-r from-blue-600 via-cyan-600 to-blue-800 bg-clip-text text-transparent mb-6">
               DevServe
             </h1>
             <p className="text-xl sm:text-2xl font-medium text-muted-foreground mb-2">
@@ -167,10 +167,10 @@ export default function DevServeCaseStudyPage() {
                         stat.color === "green"
                           ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
                           : stat.color === "amber"
-                          ? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
-                          : stat.color === "blue"
-                          ? "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
-                          : "bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400"
+                            ? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
+                            : stat.color === "blue"
+                              ? "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                              : "bg-violet-100 text-violet-600 dark:bg-violet-900/30 dark:text-violet-400"
                       }`}
                     >
                       {stat.icon}
@@ -193,7 +193,7 @@ export default function DevServeCaseStudyPage() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
                 <ExternalLink className="h-4 w-4" />
                 Live Demo
               </button>
@@ -222,7 +222,7 @@ export default function DevServeCaseStudyPage() {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
-              <Card className="shadow-lg border-0 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+              <Card className="shadow-lg border-0 bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-blue-600" />
@@ -238,7 +238,7 @@ export default function DevServeCaseStudyPage() {
                       "Delivered comprehensive testing suite",
                     ].map((item, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                         <span className="text-sm">{item}</span>
                       </li>
                     ))}
@@ -246,7 +246,7 @@ export default function DevServeCaseStudyPage() {
                 </CardContent>
               </Card>
 
-              <Card className="shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
+              <Card className="shadow-lg border-0 bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Zap className="h-5 w-5 text-green-600" />
@@ -257,7 +257,7 @@ export default function DevServeCaseStudyPage() {
                   <ul className="space-y-3">
                     {achievements.slice(0, 4).map((achievement, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
                         <span className="text-sm">{achievement}</span>
                       </li>
                     ))}
@@ -295,19 +295,19 @@ export default function DevServeCaseStudyPage() {
                   className="relative"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0 w-24 text-right">
+                    <div className="shrink-0 w-24 text-right">
                       <span className="text-sm font-semibold text-muted-foreground">
                         {week.week}
                       </span>
                     </div>
-                    <div className="flex-shrink-0 w-4 h-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                    <div className="shrink-0 w-4 h-4 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full"></div>
                     <Card className="flex-1 shadow-sm border-l-4 border-l-blue-500">
                       <CardContent className="pt-4">
                         <div className="flex flex-wrap gap-2">
                           {week.tasks.map((task, index) => (
                             <span
                               key={index}
-                              className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 text-sm font-medium"
+                              className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-linear-to-r from-blue-500 to-cyan-600 border-blue-600 text-white shadow-lg shadow-blue-500/25 text-sm font-medium"
                             >
                               <CheckCircle className="h-3 w-3" />
                               {task}
@@ -318,7 +318,7 @@ export default function DevServeCaseStudyPage() {
                     </Card>
                   </div>
                   {index < timeline.length - 1 && (
-                    <div className="absolute left-[7.5rem] top-8 w-0.5 h-6 bg-gradient-to-b from-blue-500 to-cyan-500"></div>
+                    <div className="absolute left-7.5rem top-8 w-0.5 h-6 bg-linear-to-b from-blue-500 to-cyan-500"></div>
                   )}
                 </motion.div>
               ))}
@@ -360,7 +360,7 @@ export default function DevServeCaseStudyPage() {
                       <div className="space-y-2">
                         {stack.techs.map((tech, index) => (
                           <div key={index} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                            <div className="w-2 h-2 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full"></div>
                             <span className="text-sm text-muted-foreground">
                               {tech}
                             </span>
@@ -394,14 +394,14 @@ export default function DevServeCaseStudyPage() {
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
                   href="/#contact"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-blue-600 to-cyan-600 text-white px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
                 >
                   Let&apos;s Work Together
                   <ArrowRight className="h-5 w-5" />
                 </Link>
                 <Link
                   href="/case-studies"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-600 dark:to-gray-800 border border-gray-600 text-white px-8 py-4 text-lg font-medium shadow-lg shadow-gray-500/25 hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-gray-700 to-gray-900 dark:from-gray-600 dark:to-gray-800 border border-gray-600 text-white px-8 py-4 text-lg font-medium shadow-lg shadow-gray-500/25 hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
                 >
                   View More Case Studies
                 </Link>

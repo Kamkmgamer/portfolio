@@ -48,8 +48,8 @@ export default function ProjectsPage() {
               transition={{ duration: 0.6, delay: 0.1, ease }}
               className="flex items-center gap-4 mb-6"
             >
-              <span className="w-12 h-px bg-gradient-to-r from-[hsl(var(--accent-ember))] to-transparent" />
-              <span className="text-xs font-semibold uppercase tracking-[0.4em] text-[hsl(var(--accent-ember))]">
+              <span className="w-12 h-px bg-linear-to-r from-ember to-transparent" />
+              <span className="text-xs font-semibold uppercase tracking-[0.4em] text-ember">
                 Portfolio
               </span>
             </motion.div>
@@ -88,7 +88,7 @@ export default function ProjectsPage() {
               onClick={() => setFilter("All")}
               className={`px-5 py-2.5 text-xs uppercase tracking-[0.15em] font-semibold border transition-all duration-400 ${
                 filter === "All"
-                  ? "border-[hsl(var(--accent-ember))] bg-[hsl(var(--accent-ember)/0.1)] text-[hsl(var(--accent-ember))]"
+                  ? "border-ember bg-[hsl(var(--accent-ember)/0.1)] text-ember"
                   : "border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] hover:border-[hsl(var(--text)/0.3)]"
               }`}
               whileHover={{ scale: 1.02 }}
@@ -102,7 +102,7 @@ export default function ProjectsPage() {
                 onClick={() => setFilter(tag)}
                 className={`px-5 py-2.5 text-xs uppercase tracking-[0.15em] font-semibold border transition-all duration-400 ${
                   filter === tag
-                    ? "border-[hsl(var(--accent-ember))] bg-[hsl(var(--accent-ember)/0.1)] text-[hsl(var(--accent-ember))]"
+                    ? "border-ember bg-[hsl(var(--accent-ember)/0.1)] text-ember"
                     : "border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] hover:border-[hsl(var(--text)/0.3)]"
                 }`}
                 whileHover={{ scale: 1.02 }}
@@ -156,7 +156,7 @@ export default function ProjectsPage() {
             </p>
             <button
               onClick={() => setFilter("All")}
-              className="mt-6 text-[hsl(var(--accent-ember))] underline underline-offset-4"
+              className="mt-6 text-ember underline underline-offset-4"
             >
               View all projects
             </button>
@@ -200,7 +200,7 @@ function ProjectCard({
     >
       {/* Glow effect */}
       <motion.div
-        className="absolute -inset-4 rounded-lg bg-gradient-to-br from-[hsl(var(--accent-ember)/0.15)] to-transparent blur-2xl opacity-0"
+        className="absolute -inset-4 rounded-lg bg-linear-to-br from-[hsl(var(--accent-ember)/0.15)] to-transparent blur-2xl opacity-0"
         animate={{ opacity: isHovered ? 0.8 : 0 }}
         transition={{ duration: 0.4 }}
       />
@@ -211,7 +211,7 @@ function ProjectCard({
         transition={{ duration: 0.4, ease }}
       >
         {/* Image container */}
-        <div className="aspect-[16/10] relative overflow-hidden flex-shrink-0">
+        <div className="aspect-16/10 relative overflow-hidden shrink-0">
           <a
             href={project.demo}
             target="_blank"
@@ -233,7 +233,7 @@ function ProjectCard({
 
             {/* Overlay */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-[hsl(var(--background))] via-transparent to-transparent"
+              className="absolute inset-0 bg-linear-to-t from-[hsl(var(--background))] via-transparent to-transparent"
               animate={{ opacity: isHovered ? 0.3 : 0.8 }}
               transition={{ duration: 0.4 }}
             />
@@ -246,7 +246,7 @@ function ProjectCard({
               transition={{ duration: 0.3 }}
             >
               <motion.span
-                className="px-8 py-4 border border-[hsl(var(--accent-ember))] text-[hsl(var(--accent-ember))] uppercase tracking-[0.2em] text-xs font-semibold"
+                className="px-8 py-4 border border-ember text-ember uppercase tracking-[0.2em] text-xs font-semibold"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
@@ -258,7 +258,7 @@ function ProjectCard({
         </div>
 
         {/* Content */}
-        <div className="p-8 lg:p-10 flex flex-col flex-grow">
+        <div className="p-8 lg:p-10 flex flex-col grow">
           <div className="flex justify-between items-start mb-4">
             <motion.h3
               className="text-2xl lg:text-3xl font-display tracking-tight"
@@ -272,7 +272,7 @@ function ProjectCard({
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 border border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] group-hover:text-[hsl(var(--accent-ember))] group-hover:border-[hsl(var(--accent-ember))] transition-colors duration-300 transform-gpu"
+              className="p-3 border border-[hsl(var(--text)/0.1)] text-[hsl(var(--text)/0.5)] group-hover:text-ember group-hover:border-ember transition-colors duration-300 transform-gpu"
               whileHover={{ rotate: 45 }}
               transition={{ duration: 0.3 }}
             >
