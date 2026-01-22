@@ -20,9 +20,9 @@ export default function ContactPage() {
     email: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,13 +50,13 @@ export default function ContactPage() {
     } catch (error) {
       setStatus("error");
       setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : "Something went wrong",
       );
     }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -130,7 +130,7 @@ export default function ContactPage() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--accent-gold))]/20 to-transparent blur-3xl -z-10" />
+          <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/20 to-transparent blur-3xl -z-10" />
           <form
             onSubmit={handleSubmit}
             className="glass-card p-10 md:p-16 rounded-3xl space-y-8 relative overflow-hidden"
@@ -144,7 +144,9 @@ export default function ContactPage() {
                 className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3 text-green-700"
               >
                 <CheckCircle className="w-5 h-5" />
-                <span>Message sent successfully! Check your email for confirmation.</span>
+                <span>
+                  Message sent successfully! Check your email for confirmation.
+                </span>
               </motion.div>
             )}
 
