@@ -89,4 +89,48 @@ export const demos: Demo[] = [
     demo: "https://cafe-restaurant-demo-alpha.vercel.app/",
     category: "Web Design",
   },
+  {
+    id: 8,
+    title: "Bakery website Demo",
+    description: "A bakery website designed for trainers.",
+    image:
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Bakery%20website%20Demo.png",
+    tags: ["Nextjs", "TypeScript"],
+    gradient: "from-amber-500 via-purple-500 to-indigo-500",
+    demo: "https://the-rustic-oven-zeta.vercel.app/",
+    category: "Web Design",
+  },
+  {
+    id: 9,
+    title: "Enterprise website Demo",
+    description: "A enterprise website designed for trainers.",
+    image:
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Enterprise%20website%20Demo.png",
+    tags: ["Nextjs", "TypeScript"],
+    gradient: "from-amber-500 via-purple-500 to-indigo-500",
+    demo: "https://nexus-pro-rho.vercel.app/",
+    category: "Web Design",
+  },
+  {
+    id: 10,
+    title: "Luxury website Demo",
+    description: "A luxury website designed for trainers.",
+    image:
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Luxury%20website%20Demo..png",
+    tags: ["Nextjs", "TypeScript"],
+    gradient: "from-amber-500 via-purple-500 to-indigo-500",
+    demo: "https://nexus-pro-nurs.vercel.app/",
+    category: "Web Design",
+  },
+  {
+    id: 11,
+    title: "Wedding website Demo",
+    description: "A wedding website designed for trainers.",
+    image:
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Wedding%20websiteDemo.png",
+    tags: ["Nextjs", "TypeScript"],
+    gradient: "from-amber-500 via-purple-500 to-indigo-500",
+    demo: "https://emma-james.vercel.app/",
+    category: "Web Design",
+  },
 ];
