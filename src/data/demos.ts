@@ -13,13 +13,13 @@ export interface Demo {
 export const demos: Demo[] = [
   {
     id: 1,
-    title: "Salon website Demo",
-    description: "A modern salon demo.",
+    title: "Clothing website Demo",
+    description: "Landing page for a clothing website with CMS support.",
     image:
-      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Salon%20website%20Demo.png",
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Clothing%20website%20Demo.png",
     tags: ["Nextjs", "Web Design", "Responsive"],
-    gradient: "from-cyan-500 via-emerald-500 to-red-500",
-    demo: "https://beauty-salon-demo-ten.vercel.app/",
+    gradient: "from-blue-500 via-green-400 to-teal-400",
+    demo: "https://niccolo-pasqualetti-demo.vercel.app/",
     category: "Web Design",
   },
   {
@@ -35,15 +35,16 @@ export const demos: Demo[] = [
   },
   {
     id: 3,
-    title: "Clothing website Demo",
-    description: "Landing page for a clothing website with CMS support.",
+    title: "Salon website Demo",
+    description: "A modern salon demo.",
     image:
-      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Clothing%20website%20Demo.png",
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Salon%20website%20Demo.png",
     tags: ["Nextjs", "Web Design", "Responsive"],
-    gradient: "from-blue-500 via-green-400 to-teal-400",
-    demo: "https://niccolo-pasqualetti-demo.vercel.app/",
+    gradient: "from-cyan-500 via-emerald-500 to-red-500",
+    demo: "https://beauty-salon-demo-ten.vercel.app/",
     category: "Web Design",
   },
+
   {
     id: 4,
     title: "Villa website Demo",
