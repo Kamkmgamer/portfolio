@@ -17,6 +17,7 @@ const links: NavLink[] = [
   { label: "Contact", href: "/contact" },
   { label: "Research", href: "/research" },
   { label: "Case Studies", href: "/case-studies" },
+  { label: "Demos", href: "/demos" },
 ];
 
 const ease = cubicBezier(0.22, 1, 0.36, 1);
@@ -38,7 +39,7 @@ const useActiveHash = (ids: string[]) => {
           .sort(
             (a, b) =>
               (a.target as HTMLElement).offsetTop -
-              (b.target as HTMLElement).offsetTop
+              (b.target as HTMLElement).offsetTop,
           );
         if (visible[0]) {
           setActive("#" + visible[0].target.id);
@@ -47,7 +48,7 @@ const useActiveHash = (ids: string[]) => {
       {
         rootMargin: "0px 0px -60% 0px",
         threshold: [0.1, 0.25, 0.5],
-      }
+      },
     );
 
     sections.forEach((el) => observer.observe(el));
@@ -75,7 +76,7 @@ const Navbar: React.FC = () => {
 
   // Active section tracking
   const activeHash = useActiveHash(
-    links.map((l) => l.href).filter((h) => h.startsWith("#"))
+    links.map((l) => l.href).filter((h) => h.startsWith("#")),
   );
   const pathname = usePathname();
 
@@ -90,8 +91,8 @@ const Navbar: React.FC = () => {
       document
         .getElementById(menuId)
         ?.querySelectorAll<HTMLElement>(
-          'a, button, [tabindex]:not([tabindex="-1"])'
-        ) ?? []
+          'a, button, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
     );
 
     const first = focusable[0];
