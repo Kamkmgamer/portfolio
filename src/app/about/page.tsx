@@ -101,22 +101,16 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <ExperienceCard
-              year="2023 - Present"
-              role="Senior Frontend Engineer"
-              company="Tech Innovators"
+              year="2021 - Present"
+              role="Freelance Web developer"
+              company="Self employed"
               desc="Leading the frontend architecture for high-scale applications."
             />
             <ExperienceCard
-              year="2021 - 2023"
+              year="2018 - 2021"
               role="Full Stack Developer"
-              company="Creative Agency"
+              company="Soft Magic Company Limited"
               desc="Delivered award-winning web experiences for global brands."
-            />
-            <ExperienceCard
-              year="2019 - 2021"
-              role="UI/UX Designer"
-              company="Design Studio"
-              desc="Bridging the gap between conceptual design and implementation."
             />
           </div>
         </div>
