@@ -133,4 +133,15 @@ export const demos: Demo[] = [
     demo: "https://emma-james.vercel.app/",
     category: "Web Design",
   },
+  {
+    id: 12,
+    title: "Atelier website Demo",
+    description: "A atelier website designed for trainers.",
+    image:
+      "https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/Demos/Atelier%20website%20Demo.png",
+    tags: ["Nextjs", "TypeScript"],
+    gradient: "from-amber-500 via-purple-500 to-indigo-500",
+    demo: "https://atelier-demo-website.vercel.app/",
+    category: "Web Design",
+  },
 ];
