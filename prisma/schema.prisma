@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Projects - Main portfolio projects
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String
+  tags        String[] // Stored as array
+  gradient    String
+  github      String?
+  demo        String?
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Skills - Technical skills with proficiency levels
+model Skill {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  icon      String
+  level     Int      // Proficiency level (0-100)
+  years     Int      // Years of experience
+  color     String   // Tailwind CSS gradient classes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Demos - Demo websites/projects
+model Demo {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String
+  tags        String[] // Stored as array
+  gradient    String
+  github      String?
+  demo        String?
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Research - Research papers and publications
+model Research {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  abstract  String   @db.Text
+  authors   String[] // Stored as array
+  venue     String?
+  year      Int?
+  image     String?
+  tags      String[] // Stored as array
+  pdf       String?
+  content   String?  @db.Text // Full text content
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ContactMethods - Contact information and social links
+model ContactMethod {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  href        String
+  iconLight   String
+  iconDark    String
+  glowColor   String
+  external    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
