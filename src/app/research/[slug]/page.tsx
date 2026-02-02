@@ -7,8 +7,13 @@ import ShareButton from "@/components/ShareButton";
 import { Research } from "@prisma/client";
 
 export async function generateStaticParams() {
-  const papers = await prisma.research.findMany({ select: { slug: true } });
-  return papers.map((p: { slug: string }) => ({ slug: p.slug }));
+  try {
+    const papers = await prisma.research.findMany({ select: { slug: true } });
+    return papers.map((p: { slug: string }) => ({ slug: p.slug }));
+  } catch {
+    // Return empty array if database is not available during build
+    return [];
+  }
 }
 
 export async function generateMetadata({
