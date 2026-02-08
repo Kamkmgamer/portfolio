@@ -25,7 +25,7 @@ export default function Home() {
       <JsonLd data={jsonLdData} />
       <main className="min-h-screen pt-24 pb-20 overflow-hidden">
         {/* Hero Section - Image and Description */}
-        <section className="relative min-h-[90vh] flex items-center justify-center px-6">
+        <section className="relative min-h-[90vh] flex items-center justify-center px-6 pb-24">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -85,13 +85,13 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.5 }}
-                  className="flex flex-col sm:flex-row gap-6 items-center lg:items-start"
+                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center lg:justify-start"
                 >
                   <motion.a
                     href="/projects"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className="btn-premium"
+                    className="btn-premium w-full sm:w-auto text-center"
                   >
                     <span>View My Work</span>
                   </motion.a>
@@ -100,7 +100,7 @@ export default function Home() {
                     href="/contact"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className="group relative inline-flex items-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500"
+                    className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500 w-full sm:w-auto"
                   >
                     <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text px-4">
                       Get In Touch
@@ -123,7 +123,7 @@ export default function Home() {
 
           <motion.div
             style={{ opacity }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))]"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20"
           >
             <span className="text-xs uppercase tracking-widest">Scroll</span>
             <ArrowDown className="w-4 h-4 animate-bounce" />
