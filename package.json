@@ -7,6 +7,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build",
     "deploy": "vercel --prod",
     "postinstall": "prisma generate"
   },
@@ -33,6 +34,7 @@
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.1.6",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/line-clamp": "^0.4.4",
@@ -40,6 +42,7 @@
     "@tailwindcss/typography": "^0.5.16",
     "@types/pg": "^8.16.0",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "eslint": "^9.31.0",
     "eslint-config-next": "^15.4.1",
@@ -64,5 +67,10 @@
   "homepage": "https://github.com/Kamkmgamer/portfolio#readme",
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not IE_Mob 11"
+  ]
 }

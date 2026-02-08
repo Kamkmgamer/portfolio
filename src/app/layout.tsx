@@ -2,18 +2,24 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import Spotlight from "@/components/Spotlight";
+import { DynamicSpotlight } from "@/lib/dynamic-imports";
 import Navbar from "@/components/Navbar";
 
 const playfair = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: 'optional',
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
+  display: 'optional',
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -149,6 +155,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://ik.imagekit.io" />
         <meta
           name="theme-color"
           content="#ffffff"
@@ -166,7 +174,7 @@ export default function RootLayout({
         <JsonLd data={jsonLdData} />
         <Providers>
           <Navbar />
-          <Spotlight />
+          <DynamicSpotlight />
           {children}
         </Providers>
       </body>

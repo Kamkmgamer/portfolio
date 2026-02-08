@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
 
@@ -15,10 +15,7 @@ export default function Home() {
     url: "https://khalil.mageed.net",
   };
 
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
 
   return (
     <>
@@ -26,26 +23,24 @@ export default function Home() {
       <main className="min-h-screen pt-24 pb-20 overflow-hidden">
         {/* Hero Section - Image and Description */}
         <section className="relative min-h-[90vh] flex items-center justify-center px-6 pb-24">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 max-w-7xl mx-auto w-full"
-          >
+          <div className="relative z-10 max-w-7xl mx-auto w-full">
             <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10">
-              {/* Left Side - Hero Image */}
+              {/* Left Side - Hero Image - Optimized for LCP (no opacity animation) */}
               <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="relative w-64 h-64 md:w-80 md:h-80 lg:w-80 lg:h-80 mx-auto lg:mx-0 lg:mr-4 rounded-full overflow-hidden border-4 border-[hsl(var(--accent-gold))]/30 shadow-2xl flex-shrink-0"
               >
                 <Image
-                  src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/AboutMe.png"
+                  src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/AboutMe.png?tr=w-320,h-320,q-85"
                   alt="Khalil Abd Almageed"
-                  fill
-                  className="object-cover"
+                  width={320}
+                  height={320}
+                  className="object-cover w-full h-full"
                   priority
+                  fetchPriority="high"
+                  sizes="(max-width: 768px) 256px, 320px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </motion.div>
@@ -78,7 +73,7 @@ export default function Home() {
                 </p>
                 <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/0 leading-relaxed mb-10 font-medium">
                   I build websites using modern technologies, like Nextjs, Tanstack, and Astro. And I also build
-                  mobile apps using React-native and Expo.               
+                  mobile apps using React-native and Expo.
                 </p>
                 {/* CTA Buttons */}
                 <motion.div
@@ -109,25 +104,16 @@ export default function Home() {
                 </motion.div>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Decorative Background Elements */}
-          <motion.div
-            style={{ y: y1 }}
-            className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-gradient-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none"
-          />
-          <motion.div
-            style={{ y: y2 }}
-            className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-gradient-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none"
-          />
+          {/* Decorative Background Elements - CSS Only */}
+          <div className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-gradient-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-gradient-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none" />
 
-          <motion.div
-            style={{ opacity }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20"
-          >
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20 animate-fade-out">
             <span className="text-xs uppercase tracking-widest">Scroll</span>
             <ArrowDown className="w-4 h-4 animate-bounce" />
-          </motion.div>
+          </div>
         </section>
 
 
@@ -195,10 +181,10 @@ export default function Home() {
                   </p>
                   <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300">
                     <span className="uppercase tracking-widest text-sm font-semibold">View Projects</span>
-                    <svg 
-                      className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" 
-                      fill="none" 
-                      stroke="currentColor" 
+                    <svg
+                      className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -228,10 +214,10 @@ export default function Home() {
                   </p>
                   <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300">
                     <span className="uppercase tracking-widest text-sm font-semibold">View Demos</span>
-                    <svg 
-                      className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" 
-                      fill="none" 
-                      stroke="currentColor" 
+                    <svg
+                      className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />

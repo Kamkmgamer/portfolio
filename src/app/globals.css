@@ -8,20 +8,25 @@
   /* Core palette - Light Luxury (Ivory & Gold) */
   --background: 45 30% 97%;
   --surface: 0 0% 100%;
-  --text: 20 15% 12%; /* Richer Onyx */
+  --text: 20 15% 12%;
+  /* Richer Onyx */
 
   /* Premium Gold accents - Polished Brass Legibility */
-  --accent-gold: 42 65% 38%;    /* Rich Gold */
-  --accent-bronze: 32 55% 32%;  /* Polished Bronze */
-  --accent-champagne: 38 40% 55%; /* Warm Gold */
-  
+  --accent-gold: 42 65% 38%;
+  /* Rich Gold */
+  --accent-bronze: 32 55% 32%;
+  /* Polished Bronze */
+  --accent-champagne: 38 40% 55%;
+  /* Warm Gold */
+
   /* Glow colors (light mode) */
   --glow-gold: hsla(42, 65%, 38%, 0.12);
   --glow-bronze: hsla(32, 55%, 32%, 0.08);
 
   /* Glass effect */
   --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(184, 134, 11, 0.15); /* Darker gold border */
+  --glass-border: rgba(184, 134, 11, 0.15);
+  /* Darker gold border */
 
   /* Scrollbar */
   --scrollbar-bg: hsl(var(--background));
@@ -68,7 +73,11 @@ body {
   font-family: var(--font-sans), sans-serif;
 }
 
-h1, h2, h3, h4, .display-font {
+h1,
+h2,
+h3,
+h4,
+.display-font {
   font-family: var(--font-display), serif;
   letter-spacing: -0.01em;
   font-weight: 600;
@@ -82,11 +91,9 @@ body::before {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(
-      circle at 20% 80%,
+  background: radial-gradient(circle at 20% 80%,
       var(--glow-gold) 0%,
-      transparent 40%
-    ),
+      transparent 40%),
     radial-gradient(circle at 80% 20%, var(--glow-bronze) 0%, transparent 40%),
     radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
   animation: meshFloat 40s ease-in-out infinite;
@@ -112,18 +119,14 @@ html.dark body::after {
 }
 
 @keyframes meshFloat {
+
   0%,
   100% {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0);
   }
-  25% {
-    transform: translate(2%, -2%) rotate(1deg);
-  }
+
   50% {
-    transform: translate(-1%, 3%) rotate(-1deg);
-  }
-  75% {
-    transform: translate(-2%, -1%) rotate(0.5deg);
+    transform: translate(1%, -1%);
   }
 }
 
@@ -144,7 +147,7 @@ html.dark body::after {
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid var(--glass-border);
   /* Richer multi-layered shadow for light mode DEPTH */
-  box-shadow: 
+  box-shadow:
     0 10px 40px -10px rgba(0, 0, 0, 0.05),
     0 4px 12px -2px rgba(0, 0, 0, 0.03),
     inset 0 1px 0 rgba(212, 175, 55, 0.1);
@@ -152,7 +155,7 @@ html.dark body::after {
 
 html.dark .glass-card {
   box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.5),
-    0 4px 12px -4px rgba(0, 0, 0, 0.3), 
+    0 4px 12px -4px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(212, 175, 55, 0.05);
 }
 
@@ -178,10 +181,12 @@ html.dark .glass-card {
 }
 
 @keyframes glowPulse {
+
   0%,
   100% {
     box-shadow: 0 0 20px var(--glow-gold), 0 0 40px var(--glow-bronze);
   }
+
   50% {
     box-shadow: 0 0 40px var(--glow-gold), 0 0 80px var(--glow-bronze),
       0 0 100px hsla(45, 60%, 55%, 0.3);
@@ -193,12 +198,10 @@ html.dark .glass-card {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .gradient-text {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--accent-gold)) 0%,
-    hsl(var(--accent-bronze)) 50%,
-    hsl(var(--accent-gold)) 100%
-  );
+  background: linear-gradient(135deg,
+      hsl(var(--accent-gold)) 0%,
+      hsl(var(--accent-bronze)) 50%,
+      hsl(var(--accent-gold)) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -216,12 +219,10 @@ html.dark .glass-card {
   inset: 0;
   padding: 1px;
   border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--accent-gold)),
-    transparent,
-    hsl(var(--accent-bronze))
-  );
+  background: linear-gradient(135deg,
+      hsl(var(--accent-gold)),
+      transparent,
+      hsl(var(--accent-bronze)));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -257,14 +258,12 @@ html.dark .glass-card {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(212, 175, 55, 0.05) 45%,
-    rgba(212, 175, 55, 0.1) 50%,
-    rgba(212, 175, 55, 0.05) 55%,
-    transparent 60%
-  );
+  background: linear-gradient(105deg,
+      transparent 40%,
+      rgba(212, 175, 55, 0.05) 45%,
+      rgba(212, 175, 55, 0.1) 50%,
+      rgba(212, 175, 55, 0.05) 55%,
+      transparent 60%);
   transform: translateX(-100%);
   transition: transform 0.8s ease;
 }
@@ -279,15 +278,14 @@ html.dark .glass-card {
 
 .btn-premium {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--accent-gold)) 0%,
-    hsl(var(--accent-bronze)) 100%
-  );
+  background: linear-gradient(135deg,
+      hsl(var(--accent-gold)) 0%,
+      hsl(var(--accent-bronze)) 100%);
   color: #000;
   font-weight: 600;
   padding: 1rem 2.5rem;
-  border-radius: 2px; /* Sharp luxury edges */
+  border-radius: 2px;
+  /* Sharp luxury edges */
   border: none;
   cursor: pointer;
   overflow: hidden;
@@ -306,11 +304,9 @@ html.dark .glass-card {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    white 0%,
-    hsl(var(--accent-gold)) 100%
-  );
+  background: linear-gradient(135deg,
+      white 0%,
+      hsl(var(--accent-gold)) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -338,22 +334,18 @@ html.dark .glass-card {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--accent-gold) / 0.3),
-    hsl(var(--accent-bronze) / 0.3)
-  );
+  background: linear-gradient(180deg,
+      hsl(var(--accent-gold) / 0.3),
+      hsl(var(--accent-bronze) / 0.3));
   border-radius: 0px;
   border: 4px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--accent-gold) / 0.5),
-    hsl(var(--accent-bronze) / 0.5)
-  );
+  background: linear-gradient(180deg,
+      hsl(var(--accent-gold) / 0.5),
+      hsl(var(--accent-bronze) / 0.5));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -383,4 +375,23 @@ html.dark .glass-card {
   width: 6rem;
   height: 1px;
   background: linear-gradient(to right, hsl(var(--accent-gold)), transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PERFORMANCE OPTIMIZATIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Fade out scroll indicator on scroll */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.3s ease-out 3s forwards;
 }
