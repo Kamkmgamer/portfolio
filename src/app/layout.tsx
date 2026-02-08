@@ -1,18 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Italiana, Outfit } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Spotlight from "@/components/Spotlight";
 import Navbar from "@/components/Navbar";
 
-const italiana = Italiana({
-  weight: "400",
-  variable: "--font-italiana",
+const playfair = Playfair_Display({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
@@ -161,7 +161,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${italiana.variable} ${outfit.variable} antialiased bg-background text-text relative font-sans`}
+        className={`${playfair.variable} ${inter.variable} antialiased bg-background text-text relative font-sans`}
       >
         <JsonLd data={jsonLdData} />
         <Providers>
