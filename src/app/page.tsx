@@ -15,8 +15,6 @@ export default function Home() {
     url: "https://khalil.mageed.net",
   };
 
-
-
   return (
     <>
       <JsonLd data={jsonLdData} />
@@ -30,10 +28,10 @@ export default function Home() {
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-64 h-64 md:w-80 md:h-80 lg:w-80 lg:h-80 mx-auto lg:mx-0 lg:mr-4 rounded-full overflow-hidden border-4 border-[hsl(var(--accent-gold))]/30 shadow-2xl flex-shrink-0"
+                className="relative w-64 h-64 md:w-80 md:h-80 lg:w-80 lg:h-80 mx-auto lg:mx-0 lg:mr-4 rounded-full overflow-hidden border-4 border-[hsl(var(--accent-gold))]/30 shadow-2xl shrink-0"
               >
                 <Image
-                  src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/AboutMe.png?tr=w-320,h-320,q-85"
+                  src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/image.png?tr=w-320,h-320,q-85"
                   alt="Khalil Abd Almageed"
                   width={320}
                   height={320}
@@ -42,7 +40,7 @@ export default function Home() {
                   fetchPriority="high"
                   sizes="(max-width: 768px) 256px, 320px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
               </motion.div>
 
               {/* Right Side - Text Content */}
@@ -58,22 +56,23 @@ export default function Home() {
                   transition={{ delay: 0.4 }}
                   className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.2em] uppercase mb-6 font-semibold"
                 >
-                  Web Developer & Designer
+                  Web Developer
                 </motion.span>
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-semibold leading-[0.95] text-text mb-8">
                   Hi, I&apos;m <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] italic pr-4">
+                  <span className="text-transparent bg-clip-text bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] italic pr-4">
                     Khalil
                   </span>
                 </h1>
 
                 <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/70 leading-relaxed font-medium">
-                  I&apos;m a 23 Years old Sudanese web developer with more than 12 years of experience living in Ciro,
+                  I&apos;m a 23 Years old Sudanese web developer in Ciro,
                 </p>
                 <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/0 leading-relaxed mb-10 font-medium">
-                  I build websites using modern technologies, like Nextjs, Tanstack, and Astro. And I also build
-                  mobile apps using React-native and Expo.
+                  I was building websites since young age, and I&apos;ve
+                  helped many businesses and individuals creating
+                  their online presence.
                 </p>
                 {/* CTA Buttons */}
                 <motion.div
@@ -107,8 +106,8 @@ export default function Home() {
           </div>
 
           {/* Decorative Background Elements - CSS Only */}
-          <div className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-gradient-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-gradient-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none" />
+          <div className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none" />
+          <div className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-linear-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none" />
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20 animate-fade-out">
             <span className="text-xs uppercase tracking-widest">Scroll</span>
@@ -116,12 +115,12 @@ export default function Home() {
           </div>
         </section>
 
-
         {/* Experience Timeline/Grid */}
         <section className="py-32 bg-secondary/5 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl md:text-6xl font-display font-semibold mb-20 text-center">
-              <span className="italic text-text/50 font-medium">Journey</span> Through Tech
+              <span className="italic text-text/50 font-medium">Journey</span>{" "}
+              Through Tech
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -155,7 +154,11 @@ export default function Home() {
                 Explore My Work
               </span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
-                View My <span className="italic text-text/50 font-medium">Projects</span> & Demos
+                View My{" "}
+                <span className="italic text-text/50 font-medium">
+                  Projects
+                </span>{" "}
+                & Demos
               </h2>
             </motion.div>
 
@@ -169,25 +172,33 @@ export default function Home() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.02, y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative p-12 border border-[hsl(var(--accent-gold))]/20 bg-gradient-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
+                className="group relative p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
                     Projects
                   </h3>
                   <p className="text-text/60 mb-8 text-lg">
-                    Explore my portfolio of web applications, websites, and digital products built with modern technologies.
+                    Explore my portfolio of web applications, websites, and
+                    digital products built with modern technologies.
                   </p>
                   <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300">
-                    <span className="uppercase tracking-widest text-sm font-semibold">View Projects</span>
+                    <span className="uppercase tracking-widest text-sm font-semibold">
+                      View Projects
+                    </span>
                     <svg
                       className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -202,25 +213,33 @@ export default function Home() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.02, y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative p-12 border border-[hsl(var(--accent-bronze))]/20 bg-gradient-to-br from-[hsl(var(--accent-bronze))]/5 to-transparent hover:border-[hsl(var(--accent-bronze))]/50 transition-all duration-500 cursor-pointer"
+                className="group relative p-12 border border-[hsl(var(--accent-bronze))]/20 bg-linear-to-br from-[hsl(var(--accent-bronze))]/5 to-transparent hover:border-[hsl(var(--accent-bronze))]/50 transition-all duration-500 cursor-pointer"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--accent-bronze))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-bronze))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-bronze))]">
                     Demos
                   </h3>
                   <p className="text-text/60 mb-8 text-lg">
-                    Check out interactive demos, experiments, and showcase pieces that highlight my creative coding skills.
+                    Check out interactive demos, experiments, and showcase
+                    pieces that highlight my creative coding skills.
                   </p>
                   <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300">
-                    <span className="uppercase tracking-widest text-sm font-semibold">View Demos</span>
+                    <span className="uppercase tracking-widest text-sm font-semibold">
+                      View Demos
+                    </span>
                     <svg
                       className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
                     </svg>
                   </div>
                 </div>
