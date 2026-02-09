@@ -26,6 +26,31 @@ type Study = {
 
 const caseStudies: Study[] = [
   {
+    title: "Scaling to 6,000 PDFs/Hour",
+    summary:
+      "Single worker processing 6K documents/hour with optimized architecture.",
+    stack: "Next.js, Go, PostgreSQL, Cerebras AI, Puppeteer, UploadThing.",
+    category: "Performance",
+    badges: [
+      {
+        icon: <Server className="h-3.5 w-3.5" />,
+        label: "6,000/hr",
+        color: "violet",
+      },
+      {
+        icon: <Clock className="h-3.5 w-3.5" />,
+        label: "<2s latency",
+        color: "green",
+      },
+      {
+        icon: <DollarSign className="h-3.5 w-3.5" />,
+        label: "Single worker",
+        color: "amber",
+      },
+    ],
+    href: "/case-studies/kamkmpdf-scaling",
+  },
+  {
     title: "DevServe — SaaS Platform",
     summary: "Built in 35 days. Estimated value $100k+.",
     stack: "React, Node/Express, Prisma, PostgreSQL, Docker, Stripe.",
@@ -48,54 +73,6 @@ const caseStudies: Study[] = [
       },
     ],
     href: "/case-studies/devserve",
-  },
-  {
-    title: "Realtime Analytics",
-    summary: "Stream processing for 20M+ events/day.",
-    stack: "Kafka, ClickHouse, Node, Timeseries, Edge Caching.",
-    category: "Data Platform",
-    badges: [
-      {
-        icon: <Server className="h-3.5 w-3.5" />,
-        label: "20M+/day",
-        color: "violet",
-      },
-      {
-        icon: <Clock className="h-3.5 w-3.5" />,
-        label: "<200ms",
-        color: "green",
-      },
-      {
-        icon: <ShieldCheck className="h-3.5 w-3.5" />,
-        label: "HA/DR",
-        color: "blue",
-      },
-    ],
-    href: "/case-studies/realtime-analytics",
-  },
-  {
-    title: "GTM Launch Site",
-    summary: "High-converting marketing experience.",
-    stack: "Next.js App Router, ISR, SEO, A/B Testing.",
-    category: "Growth",
-    badges: [
-      {
-        icon: <Rocket className="h-3.5 w-3.5" />,
-        label: "+38% CTR",
-        color: "amber",
-      },
-      {
-        icon: <Clock className="h-3.5 w-3.5" />,
-        label: "7 days",
-        color: "green",
-      },
-      {
-        icon: <Layout className="h-3.5 w-3.5" />,
-        label: "Vitals",
-        color: "blue",
-      },
-    ],
-    href: "/case-studies/gtm-launch",
   },
 ];
 
