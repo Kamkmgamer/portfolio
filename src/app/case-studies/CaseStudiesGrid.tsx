@@ -12,6 +12,8 @@ import {
   Lightbulb,
   Heart,
   Palette,
+  FileCode,
+  Shield,
 } from "lucide-react";
 
 type BadgeColor = "green" | "amber" | "blue" | "violet";
@@ -26,6 +28,31 @@ type Study = {
 };
 
 const caseStudies: Study[] = [
+  {
+    title: "HTML: The Reliable Source",
+    summary:
+      "Why HTML-based documents are the most reliable way to generate PDFs with KamkmPDF.",
+    stack: "HTML, CSS, AI Generation, Structured Documents, Open Standards.",
+    category: "Architecture",
+    badges: [
+      {
+        icon: <FileCode className="h-3.5 w-3.5" />,
+        label: "HTML-First",
+        color: "green",
+      },
+      {
+        icon: <Shield className="h-3.5 w-3.5" />,
+        label: "Future-Proof",
+        color: "blue",
+      },
+      {
+        icon: <FileCode className="h-3.5 w-3.5" />,
+        label: "Source Available",
+        color: "violet",
+      },
+    ],
+    href: "/case-studies/kamkmpdf-reliability",
+  },
   {
     title: "Scaling to 6,000 PDFs/Hour",
     summary:
