@@ -3,118 +3,119 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Calendar,
-  Users,
-  Zap,
-  Shield,
-  DollarSign,
-  CheckCircle,
-} from "lucide-react";
+import { Lightbulb, Rocket, Users, Heart, Zap, Palette } from "lucide-react";
 
 const stats = [
   {
-    label: "Development Time",
-    value: "35 Days",
-    icon: Calendar,
-    desc: "Solo development",
+    label: "Project Type",
+    value: "Web Design",
+    icon: Palette,
+    desc: "Premium digital presence",
   },
   {
-    label: "Industry Estimate",
-    value: "$90k-$130k",
-    icon: DollarSign,
-    desc: "Development value",
+    label: "Approach",
+    value: "Discovery",
+    icon: Lightbulb,
+    desc: "Ideas to execution",
   },
   {
-    label: "Team Size",
-    value: "Solo",
-    icon: Users,
-    desc: "Full-stack architect",
+    label: "Focus",
+    value: "Experience",
+    icon: Heart,
+    desc: "Emotion-driven design",
   },
   {
-    label: "Test Coverage",
-    value: "80%+",
-    icon: Shield,
-    desc: "Comprehensive suite",
+    label: "Result",
+    value: "Confidence",
+    icon: Rocket,
+    desc: "Proud to share",
   },
 ];
 
-const timeline = [
+const approach = [
   {
-    week: "Week 1",
-    tasks: ["Architecture design", "Database schema", "Auth system"],
+    step: "01",
+    title: "Started with Clarity",
+    description:
+      "No mockups yet. Just conversations about what feeling they wanted visitors to have. What matters most to their business? What should someone think in those first few seconds?",
   },
   {
-    week: "Week 2",
-    tasks: ["Core API endpoints", "Frontend components", "Payment integration"],
+    step: "02",
+    title: "Designed for Humans",
+    description:
+      "Static pages are boring. I built an experience with animations that feel natural, spacing that breathes, and interactions that guide without getting in the way.",
   },
   {
-    week: "Week 3",
-    tasks: ["UI/UX polish", "Testing suite", "Security hardening"],
+    step: "03",
+    title: "Built to Last",
+    description:
+      "Picked tools that prioritize clean code and performance. No need to rebuild in two years. Just room to grow and iterate.",
   },
   {
-    week: "Week 4",
-    tasks: ["CI/CD pipeline", "Monitoring setup", "Documentation"],
+    step: "04",
+    title: "Handled the Hard Stuff",
+    description:
+      "They ran their business. I handled the tech decisions, explained things in plain English, and didn't overwhelm them with choices they didn't need to make.",
   },
-  {
-    week: "Week 5",
-    tasks: ["Final testing", "Performance optimization", "Deployment"],
-  },
+];
+
+const problemPoints = [
+  "Site looked generic, like dozens of competitors",
+  "Didn&apos;t communicate quality or credibility",
+  "Visitors weren&apos;t sticking around",
+  "Past dev experiences meant constant back-and-forth",
+  "Technical decisions felt overwhelming",
+  "No clear vision of what better looked like",
+];
+
+const results = [
+  "Site actually reflects what they do",
+  "Looks professional without being stuffy",
+  "First impressions are now positive",
+  "People take the brand more seriously",
+  "Easy to add features later",
+  "They're proud to share the link",
 ];
 
 const techStack = [
   {
     category: "Frontend",
-    techs: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    techs: ["React/Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
   },
   {
-    category: "Backend",
-    techs: ["Node.js", "Express 5", "Prisma ORM", "PostgreSQL"],
-  },
-  {
-    category: "Security",
-    techs: ["JWT Auth", "CSRF Protection", "Rate Limiting", "Input Validation"],
-  },
-  {
-    category: "Payments",
+    category: "Design",
     techs: [
-      "Stripe API",
-      "PayPal SDK",
-      "Webhook Handling",
-      "Subscription Logic",
+      "Intentional spacing",
+      "Typography system",
+      "Motion design",
+      "Micro-interactions",
     ],
   },
   {
-    category: "DevOps",
-    techs: ["Docker", "GitHub Actions", "Prometheus", "Grafana"],
+    category: "Performance",
+    techs: [
+      "Optimized assets",
+      "Fast load times",
+      "Smooth animations",
+      "Responsive design",
+    ],
   },
   {
-    category: "Testing",
-    techs: ["Jest", "Supertest", "Cypress", "Unit & Integration"],
+    category: "Process",
+    techs: [
+      "Discovery sessions",
+      "Clear communication",
+      "Minimal jargon",
+      "Quiet execution",
+    ],
   },
 ];
 
-const achievements = [
-  "Built enterprise-grade SaaS platform solo in 35 days",
-  "Implemented secure payment processing with Stripe & PayPal",
-  "Achieved 80%+ test coverage with comprehensive test suite",
-  "Set up production-ready monitoring and alerting",
-  "Delivered $90k-$130k worth of development value",
-  "Zero security vulnerabilities in final audit",
-];
-
-const roleItems = [
-  "Full-stack architect and sole developer",
-  "Implemented enterprise security practices",
-  "Set up production monitoring and CI/CD",
-  "Delivered comprehensive testing suite",
-];
-
-export default function DevServeCaseStudyPage() {
+export default function ReducingFrictionCaseStudyPage() {
   return (
     <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="fixed inset-0 -z-10 bg-[radial-linear(ellipse_at_top,var(--tw-linear-stops)) from-[hsl(var(--accent-gold))]/5 via-background to-background" />
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
 
       <div className="max-w-7xl mx-auto">
         {/* Hero */}
@@ -125,31 +126,27 @@ export default function DevServeCaseStudyPage() {
           className="mb-24 text-center max-w-4xl mx-auto"
         >
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
             <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
-              SaaS Development
+              Product Design
             </span>
-            <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
           </div>
 
           <h1 className="text-5xl md:text-7xl font-display mb-8">
-            DevServe <br />
-            <span className="italic text-text/50">Platform</span>
+            Reducing <br />
+            <span className="italic text-text/50">Friction</span>
           </h1>
 
-          <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-6">
-            Enterprise-grade SaaS platform with secure payments, monitoring, and
-            enterprise features — built solo in 35 days.
-          </p>
-
-          <p className="text-xl text-[hsl(var(--accent-gold))] font-semibold mb-12">
-            Industry-estimated value: $90k-$130k
+          <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-12">
+            A business had a good product but a weak website. Here&apos;s how we
+            fixed that.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <Badge label="Enterprise SaaS" />
-            <Badge label="35 Days" />
-            <Badge label="Full-Stack" />
+            <Badge label="Discovery" />
+            <Badge label="Design" />
+            <Badge label="Development" />
           </div>
         </motion.header>
 
@@ -186,7 +183,7 @@ export default function DevServeCaseStudyPage() {
           </div>
         </motion.section>
 
-        {/* Overview */}
+        {/* The Situation */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -196,57 +193,55 @@ export default function DevServeCaseStudyPage() {
         >
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-display mb-6">
-              Project <span className="italic text-text/50">Overview</span>
+              The <span className="italic text-text/50">Situation</span>
             </h2>
             <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">
-              DevServe showcases enterprise-grade development practices,
-              delivering a complete SaaS platform with the speed and quality
-              typically reserved for large development teams.
+              A founder had a good product but a website that didn&apos;t match.
+              They knew their offering was solid, but every time they shared
+              their site, they&apos;d wince a little.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {/* My Role */}
-            <div className="glass-card p-8">
+            {/* The Problem */}
+            <div className="glass-card p-8 border-l-2 border-l-text/20">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3">
-                <Users className="h-5 w-5 text-[hsl(var(--accent-gold))]" />
-                My Role
+                <Users className="h-5 w-5 text-[hsl(var(--accent-bronze))]" />
+                What Wasn&apos;t Working
               </h3>
               <ul className="space-y-4">
-                {roleItems.map((item, index) => (
+                {problemPoints.map((item, index) => (
                   <li
                     key={index}
                     className="flex items-start gap-3 text-sm text-text/60"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--accent-gold))] mt-2 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--accent-bronze))] mt-2 shrink-0" />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Key Achievements */}
+            {/* The Real Issue */}
             <div className="glass-card p-8 border-l-2 border-l-[hsl(var(--accent-gold))]">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3">
-                <Zap className="h-5 w-5 text-[hsl(var(--accent-gold))]" />
-                Key Achievements
+                <Lightbulb className="h-5 w-5 text-[hsl(var(--accent-gold))]" />
+                The Real Issue
               </h3>
-              <ul className="space-y-4">
-                {achievements.slice(0, 4).map((achievement, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start gap-3 text-sm text-text/60"
-                  >
-                    <CheckCircle className="h-4 w-4 text-[hsl(var(--accent-gold))] mt-0.5 shrink-0" />
-                    {achievement}
-                  </li>
-                ))}
-              </ul>
+              <p className="text-sm text-text/60 leading-relaxed mb-4">
+                No detailed brief. No moodboard. Just a gut feeling that their
+                brand deserved better, without knowing what better actually
+                looked like.
+              </p>
+              <p className="text-sm text-text/60 leading-relaxed">
+                The problem wasn&apos;t code or pixels. It was the disconnect
+                between what they pictured and what existed.
+              </p>
             </div>
           </div>
         </motion.section>
 
-        {/* Development Timeline */}
+        {/* My Approach */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -256,47 +251,32 @@ export default function DevServeCaseStudyPage() {
         >
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-display mb-6">
-              35-Day <span className="italic text-text/50">Timeline</span>
+              My <span className="italic text-text/50">Approach</span>
             </h2>
             <p className="text-lg text-text/60">
-              From concept to production-ready platform in 5 weeks
+              How we got from scattered thoughts to something solid
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            {timeline.map((week, index) => (
+          <div className="max-w-4xl mx-auto space-y-6">
+            {approach.map((step, index) => (
               <motion.div
-                key={week.week}
+                key={step.step}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative"
+                className="glass-card p-8 hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500"
               >
                 <div className="flex items-start gap-6">
-                  <div className="shrink-0 w-24 text-right pt-4">
-                    <span className="text-sm font-semibold text-[hsl(var(--accent-gold))]">
-                      {week.week}
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <div className="w-3 h-3 rounded-full bg-[hsl(var(--accent-gold))]" />
-                    {index < timeline.length - 1 && (
-                      <div className="w-px h-full min-h-80px bg-[hsl(var(--accent-gold))]/20 mt-2" />
-                    )}
-                  </div>
-                  <div className="glass-card flex-1 p-6 mb-6">
-                    <div className="flex flex-wrap gap-2">
-                      {week.tasks.map((task, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[hsl(var(--accent-gold))]/10 text-text/80 rounded-none border border-[hsl(var(--accent-gold))]/20"
-                        >
-                          <CheckCircle className="h-3 w-3 text-[hsl(var(--accent-gold))]" />
-                          {task}
-                        </span>
-                      ))}
-                    </div>
+                  <span className="shrink-0 w-12 h-12 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))] flex items-center justify-center text-sm font-bold">
+                    {step.step}
+                  </span>
+                  <div>
+                    <h3 className="text-xl font-display mb-3">{step.title}</h3>
+                    <p className="text-sm text-text/60 leading-relaxed">
+                      {step.description}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -317,12 +297,11 @@ export default function DevServeCaseStudyPage() {
               Technology <span className="italic text-text/50">Stack</span>
             </h2>
             <p className="text-lg text-text/60">
-              Modern, scalable technologies chosen for enterprise-grade
-              performance
+              Tools and approach for lasting results
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {techStack.map((stack, index) => (
               <motion.div
                 key={stack.category}
@@ -351,7 +330,7 @@ export default function DevServeCaseStudyPage() {
           </div>
         </motion.section>
 
-        {/* Full Achievements List */}
+        {/* The Results */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -361,24 +340,74 @@ export default function DevServeCaseStudyPage() {
         >
           <div className="glass-card p-8 md:p-12 border border-[hsl(var(--accent-gold))]/20">
             <div className="text-center mb-8">
-              <CheckCircle className="h-8 w-8 text-[hsl(var(--accent-gold))] mx-auto mb-4" />
-              <h2 className="text-3xl font-display mb-2">
-                Complete Achievements
-              </h2>
-              <p className="text-text/60">
-                Delivering enterprise-grade quality
-              </p>
+              <Rocket className="h-8 w-8 text-[hsl(var(--accent-gold))] mx-auto mb-4" />
+              <h2 className="text-3xl font-display mb-2">What Changed</h2>
+              <p className="text-text/60">Beyond just a new website</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {achievements.map((achievement, index) => (
+              {results.map((result, index) => (
                 <div key={index} className="flex items-start gap-3">
                   <span className="shrink-0 w-6 h-6 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))] flex items-center justify-center text-xs font-bold mt-0.5">
                     {index + 1}
                   </span>
-                  <span className="text-sm text-text/70">{achievement}</span>
+                  <span className="text-sm text-text/70">{result}</span>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-12 pt-8 border-t border-[hsl(var(--accent-gold))]/10">
+              <p className="text-center text-lg text-text/80 italic">
+                The biggest shift was their confidence. They&apos;re actually
+                proud to share their website now.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Why This Matters */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-32"
+        >
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display mb-6">
+              Why This <span className="italic text-text/50">Matters</span>
+            </h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto">
+            <div className="glass-card p-8 md:p-12">
+              <p className="text-lg text-text/70 leading-relaxed mb-6">
+                This is the work I enjoy most. It&apos;s not about fancy
+                features or trendy animations. It&apos;s about closing the gap
+                between what someone pictures in their head and what actually
+                shows up on screen.
+              </p>
+
+              <div className="grid md:grid-cols-2 gap-6 my-8">
+                <div className="text-center p-6 bg-white/5">
+                  <Zap className="h-6 w-6 text-[hsl(var(--accent-gold))] mx-auto mb-3" />
+                  <p className="text-sm text-text/60">
+                    From rough ideas to real products
+                  </p>
+                </div>
+                <div className="text-center p-6 bg-white/5">
+                  <Heart className="h-6 w-6 text-[hsl(var(--accent-gold))] mx-auto mb-3" />
+                  <p className="text-sm text-text/60">
+                    From uncertainty to confidence
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-lg text-text/70 leading-relaxed">
+                Good design sense plus solid engineering plus actually listening
+                to people. That&apos;s how you turn a headache into something
+                you&apos;re genuinely proud of.
+              </p>
             </div>
           </div>
         </motion.section>
@@ -393,13 +422,12 @@ export default function DevServeCaseStudyPage() {
         >
           <div className="max-w-2xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-display mb-6">
-              Ready to Build Your{" "}
-              <span className="italic text-text/50">SaaS?</span>
+              Have a Rough Idea?
             </h2>
             <p className="text-lg text-text/60 mb-10 leading-relaxed">
-              DevServe demonstrates my ability to deliver enterprise-grade
-              solutions with exceptional speed and quality. Let&apos;s discuss
-              your next project.
+              I help businesses figure out what they actually need and then
+              build it. No jargon, no unnecessary complexity. Just a website
+              that works and feels right.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/contact" className="btn-premium">

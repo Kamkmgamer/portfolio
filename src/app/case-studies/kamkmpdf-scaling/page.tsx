@@ -112,7 +112,7 @@ export default function KamkmPDFScalingCaseStudyPage() {
   return (
     <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
 
       <div className="max-w-7xl mx-auto">
         {/* Hero */}

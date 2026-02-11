@@ -8,9 +8,10 @@ import {
   ShieldCheck,
   Clock,
   DollarSign,
-  Rocket,
   Server,
-  Layout,
+  Lightbulb,
+  Heart,
+  Palette,
 } from "lucide-react";
 
 type BadgeColor = "green" | "amber" | "blue" | "violet";
@@ -73,6 +74,31 @@ const caseStudies: Study[] = [
       },
     ],
     href: "/case-studies/devserve",
+  },
+  {
+    title: "Reducing Friction",
+    summary:
+      "Turned vague ideas into a website the client is actually proud of.",
+    stack: "Discovery, UX Design, React, Tailwind, Framer Motion.",
+    category: "Product Design",
+    badges: [
+      {
+        icon: <Lightbulb className="h-3.5 w-3.5" />,
+        label: "Discovery",
+        color: "violet",
+      },
+      {
+        icon: <Palette className="h-3.5 w-3.5" />,
+        label: "Design",
+        color: "green",
+      },
+      {
+        icon: <Heart className="h-3.5 w-3.5" />,
+        label: "Experience",
+        color: "amber",
+      },
+    ],
+    href: "/case-studies/reducing-friction",
   },
 ];
 
