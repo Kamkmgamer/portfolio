@@ -44,7 +44,6 @@ export const demos: Demo[] = [
     demo: "https://beauty-salon-demo-ten.vercel.app/",
     category: "Web Design",
   },
-
   {
     id: 4,
     title: "Villa website Demo",

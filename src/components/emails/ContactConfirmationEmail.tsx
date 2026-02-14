@@ -46,7 +46,7 @@ export const ContactConfirmationEmail = ({
         <Body className="bg-gray-50 font-sans">
           <Container className="mx-auto py-20 px-4 max-w-2xl">
             <Section className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-br from-[#D4AF37] to-[#B8860B] px-8 py-12 text-center">
+              <div className="bg-linear-to-br from-[#D4AF37] to-[#B8860B] px-8 py-12 text-center">
                 <Img
                   src={`${baseUrl}/favicon.ico`}
                   width="48"
@@ -70,13 +70,15 @@ export const ContactConfirmationEmail = ({
 
                 <Text className="text-gray-600 text-lg leading-relaxed mb-6">
                   Thank you for taking the time to reach out! I&apos;ve received
-                  your message and I&apos;m genuinely excited to connect with you.
+                  your message and I&apos;m genuinely excited to connect with
+                  you.
                 </Text>
 
-                <Section className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 mb-6 border-l-4 border-[#D4AF37]">
+                <Section className="bg-linear-to-r from-amber-50 to-orange-50 rounded-xl p-6 mb-6 border-l-4 border-[#D4AF37]">
                   <Text className="text-gray-700 m-0 font-medium">
-                    I&apos;ll carefully review your message and get back to you as
-                    soon as possible. Typically, I respond within 24-48 hours.
+                    I&apos;ll carefully review your message and get back to you
+                    as soon as possible. Typically, I respond within 24-48
+                    hours.
                   </Text>
                 </Section>
 

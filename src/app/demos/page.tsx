@@ -13,7 +13,7 @@ export default async function DemosPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">
-      <div className="max-w-[1800px] mx-auto">
+      <div className="max-w-1800px mx-auto">
         <DemoList demos={demos} />
       </div>
     </main>

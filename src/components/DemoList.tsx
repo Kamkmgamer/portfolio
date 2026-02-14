@@ -87,7 +87,7 @@ function DemoCard({ demo, index }: { demo: Demo; index: number }) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500"
     >
-      <div className="aspect-[4/3] relative overflow-hidden">
+      <div className="aspect-4/3 relative overflow-hidden">
         {demo.demo ? (
           <a
             href={demo.demo}

@@ -63,7 +63,7 @@ function ResearchCard({ paper, index }: { paper: Research; index: number }) {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 p-8 lg:p-12 border-t border-text/10 hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500"
     >
-      <div className="lg:col-span-4 relative aspect-[4/3] lg:aspect-auto lg:h-full overflow-hidden rounded-lg bg-secondary/5">
+      <div className="lg:col-span-4 relative aspect-4/3 lg:aspect-auto lg:h-full overflow-hidden rounded-lg bg-secondary/5">
         <Image
           src={paper.image || "/file.svg"}
           alt={paper.title}

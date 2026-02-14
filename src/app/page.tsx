@@ -12,7 +12,7 @@ export default function Home() {
     "@type": "WebPage",
     name: "Khalil Abd Almageed | Web Developer & Designer",
     description: "Portfolio of Khalil Abd Almageed...",
-    url: "https://khalil.mageed.net",
+    url: "https://www.khalil.mageed.net",
   };
 
   return (

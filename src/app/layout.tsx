@@ -30,13 +30,13 @@ export const metadata: Metadata = {
   description:
     "Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design. delivering high-performance, SEO-friendly web solutions.",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "https://khalil.mageed.net"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.khalil.mageed.net"
   ),
   alternates: {
-    canonical: "/",
+    canonical: "https://www.khalil.mageed.net",
   },
   applicationName: "Khalil AbdalMageed Portfolio",
-  authors: [{ name: "Khalil AbdalMageed", url: "https://khalil.mageed.net" }],
+  authors: [{ name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" }],
   generator: "Next.js",
   keywords: [
     "Web Developer",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     },
     description:
       "Explore Khalil AbdalMageed’s portfolio of SEO-friendly, responsive websites built with React and Next.js.",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://khalil.mageed.net",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.khalil.mageed.net",
     siteName: "Khalil AbdalMageed Portfolio",
     images: [
       {
@@ -126,14 +126,14 @@ export default function RootLayout({
       {
         "@type": "Person",
         name: "Khalil AbdalMageed",
-        url: "https://khalil.mageed.net",
+        url: "https://www.khalil.mageed.net",
         sameAs: [
           "https://twitter.com/kamkmgamer",
           "https://github.com/Kamkmgamer",
           "https://www.linkedin.com/in/kamkm-gamer/",
         ],
         jobTitle: "Web Developer",
-        image: "https://khalil.mageed.net/images/og-image.png",
+        image: "https://www.khalil.mageed.net/images/og-image.png",
         worksFor: {
           "@type": "Organization",
           name: "Freelance",
@@ -142,10 +142,10 @@ export default function RootLayout({
       {
         "@type": "WebSite",
         name: "Khalil AbdalMageed Portfolio",
-        url: "https://khalil.mageed.net",
+        url: "https://www.khalil.mageed.net",
         potentialAction: {
           "@type": "SearchAction",
-          target: "https://khalil.mageed.net/?q={search_term_string}",
+          target: "https://www.khalil.mageed.net/?q={search_term_string}",
           "query-input": "required name=search_term_string",
         },
       },

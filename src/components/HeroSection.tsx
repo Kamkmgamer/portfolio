@@ -17,7 +17,7 @@ const useTypewriter = (
   texts: string[],
   typingSpeed = 80,
   deletingSpeed = 50,
-  pauseDuration = 2000
+  pauseDuration = 2000,
 ) => {
   const [displayText, setDisplayText] = React.useState("");
   const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -43,7 +43,7 @@ const useTypewriter = (
           }
         }
       },
-      isDeleting ? deletingSpeed : typingSpeed
+      isDeleting ? deletingSpeed : typingSpeed,
     );
 
     return () => clearTimeout(timeout);
@@ -105,7 +105,7 @@ const Particles: React.FC = () => {
         duration: 15 + Math.random() * 10,
         size: 4 + Math.random() * 4,
       })),
-    []
+    [],
   );
 
   return (
@@ -263,7 +263,7 @@ const HeroSection: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+          <span className="text-xs font-bold uppercase tracking-widest bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
             Available for new projects
           </span>
         </motion.div>
@@ -278,7 +278,7 @@ const HeroSection: React.FC = () => {
           <span className="block text-text italic font-normal">
             Hi, I&rsquo;m
           </span>
-          <span className="block mt-2 bg-gradient-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] text-transparent bg-clip-text animate-gradient pb-4">
+          <span className="block mt-2 bg-linear-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] text-transparent bg-clip-text animate-gradient pb-4">
             Khalil AbdalMageed
           </span>
         </motion.h1>
@@ -295,7 +295,7 @@ const HeroSection: React.FC = () => {
           <motion.span
             animate={{ opacity: [1, 0, 1] }}
             transition={{ duration: 0.8, repeat: Infinity }}
-            className="inline-block w-[1px] h-6 bg-[hsl(var(--accent-gold))]"
+            className="inline-block w-1px h-6 bg-[hsl(var(--accent-gold))]"
           />
         </motion.div>
 

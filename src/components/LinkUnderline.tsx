@@ -35,10 +35,10 @@ export function LinkUnderline({
           hover: { width: "100%" },
         }}
         transition={{ duration: 0.28, ease }}
-        className="absolute bottom-0 left-0 h-[1.5px] bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]"
+        className="absolute bottom-0 left-0 h-[1.5px] bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))]"
       />
       {/* Focus ring */}
-      <span className="absolute inset-0 rounded-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))]/50 pointer-events-none" />
+      <span className="absolute inset-0 rounded-2px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))]/50 pointer-events-none" />
     </motion.span>
   );
 
