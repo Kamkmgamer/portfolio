@@ -123,11 +123,11 @@ export default function KamkmPDFScalingCaseStudyPage() {
           className="mb-24 text-center max-w-4xl mx-auto"
         >
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
             <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
               Performance Engineering
             </span>
-            <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
           </div>
 
           <h1 className="text-5xl md:text-7xl font-display mb-8">

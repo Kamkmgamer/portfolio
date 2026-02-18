@@ -89,11 +89,11 @@ export default function KamkmPDFReliabilityCaseStudyPage() {
           className="mb-24 text-center max-w-4xl mx-auto"
         >
           <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
             <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
               Document Architecture
             </span>
-            <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
           </div>
 
           <h1 className="text-5xl md:text-7xl font-display mb-8">
@@ -283,11 +283,11 @@ export default function KamkmPDFReliabilityCaseStudyPage() {
         >
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-4 mb-8">
-              <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
               <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
                 The Missing Layer
               </span>
-              <span className="h-1px w-12 bg-[hsl(var(--accent-gold))]" />
+              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
             </div>
             <h2 className="text-4xl md:text-5xl font-display mb-6">
               Introducing <span className="italic text-text/50">KamkmPDF</span>

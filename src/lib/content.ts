@@ -39,6 +39,14 @@ export const caseStudies: CaseStudy[] = [
     stack: "Discovery, UX Design, React, Tailwind, Framer Motion.",
     category: "Product Design",
   },
+  {
+    slug: "restaurant-websites-tiers",
+    title: "$20 to $10,000 Websites",
+    summary:
+      "Built every tier from $20 to $10,000 to show exactly what your money buys — no technical jargon.",
+    stack: "React, Next.js, Tailwind, Framer Motion, Real-time Systems.",
+    category: "Education",
+  },
 ];
 
 export function getAllCaseStudies(): CaseStudy[] {

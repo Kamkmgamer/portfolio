@@ -91,6 +91,23 @@ const badgeConfig: Record<
       color: "amber",
     },
   ],
+  "restaurant-websites-tiers": [
+    {
+      icon: <DollarSign className="h-3.5 w-3.5" />,
+      label: "9 Tiers",
+      color: "amber",
+    },
+    {
+      icon: <Server className="h-3.5 w-3.5" />,
+      label: "Live Demos",
+      color: "green",
+    },
+    {
+      icon: <ShieldCheck className="h-3.5 w-3.5" />,
+      label: "Transparent",
+      color: "blue",
+    },
+  ],
 };
 
 const container = {
