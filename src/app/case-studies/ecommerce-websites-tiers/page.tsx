@@ -27,7 +27,7 @@ const tiers = [
       { text: "Painfully slow loading", good: false },
       { text: "Placeholder text everywhere", good: false },
       { text: "Broken mobile experience", good: false },
-      { text: "WhatsApp only — no checkout", good: false },
+      { text: "WhatsApp only, no checkout", good: false },
       { text: "Looks like a scam", good: false },
     ],
     url: "https://20-dollar-ecommerce-app.vercel.app",
@@ -75,11 +75,11 @@ const tiers = [
     speed: "Under 1 sec",
     mobile: "Perfect",
     features: [
+      { text: "User accounts & authentication", good: true },
       { text: "Real-time inventory", good: true },
       { text: "Abandoned cart recovery", good: true },
       { text: "Multiple payment options", good: true },
-      { text: "Order tracking", good: true },
-      { text: "Automatic tax calculation", good: true },
+      { text: "Order tracking & history", good: true },
     ],
     url: "https://1000-dollar-ecommerce-app.vercel.app",
   },
@@ -92,11 +92,11 @@ const tiers = [
     speed: "Under 500ms",
     mobile: "Perfect",
     features: [
+      { text: "User accounts with profiles", good: true },
       { text: "Advanced search with autocomplete", good: true },
       { text: "Subscribe and save", good: true },
       { text: "Wholesale with special pricing", good: true },
       { text: "Buy now, pay later", good: true },
-      { text: "Stock alerts", good: true },
     ],
     url: "https://5000-dollar-ecommerce-app.vercel.app",
   },
@@ -109,11 +109,11 @@ const tiers = [
     speed: "Under 300ms",
     mobile: "App-like",
     features: [
+      { text: "Secure user accounts & auth", good: true },
       { text: "AI-powered recommendations", good: true },
       { text: "Personalized homepage", good: true },
       { text: "Install as phone app", good: true },
       { text: "Works offline", good: true },
-      { text: "No Shopify fees forever", good: true },
     ],
     url: "https://10000-dollar-ecommerce-app.vercel.app",
   },
@@ -127,7 +127,7 @@ const recommendations = [
     color: "red",
     items: [
       "$20: Hurts your reputation. Use Instagram Shopping or Etsy instead.",
-      "$100: Forgettable placeholder. Only if you're desperate.",
+      '$100: Forgettable placeholder. Only if need "something" online, but don\'t expect huge ROI out of  it.',
     ],
   },
   {
@@ -369,6 +369,9 @@ export default function EcommerceWebsitesTiersCaseStudy() {
                       Mobile
                     </th>
                     <th className="text-left p-4 font-display text-text/80">
+                      User Accounts
+                    </th>
+                    <th className="text-left p-4 font-display text-text/80">
                       Shopping Cart
                     </th>
                     <th className="text-left p-4 font-display text-text/80">
@@ -385,6 +388,7 @@ export default function EcommerceWebsitesTiersCaseStudy() {
                       "$20",
                       "5+ seconds",
                       "Broken",
+                      "No",
                       "WhatsApp only",
                       "No",
                       "No",
@@ -393,6 +397,7 @@ export default function EcommerceWebsitesTiersCaseStudy() {
                       "$100",
                       "3-4 seconds",
                       "Partial",
+                      "No",
                       "WhatsApp only",
                       "No",
                       "No",
@@ -401,6 +406,7 @@ export default function EcommerceWebsitesTiersCaseStudy() {
                       "$500",
                       "Under 1 sec",
                       "Perfect",
+                      "No",
                       "Smooth",
                       "Smooth",
                       "Filters",
@@ -409,6 +415,7 @@ export default function EcommerceWebsitesTiersCaseStudy() {
                       "$1,000",
                       "Under 1 sec",
                       "Perfect",
+                      "Yes",
                       "Optimized",
                       "Multi-payment",
                       "Abandoned cart",
@@ -419,12 +426,14 @@ export default function EcommerceWebsitesTiersCaseStudy() {
                       "Perfect",
                       "Advanced",
                       "Advanced",
+                      "Advanced",
                       "Subscriptions",
                     ],
                     [
                       "$10,000",
                       "Under 300ms",
                       "App-like",
+                      "Enterprise",
                       "Enterprise",
                       "Enterprise",
                       "AI/ML",
@@ -581,7 +590,7 @@ export default function EcommerceWebsitesTiersCaseStudy() {
             </h2>
             <p className="text-lg text-text/60 mb-10 leading-relaxed">
               This project demonstrates what different budgets deliver.
-              Let&apos;s discuss what your store actually needs — no upselling,
+              Let&apos;s discuss what your store actually needs, no upselling,
               just honest recommendations.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
