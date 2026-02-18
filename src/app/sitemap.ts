@@ -8,9 +8,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const routes = [
     "",
-    "/projects",
     "/case-studies",
     "/contact",
+    "/offers",
+    "/demos",
+    "/projects",
     "/research",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
@@ -27,7 +29,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  let researchRoutes: { url: string; lastModified: Date; changeFrequency: "monthly"; priority: number }[] = [];
+  let researchRoutes: {
+    url: string;
+    lastModified: Date;
+    changeFrequency: "monthly";
+    priority: number;
+  }[] = [];
   try {
     const papers = await prisma.research.findMany({
       select: { slug: true, updatedAt: true },
