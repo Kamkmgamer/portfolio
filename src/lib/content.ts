@@ -47,6 +47,14 @@ export const caseStudies: CaseStudy[] = [
     stack: "React, Next.js, Tailwind, Framer Motion, Real-time Systems.",
     category: "Education",
   },
+  {
+    slug: "ecommerce-websites-tiers",
+    title: "$20 to $10,000 Ecommerce",
+    summary:
+      "Every ecommerce tier from $20 to $10,000 — see what your money buys for online stores.",
+    stack: "React, Next.js, Tailwind, Stripe, AI/ML, Real-time Systems.",
+    category: "Education",
+  },
 ];
 
 export function getAllCaseStudies(): CaseStudy[] {

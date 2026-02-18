@@ -108,6 +108,23 @@ const badgeConfig: Record<
       color: "blue",
     },
   ],
+  "ecommerce-websites-tiers": [
+    {
+      icon: <DollarSign className="h-3.5 w-3.5" />,
+      label: "6 Tiers",
+      color: "amber",
+    },
+    {
+      icon: <Server className="h-3.5 w-3.5" />,
+      label: "Live Demos",
+      color: "green",
+    },
+    {
+      icon: <ShieldCheck className="h-3.5 w-3.5" />,
+      label: "Own Your Tech",
+      color: "violet",
+    },
+  ],
 };
 
 const container = {
