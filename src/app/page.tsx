@@ -150,12 +150,12 @@ export default function Home() {
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4">
+              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
                 Explore My Work
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium">
                 View My{" "}
-                <span className="italic text-text/50 font-medium">
+                <span className="italic text-text/50 font-semibold">
                   Projects
                 </span>{" "}
                 & Demos
@@ -244,7 +244,90 @@ export default function Home() {
                   </div>
                 </div>
               </motion.a>
+
+              {/* Case Studies Card */}
+              <motion.a
+                href="/case-studies"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
+              >
+                <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10">
+                  <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
+                    Case Studies
+                  </h3>
+                  <p className="text-text/60 mb-8 text-lg">
+                    Deep dives into complex problems and the elegant
+                    architectural solutions I built to solve them.
+                  </p>
+                  <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300">
+                    <span className="uppercase tracking-widest text-sm font-semibold">
+                      Read Case Studies
+                    </span>
+                    <svg
+                      className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </motion.a>
+
+              {/* Blog Card */}
+              <motion.a
+                href="/blog"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative p-12 border border-[hsl(var(--accent-champagne))]/20 bg-linear-to-br from-[hsl(var(--accent-champagne))]/5 to-transparent hover:border-[hsl(var(--accent-champagne))]/50 transition-all duration-500 cursor-pointer"
+              >
+                <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-champagne))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10">
+                  <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-champagne))]">
+                    Blog
+                  </h3>
+                  <p className="text-text/60 mb-8 text-lg">
+                    Check out my latest thoughts on technology, design, and
+                    the business of building professional websites.
+                  </p>
+                  <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300">
+                    <span className="uppercase tracking-widest text-sm font-semibold">
+                      Explore Articles
+                    </span>
+                    <svg
+                      className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </motion.a>
             </div>
+
           </div>
         </section>
       </main>
