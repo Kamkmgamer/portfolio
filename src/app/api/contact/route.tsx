@@ -3,9 +3,12 @@ import { Resend } from "resend";
 import { ContactConfirmationEmail } from "@/components/emails/ContactConfirmationEmail";
 import { render } from "@react-email/render";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 export async function POST(request: NextRequest) {
+  const resend = getResend();
   try {
     const body = await request.json();
     const { name, email, message } = body;

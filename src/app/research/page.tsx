@@ -28,11 +28,16 @@ export const metadata: Metadata = {
 };
 
 export default async function ResearchPage() {
-  const researchPapers = await prisma.research.findMany({
-    orderBy: {
-      year: "desc",
-    },
-  });
+  let researchPapers: Awaited<ReturnType<typeof prisma.research.findMany>> = [];
+  try {
+    researchPapers = await prisma.research.findMany({
+      orderBy: {
+        year: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch research papers:", error);
+  }
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">

@@ -28,11 +28,16 @@ export const metadata: Metadata = {
 };
 
 export default async function DemosPage() {
-  const demos = await prisma.demo.findMany({
-    orderBy: {
-      id: "desc",
-    },
-  });
+  let demos: Awaited<ReturnType<typeof prisma.demo.findMany>> = [];
+  try {
+    demos = await prisma.demo.findMany({
+      orderBy: {
+        id: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch demos:", error);
+  }
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

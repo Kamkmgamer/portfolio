@@ -28,11 +28,16 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await prisma.project.findMany({
-    orderBy: {
-      id: "desc",
-    },
-  });
+  let projects: Awaited<ReturnType<typeof prisma.project.findMany>> = [];
+  try {
+    projects = await prisma.project.findMany({
+      orderBy: {
+        id: "desc",
+      },
+    });
+  } catch (error) {
+    console.error("Failed to fetch projects:", error);
+  }
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

@@ -11,7 +11,6 @@ import {
   CheckCircle,
   ExternalLink,
   ArrowRight,
-  TrendingUp,
   MapPin,
   RefreshCw,
 } from "lucide-react";
