@@ -9,7 +9,6 @@ import {
   ExternalLink,
   ArrowRight,
   Clock,
-  Smartphone,
   MessageCircle,
   TrendingUp,
   AlertCircle,
@@ -35,42 +34,42 @@ const whereItBreaks = [
     icon: TrendingUp,
     title: "No Scaling",
     description:
-      "One viral post and you're drowning in messages. Twenty orders means twenty separate conversations.",
+      "One viral post and you&apos;re drowning in messages. Twenty orders means twenty separate conversations.",
   },
   {
     icon: AlertCircle,
     title: "The Template Problem",
     description:
-      "Same colors, same layout as dozens of other sites. Customers won't remember your site an hour later.",
+      "Same colors, same layout as dozens of other sites. Customers won&apos;t remember your site an hour later.",
   },
   {
     icon: Clock,
     title: "Performance Issues",
     description:
-      "5-8-second page loads. 4-second images. On mobile data, it's worse. Most visitors won't wait.",
+      "5-8-second page loads. 4-second images. On mobile data, it&apos;s worse. Most visitors won&apos;t wait.",
   },
 ];
 
 const itWorksIf = [
-  "You're testing a business idea before committing",
-  "You sell low volume and don't mind manual work",
+  "You&apos;re testing a business idea before committing",
+  "You sell low volume and don&apos;t mind manual work",
   "You need something today and have zero budget",
   "You genuinely prefer the WhatsApp ordering model",
 ];
 
 const itDoesntWorkIf = [
-  "You're trying to look established",
+  "You&apos;re trying to look established",
   "You want customers to find you through Google",
-  "You're competing with businesses that have real websites",
+  "You&apos;re competing with businesses that have real websites",
   "You expect the website to actually do anything",
 ];
 
 const upgradeSignals = [
-  "You're spending more than 2 hours a week managing WhatsApp orders",
+  "You&apos;re spending more than 2 hours a week managing WhatsApp orders",
   "Customers complain about slow loading",
-  "You're losing track of orders",
-  "You're spending hours manually following up",
-  "You're embarrassed to share your website link",
+  "You&apos;re losing track of orders",
+  "You&apos;re spending hours manually following up",
+  "You&apos;re embarrassed to share your website link",
 ];
 
 export default function What100DollarWebsiteGetsYouPage() {
@@ -99,9 +98,9 @@ export default function What100DollarWebsiteGetsYouPage() {
           </h1>
 
           <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-12">
-            You know a $20 site won't work. But $100? That feels reasonable.
-            Here's what that money actually delivers - nothing more, nothing
-            less.
+            You know a $20 site won&apos;t work. But $100? That feels
+            reasonable. Here&apos;s what that money actually delivers - nothing
+            more, nothing less.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">
@@ -124,8 +123,8 @@ export default function What100DollarWebsiteGetsYouPage() {
                 Try It Yourself
               </h2>
               <p className="text-lg text-text/60 leading-relaxed mb-8 text-center">
-                I built both so you can see exactly what you're getting. Open
-                them on your phone. Browse the menu or products. Try the
+                I built both so you can see exactly what you&apos;re getting.
+                Open them on your phone. Browse the menu or products. Try the
                 checkout.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
@@ -168,8 +167,8 @@ export default function What100DollarWebsiteGetsYouPage() {
               What You <span className="italic text-text/50">Actually Get</span>
             </h2>
             <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">
-              Here's the fair assessment: a $100 website works. It's not broken.
-              It just doesn't do much.
+              Here&apos;s the fair assessment: a $100 website works. It&apos;s
+              not broken. It just doesn&apos;t do much.
             </p>
           </div>
 
@@ -197,7 +196,7 @@ export default function What100DollarWebsiteGetsYouPage() {
                 ))}
               </ul>
               <p className="text-sm text-text/50 mt-6 pt-6 border-t border-white/10">
-                For a side hustle or business just starting out, this isn't
+                For a side hustle or business just starting out, this isn&apos;t
                 terrible. You have something to show people.
               </p>
             </motion.div>
@@ -215,11 +214,11 @@ export default function What100DollarWebsiteGetsYouPage() {
               </h3>
               <p className="text-sm text-text/60 leading-relaxed mb-4">
                 Many small businesses operate this way. Browse the catalog,
-                message on WhatsApp, negotiate price and payment. It's
+                message on WhatsApp, negotiate price and payment. It&apos;s
                 legitimate for low-volume sales.
               </p>
               <p className="text-sm text-text/60 leading-relaxed">
-                But here's the thing - that model works because it's{" "}
+                But here&apos;s the thing - that model works because it&apos;s{" "}
                 <em>intentional</em>. A $100 website forces you into it whether
                 you want it or not.
               </p>
@@ -239,8 +238,8 @@ export default function What100DollarWebsiteGetsYouPage() {
               Where It <span className="italic text-text/50">Breaks Down</span>
             </h2>
             <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">
-              A $100 site isn't broken. It's just limited. And those limits
-              become problems fast.
+              A $100 site isn&apos;t broken. It&apos;s just limited. And those
+              limits become problems fast.
             </p>
           </div>
 
@@ -279,8 +278,8 @@ export default function What100DollarWebsiteGetsYouPage() {
 
           <div className="glass-card p-8 md:p-12 border border-[hsl(var(--accent-gold))]/20 mb-8">
             <p className="text-xl text-center text-text/80 mb-8">
-              A $100 website is a placeholder. It's "something online" - not an
-              investment in your business.
+              A $100 website is a placeholder. It&apos;s &quot;something online&quot; -
+              not an investment in your business.
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
@@ -308,7 +307,7 @@ export default function What100DollarWebsiteGetsYouPage() {
                 <div className="flex items-center gap-2 mb-4">
                   <XCircle className="h-4 w-4 text-red-400" />
                   <span className="font-semibold text-red-400">
-                    It Doesn't Work If
+                    It Doesn&apos;t Work If
                   </span>
                 </div>
                 <ul className="space-y-3">
@@ -328,9 +327,9 @@ export default function What100DollarWebsiteGetsYouPage() {
 
           <div className="p-6 bg-orange-500/10 border border-orange-500/20 rounded-lg text-center max-w-2xl mx-auto">
             <p className="text-lg text-text/80">
-              <strong>Don't expect ROI from a $100 website.</strong> It won't
-              bring you customers. It won't save you time. At best, it's a
-              digital business card.
+              <strong>Don&apos;t expect ROI from a $100 website.</strong> It
+              won&apos;t bring you customers. It won&apos;t save you time. At
+              best, it&apos;s a digital business card.
             </p>
           </div>
         </motion.section>
@@ -347,7 +346,7 @@ export default function What100DollarWebsiteGetsYouPage() {
               The Upgrade <span className="italic text-text/50">Moment</span>
             </h2>
             <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">
-              How do you know when you've outgrown a $100 site?
+              How do you know when you&apos;ve outgrown a $100 site?
             </p>
           </div>
 
@@ -358,7 +357,7 @@ export default function What100DollarWebsiteGetsYouPage() {
                   <Clock className="h-6 w-6" />
                 </div>
                 <p className="text-xl text-text/80">
-                  When you're spending{" "}
+                  When you&apos;re spending{" "}
                   <strong className="text-[hsl(var(--accent-gold))]">
                     more than 2 hours a week
                   </strong>{" "}
@@ -367,9 +366,9 @@ export default function What100DollarWebsiteGetsYouPage() {
               </div>
 
               <p className="text-center text-text/60 mb-8">
-                That's the signal. If customer messages are eating into your
-                actual business - making products, serving customers, growing -
-                then the money you "saved" is costing you time.
+                That&apos;s the signal. If customer messages are eating into
+                your actual business - making products, serving customers,
+                growing - then the money you &quot;saved&quot; is costing you time.
               </p>
 
               <div className="border-t border-white/10 pt-8">
@@ -476,8 +475,8 @@ export default function What100DollarWebsiteGetsYouPage() {
             <h2 className="text-3xl font-display mb-6">The Bottom Line</h2>
             <p className="text-lg text-text/60 mb-8 max-w-2xl mx-auto">
               A $100 website gives you exactly what you pay for: something
-              online. It's not terrible. It's not great. It just <em>exists</em>
-              .
+              online. It&apos;s not terrible. It&apos;s not great. It just{" "}
+              <em>exists</em>.
             </p>
             <div className="p-6 bg-white/5 rounded-lg inline-block">
               <p className="text-xl text-text/80">
@@ -509,8 +508,8 @@ export default function What100DollarWebsiteGetsYouPage() {
               <span className="italic text-text/50">Actually Works?</span>
             </h2>
             <p className="text-lg text-text/60 mb-10 leading-relaxed">
-              If you've realized a $100 site won't cut it, let's talk about what
-              will.
+              If you&apos;ve realized a $100 site won&apos;t cut it, let&apos;s
+              talk about what will.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link href="/contact" className="btn-premium">

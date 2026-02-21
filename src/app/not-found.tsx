@@ -59,7 +59,7 @@ const LuxuryParticles: React.FC = () => {
         duration: 18 + Math.random() * 12,
         size: 3 + Math.random() * 3,
       })),
-    []
+    [],
   );
 
   return (
@@ -160,7 +160,7 @@ export default function NotFound() {
 
   const typedMessage = useTypewriter(
     "The page you're looking for has drifted beyond the horizon.",
-    45
+    45,
   );
 
   return (
@@ -245,7 +245,7 @@ export default function NotFound() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
           </span>
-          <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+          <span className="text-xs font-bold uppercase tracking-widest bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
             Page Not Found
           </span>
         </motion.div>
@@ -258,7 +258,7 @@ export default function NotFound() {
           className="relative mb-6"
         >
           <h1 className="text-[8rem] sm:text-[10rem] md:text-[14rem] lg:text-[18rem] font-display leading-none tracking-tighter">
-            <span className="bg-gradient-to-b from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+            <span className="bg-linear-to-b from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
               404
             </span>
           </h1>
@@ -281,7 +281,7 @@ export default function NotFound() {
           className="text-2xl sm:text-3xl md:text-4xl font-display tracking-tight mb-6"
         >
           <span className="text-text italic">Lost in</span>{" "}
-          <span className="bg-gradient-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
             Elegance
           </span>
         </motion.h2>
@@ -291,13 +291,13 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4, ease }}
-          className="text-lg sm:text-xl text-text/60 mb-12 max-w-xl mx-auto leading-relaxed min-h-[2rem]"
+          className="text-lg sm:text-xl text-text/60 mb-12 max-w-xl mx-auto leading-relaxed min-h-2rem"
         >
           {typedMessage}
           <motion.span
             animate={{ opacity: [1, 0, 1] }}
             transition={{ duration: 0.8, repeat: Infinity }}
-            className="inline-block w-[2px] h-5 ml-1 bg-[hsl(var(--accent-gold))] align-middle"
+            className="inline-block w-0.5 h-5 ml-1 bg-[hsl(var(--accent-gold))] align-middle"
           />
         </motion.p>
 
@@ -306,7 +306,7 @@ export default function NotFound() {
           initial={{ opacity: 0, scaleX: 0 }}
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.5, ease }}
-          className="w-32 h-px mx-auto mb-12 bg-gradient-to-r from-transparent via-[hsl(var(--accent-gold))] to-transparent"
+          className="w-32 h-px mx-auto mb-12 bg-linear-to-r from-transparent via-[hsl(var(--accent-gold))] to-transparent"
         />
 
         {/* Action Buttons */}
@@ -366,7 +366,7 @@ export default function NotFound() {
       </section>
 
       {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none bg-linear-to-t from-background to-transparent" />
     </main>
   );
 }
