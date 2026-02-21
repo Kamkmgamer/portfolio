@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { prisma } from "@/lib/db";
 import { getAllCaseStudies } from "@/lib/content";
+import { getAllBlogPosts } from "@/lib/blogs";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
@@ -8,6 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const routes = [
     "",
+    "/blog",
     "/case-studies",
     "/contact",
     "/offers",
@@ -25,6 +27,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const caseStudyRoutes = caseStudies.map((study) => ({
     url: `${baseUrl}/case-studies/${study.slug}`,
     lastModified: study.publishedDate || new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const blogPosts = getAllBlogPosts();
+  const blogRoutes = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.publishedDate,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
@@ -49,5 +59,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Return empty array if database is not available during build
   }
 
-  return [...routes, ...caseStudyRoutes, ...researchRoutes];
+  return [...routes, ...caseStudyRoutes, ...blogRoutes, ...researchRoutes];
 }
