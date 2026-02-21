@@ -34,7 +34,12 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: paper.image ? [paper.image] : ["/og/research-default.png"],
+      images: paper.image ? [paper.image] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
     },
     alternates: { canonical: `/research/${slug}` },
   };

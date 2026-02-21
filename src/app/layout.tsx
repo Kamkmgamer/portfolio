@@ -59,17 +59,9 @@ export const metadata: Metadata = {
       template: "%s | Khalil AbdalMageed",
     },
     description:
-      "Explore Khalil AbdalMageed’s portfolio of SEO-friendly, responsive websites built with React and Next.js.",
+      "Explore Khalil AbdalMageed's portfolio of SEO-friendly, responsive websites built with React and Next.js.",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.khalil.mageed.net",
     siteName: "Khalil AbdalMageed Portfolio",
-    images: [
-      {
-        url: "/images/og-image.png", // Ensure this exists or fallback to a default
-        width: 1200,
-        height: 630,
-        alt: "Khalil AbdalMageed - Web Developer & Designer",
-      },
-    ],
     locale: "en_US",
     type: "website",
   },
@@ -83,7 +75,6 @@ export const metadata: Metadata = {
       "Modern responsive web development and design by Khalil AbdalMageed. Specializing in high-performance web applications.",
     site: "@kamkmgamer",
     creator: "@kamkmgamer",
-    images: ["/images/og-image.png"],
   },
   robots: {
     index: true,
@@ -133,7 +124,6 @@ export default function RootLayout({
           "https://www.linkedin.com/in/kamkm-gamer/",
         ],
         jobTitle: "Web Developer",
-        image: "https://www.khalil.mageed.net/images/og-image.png",
         worksFor: {
           "@type": "Organization",
           name: "Freelance",

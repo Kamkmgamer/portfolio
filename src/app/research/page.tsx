@@ -1,8 +1,31 @@
 import React from "react";
+import type { Metadata } from "next";
 import ResearchList from "@/components/ResearchList";
 import { prisma } from "@/lib/db";
 
 export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Research",
+  description:
+    "Research papers and technical writing by Khalil AbdalMageed. Deep-dives into web architecture, performance optimization, and software engineering topics.",
+  openGraph: {
+    title: "Research | Khalil AbdalMageed",
+    description:
+      "Research papers and technical writing on web architecture, performance optimization, and software engineering.",
+    url: "https://www.khalil.mageed.net/research",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Research | Khalil AbdalMageed",
+    description:
+      "Research papers and technical writing on web architecture and software engineering.",
+  },
+  alternates: {
+    canonical: "/research",
+  },
+};
 
 export default async function ResearchPage() {
   const researchPapers = await prisma.research.findMany({
