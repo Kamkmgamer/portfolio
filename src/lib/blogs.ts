@@ -33,6 +33,17 @@ export const blogPosts: BlogPost[] = [
     publishedDate: new Date("2026-02-21"),
     readTime: 7,
   },
+  {
+    slug: "what-a-professional-website-costs",
+    title: "What a Professional Website Actually Costs ($200-$500)",
+    summary:
+      "The $200-$500 range is where websites stop being costs and start being investments. Here's what each budget delivers, with live demos to prove it.",
+    category: "Business",
+    tags: ["websites", "business", "investment", "professional", "comparison"],
+    author: "Web Developer",
+    publishedDate: new Date("2026-02-21"),
+    readTime: 9,
+  },
 ];
 
 export function getAllBlogPosts(): BlogPost[] {
