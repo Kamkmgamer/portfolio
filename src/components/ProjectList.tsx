@@ -13,7 +13,9 @@ interface ProjectListProps {
 export default function ProjectList({ projects }: ProjectListProps) {
   const [filter, setFilter] = useState("All");
 
-  const allTags = Array.from(new Set(projects.flatMap((p) => p.tags || [])));
+  const allTags = Array.from(
+    new Set(projects.map((p) => p.tags?.[0]).filter(Boolean)),
+  );
 
   const filteredProjects =
     filter === "All"
@@ -39,11 +41,10 @@ export default function ProjectList({ projects }: ProjectListProps) {
         <div className="flex flex-wrap gap-2 max-w-xl justify-end">
           <button
             onClick={() => setFilter("All")}
-            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${
-              filter === "All"
+            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === "All"
                 ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
                 : "border-text/10 text-text/50 hover:border-text/30"
-            }`}
+              }`}
           >
             All
           </button>
@@ -51,11 +52,10 @@ export default function ProjectList({ projects }: ProjectListProps) {
             <button
               key={tag}
               onClick={() => setFilter(tag)}
-              className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${
-                filter === tag
+              className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === tag
                   ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
                   : "border-text/10 text-text/50 hover:border-text/30"
-              }`}
+                }`}
             >
               {tag}
             </button>

@@ -171,9 +171,8 @@ const Navbar: React.FC = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        hasScrolled ? "py-2" : "py-4"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${hasScrolled ? "py-2" : "py-4"
+        }`}
     >
       {/* Glassmorphism background - fades in on scroll */}
       <motion.div
@@ -372,11 +371,10 @@ const Navbar: React.FC = () => {
                           role="menuitem"
                           aria-current={isActive ? "page" : undefined}
                           onClick={closeMenu}
-                          className={`relative flex items-center gap-3 rounded-2xl px-4 py-4 text-lg font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
-                            isActive
+                          className={`relative flex items-center gap-3 rounded-2xl px-4 py-4 text-lg font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isActive
                               ? "bg-linear-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
                               : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
-                          }`}
+                            }`}
                         >
                           {item.label}
                           {isActive && (
