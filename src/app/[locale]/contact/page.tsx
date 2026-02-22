@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Mail,
@@ -13,8 +14,23 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import { Locale, Dictionary, getDictionarySync } from "@/lib/i18n";
 
-export default function ContactPage() {
+export default function ContactPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const [locale, setLocale] = React.useState<Locale>("en");
+  const [dict, setDict] = React.useState<Dictionary | null>(null);
+
+  useEffect(() => {
+    params.then((p) => {
+      setLocale(p.locale);
+      setDict(getDictionarySync(p.locale));
+    });
+  }, [params]);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,7 +58,7 @@ export default function ContactPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send message");
+        throw new Error(data.error || dict?.contact.form.error);
       }
 
       setStatus("success");
@@ -50,7 +66,7 @@ export default function ContactPage() {
     } catch (error) {
       setStatus("error");
       setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong",
+        error instanceof Error ? error.message : dict?.contact.form.error || "Something went wrong",
       );
     }
   };
@@ -64,6 +80,8 @@ export default function ContactPage() {
     }));
   };
 
+  if (!dict) return null;
+
   return (
     <main className="min-h-screen pt-24 pb-20 px-6 max-w-7xl mx-auto relative overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -74,38 +92,38 @@ export default function ContactPage() {
             transition={{ duration: 0.8 }}
           >
             <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-6">
-              Contact
+              {dict.contact.title}
             </span>
             <h1 className="text-6xl md:text-8xl font-display mb-12">
-              Get In <br />
-              <span className="italic text-text/40">Touch</span>
+              {dict.contact.heading} <br />
+              <span className="italic text-text/40">{dict.contact.headingAccent}</span>
             </h1>
           </motion.div>
 
           <div className="space-y-12 font-bold">
             <ContactItem
               icon={<Mail />}
-              label="Email"
+              label={dict.contact.email}
               value="khalil@khalil.mageed.net"
               delay={0.2}
             />
             <ContactItem
               icon={<Phone />}
-              label="Phone"
+              label={dict.contact.phone}
               value="+20 15 00 4055 67"
               delay={0.3}
             />
             <ContactItem
               icon={<MapPin />}
-              label="Location"
-              value="Cairo, Egypt"
+              label={dict.contact.location}
+              value={dict.contact.locationValue}
               delay={0.4}
             />
           </div>
 
           <div className="mt-20">
             <h4 className="text-sm uppercase tracking-widest text-text/50 mb-8">
-              Socials
+              {dict.contact.socials}
             </h4>
             <div className="flex gap-6">
               <SocialLink
@@ -134,6 +152,7 @@ export default function ContactPage() {
           <form
             onSubmit={handleSubmit}
             className="glass-card p-10 md:p-16 rounded-3xl space-y-8 relative overflow-hidden"
+            dir={locale === "ar" ? "rtl" : "ltr"}
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-[hsl(var(--accent-gold))]/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
 
@@ -145,7 +164,7 @@ export default function ContactPage() {
               >
                 <CheckCircle className="w-5 h-5" />
                 <span>
-                  Message sent successfully! Check your email for confirmation.
+                  {dict.contact.form.success}
                 </span>
               </motion.div>
             )}
@@ -166,7 +185,7 @@ export default function ContactPage() {
                 htmlFor="name"
                 className="text-xs uppercase tracking-widest text-text/60 ml-1"
               >
-                Name
+                {dict.contact.form.name}
               </label>
               <input
                 type="text"
@@ -176,7 +195,7 @@ export default function ContactPage() {
                 onChange={handleChange}
                 required
                 className="w-full bg-transparent border-b border-text/20 py-4 text-xl focus:border-[hsl(var(--accent-gold))] focus:outline-none transition-colors"
-                placeholder="Your Name"
+                placeholder={dict.contact.form.namePlaceholder}
               />
             </div>
 
@@ -185,7 +204,7 @@ export default function ContactPage() {
                 htmlFor="email"
                 className="text-xs uppercase tracking-widest text-text/60 ml-1"
               >
-                Email
+                {dict.contact.form.email}
               </label>
               <input
                 type="email"
@@ -195,7 +214,7 @@ export default function ContactPage() {
                 onChange={handleChange}
                 required
                 className="w-full bg-transparent border-b border-text/20 py-4 text-xl focus:border-[hsl(var(--accent-gold))] focus:outline-none transition-colors"
-                placeholder="name@domain.tld"
+                placeholder={dict.contact.form.emailPlaceholder}
               />
             </div>
 
@@ -204,7 +223,7 @@ export default function ContactPage() {
                 htmlFor="message"
                 className="text-xs uppercase tracking-widest text-text/60 ml-1"
               >
-                Message
+                {dict.contact.form.message}
               </label>
               <textarea
                 id="message"
@@ -214,7 +233,7 @@ export default function ContactPage() {
                 required
                 rows={4}
                 className="w-full bg-transparent border-b border-text/20 py-4 text-xl focus:border-[hsl(var(--accent-gold))] focus:outline-none transition-colors resize-none"
-                placeholder="Hello, I'd like to talk about..."
+                placeholder={dict.contact.form.messagePlaceholder}
               />
             </div>
 
@@ -245,12 +264,12 @@ export default function ContactPage() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Sending...
+                  {dict.contact.form.sending}
                 </span>
               ) : (
                 <>
-                  <span>Send Message</span>
-                  <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <span>{dict.contact.form.send}</span>
+                  <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform rtl:-rotate-180 rtl:group-hover:-translate-x-1" />
                 </>
               )}
             </button>
