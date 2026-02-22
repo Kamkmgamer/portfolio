@@ -1,13 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CaseStudiesGrid from "./CaseStudiesGrid";
+import { Locale, Dictionary, getDictionarySync } from "@/lib/i18n";
 
-export default function CaseStudiesIndexPage() {
+export default function CaseStudiesIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const [dict, setDict] = useState<Dictionary | null>(null);
+
+  useEffect(() => {
+    params.then((p) => {
+      setDict(getDictionarySync(p.locale));
+    });
+  }, [params]);
+
+  if (!dict) return null;
+
   return (
     <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
-      {/* Background Elements */}
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
 
       <div className="max-w-7xl mx-auto">
@@ -20,25 +34,24 @@ export default function CaseStudiesIndexPage() {
             <div className="flex items-center justify-center gap-4 mb-8">
               <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
               <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
-                Case Studies
+                {dict.caseStudies.title}
               </span>
               <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
             </div>
 
             <h1 className="text-5xl md:text-7xl font-display mb-8">
-              Engineering <br />
-              <span className="italic text-text/50">Impact</span>
+              {dict.caseStudies.heading} <br />
+              <span className="italic text-text/50">{dict.caseStudies.headingItalic}</span>
             </h1>
 
             <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-12">
-              Deep-dives into specific projects that demonstrate architectural
-              complexity, speed of delivery, and measurable business outcomes.
+              {dict.caseStudies.description}
             </p>
 
             <div className="flex flex-wrap justify-center gap-4">
-              <Badge color="bg-green-500" label="Production-Ready" />
-              <Badge color="bg-amber-500" label="Fast Iteration" />
-              <Badge color="bg-blue-500" label="High Scale" />
+              <Badge color="bg-green-500" label={dict.caseStudies.badge1} />
+              <Badge color="bg-amber-500" label={dict.caseStudies.badge2} />
+              <Badge color="bg-blue-500" label={dict.caseStudies.badge3} />
             </div>
           </motion.div>
         </header>

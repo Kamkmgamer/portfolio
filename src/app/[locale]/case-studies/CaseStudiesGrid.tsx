@@ -15,7 +15,8 @@ import {
   FileCode,
   Shield,
 } from "lucide-react";
-import { caseStudies } from "@/lib/content";
+import { getCaseStudiesByLocale } from "@/lib/content";
+import { useParams } from "next/navigation";
 
 type BadgeColor = "green" | "amber" | "blue" | "violet";
 
@@ -145,6 +146,9 @@ const item = {
 };
 
 export default function CaseStudiesGrid() {
+  const params = useParams();
+  const locale = (params?.locale as string) || "en";
+  const caseStudies = getCaseStudiesByLocale(locale);
   return (
     <section>
       <motion.div
@@ -194,10 +198,10 @@ export default function CaseStudiesGrid() {
                   </div>
 
                   <Link
-                    href={`/case-studies/${study.slug}`}
+                    href={`/${locale}/case-studies/${study.slug}`}
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))] group/link"
                   >
-                    Read case study
+                    {locale === "ar" ? "اقرأ دراسة الحالة" : "Read case study"}
                     <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
                   </Link>
                 </div>
