@@ -83,6 +83,50 @@ h4,
   font-weight: 600;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   RTL & ARABIC FONT SUPPORT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+html[dir="rtl"] body,
+html[dir="rtl"].font-arabic body {
+  font-family: var(--font-sans-ar), var(--font-sans), sans-serif;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] .display-font,
+html[dir="rtl"].font-arabic h1,
+html[dir="rtl"].font-arabic h2,
+html[dir="rtl"].font-arabic h3,
+html[dir="rtl"].font-arabic h4,
+html[dir="rtl"].font-arabic .display-font {
+  font-family: var(--font-display-ar), var(--font-display), serif;
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] {
+  text-align: right;
+}
+
+html[dir="rtl"] .gradient-border::before {
+  background: linear-gradient(-135deg,
+      hsl(var(--accent-gold)),
+      transparent,
+      hsl(var(--accent-bronze)));
+}
+
+html[dir="rtl"] .section-title::after {
+  left: auto;
+  right: 0;
+  background: linear-gradient(to left, hsl(var(--accent-gold)), transparent);
+}
+
+html[dir="rtl"] .btn-premium {
+  letter-spacing: 0.05em;
+}
+
 /* Luxury Animated Ambient Glow */
 body::before {
   content: "";
