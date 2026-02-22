@@ -12,6 +12,17 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "how-much-does-a-website-cost",
+    title: "How Much Does a Website Cost?",
+    summary:
+      "Complete guide to website pricing with 15 live demos. Compare $20 to $10,000 websites for restaurants and ecommerce. See exactly what each budget buys.",
+    category: "Pricing Guide",
+    tags: ["website cost", "website pricing", "how much is a website", "restaurant website", "ecommerce website"],
+    author: "Khalil AbdalMageed",
+    publishedDate: new Date("2026-02-22"),
+    readTime: 12,
+  },
+  {
     slug: "why-not-to-buy-cheap-websites",
     title: "Why a $20 Website Will Cost You Thousands in Lost Business",
     summary:
