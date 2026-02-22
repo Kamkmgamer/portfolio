@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "title": {
+      "default": "Khalil Abd Almageed | Web Developer & Designer",
+      "template": "%s | Khalil Abd Almageed"
+    },
+    "description": "Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design. delivering high-performance, SEO-friendly web solutions."
+  },
+  "nav": {
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "research": "Research",
+    "caseStudies": "Case Studies",
+    "demos": "Demos",
+    "home": "Home"
+  },
+  "home": {
+    "title": "Hi, I'm",
+    "subtitle": "Web Developer",
+    "description": "I'm a 23 Years old Sudanese web developer in Cairo,",
+    "descriptionExtended": "I was building websites since young age, and I've helped many businesses and individuals creating their online presence.",
+    "viewWork": "View My Work",
+    "getInTouch": "Get In Touch",
+    "scroll": "Scroll",
+    "journeyTitle": "Journey Through Tech",
+    "experience": {
+      "freelance": {
+        "year": "2021 - Present",
+        "role": "Freelance Web Developer",
+        "company": "Self employed",
+        "desc": "Leading the frontend architecture for high-scale applications and delivering custom web solutions for diverse clients."
+      },
+      "fullstack": {
+        "year": "2018 - 2021",
+        "role": "Full Stack Developer",
+        "company": "Soft Magic Company Limited",
+        "desc": "Delivered award-winning web experiences for global brands and built robust enterprise applications."
+      }
+    },
+    "exploreWork": "Explore My Work",
+    "viewProjects": "Projects",
+    "viewProjectsDesc": "Explore my portfolio of web applications, websites, and digital products built with modern technologies.",
+    "viewProjectsCta": "View Projects",
+    "viewDemos": "Demos",
+    "viewDemosDesc": "Check out interactive demos, experiments, and showcase pieces that highlight my creative coding skills.",
+    "viewDemosCta": "View Demos",
+    "viewCaseStudies": "Case Studies",
+    "viewCaseStudiesDesc": "Deep dives into complex problems and the elegant architectural solutions I built to solve them.",
+    "viewCaseStudiesCta": "Read Case Studies",
+    "viewBlog": "Blog",
+    "viewBlogDesc": "Check out my latest thoughts on technology, design, and the business of building professional websites.",
+    "viewBlogCta": "Explore Articles"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "Explore Khalil AbdalMageed's portfolio of web development projects. Restaurant websites, ecommerce platforms, and custom web applications built with React and Next.js.",
+    "viewPastOffers": "View Past Offers",
+    "eyebrow": "Portfolio",
+    "heading": "Selected",
+    "headingItalic": "Works",
+    "all": "All",
+    "viewCaseStudy": "View Case Study"
+  },
+  "demos": {
+    "title": "Live Demos",
+    "description": "Interactive live demos of websites at different price points. Compare $20 websites to $10,000 platforms and see exactly what each budget delivers.",
+    "eyebrow": "Live Demos",
+    "heading": "Interactive",
+    "headingItalic": "Demos",
+    "all": "All",
+    "viewLiveDemo": "View Live Demo"
+  },
+  "contact": {
+    "title": "Contact",
+    "heading": "Get In",
+    "headingAccent": "Touch",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Location",
+    "locationValue": "Cairo, Egypt",
+    "socials": "Socials",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your Name",
+      "email": "Email",
+      "emailPlaceholder": "name@domain.tld",
+      "message": "Message",
+      "messagePlaceholder": "Hello, I'd like to talk about...",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! Check your email for confirmation.",
+      "error": "Something went wrong"
+    }
+  },
+  "research": {
+    "title": "Research",
+    "description": "Research papers and technical articles by Khalil AbdalMageed on web development, software architecture, and performance optimization.",
+    "eyebrow": "Academic & Industry",
+    "heading": "Research",
+    "headingItalic": "& Publications",
+    "intro": "Exploring the frontiers of web engineering, user experience, and digital architecture. Documenting the journey from theory to practical application.",
+    "readPaper": "Read Paper"
+  },
+  "caseStudies": {
+    "title": "Case Studies",
+    "description": "In-depth case studies showcasing problem-solving approaches and technical solutions for complex web development challenges.",
+    "heading": "Engineering",
+    "headingItalic": "Impact",
+    "badge1": "Production-Ready",
+    "badge2": "Fast Iteration",
+    "badge3": "High Scale"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Articles and insights on web development, design, and the business of building professional websites.",
+    "readMore": "Read More",
+    "heading": "Thoughts &",
+    "headingItalic": "Insights",
+    "badge1": "Development",
+    "badge2": "Design",
+    "badge3": "Architecture",
+    "minRead": "min read",
+    "readArticle": "Read article"
+  },
+  "offers": {
+    "title": "Offers",
+    "description": "Web development packages and offers from Khalil AbdalMageed.",
+    "eyebrow": "Services & Pricing",
+    "heading": "Past",
+    "headingItalic": "Offers"
+  },
+  "common": {
+    "theme": "Theme",
+    "language": "Language",
+    "backToHome": "Back to Home",
+    "pageNotFound": "Page Not Found",
+    "goHome": "Go Home"
+  }
+}
