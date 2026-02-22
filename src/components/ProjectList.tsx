@@ -5,20 +5,22 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Project } from "@prisma/client";
+import { Dictionary } from "@/lib/i18n";
 
 interface ProjectListProps {
   projects: Project[];
+  dict: Dictionary;
 }
 
-export default function ProjectList({ projects }: ProjectListProps) {
-  const [filter, setFilter] = useState("All");
+export default function ProjectList({ projects, dict }: ProjectListProps) {
+  const [filter, setFilter] = useState(dict.projects.all);
 
   const allTags = Array.from(
     new Set(projects.map((p) => p.tags?.[0]).filter(Boolean)),
   );
 
   const filteredProjects =
-    filter === "All"
+    filter === dict.projects.all
       ? projects
       : projects.filter((p) => p.tags?.includes(filter));
 
@@ -31,30 +33,30 @@ export default function ProjectList({ projects }: ProjectListProps) {
             animate={{ opacity: 1 }}
             className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-4"
           >
-            Portfolio
+            {dict.projects.eyebrow}
           </motion.span>
           <h1 className="text-6xl md:text-8xl font-display leading-none">
-            Selected <span className="italic text-text/50">Works</span>
+            {dict.projects.heading} <span className="italic text-text/50">{dict.projects.headingItalic}</span>
           </h1>
         </div>
 
         <div className="flex flex-wrap gap-2 max-w-xl justify-end">
           <button
-            onClick={() => setFilter("All")}
-            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === "All"
-                ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
-                : "border-text/10 text-text/50 hover:border-text/30"
+            onClick={() => setFilter(dict.projects.all)}
+            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === dict.projects.all
+              ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
+              : "border-text/10 text-text/50 hover:border-text/30"
               }`}
           >
-            All
+            {dict.projects.all}
           </button>
           {allTags.map((tag) => (
             <button
               key={tag}
               onClick={() => setFilter(tag)}
               className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === tag
-                  ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
-                  : "border-text/10 text-text/50 hover:border-text/30"
+                ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
+                : "border-text/10 text-text/50 hover:border-text/30"
                 }`}
             >
               {tag}
@@ -69,7 +71,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
       >
         <AnimatePresence>
           {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard key={project.id} project={project} index={index} dict={dict} />
           ))}
         </AnimatePresence>
       </motion.div>
@@ -77,7 +79,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
   );
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project, index, dict }: { project: Project; index: number; dict: Dictionary }) {
   return (
     <motion.div
       layout
@@ -104,7 +106,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             />
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
               <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
-                View Case Study
+                {dict.projects.viewCaseStudy}
               </span>
             </div>
           </a>

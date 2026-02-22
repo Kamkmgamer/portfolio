@@ -6,12 +6,14 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, BookOpen, Calendar, MapPin } from "lucide-react";
 import { Research } from "@prisma/client";
+import { Dictionary } from "@/lib/i18n";
 
 interface ResearchListProps {
   researchPapers: Research[];
+  dict: Dictionary;
 }
 
-export default function ResearchList({ researchPapers }: ResearchListProps) {
+export default function ResearchList({ researchPapers, dict }: ResearchListProps) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, -100]);
 
@@ -24,16 +26,14 @@ export default function ResearchList({ researchPapers }: ResearchListProps) {
           transition={{ duration: 0.8 }}
         >
           <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-6">
-            Academic & Industry
+            {dict.research.eyebrow}
           </span>
           <h1 className="text-6xl md:text-8xl font-display leading-[0.9] mb-8">
-            Research <br />
-            <span className="italic text-text/50">& Publications</span>
+            {dict.research.heading} <br />
+            <span className="italic text-text/50">{dict.research.headingItalic}</span>
           </h1>
           <p className="max-w-2xl text-lg text-text/60 leading-relaxed">
-            Exploring the frontiers of web engineering, user experience, and
-            digital architecture. Documenting the journey from theory to
-            practical application.
+            {dict.research.intro}
           </p>
         </motion.div>
 
@@ -47,14 +47,14 @@ export default function ResearchList({ researchPapers }: ResearchListProps) {
 
       <div className="grid grid-cols-1 gap-12">
         {researchPapers.map((paper, index) => (
-          <ResearchCard key={paper.id} paper={paper} index={index} />
+          <ResearchCard key={paper.id} paper={paper} index={index} dict={dict} />
         ))}
       </div>
     </>
   );
 }
 
-function ResearchCard({ paper, index }: { paper: Research; index: number }) {
+function ResearchCard({ paper, index, dict }: { paper: Research; index: number; dict: Dictionary }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 50 }}
@@ -113,7 +113,7 @@ function ResearchCard({ paper, index }: { paper: Research; index: number }) {
             href={`/research/${paper.slug || "#"}`}
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))] group/link"
           >
-            <span>Read Paper</span>
+            <span>{dict.research.readPaper}</span>
             <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
           </Link>
         </div>

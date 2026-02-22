@@ -4,12 +4,14 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Offer } from "@/data/offers";
+import { Dictionary } from "@/lib/i18n";
 
 interface OfferListProps {
   offers: Offer[];
+  dict: Dictionary;
 }
 
-export default function OfferList({ offers }: OfferListProps) {
+export default function OfferList({ offers, dict }: OfferListProps) {
   return (
     <>
       <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
@@ -19,10 +21,10 @@ export default function OfferList({ offers }: OfferListProps) {
             animate={{ opacity: 1 }}
             className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-4"
           >
-            Services & Pricing
+            {dict.offers.eyebrow}
           </motion.span>
           <h1 className="text-6xl md:text-8xl font-display leading-none">
-            Past <span className="italic text-text/50">Offers</span>
+            {dict.offers.heading} <span className="italic text-text/50">{dict.offers.headingItalic}</span>
           </h1>
         </div>
       </div>

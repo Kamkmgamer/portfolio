@@ -5,20 +5,22 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Demo } from "@prisma/client";
+import { Dictionary } from "@/lib/i18n";
 
 interface DemoListProps {
   demos: Demo[];
+  dict: Dictionary;
 }
 
-export default function DemoList({ demos }: DemoListProps) {
-  const [filter, setFilter] = useState("All");
+export default function DemoList({ demos, dict }: DemoListProps) {
+  const [filter, setFilter] = useState(dict.demos.all);
 
   const allTags = Array.from(
     new Set(demos.map((d) => d.tags?.[0]).filter(Boolean)),
   );
 
   const filteredDemos =
-    filter === "All" ? demos : demos.filter((d) => d.tags?.includes(filter));
+    filter === dict.demos.all ? demos : demos.filter((d) => d.tags?.includes(filter));
 
   return (
     <>
@@ -29,33 +31,31 @@ export default function DemoList({ demos }: DemoListProps) {
             animate={{ opacity: 1 }}
             className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-4"
           >
-            Live Demos
+            {dict.demos.eyebrow}
           </motion.span>
           <h1 className="text-6xl md:text-8xl font-display leading-none">
-            Interactive <span className="italic text-text/50">Demos</span>
+            {dict.demos.heading} <span className="italic text-text/50">{dict.demos.headingItalic}</span>
           </h1>
         </div>
 
         <div className="flex flex-wrap gap-2 max-w-xl justify-end">
           <button
-            onClick={() => setFilter("All")}
-            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${
-              filter === "All"
+            onClick={() => setFilter(dict.demos.all)}
+            className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === dict.demos.all
                 ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
                 : "border-text/10 text-text/50 hover:border-text/30"
-            }`}
+              }`}
           >
-            All
+            {dict.demos.all}
           </button>
           {allTags.map((tag) => (
             <button
               key={tag}
               onClick={() => setFilter(tag)}
-              className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${
-                filter === tag
+              className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === tag
                   ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
                   : "border-text/10 text-text/50 hover:border-text/30"
-              }`}
+                }`}
             >
               {tag}
             </button>
@@ -69,7 +69,7 @@ export default function DemoList({ demos }: DemoListProps) {
       >
         <AnimatePresence>
           {filteredDemos.map((demo, index) => (
-            <DemoCard key={demo.id} demo={demo} index={index} />
+            <DemoCard key={demo.id} demo={demo} index={index} dict={dict} />
           ))}
         </AnimatePresence>
       </motion.div>
@@ -77,7 +77,7 @@ export default function DemoList({ demos }: DemoListProps) {
   );
 }
 
-function DemoCard({ demo, index }: { demo: Demo; index: number }) {
+function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dictionary }) {
   return (
     <motion.div
       layout
@@ -104,7 +104,7 @@ function DemoCard({ demo, index }: { demo: Demo; index: number }) {
             />
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
               <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
-                View Live Demo
+                {dict.demos.viewLiveDemo}
               </span>
             </div>
           </a>
