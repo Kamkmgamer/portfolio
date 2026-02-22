@@ -4,7 +4,8 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock, User } from "lucide-react";
-import { blogPosts } from "@/lib/blogs";
+import { getBlogPostsByLocale } from "@/lib/blogs";
+import { Locale, Dictionary } from "@/lib/i18n";
 
 const container = {
   hidden: { opacity: 0 },
@@ -23,7 +24,12 @@ const item = {
   },
 };
 
-export default function BlogGrid() {
+interface BlogGridProps {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+export default function BlogGrid({ locale, dict }: BlogGridProps) {
   return (
     <section>
       <motion.div
@@ -33,12 +39,15 @@ export default function BlogGrid() {
         viewport={{ once: true, amount: 0.2 }}
         className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {blogPosts.map((post) => {
-          const formattedDate = post.publishedDate.toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
+        {getBlogPostsByLocale(locale).map((post) => {
+          const formattedDate = post.publishedDate.toLocaleDateString(
+            locale === "ar" ? "ar-EG" : "en-US",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          );
 
           return (
             <motion.article key={post.slug} variants={item}>
@@ -78,18 +87,18 @@ export default function BlogGrid() {
                     </span>
                     <span className="flex items-center gap-1.5">
                       <Clock className="h-3.5 w-3.5" />
-                      {post.readTime} min read
+                      {post.readTime} {dict.blog.minRead}
                     </span>
                   </div>
 
                   <div className="text-xs text-text/40 mb-4">{formattedDate}</div>
 
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`/${locale}/blog/${post.slug}`}
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))] group/link"
                   >
-                    Read article
-                    <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+                    {dict.blog.readArticle}
+                    <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform rtl:rotate-180" />
                   </Link>
                 </div>
               </div>

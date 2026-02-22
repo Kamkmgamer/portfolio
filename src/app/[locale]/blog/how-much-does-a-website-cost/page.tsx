@@ -122,7 +122,10 @@ const faqJsonLd = {
   ],
 };
 
-export default function Page() {
+import { Locale } from "@/i18n.config";
+
+export default async function Page({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
   return (
     <>
       <script
@@ -133,7 +136,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <HowMuchDoesAWebsiteCostPage />
+      <HowMuchDoesAWebsiteCostPage locale={locale} />
     </>
   );
 }
