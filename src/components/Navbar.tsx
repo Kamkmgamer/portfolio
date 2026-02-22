@@ -5,19 +5,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, cubicBezier, useScroll } from "framer-motion";
 import { DynamicThemeToggle as ThemeToggle } from "@/lib/dynamic-imports";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { Locale, Dictionary } from "@/lib/i18n";
 
 type NavLink = {
-  label: string;
+  labelKey: keyof Dictionary["nav"];
   href: string;
 };
 
 const links: NavLink[] = [
-  { label: "Projects", href: "/projects" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/contact" },
-  { label: "Research", href: "/research" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Demos", href: "/demos" },
+  { labelKey: "projects", href: "/projects" },
+  { labelKey: "blog", href: "/blog" },
+  { labelKey: "contact", href: "/contact" },
+  { labelKey: "research", href: "/research" },
+  { labelKey: "caseStudies", href: "/case-studies" },
+  { labelKey: "demos", href: "/demos" },
 ];
 
 const ease = cubicBezier(0.22, 1, 0.36, 1);
@@ -58,13 +60,17 @@ const useActiveHash = (ids: string[]) => {
   return active;
 };
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const menuId = "mobile-nav-menu";
   const backdropId = "mobile-nav-backdrop";
   const toggleBtnRef = React.useRef<HTMLButtonElement | null>(null);
 
-  // Scroll-based effects
   const { scrollY } = useScroll();
   const [hasScrolled, setHasScrolled] = React.useState(false);
 
@@ -74,7 +80,6 @@ const Navbar: React.FC = () => {
     });
   }, [scrollY]);
 
-  // Active section tracking
   const activeHash = useActiveHash(
     links.map((l) => l.href).filter((h) => h.startsWith("#")),
   );
@@ -83,7 +88,6 @@ const Navbar: React.FC = () => {
   const toggleMenu = () => setIsOpen((v) => !v);
   const closeMenu = () => setIsOpen(false);
 
-  // Focus trap for mobile menu
   React.useEffect(() => {
     if (!isOpen) return;
 
@@ -121,7 +125,6 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
-  // Lock body scroll and close on resize
   React.useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) closeMenu();
@@ -162,7 +165,7 @@ const Navbar: React.FC = () => {
     if (href.startsWith("#")) {
       return activeHash === href ? "page" : undefined;
     }
-    return pathname === href ? "page" : undefined;
+    return pathname === `/${locale}${href}` || pathname === `/${locale}${href}/` ? "page" : undefined;
   };
 
   return (
@@ -174,7 +177,6 @@ const Navbar: React.FC = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${hasScrolled ? "py-2" : "py-4"
         }`}
     >
-      {/* Glassmorphism background - fades in on scroll */}
       <motion.div
         className="absolute inset-0 -z-10"
         initial={{ opacity: 0 }}
@@ -194,9 +196,8 @@ const Navbar: React.FC = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-        {/* Logo */}
         <Link
-          href="/"
+          href={`/${locale}`}
           className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-display tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 rounded"
         >
           <motion.span
@@ -205,7 +206,6 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.2 }}
           >
             Khalil
-            {/* Glow effect on hover */}
             <span
               className="absolute inset-0 bg-linear-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
               aria-hidden="true"
@@ -213,10 +213,9 @@ const Navbar: React.FC = () => {
               Khalil
             </span>
           </motion.span>
-          <span className="sr-only">Home</span>
+          <span className="sr-only">{dict.nav.home}</span>
         </Link>
 
-        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-3">
           <div className="flex items-center gap-1 rounded-full glass-card px-2 py-1.5">
             {links.map((item) => {
@@ -224,15 +223,14 @@ const Navbar: React.FC = () => {
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={`/${locale}${item.href}`}
                   aria-current={isActive ? "page" : undefined}
                   className="relative group px-4 py-2 rounded-full text-sm font-medium text-text/70 hover:text-text outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 transition-colors duration-200"
                 >
                   <span className="relative z-10 uppercase tracking-widest text-[0.7rem] font-semibold">
-                    {item.label}
+                    {dict.nav[item.labelKey]}
                   </span>
 
-                  {/* Active background pill */}
                   <AnimatePresence>
                     {isActive && (
                       <motion.span
@@ -246,16 +244,22 @@ const Navbar: React.FC = () => {
                     )}
                   </AnimatePresence>
 
-                  {/* Hover underline effect */}
                   <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-linear-to-r from-[hsl(var(--accent-gold))] to-transparent transition-transform duration-300 rounded-full" />
                 </Link>
               );
             })}
           </div>
 
-          {/* Theme toggle with glow effect */}
           <motion.div
             className="ml-2 p-1 rounded-full glass-card"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
+            <LanguageSwitcher currentLocale={locale} />
+          </motion.div>
+
+          <motion.div
+            className="p-1 rounded-full glass-card"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
@@ -263,7 +267,6 @@ const Navbar: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Mobile Toggle */}
         <motion.button
           ref={toggleBtnRef}
           type="button"
@@ -320,11 +323,9 @@ const Navbar: React.FC = () => {
         </motion.button>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               id={backdropId}
               aria-hidden
@@ -335,7 +336,6 @@ const Navbar: React.FC = () => {
               className="md:hidden fixed inset-0 z-70 bg-black/20 backdrop-blur-sm"
             />
 
-            {/* Menu Panel */}
             <motion.div
               id={menuId}
               role="menu"
@@ -367,7 +367,7 @@ const Navbar: React.FC = () => {
                         transition={{ delay: index * 0.05, duration: 0.3 }}
                       >
                         <Link
-                          href={item.href}
+                          href={`/${locale}${item.href}`}
                           role="menuitem"
                           aria-current={isActive ? "page" : undefined}
                           onClick={closeMenu}
@@ -376,7 +376,7 @@ const Navbar: React.FC = () => {
                               : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
                             }`}
                         >
-                          {item.label}
+                          {dict.nav[item.labelKey]}
                           {isActive && (
                             <motion.span
                               layoutId="mobile-active-indicator"
@@ -388,7 +388,6 @@ const Navbar: React.FC = () => {
                     );
                   })}
 
-                  {/* Theme toggle row */}
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -396,7 +395,19 @@ const Navbar: React.FC = () => {
                     className="mt-2 pt-4 flex items-center justify-between rounded-2xl px-4 py-4 border-t border-gray-200/50 dark:border-white/10"
                   >
                     <span className="text-base font-semibold text-text/80">
-                      Theme
+                      {dict.common.language}
+                    </span>
+                    <LanguageSwitcher currentLocale={locale} />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: (links.length + 1) * 0.05, duration: 0.3 }}
+                    className="flex items-center justify-between rounded-2xl px-4 py-4 border-t border-gray-200/50 dark:border-white/10"
+                  >
+                    <span className="text-base font-semibold text-text/80">
+                      {dict.common.theme}
                     </span>
                     <ThemeToggle />
                   </motion.div>
