@@ -13,6 +13,9 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui'],
+        sansAr: ['var(--font-sans-ar)', 'var(--font-sans)', 'ui-sans-serif', 'system-ui'],
+        display: ['var(--font-display)', 'ui-serif', 'Georgia'],
+        displayAr: ['var(--font-display-ar)', 'var(--font-display)', 'ui-serif', 'Georgia'],
         mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular'],
       },
       backgroundImage: {
