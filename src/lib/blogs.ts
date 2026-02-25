@@ -57,6 +57,17 @@ const blogPostsEn: BlogPost[] = [
     publishedDate: new Date("2026-02-21"),
     readTime: 9,
   },
+  {
+    slug: "headless-shopify-vs-regular",
+    title: "Headless Shopify vs Regular Shopify: The Honest Difference",
+    summary:
+      "Is headless Shopify worth it? A clear, honest breakdown of when headless makes sense and when it doesn't - without the hype.",
+    category: "E-commerce",
+    tags: ["shopify", "headless", "ecommerce", "performance", "web development"],
+    author: "Khalil AbdalMageed",
+    publishedDate: new Date("2026-02-25"),
+    readTime: 8,
+  },
 ];
 
 const blogPostsAr: BlogPost[] = [
@@ -103,6 +114,17 @@ const blogPostsAr: BlogPost[] = [
     author: "مطور ويب",
     publishedDate: new Date("2026-02-21"),
     readTime: 9,
+  },
+  {
+    slug: "headless-shopify-vs-regular",
+    title: "Shopify Headless مقابل Shopify العادي: الفرق الحقيقي",
+    summary:
+      "هل يستحق Shopify Headless العناء؟ تفصيل واضح وصادق لمتى يكون Headless منطقياً ومتى لا يكون - بدون مبالغات.",
+    category: "تجارة إلكترونية",
+    tags: ["شوبيفاي", "headless", "تجارة إلكترونية", "أداء", "تطوير ويب"],
+    author: "خليل عبد المجيد",
+    publishedDate: new Date("2026-02-25"),
+    readTime: 8,
   },
 ];
 
