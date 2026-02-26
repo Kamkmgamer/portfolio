@@ -4,6 +4,11 @@ import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 
+export async function verifyAdminPassword(password: string) {
+    const correctPassword = process.env.ADMIN_PASSWORD || "admin123";
+    return password === correctPassword;
+}
+
 export async function createProject(data: Prisma.ProjectCreateInput) {
     const project = await prisma.project.create({ data });
     revalidatePath("/[locale]/projects", "page");

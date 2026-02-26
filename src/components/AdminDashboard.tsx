@@ -3,7 +3,7 @@
 
 
 import React, { useState } from "react";
-import { createProject, updateProject, deleteProject, createDemo, updateDemo, deleteDemo } from "@/app/actions/admin";
+import { createProject, updateProject, deleteProject, createDemo, updateDemo, deleteDemo, verifyAdminPassword } from "@/app/actions/admin";
 import { Project, Demo } from "@prisma/client";
 import { UploadButton } from "@/utils/uploadthing";
 
@@ -24,12 +24,23 @@ export default function AdminDashboard({ initialProjects, initialDemos }: AdminD
     // Standalone quick upload states
     const [quickUploadUrl, setQuickUploadUrl] = useState("");
 
-    const handleLogin = (e: React.FormEvent) => {
+    const [isVerifying, setIsVerifying] = useState(false);
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === (process.env.NEXT_PUBLIC_ADMIN_PASSWORD)) {
-            setIsAuthenticated(true);
-        } else {
-            alert("Incorrect password");
+        setIsVerifying(true);
+        try {
+            const isValid = await verifyAdminPassword(password);
+            if (isValid) {
+                setIsAuthenticated(true);
+            } else {
+                alert("Incorrect password");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error verifying password");
+        } finally {
+            setIsVerifying(false);
         }
     };
 
@@ -94,9 +105,10 @@ export default function AdminDashboard({ initialProjects, initialDemos }: AdminD
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="p-3 bg-transparent border border-text/20 focus:border-[hsl(var(--accent-gold))] min-w-full outline-none"
+                        disabled={isVerifying}
                     />
-                    <button type="submit" className="p-3 bg-[hsl(var(--accent-gold))] text-black font-bold uppercase tracking-widest">
-                        Login
+                    <button disabled={isVerifying} type="submit" className="p-3 bg-[hsl(var(--accent-gold))] text-black font-bold uppercase tracking-widest disabled:opacity-50">
+                        {isVerifying ? "Verifying..." : "Login"}
                     </button>
                 </form>
             </div>
