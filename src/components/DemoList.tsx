@@ -42,8 +42,8 @@ export default function DemoList({ demos, dict }: DemoListProps) {
           <button
             onClick={() => setFilter(dict.demos.all)}
             className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === dict.demos.all
-                ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
-                : "border-text/10 text-text/50 hover:border-text/30"
+              ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
+              : "border-text/10 text-text/50 hover:border-text/30"
               }`}
           >
             {dict.demos.all}
@@ -53,8 +53,8 @@ export default function DemoList({ demos, dict }: DemoListProps) {
               key={tag}
               onClick={() => setFilter(tag)}
               className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all duration-300 ${filter === tag
-                  ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
-                  : "border-text/10 text-text/50 hover:border-text/30"
+                ? "border-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"
+                : "border-text/10 text-text/50 hover:border-text/30"
                 }`}
             >
               {tag}
@@ -95,19 +95,39 @@ function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dict
             rel="noopener noreferrer"
             className="block w-full h-full"
           >
-            <Image
-              src={demo.image}
-              alt={demo.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+            {demo.video ? (
+              <video
+                src={demo.video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+              />
+            ) : (
+              <Image
+                src={demo.image}
+                alt={demo.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            )}
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
               <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
                 {dict.demos.viewLiveDemo}
               </span>
             </div>
           </a>
+        ) : demo.video ? (
+          <video
+            src={demo.video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+          />
         ) : (
           <Image
             src={demo.image}
