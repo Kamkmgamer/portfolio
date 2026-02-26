@@ -78,6 +78,47 @@ export default function DemoList({ demos, dict }: DemoListProps) {
 }
 
 function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dictionary }) {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch((e) => console.log("Video autoplay blocked:", e));
+    }
+  }, [demo.video]);
+
+  const mediaContent = (
+    <>
+      {demo.video && (
+        <video
+          ref={videoRef}
+          src={demo.video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          onLoadedData={() => setIsVideoLoaded(true)}
+          className="absolute inset-0 object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+        />
+      )}
+      <Image
+        src={demo.image}
+        alt={demo.title}
+        fill
+        className={`absolute inset-0 object-cover transition-all duration-1000 group-hover:scale-105 ${demo.video && isVideoLoaded ? "opacity-0" : "opacity-100"
+          }`}
+        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      />
+      {demo.demo && (
+        <div className="absolute z-10 inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
+            {dict.demos.viewLiveDemo}
+          </span>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <motion.div
       layout
@@ -87,7 +128,7 @@ function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dict
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500"
     >
-      <div className="aspect-4/3 relative overflow-hidden">
+      <div className="aspect-4/3 relative overflow-hidden bg-secondary/10">
         {demo.demo ? (
           <a
             href={demo.demo}
@@ -95,46 +136,10 @@ function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dict
             rel="noopener noreferrer"
             className="block w-full h-full"
           >
-            {demo.video ? (
-              <video
-                src={demo.video}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-              />
-            ) : (
-              <Image
-                src={demo.image}
-                alt={demo.title}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-            )}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-              <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
-                {dict.demos.viewLiveDemo}
-              </span>
-            </div>
+            {mediaContent}
           </a>
-        ) : demo.video ? (
-          <video
-            src={demo.video}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
-          />
         ) : (
-          <Image
-            src={demo.image}
-            alt={demo.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
+          mediaContent
         )}
       </div>
 

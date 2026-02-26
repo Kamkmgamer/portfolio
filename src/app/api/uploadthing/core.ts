@@ -8,7 +8,7 @@ export const ourFileRouter = {
         image: { maxFileSize: "16MB", maxFileCount: 1 },
         video: { maxFileSize: "256MB", maxFileCount: 1 },
     })
-        .onUploadComplete(async ({ metadata, file }) => {
+        .onUploadComplete(async ({ file }) => {
             console.log("file url", file.ufsUrl);
             return { url: file.ufsUrl };
         }),

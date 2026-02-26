@@ -6,7 +6,7 @@ import { DynamicSpotlight } from '@/lib/dynamic-imports';
 import Navbar from '@/components/Navbar';
 import JsonLd from '@/components/seo/JsonLd';
 import { locales, localeDirections, type Locale } from '@/i18n.config';
-import { getDictionary, type Dictionary } from '@/lib/i18n/server';
+import { getDictionary } from '@/lib/i18n/server';
 
 const playfair = Playfair_Display({
   variable: '--font-display',

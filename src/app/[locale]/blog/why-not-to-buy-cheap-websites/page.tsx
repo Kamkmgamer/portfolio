@@ -14,7 +14,7 @@ import {
   MapPin,
   RefreshCw,
 } from "lucide-react";
-import { Locale, getDictionarySync } from "@/lib/i18n";
+import { Locale } from "@/lib/i18n";
 
 type PageContent = {
   eyebrow: string;
