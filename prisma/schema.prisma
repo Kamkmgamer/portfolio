@@ -16,6 +16,7 @@ model Project {
   title       String
   description String
   image       String
+  video       String? // Optional video URL/path
   tags        String[] // Stored as array
   gradient    String
   github      String?
@@ -43,6 +44,7 @@ model Demo {
   title       String
   description String
   image       String
+  video       String? // Optional video URL/path
   tags        String[] // Stored as array
   gradient    String
   github      String?
