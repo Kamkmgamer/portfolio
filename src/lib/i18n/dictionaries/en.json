@@ -1,10 +1,10 @@
 {
   "metadata": {
     "title": {
-      "default": "Khalil Abd Almageed | Web Developer & Designer",
-      "template": "%s | Khalil Abd Almageed"
+      "default": "Khalil Mageed | Web Developer & Designer",
+      "template": "%s | Khalil Mageed"
     },
-    "description": "Portfolio of Khalil Abd Almageed, a web developer and designer specializing in Next.js, React, and modern responsive design. delivering high-performance, SEO-friendly web solutions."
+    "description": "Khalil Mageed (Khalil AbdalMageed) is a web developer based in Cairo specializing in restaurant websites, ecommerce stores, and local business sites built with Next.js and React."
   },
   "nav": {
     "projects": "Projects",
