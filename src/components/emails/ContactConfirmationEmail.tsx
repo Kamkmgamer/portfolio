@@ -46,7 +46,10 @@ export const ContactConfirmationEmail = ({
         <Body className="bg-gray-50 font-sans">
           <Container className="mx-auto py-20 px-4 max-w-2xl">
             <Section className="bg-white rounded-2xl shadow-xl overflow-hidden">
-              <div className="bg-linear-to-br from-[#D4AF37] to-[#B8860B] px-8 py-12 text-center">
+              <div
+                style={{ background: "linear-gradient(135deg, #D4AF37 0%, #B8860B 100%)" }}
+                className="px-8 py-12 text-center"
+              >
                 <Img
                   src={`${baseUrl}/favicon.ico`}
                   width="48"
@@ -54,7 +57,7 @@ export const ContactConfirmationEmail = ({
                   alt="Khalil Mageed"
                   className="mx-auto mb-4"
                 />
-                <Heading className="text-3xl font-bold text-[#D4AF37] m-0">
+                <Heading className="text-3xl font-bold text-white m-0">
                   Message Received
                 </Heading>
               </div>
@@ -74,7 +77,10 @@ export const ContactConfirmationEmail = ({
                   you.
                 </Text>
 
-                <Section className="bg-linear-to-r from-amber-50 to-orange-50 rounded-xl p-6 mb-6 border-l-4 border-[#D4AF37]">
+                <Section
+                  style={{ background: "linear-gradient(90deg, #FFFBEB 0%, #FFEDD5 100%)" }}
+                  className="rounded-xl p-6 mb-6 border-l-4 border-[#D4AF37]"
+                >
                   <Text className="text-gray-700 m-0 font-medium">
                     I&apos;ll carefully review your message and get back to you
                     as soon as possible. Typically, I respond within 24-48
@@ -113,7 +119,7 @@ export const ContactConfirmationEmail = ({
 
               <Section className="bg-gray-50 px-8 py-6 text-center">
                 <Text className="text-gray-400 text-xs mb-4">
-                  This email was sent from noreply@khalil.mageed.net
+                  This email was sent from onboarding@resend.dev
                 </Text>
                 <Button
                   className="bg-[#D4AF37] text-white font-semibold py-3 px-6 rounded-lg"
