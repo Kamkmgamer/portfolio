@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, UtensilsCrossed, ShoppingCart, Building2 } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
 import { Locale, Dictionary } from "@/lib/i18n";
 
@@ -130,6 +130,128 @@ export default function Home({
           </div>
         </section>
 
+        {/* Who I Help Section */}
+        <section className="py-24 px-6 relative overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-b from-[hsl(var(--accent-gold))]/3 to-transparent pointer-events-none" />
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+                {dict.home.whoIHelpEyebrow}
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
+                {dict.home.whoIHelpTitle}
+              </h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Restaurants */}
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -6 }}
+                  className="flex flex-col flex-1"
+                >
+                  <Link
+                    href={`/${locale}/case-studies/restaurant-websites-tiers`}
+                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-gold))]/20 bg-[hsl(var(--accent-gold))]/5 hover:border-[hsl(var(--accent-gold))]/50 hover:bg-[hsl(var(--accent-gold))]/10 transition-all duration-500"
+                  >
+                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-gold))]">
+                      <UtensilsCrossed className="w-8 h-8" strokeWidth={1.5} />
+                    </div>
+                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-gold))]">
+                      {dict.home.whoIHelpRestaurantsTitle}
+                    </h3>
+                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
+                      {dict.home.whoIHelpRestaurantsDesc}
+                    </p>
+                    <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
+                      <span>{dict.home.whoIHelpRestaurantsCta}</span>
+                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </Link>
+                </motion.div>
+              </div>
+
+              {/* Ecommerce */}
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -6 }}
+                  className="flex flex-col flex-1"
+                >
+                  <Link
+                    href={`/${locale}/case-studies/ecommerce-websites-tiers`}
+                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-bronze))]/20 bg-[hsl(var(--accent-bronze))]/5 hover:border-[hsl(var(--accent-bronze))]/50 hover:bg-[hsl(var(--accent-bronze))]/10 transition-all duration-500"
+                  >
+                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-bronze))]">
+                      <ShoppingCart className="w-8 h-8" strokeWidth={1.5} />
+                    </div>
+                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-bronze))]">
+                      {dict.home.whoIHelpEcommerceTitle}
+                    </h3>
+                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
+                      {dict.home.whoIHelpEcommerceDesc}
+                    </p>
+                    <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
+                      <span>{dict.home.whoIHelpEcommerceCta}</span>
+                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </Link>
+                </motion.div>
+              </div>
+
+              {/* Local Businesses */}
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -6 }}
+                  className="flex flex-col flex-1"
+                >
+                  <Link
+                    href={`/${locale}/demos`}
+                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-champagne))]/20 bg-[hsl(var(--accent-champagne))]/5 hover:border-[hsl(var(--accent-champagne))]/50 hover:bg-[hsl(var(--accent-champagne))]/10 transition-all duration-500"
+                  >
+                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-champagne))]">
+                      <Building2 className="w-8 h-8" strokeWidth={1.5} />
+                    </div>
+                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-champagne))]">
+                      {dict.home.whoIHelpLocalTitle}
+                    </h3>
+                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
+                      {dict.home.whoIHelpLocalDesc}
+                    </p>
+                    <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
+                      <span>{dict.home.whoIHelpLocalCta}</span>
+                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </div>
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="py-32 bg-secondary/5 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl md:text-6xl font-display font-semibold mb-20 text-center">
@@ -172,176 +294,197 @@ export default function Home({
                   & {dict.home.viewDemos}
                 </span>
               </h2>
+              <p className="mt-4 text-text/50 text-lg max-w-xl mx-auto">
+                Real work, real proof.
+              </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link
-                  href={`/${locale}/projects`}
-                  className="group relative p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer block"
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-col flex-1"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
-                      {dict.home.viewProjects}
-                    </h3>
-                    <p className="text-text/60 mb-8 text-lg">
-                      {dict.home.viewProjectsDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300">
-                      <span className="uppercase tracking-widest text-sm font-semibold">
-                        {dict.home.viewProjectsCta}
-                      </span>
-                      <svg
-                        className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
+                  <Link
+                    href={`/${locale}/case-studies/restaurant-websites-tiers`}
+                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10 flex flex-col flex-1">
+                      <div className="mb-5 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-gold))]">
+                        <UtensilsCrossed className="w-8 h-8" strokeWidth={1.5} />
+                      </div>
+                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
+                        {dict.home.viewProjects}
+                      </h3>
+                      <p className="text-text/60 mb-8 text-lg flex-1">
+                        {dict.home.viewProjectsDesc}
+                      </p>
+                      <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 mt-auto">
+                        <span className="uppercase tracking-widest text-sm font-semibold">
+                          {dict.home.viewProjectsCta}
+                        </span>
+                        <svg
+                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  </Link>
+                </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link
-                  href={`/${locale}/demos`}
-                  className="group relative p-12 border border-[hsl(var(--accent-bronze))]/20 bg-linear-to-br from-[hsl(var(--accent-bronze))]/5 to-transparent hover:border-[hsl(var(--accent-bronze))]/50 transition-all duration-500 cursor-pointer block"
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-col flex-1"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-bronze))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-bronze))]">
-                      {dict.home.viewDemos}
-                    </h3>
-                    <p className="text-text/60 mb-8 text-lg">
-                      {dict.home.viewDemosDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300">
-                      <span className="uppercase tracking-widest text-sm font-semibold">
-                        {dict.home.viewDemosCta}
-                      </span>
-                      <svg
-                        className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
+                  <Link
+                    href={`/${locale}/case-studies/ecommerce-websites-tiers`}
+                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-bronze))]/20 bg-linear-to-br from-[hsl(var(--accent-bronze))]/5 to-transparent hover:border-[hsl(var(--accent-bronze))]/50 transition-all duration-500 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-bronze))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10 flex flex-col flex-1">
+                      <div className="mb-5 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-bronze))]">
+                        <ShoppingCart className="w-8 h-8" strokeWidth={1.5} />
+                      </div>
+                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-bronze))]">
+                        {dict.home.viewDemos}
+                      </h3>
+                      <p className="text-text/60 mb-8 text-lg flex-1">
+                        {dict.home.viewDemosDesc}
+                      </p>
+                      <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300 mt-auto">
+                        <span className="uppercase tracking-widest text-sm font-semibold">
+                          {dict.home.viewDemosCta}
+                        </span>
+                        <svg
+                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  </Link>
+                </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link
-                  href={`/${locale}/case-studies`}
-                  className="group relative p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer block"
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-col flex-1"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
-                      {dict.home.viewCaseStudies}
-                    </h3>
-                    <p className="text-text/60 mb-8 text-lg">
-                      {dict.home.viewCaseStudiesDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300">
-                      <span className="uppercase tracking-widest text-sm font-semibold">
-                        {dict.home.viewCaseStudiesCta}
-                      </span>
-                      <svg
-                        className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
+                  <Link
+                    href={`/${locale}/case-studies`}
+                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10 flex flex-col flex-1">
+                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
+                        {dict.home.viewCaseStudies}
+                      </h3>
+                      <p className="text-text/60 mb-8 text-lg flex-1">
+                        {dict.home.viewCaseStudiesDesc}
+                      </p>
+                      <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 mt-auto">
+                        <span className="uppercase tracking-widest text-sm font-semibold">
+                          {dict.home.viewCaseStudiesCta}
+                        </span>
+                        <svg
+                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  </Link>
+                </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link
-                  href={`/${locale}/blog`}
-                  className="group relative p-12 border border-[hsl(var(--accent-champagne))]/20 bg-linear-to-br from-[hsl(var(--accent-champagne))]/5 to-transparent hover:border-[hsl(var(--accent-champagne))]/50 transition-all duration-500 cursor-pointer block"
+              <div className="flex flex-col">
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex flex-col flex-1"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-champagne))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative z-10">
-                    <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-champagne))]">
-                      {dict.home.viewBlog}
-                    </h3>
-                    <p className="text-text/60 mb-8 text-lg">
-                      {dict.home.viewBlogDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300">
-                      <span className="uppercase tracking-widest text-sm font-semibold">
-                        {dict.home.viewBlogCta}
-                      </span>
-                      <svg
-                        className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
+                  <Link
+                    href={`/${locale}/blog`}
+                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-champagne))]/20 bg-linear-to-br from-[hsl(var(--accent-champagne))]/5 to-transparent hover:border-[hsl(var(--accent-champagne))]/50 transition-all duration-500 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-champagne))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10 flex flex-col flex-1">
+                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-champagne))]">
+                        {dict.home.viewBlog}
+                      </h3>
+                      <p className="text-text/60 mb-8 text-lg flex-1">
+                        {dict.home.viewBlogDesc}
+                      </p>
+                      <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 mt-auto">
+                        <span className="uppercase tracking-widest text-sm font-semibold">
+                          {dict.home.viewBlogCta}
+                        </span>
+                        <svg
+                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
+                  </Link>
+                </motion.div>
+              </div>
             </div>
 
           </div>

@@ -16,12 +16,12 @@
     "home": "Home"
   },
   "home": {
-    "title": "Hi, I'm",
+    "title": "Hey, I'm",
     "subtitle": "Web Developer",
-    "description": "I'm a 23 Years old Sudanese web developer in Cairo,",
-    "descriptionExtended": "I was building websites since young age, and I've helped many businesses and individuals creating their online presence.",
-    "viewWork": "View My Work",
-    "getInTouch": "Get In Touch",
+    "description": "I build websites that actually work for businesses.",
+    "descriptionExtended": "Restaurants? Ecommerce? I create sites that bring in customers, not generic templates.",
+    "viewWork": "See What I've Built",
+    "getInTouch": "Let's Talk",
     "scroll": "Scroll",
     "journeyTitle": "Journey Through Tech",
     "experience": {
@@ -29,7 +29,7 @@
         "year": "2021 - Present",
         "role": "Freelance Web Developer",
         "company": "Self employed",
-        "desc": "Leading the frontend architecture for high-scale applications and delivering custom web solutions for diverse clients."
+        "desc": "Building custom websites for restaurants, ecommerce stores, and local businesses. Focused on sites that actually convert visitors into customers."
       },
       "fullstack": {
         "year": "2018 - 2021",
@@ -38,19 +38,30 @@
         "desc": "Delivered award-winning web experiences for global brands and built robust enterprise applications."
       }
     },
-    "exploreWork": "Explore My Work",
-    "viewProjects": "Projects",
-    "viewProjectsDesc": "Explore my portfolio of web applications, websites, and digital products built with modern technologies.",
-    "viewProjectsCta": "View Projects",
-    "viewDemos": "Demos",
-    "viewDemosDesc": "Check out interactive demos, experiments, and showcase pieces that highlight my creative coding skills.",
-    "viewDemosCta": "View Demos",
+    "whoIHelpTitle": "Who I Help",
+    "whoIHelpEyebrow": "The Right Fit",
+    "whoIHelpRestaurantsTitle": "Restaurants & Cafes",
+    "whoIHelpRestaurantsDesc": "Online menus, reservations, and ordering systems that turn visitors into customers.",
+    "whoIHelpRestaurantsCta": "See Restaurant Sites",
+    "whoIHelpEcommerceTitle": "Ecommerce Businesses",
+    "whoIHelpEcommerceDesc": "Online stores that actually sell, built to be fast, clean, and ready to grow.",
+    "whoIHelpEcommerceCta": "See Ecommerce Sites",
+    "whoIHelpLocalTitle": "Local Businesses",
+    "whoIHelpLocalDesc": "Professional websites that build trust and make you look legit online.",
+    "whoIHelpLocalCta": "See My Work",
+    "exploreWork": "What I've Built",
+    "viewProjects": "Restaurant Websites",
+    "viewProjectsDesc": "9 restaurant demo sites with different styles and different price points. See exactly what your future site could look like.",
+    "viewProjectsCta": "Browse Restaurant Demos",
+    "viewDemos": "Ecommerce Stores",
+    "viewDemosDesc": "From simple product pages to full-blown online stores. Pick a style that fits your business.",
+    "viewDemosCta": "Browse Ecommerce Demos",
     "viewCaseStudies": "Case Studies",
-    "viewCaseStudiesDesc": "Deep dives into complex problems and the elegant architectural solutions I built to solve them.",
+    "viewCaseStudiesDesc": "Real projects, real decisions, real results. Here's how I actually think and build.",
     "viewCaseStudiesCta": "Read Case Studies",
     "viewBlog": "Blog",
-    "viewBlogDesc": "Check out my latest thoughts on technology, design, and the business of building professional websites.",
-    "viewBlogCta": "Explore Articles"
+    "viewBlogDesc": "Honest takes on what a website actually costs, and why cheap usually ends up expensive.",
+    "viewBlogCta": "Read Articles"
   },
   "projects": {
     "title": "Projects",
