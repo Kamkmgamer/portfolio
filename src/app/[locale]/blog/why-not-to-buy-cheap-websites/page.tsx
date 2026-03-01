@@ -16,6 +16,57 @@ import {
 } from "lucide-react";
 import { Locale } from "@/lib/i18n";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Why a $20 Website Will Cost You Thousands",
+  description:
+    "A $20 website doesn't save you money - it costs you customers.",
+  author: {
+    "@type": "Person",
+    name: "Khalil AbdalMageed",
+    url: "https://www.khalil.mageed.net",
+  },
+  publisher: {
+    "@type": "Person",
+    name: "Khalil AbdalMageed",
+    url: "https://www.khalil.mageed.net",
+  },
+  datePublished: "2026-02-21",
+  dateModified: "2026-02-21",
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Why are cheap websites bad for business?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Cheap websites hurt your business by destroying trust before customers read a single word. Broken links, placeholder text, slow loading speeds, and mobile incompatibility signal to customers that you're not professional.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does a bad website cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A bad website costs more than a good one. You pay for the cheap site, then pay again when customers don't convert, and pay a third time when you finally need to replace it.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What is the cheapest way to get a business website?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For local businesses, a free Google Business Profile is the best starting point. For a real website, budget $200-$500 for a professional result.",
+      },
+    },
+  ],
+};
+
 type PageContent = {
   eyebrow: string;
   h1a: string;
@@ -221,7 +272,16 @@ export default function WhyNotCheapWebsitesPage({
   }, [params]);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
 
       <div className="max-w-7xl mx-auto">
@@ -528,6 +588,7 @@ export default function WhyNotCheapWebsitesPage({
         </motion.section>
       </div>
     </main>
+    </>
   );
 }
 

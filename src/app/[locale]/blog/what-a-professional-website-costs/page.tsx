@@ -9,6 +9,48 @@ import {
 } from "lucide-react";
 import { Locale } from "@/i18n.config";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "What a Professional Website Costs in 2026",
+  description: "See what's included in $500, $1,000, and $2,000+ professional websites.",
+  author: { "@type": "Person", name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" },
+  publisher: { "@type": "Person", name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" },
+  datePublished: "2026-02-21",
+  dateModified: "2026-02-21",
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What does a $500 professional website include?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A $500 professional website includes custom design, mobile optimization, fast loading speeds (under 1 second), working contact forms, and basic SEO setup.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What do you get with a $1,000 website?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A $1,000 website adds advanced features like booking systems, custom animations, enhanced SEO, and more sophisticated design tailored to your brand.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "When do I need a $2,000+ website?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You need $2,000+ when you have multiple locations, need ecommerce with inventory management, require customer accounts, or need custom integrations.",
+      },
+    },
+  ],
+};
+
 type Comparison = { feature: string; two: string; five: string };
 type ChangedItem = { title: string; description: string };
 
@@ -143,7 +185,10 @@ export default function WhatAProfessionalWebsiteCostsPage({ params }: { params: 
   useEffect(() => { params.then(({ locale: l }) => { setLocale(l); setC(l === "ar" ? ar : en); }); }, [params]);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
       <div className="max-w-7xl mx-auto">
 
@@ -344,6 +389,7 @@ export default function WhatAProfessionalWebsiteCostsPage({ params }: { params: 
         </motion.section>
       </div>
     </main>
+    </>
   );
 }
 

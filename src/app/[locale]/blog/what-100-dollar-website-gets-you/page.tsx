@@ -9,6 +9,48 @@ import {
 } from "lucide-react";
 import { Locale } from "@/i18n.config";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "What a $100 Website Actually Gets You",
+  description: "A $100 website works but has limits. Here's what that money delivers.",
+  author: { "@type": "Person", name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" },
+  publisher: { "@type": "Person", name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" },
+  datePublished: "2026-02-21",
+  dateModified: "2026-02-21",
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What does a $100 website include?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A $100 website typically includes basic product or menu display, simple navigation, visible contact info, and a professional enough appearance for desktop. It mostly works on mobile but has limitations.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What are the limitations of a $100 website?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A $100 website lacks automation, has no scaling capability, uses generic templates, and loads slowly (5-8 seconds). These limits become problems as your business grows.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is a $100 website worth it?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A $100 website works as a placeholder for side hobbies or businesses just starting out. For a real business, budget $500+ for a website that supports your growth.",
+      },
+    },
+  ],
+};
+
 type PageContent = {
   eyebrow: string; h1a: string; h1b: string; intro: string;
   badge1: string; badge2: string; badge3: string;
@@ -126,7 +168,10 @@ export default function What100DollarWebsiteGetsYouPage({ params }: { params: Pr
   useEffect(() => { params.then(({ locale: l }) => { setLocale(l); setC(l === "ar" ? ar : en); }); }, [params]);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
       <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
       <div className="max-w-7xl mx-auto">
         <motion.header initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-24 text-center max-w-4xl mx-auto">
@@ -313,6 +358,7 @@ export default function What100DollarWebsiteGetsYouPage({ params }: { params: Pr
         </motion.section>
       </div>
     </main>
+    </>
   );
 }
 

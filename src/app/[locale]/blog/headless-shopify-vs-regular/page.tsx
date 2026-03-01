@@ -17,6 +17,48 @@ import {
 } from "lucide-react";
 import { Locale } from "@/i18n.config";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "Headless Shopify vs Regular Shopify: What's the Difference?",
+  description: "Learn the difference between headless Shopify and regular Shopify to choose the right approach for your ecommerce store.",
+  author: { "@type": "Person", name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" },
+  publisher: { "@type": "Person", name: "Khalil AbdalMageed", url: "https://www.khalil.mageed.net" },
+  datePublished: "2026-02-25",
+  dateModified: "2026-02-25",
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is headless Shopify?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Headless Shopify separates the frontend (what customers see) from the backend (Shopify). You use Shopify's APIs to build custom frontends with React, Next.js, or other frameworks while still using Shopify's commerce features.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "When should I choose headless Shopify?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Choose headless Shopify when you need complete design control, want to optimize for performance, need complex custom functionality, or plan to scale significantly. It's ideal for brands where unique UX is a competitive advantage.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I switch from regular Shopify to headless later?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, you can migrate from regular Shopify to headless later, but it requires development work. If you're just starting and don't have specific needs for custom architecture, regular Shopify with a good theme is often sufficient.",
+      },
+    },
+  ],
+};
+
 type BenefitItem = { title: string; description: string };
 type LimitItem = { title: string; description: string };
 type ComparisonRow = { feature: string; regular: string; headless: string; headlessWins: boolean };
@@ -265,7 +307,10 @@ export default function HeadlessShopifyVsRegularPage({ params }: { params: Promi
     const benefitIcons = [Zap, Code, Globe, Server];
 
     return (
-        <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
+        <>
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+            <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
             <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
             <div className="max-w-7xl mx-auto">
 
@@ -456,6 +501,7 @@ export default function HeadlessShopifyVsRegularPage({ params }: { params: Promi
 
             </div>
         </main>
+        </>
     );
 }
 
