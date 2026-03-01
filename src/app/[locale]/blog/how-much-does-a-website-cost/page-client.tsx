@@ -14,7 +14,7 @@ type Recommendation = { type: string; budget: string; description: string };
 type Faq = { question: string; answer: string };
 
 type PageContent = {
-  eyebrow: string; h1: string; intro: string; meta1: string; meta2: string; meta3: string;
+  eyebrow: string; h1: string; intro: string; meta1: string; meta2: string; meta3: string; meta4: string;
   quickAnswerLabel: string; quickAnswerQ: string; quickAnswerA: string;
   priceRangesTitle: string;
   priceRanges: PriceRange[];
@@ -35,7 +35,7 @@ type PageContent = {
 const en: PageContent = {
   eyebrow: "Website Pricing Guide", h1: "How Much Does a Website Cost?",
   intro: "See exactly what different budgets buy. I built 15 live demos so you can compare $20 to $10,000 websites side by side.",
-  meta1: "Updated February 2026", meta2: "15 Live Demos", meta3: "12 min read",
+  meta1: "Updated February 2026", meta2: "15 Live Demos", meta3: "12 min read", meta4: "By Khalil AbdalMageed",
   quickAnswerLabel: "Quick Answer",
   quickAnswerQ: "How much does a website cost?",
   quickAnswerA: "Website costs range from $20 to $10,000+. A basic professional website costs $200-$500. Ecommerce sites start at $500. Custom business websites with advanced features cost $1,000-$5,000. Enterprise solutions start at $10,000.",
@@ -80,7 +80,7 @@ const en: PageContent = {
 const ar: PageContent = {
   eyebrow: "دليل أسعار المواقع", h1: "كم تكلفة إنشاء موقع إلكتروني؟",
   intro: "اكتشف بالضبط ما تشتريه كل ميزانية. بنيت 15 عرضاً توضيحياً حياً حتى تقارن مواقع بين 20$ و10,000$ جنباً إلى جنب.",
-  meta1: "محدّث في فبراير 2026", meta2: "15 عرض حي", meta3: "قراءة 12 دقيقة",
+  meta1: "محدّث في فبراير 2026", meta2: "15 عرض حي", meta3: "قراءة 12 دقيقة", meta4: "بقلم خليل مجيد",
   quickAnswerLabel: "إجابة سريعة",
   quickAnswerQ: "كم تكلفة إنشاء موقع إلكتروني؟",
   quickAnswerA: "تتراوح تكاليف المواقع بين 20$ و10,000$+. الموقع الاحترافي الأساسي يكلف 200$-500$. تبدأ مواقع التجارة الإلكترونية من 500$. المواقع التجارية المخصصة بميزات متقدمة تكلف 1,000$-5,000$. حلول المؤسسات تبدأ من 10,000$.",
@@ -191,7 +191,7 @@ export default function HowMuchDoesAWebsiteCostPage({ locale = "en" }: { locale?
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-display mb-6 leading-tight">{c.h1}</h1>
           <p className="text-xl text-text/60 leading-relaxed mb-8">{c.intro}</p>
           <div className="flex flex-wrap items-center gap-4 text-sm text-text/50">
-            <span>{c.meta1}</span><span>•</span><span>{c.meta2}</span><span>•</span><span>{c.meta3}</span>
+            <span>{c.meta4}</span><span>•</span><span>{c.meta1}</span><span>•</span><span>{c.meta2}</span><span>•</span><span>{c.meta3}</span>
           </div>
         </motion.header>
 

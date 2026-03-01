@@ -122,6 +122,31 @@ const faqJsonLd = {
   ],
 };
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://www.khalil.mageed.net",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Blog",
+      item: "https://www.khalil.mageed.net/blog",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "How Much Does a Website Cost?",
+      item: "https://www.khalil.mageed.net/blog/how-much-does-a-website-cost",
+    },
+  ],
+};
+
 import { Locale } from "@/i18n.config";
 
 export default async function Page({ params }: { params: Promise<{ locale: Locale }> }) {
@@ -135,6 +160,10 @@ export default async function Page({ params }: { params: Promise<{ locale: Local
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <HowMuchDoesAWebsiteCostPage locale={locale} />
     </>
