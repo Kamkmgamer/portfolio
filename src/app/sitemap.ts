@@ -5,8 +5,7 @@ import { getAllBlogPosts } from "@/lib/blogs";
 import { locales } from "@/i18n.config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.khalil.mageed.net";
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.khalil.mageed.net").replace(/\/$/, "");
 
   const staticRoutes = [
     "",

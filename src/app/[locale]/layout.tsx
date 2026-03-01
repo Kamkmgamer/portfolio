@@ -65,7 +65,6 @@ export async function generateMetadata({
       process.env.NEXT_PUBLIC_SITE_URL || 'https://www.khalil.mageed.net'
     ),
     alternates: {
-      canonical: `/${locale}`,
       languages: {
         en: '/en',
         ar: '/ar',
