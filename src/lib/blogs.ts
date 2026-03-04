@@ -68,6 +68,17 @@ const blogPostsEn: BlogPost[] = [
     publishedDate: new Date("2026-02-25"),
     readTime: 8,
   },
+  {
+    slug: "why-not-to-use-local-models",
+    title: "Why Not to Use Local Models: The Honest Truth",
+    summary:
+      "Local models might seem like a money-saving alternative to Claude Code, but the reality is far more complicated. Here's what those videos aren't telling you.",
+    category: "AI & Development",
+    tags: ["AI", "local models", "Claude", "Ollama", "development tools"],
+    author: "Khalil AbdalMageed",
+    publishedDate: new Date("2026-03-04"),
+    readTime: 6,
+  },
 ];
 
 const blogPostsAr: BlogPost[] = [
