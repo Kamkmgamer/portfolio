@@ -372,8 +372,8 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
                           aria-current={isActive ? "page" : undefined}
                           onClick={closeMenu}
                           className={`relative flex items-center gap-3 rounded-2xl px-4 py-4 text-lg font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isActive
-                              ? "bg-linear-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
-                              : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
+                            ? "bg-linear-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
+                            : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
                             }`}
                         >
                           {dict.nav[item.labelKey]}
@@ -397,7 +397,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
                     <span className="text-base font-semibold text-text/80">
                       {dict.common.language}
                     </span>
-                    <LanguageSwitcher currentLocale={locale} />
+                    <LanguageSwitcher currentLocale={locale} directToggle />
                   </motion.div>
 
                   <motion.div

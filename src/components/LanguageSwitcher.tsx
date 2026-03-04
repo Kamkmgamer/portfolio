@@ -2,17 +2,23 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Globe } from "lucide-react";
 import { locales, localeNames, type Locale } from "@/lib/i18n";
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
+  /** When true, renders as a direct toggle button (for mobile menus). */
+  directToggle?: boolean;
 }
 
-export default function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
+export default function LanguageSwitcher({
+  currentLocale,
+  directToggle = false,
+}: LanguageSwitcherProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const switchLocale = (newLocale: Locale) => {
     if (!pathname) return `/${newLocale}`;
@@ -21,6 +27,27 @@ export default function LanguageSwitcher({ currentLocale }: LanguageSwitcherProp
     return segments.join("/");
   };
 
+  // ── Direct-toggle mode (mobile menu) ────────────────────────────────────
+  if (directToggle) {
+    const otherLocale = locales.find((l) => l !== currentLocale) ?? locales[0];
+    const targetPath = switchLocale(otherLocale);
+
+    return (
+      <motion.button
+        whileTap={{ scale: 0.95 }}
+        onClick={() => router.push(targetPath)}
+        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-card hover:bg-white/10 dark:hover:bg-black/10 transition-colors cursor-pointer"
+        aria-label={`Switch to ${localeNames[otherLocale]}`}
+      >
+        <Globe className="w-4 h-4 text-text/70" />
+        <span className="text-sm font-semibold text-text/80">
+          {localeNames[otherLocale]}
+        </span>
+      </motion.button>
+    );
+  }
+
+  // ── Default dropdown mode (desktop navbar) ───────────────────────────────
   return (
     <div className="relative group">
       <motion.button
@@ -38,11 +65,10 @@ export default function LanguageSwitcher({ currentLocale }: LanguageSwitcherProp
             <Link
               key={locale}
               href={switchLocale(locale)}
-              className={`flex items-center gap-3 px-4 py-3 hover:bg-white/10 dark:hover:bg-black/10 transition-colors ${
-                locale === currentLocale
-                  ? "text-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/5"
-                  : "text-text/70"
-              }`}
+              className={`flex items-center gap-3 px-4 py-3 hover:bg-white/10 dark:hover:bg-black/10 transition-colors ${locale === currentLocale
+                ? "text-[hsl(var(--accent-gold))] bg-[hsl(var(--accent-gold))]/5"
+                : "text-text/70"
+                }`}
             >
               <span className="text-sm font-medium">{localeNames[locale]}</span>
               {locale === currentLocale && (
