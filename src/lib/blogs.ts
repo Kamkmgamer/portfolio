@@ -137,6 +137,17 @@ const blogPostsAr: BlogPost[] = [
     publishedDate: new Date("2026-02-25"),
     readTime: 8,
   },
+  {
+    slug: "why-not-to-use-local-models",
+    title: "لماذا لا يجب استخدام النماذج المحلية: الحقيقة الصادقة",
+    summary:
+      "قد تبدو النماذج المحلية بديلاً موفراً للمال لـ Claude Code، لكن الواقع أكثر تعقيداً بكثير. إليك ما لا تخبرك به تلك المقاطع.",
+    category: "الذكاء الاصطناعي والتطوير",
+    tags: ["الذكاء الاصطناعي", "النماذج المحلية", "كلاود", "Ollama", "أدوات التطوير"],
+    author: "خليل عبدالمجيد",
+    publishedDate: new Date("2026-03-04"),
+    readTime: 6,
+  },
 ];
 
 export function getBlogPostsByLocale(locale: Locale): BlogPost[] {

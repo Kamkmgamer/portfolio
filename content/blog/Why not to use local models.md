@@ -37,14 +37,15 @@ You can use it to play with them. I used to download local models and play with 
 
 The best way to know the difference between big models is to use small models to see the vast difference in quality and in output. You might think that all models are the same but you wouldn't get the huge difference unless you tried small models like these.
 
-Privacy also is a big concern here if you are working with sensitive information, company information, or governmental information. Using cloud models is not an option.
+## The Price of Privacy
 
-So we should talk about the price of privacy.
+Privacy is a big concern if you are working with sensitive information, company information, or governmental information. In these cases, using cloud models is simply not an option.
 
-Obviously we can't run very small models here because is privacy really a concern when the tool is not doing the job?
+But we have to talk about the real price of privacy.
 
-Let's be brutally honest: if you can afford to run real working models, the best way to get your privacy is to code by hand. Either that or you will be a babysitter for models that don't even know how to use tools and call them.
+Obviously, we can't run very small models here because is privacy really a concern when the tool is not even doing the job? Let's be brutally honest: if you can't afford to run real working models, the best way to get your privacy is to code by hand. Either that or you will be a babysitter for models that don't even know how to use tools or call functions correctly.
 
-If you really care about privacy, you should invest in the hardware that runs the inference here. Privacy costs more than the $200 dollars a month. It costs thousands of dollars to get models that are playing catch up with the state of the art.
+If you really care about privacy, you should invest in the hardware that runs the inference locally. Privacy costs significantly more than $200 a month. It costs thousands of dollars to get hardware capable of running models that are playing catch-up with the state of the art.
 
-To get a model like GLM5 or MiniMax M2.5, you have to get enterprise-grade systems that cost thousands of dollars but they are a one-time payment and not a recurrent monthly payment. This is the price of privacy. But we can't be serious saying that to get your privacy you can run a local model that is running on 10 GB of memory. This is not serious. Whoever says that is really working is just a snake oil salesman who doesn't even use the tools that they recommend you to use.
+To get a model like GLM5 or MiniMax M2.5 running locally, you have to get enterprise-grade systems. They cost thousands of dollars, but they are a one-time payment instead of a recurring monthly fee. This is the true price of privacy. We can't be serious saying that you can get your privacy by running a local model on 10 GB of memory. Whoever says that is just a snake oil salesman who doesn't even use the tools they recommend to you.
+
