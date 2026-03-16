@@ -19,7 +19,13 @@ const blogPostsEn: BlogPost[] = [
     summary:
       "Complete guide to website pricing with 15 live demos. Compare $20 to $10,000 websites for restaurants and ecommerce. See exactly what each budget buys.",
     category: "Pricing Guide",
-    tags: ["website cost", "website pricing", "how much is a website", "restaurant website", "ecommerce website"],
+    tags: [
+      "website cost",
+      "website pricing",
+      "how much is a website",
+      "restaurant website",
+      "ecommerce website",
+    ],
     author: "Khalil AbdalMageed",
     publishedDate: new Date("2026-02-22"),
     readTime: 12,
@@ -63,7 +69,13 @@ const blogPostsEn: BlogPost[] = [
     summary:
       "Is headless Shopify worth it? A clear, honest breakdown of when headless makes sense and when it doesn't - without the hype.",
     category: "E-commerce",
-    tags: ["shopify", "headless", "ecommerce", "performance", "web development"],
+    tags: [
+      "shopify",
+      "headless",
+      "ecommerce",
+      "performance",
+      "web development",
+    ],
     author: "Khalil AbdalMageed",
     publishedDate: new Date("2026-02-25"),
     readTime: 8,
@@ -88,7 +100,13 @@ const blogPostsAr: BlogPost[] = [
     summary:
       "دليل شامل لأسعار المواقع مع 15 عرضاً توضيحياً حياً. قارن بين مواقع بـ 20$ و10,000$ للمطاعم والتجارة الإلكترونية. اكتشف بالضبط ما يشتريه كل ميزانية.",
     category: "دليل الأسعار",
-    tags: ["تكلفة الموقع", "أسعار المواقع", "كم تكلفة الموقع", "موقع مطعم", "موقع تجارة إلكترونية"],
+    tags: [
+      "تكلفة الموقع",
+      "أسعار المواقع",
+      "كم تكلفة الموقع",
+      "موقع مطعم",
+      "موقع تجارة إلكترونية",
+    ],
     author: "خليل عبد المجيد",
     publishedDate: new Date("2026-02-22"),
     readTime: 12,
@@ -143,7 +161,13 @@ const blogPostsAr: BlogPost[] = [
     summary:
       "قد تبدو النماذج المحلية بديلاً موفراً للمال لـ Claude Code، لكن الواقع أكثر تعقيداً بكثير. إليك ما لا تخبرك به تلك المقاطع.",
     category: "الذكاء الاصطناعي والتطوير",
-    tags: ["الذكاء الاصطناعي", "النماذج المحلية", "كلاود", "Ollama", "أدوات التطوير"],
+    tags: [
+      "الذكاء الاصطناعي",
+      "النماذج المحلية",
+      "كلاود",
+      "Ollama",
+      "أدوات التطوير",
+    ],
     author: "خليل عبدالمجيد",
     publishedDate: new Date("2026-03-04"),
     readTime: 6,
@@ -154,7 +178,10 @@ export function getBlogPostsByLocale(locale: Locale): BlogPost[] {
   return locale === "ar" ? blogPostsAr : blogPostsEn;
 }
 
-export function getBlogPostBySlug(slug: string, locale: Locale = "en"): BlogPost | undefined {
+export function getBlogPostBySlug(
+  slug: string,
+  locale: Locale = "en",
+): BlogPost | undefined {
   return getBlogPostsByLocale(locale).find((post) => post.slug === slug);
 }
 

@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, UtensilsCrossed, ShoppingCart, Building2 } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
 import { Locale, Dictionary } from "@/lib/i18n";
@@ -13,6 +13,51 @@ export default function Home({
 }: {
   params: Promise<{ locale: Locale }>;
 }) {
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  const heroImageY = useTransform(
+    scrollY,
+    [0, 700],
+    reduceMotion ? [0, 0] : [0, -90],
+  );
+  const heroImageScale = useTransform(
+    scrollY,
+    [0, 700],
+    reduceMotion ? [1, 1] : [1, 1.08],
+  );
+  const heroTextY = useTransform(
+    scrollY,
+    [0, 700],
+    reduceMotion ? [0, 0] : [0, 28],
+  );
+  const blobGoldY = useTransform(
+    scrollY,
+    [0, 900],
+    reduceMotion ? [0, 0] : [0, -140],
+  );
+  const blobBronzeY = useTransform(
+    scrollY,
+    [0, 900],
+    reduceMotion ? [0, 0] : [0, 110],
+  );
+  const whoHelpGlowY = useTransform(
+    scrollY,
+    [200, 1400],
+    reduceMotion ? [0, 0] : [0, -80],
+  );
+  const exploreGlowY = useTransform(
+    scrollY,
+    [800, 2000],
+    reduceMotion ? [0, 0] : [0, 90],
+  );
+
+  const slowFloat = reduceMotion
+    ? undefined
+    : {
+        y: [0, -10, 0],
+        rotate: [0, 1.5, 0],
+      };
   const [locale, setLocale] = React.useState<Locale>("en");
   const [dict, setDict] = React.useState<Dictionary | null>(null);
 
@@ -48,18 +93,25 @@ export default function Home({
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="relative w-64 h-64 md:w-80 md:h-80 lg:w-80 lg:h-80 mx-auto lg:mx-0 lg:mr-4 rounded-full overflow-hidden border-4 border-[hsl(var(--accent-gold))]/30 shadow-2xl shrink-0"
+                style={{ y: heroImageY, scale: heroImageScale }}
               >
-                <Image
-                  src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/image.png?tr=w-320,h-320,q-85"
-                  alt="Khalil Abd Almageed"
-                  width={320}
-                  height={320}
-                  className="object-cover w-full h-full"
-                  priority
-                  fetchPriority="high"
-                  sizes="(max-width: 768px) 256px, 320px"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
+                <motion.div
+                  animate={slowFloat}
+                  transition={{ duration: 10, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/image.png?tr=w-320,h-320,q-85"
+                    alt="Khalil Abd Almageed"
+                    width={320}
+                    height={320}
+                    className="object-cover w-full h-full"
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 768px) 256px, 320px"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
+                </motion.div>
               </motion.div>
 
               <motion.div
@@ -67,6 +119,7 @@ export default function Home({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
                 className="text-center lg:text-left max-w-lg"
+                style={{ y: heroTextY }}
               >
                 <motion.span
                   initial={{ opacity: 0, y: 20 }}
@@ -121,8 +174,26 @@ export default function Home({
             </div>
           </div>
 
-          <div className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-linear-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none" />
+          <motion.div
+            className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none"
+            style={{ y: blobGoldY }}
+            animate={
+              reduceMotion
+                ? undefined
+                : { scale: [1, 1.08, 1], opacity: [0.8, 1, 0.85] }
+            }
+            transition={{ duration: 12, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-linear-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none"
+            style={{ y: blobBronzeY }}
+            animate={
+              reduceMotion
+                ? undefined
+                : { scale: [1, 1.1, 1], opacity: [0.75, 1, 0.8] }
+            }
+            transition={{ duration: 14, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 1.5 }}
+          />
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20 animate-fade-out">
             <span className="text-xs uppercase tracking-widest">{dict.home.scroll}</span>
@@ -132,7 +203,14 @@ export default function Home({
 
         {/* Who I Help Section */}
         <section className="py-24 px-6 relative overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-b from-[hsl(var(--accent-gold))]/3 to-transparent pointer-events-none" />
+          <motion.div
+            className="absolute inset-0 bg-linear-to-b from-[hsl(var(--accent-gold))]/3 to-transparent pointer-events-none"
+            style={{ y: whoHelpGlowY }}
+            animate={
+              reduceMotion ? undefined : { opacity: [0.7, 1, 0.8] }
+            }
+            transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+          />
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -253,6 +331,14 @@ export default function Home({
         </section>
 
         <section className="py-32 bg-secondary/5 relative overflow-hidden">
+          <motion.div
+            className="absolute -top-24 right-[8%] w-[32vh] h-[32vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-champagne))]/12 to-transparent blur-[110px] pointer-events-none"
+            style={{ y: exploreGlowY }}
+            animate={
+              reduceMotion ? undefined : { scale: [1, 1.12, 1], opacity: [0.6, 0.9, 0.7] }
+            }
+            transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+          />
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-4xl md:text-6xl font-display font-semibold mb-20 text-center">
               <span className="italic text-text/50 font-medium">{dict.home.journeyTitle.split(' ')[0]}</span>{" "}
