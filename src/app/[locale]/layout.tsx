@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import { Playfair_Display, Inter, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic } from 'next/font/google';
 import '../globals.css';
 import { Providers } from '../providers';
-import { DynamicSpotlight } from '@/lib/dynamic-imports';
 import Navbar from '@/components/Navbar';
 import JsonLd from '@/components/seo/JsonLd';
 import { locales, localeDirections, type Locale } from '@/i18n.config';
@@ -279,7 +278,6 @@ export default async function LocaleLayout({
         <JsonLd data={jsonLdData} />
         <Providers>
           <Navbar locale={locale} dict={dict} />
-          <DynamicSpotlight />
           {children}
         </Providers>
       </body>

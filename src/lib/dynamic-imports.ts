@@ -7,15 +7,6 @@
 
 import dynamic from "next/dynamic";
 
-// Lazy load Spotlight - decorative component, not critical for initial render
-export const DynamicSpotlight = dynamic(
-  () => import("@/components/Spotlight"),
-  {
-    ssr: false,
-    loading: () => null,
-  },
-);
-
 // Lazy load ThemeToggle - not needed immediately on page load
 export const DynamicThemeToggle = dynamic(
   () =>
