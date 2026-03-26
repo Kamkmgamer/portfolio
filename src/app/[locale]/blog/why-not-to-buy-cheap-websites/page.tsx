@@ -104,20 +104,20 @@ const contentMap: Record<string, PageContent> = {
     eyebrow: "Business Advice",
     h1a: "Why a $20 Website",
     h1b: "Will Cost You Thousands",
-    intro: "You found a deal. Someone offered to build your business website for $20. Here's what that $20 actually costs you.",
+    intro: "You found a cheap offer and it sounded tempting. Someone said they can build your business website for $20. What they usually don't tell you is what that cheap decision costs after the website goes live.",
     badge1: "No Jargon",
     badge2: "Real Demos",
     badge3: "Honest Advice",
     seeItSection: {
       title: "See It For Yourself",
-      desc: "I built a $20 website intentionally to show you what that money buys. Open it on your phone. Wait for it to load. Try to find the menu.",
+      desc: "I built a $20 website on purpose so this isn't abstract. Open it on your phone. Wait through the loading. Try to find the menu. Try to trust it.",
       btn1: "Open $20 Restaurant",
       btn2: "Open $20 Ecommerce",
     },
     experiencedSection: {
       title: "What You",
       titleItalic: "Just Experienced",
-      desc: "If you opened the demo, here's what you saw.",
+      desc: "If you opened the demo, you probably understood the problem in less than a minute.",
     },
     problems: [
       { title: "5+ Second Load Time", description: "Visitors stare at a blank screen before anything appears" },
@@ -128,15 +128,15 @@ const contentMap: Record<string, PageContent> = {
     realCostSection: { title: "The Real", titleItalic: "Cost", desc: "A bad website doesn't just look cheap, it actively repels customers." },
     trustCard: {
       title: "Trust is Everything",
-      body: 'When someone visits your website, they\'re asking one question: Is this a real business? A $20 website answers "no" before they read a single word. Broken links, placeholder text, slow loading: these aren\'t just aesthetic problems. They\'re trust problems.',
+      body: 'When someone lands on your website, they are deciding very quickly whether you look real or not. A $20 website answers that question badly before they even read your copy. Broken links and placeholder text are not style issues. They are trust issues.',
     },
     mobileCard: {
       title: "The Mobile Problem",
-      body: "Most web traffic now comes from phones. A $20 website is built for desktop, tested once, and never checked again. Your customers are browsing on phones during lunch breaks and commutes. Broken on mobile means invisible to them.",
+      body: "Most people will see your site on their phone first. Cheap websites are usually built carelessly, glanced at once on desktop, then forgotten. If the mobile version is bad, your business looks bad too.",
     },
     speedCard: {
       title: "The Speed Problem",
-      body: "Nobody waits anymore. If your site takes 5 seconds to load, most visitors have already left. They hit the back button and clicked your competitor's link instead.",
+      body: "Nobody is sitting there patiently waiting for a cheap website to prove itself. If the page drags, they leave. The competitor gets the click and you get nothing.",
     },
     payingSection: { title: "What You're", titleItalic: "Paying For" },
     tableHeaders: { feature: "Feature", cheap: "$20 Website", good: "$500+ Website" },
@@ -158,7 +158,7 @@ const contentMap: Record<string, PageContent> = {
     whenItMakesSense: ["You're testing a business idea before committing", "You literally have zero budget and need something today", "You're a hobbyist, not a business"],
     altSection: {
       title: "A Better Alternative: Google Business Profile",
-      desc: "If budget is tight, don't buy a $20 website. Set up a Google Business Profile instead.",
+      desc: "If money is that tight, don't force a bad website into existence. Use a Google Business Profile first and avoid making yourself look worse online.",
     },
     altList: ["It's free", "Shows up in local searches", "Displays hours, photos, and reviews", "Customers can call with one tap"],
     bottomLine: {
@@ -172,7 +172,7 @@ const contentMap: Record<string, PageContent> = {
     ctaSection: {
       title: "See For",
       titleItalic: "Yourself",
-      desc: "Don't take my word for it. Open the demos on your phone. Time how long they take to load. Try to find contact information. Then ask yourself: Would I trust this business?",
+      desc: "Open the demos on your phone and judge them like a customer would. If you would hesitate to order, call, or trust the business, that is the whole point.",
       cta: "$20 Restaurant Demo",
       back: "← Back to Blog",
     },
@@ -181,20 +181,20 @@ const contentMap: Record<string, PageContent> = {
     eyebrow: "نصائح للأعمال",
     h1a: "لماذا سيكلفك الموقع بـ 20$",
     h1b: "آلاف الدولارات من العملاء",
-    intro: "وجدت صفقة. عرض عليك أحدهم بناء موقع أعمالك بـ 20$. هنا ما يكلفك هذا الـ 20$ فعلاً.",
+    intro: "وجدت عرضاً رخيصاً وبدت الفكرة مغرية. شخص قال لك إنه يستطيع بناء موقع عملك بـ 20$. المشكلة أنه غالباً لا يقول لك ماذا سيكلفك هذا القرار بعد أن يطلع الموقع للناس.",
     badge1: "بلا مصطلحات تقنية",
     badge2: "عروض حقيقية",
     badge3: "نصيحة صادقة",
     seeItSection: {
       title: "اكتشف بنفسك",
-      desc: "بنيت موقعاً بـ 20$ عن قصد لأريك ما يشتريه هذا المال. افتحه على هاتفك. انتظر تحميله. حاول إيجاد القائمة.",
+      desc: "بنيت موقعاً بـ 20$ عن قصد حتى لا يبقى الكلام نظرياً. افتحه على هاتفك. انتظر التحميل. حاول إيجاد القائمة. وحاول أن تثق به.",
       btn1: "افتح مطعم 20$",
       btn2: "افتح متجر 20$",
     },
     experiencedSection: {
       title: "ما الذي",
       titleItalic: "شاهدته للتو",
-      desc: "إن فتحت العرض التوضيحي، إليك ما رأيته.",
+      desc: "إذا فتحت العرض، فغالباً فهمت المشكلة في أقل من دقيقة.",
     },
     problems: [
       { title: "وقت تحميل يتجاوز 5 ثوانٍ", description: "الزوار يحدقون في شاشة فارغة قبل أن يظهر أي شيء" },
@@ -205,15 +205,15 @@ const contentMap: Record<string, PageContent> = {
     realCostSection: { title: "التكلفة", titleItalic: "الحقيقية", desc: "الموقع السيئ لا يبدو رخيصاً فحسب، بل يطرد العملاء بشكل فعلي." },
     trustCard: {
       title: "الثقة هي كل شيء",
-      body: 'عندما يزور أحدهم موقعك، يسأل سؤالاً واحداً: هل هذا عمل حقيقي؟ الموقع بـ 20$ يجيب بـ "لا" قبل أن يقرأ كلمة واحدة. الروابط المعطوبة، النصوص التجريبية، بطء التحميل: هذه ليست مجرد مشاكل جمالية. إنها مشاكل ثقة.',
+      body: 'عندما يدخل أحدهم موقعك، هو يحكم بسرعة: هل هذا عمل حقيقي أم لا؟ الموقع بـ 20$ يجيب بشكل سيئ قبل أن يقرأ الزائر أي شيء. الروابط المعطوبة والنصوص التجريبية ليست مشاكل شكل فقط. هي مشاكل ثقة.',
     },
     mobileCard: {
       title: "مشكلة الهاتف",
-      body: "معظم زيارات الويب الآن تأتي من الهواتف. الموقع بـ 20$ مبني للكمبيوتر، يُختبر مرة، ولا يُراجع مجدداً. عملاؤك يتصفحون على هواتفهم خلال استراحة الغداء والتنقل. معطل على الجوال يعني غير مرئي لهم.",
+      body: "معظم الناس سيرون موقعك أولاً من الجوال. المواقع الرخيصة غالباً تُبنى بإهمال، وتُفحص مرة على الكمبيوتر، ثم تُترك. إذا كانت نسخة الجوال سيئة، فعملك يبدو سيئاً أيضاً.",
     },
     speedCard: {
       title: "مشكلة السرعة",
-      body: "لا أحد ينتظر بعد الآن. إن استغرق موقعك 5 ثوانٍ للتحميل، فمعظم الزوار غادروا بالفعل. ضغطوا زر الرجوع ونقروا على رابط منافسك.",
+      body: "لا أحد سيجلس منتظراً موقعاً رخيصاً حتى يثبت نفسه. إذا كان التحميل بطيئاً، فالزائر يغادر. والمنافس يأخذ الضغطة وأنت لا تأخذ شيئاً.",
     },
     payingSection: { title: "ما الذي", titleItalic: "تدفع مقابله" },
     tableHeaders: { feature: "الميزة", cheap: "موقع 20$", good: "موقع 500$+" },
@@ -235,7 +235,7 @@ const contentMap: Record<string, PageContent> = {
     whenItMakesSense: ["أنت تختبر فكرة تجارية قبل الالتزام", "لديك صفر ميزانية وتحتاج شيئاً اليوم", "أنت هاوٍ، لا صاحب عمل"],
     altSection: {
       title: "بديل أفضل: ملف نشاطي التجاري على جوجل",
-      desc: "إن كانت الميزانية ضيقة، لا تشتر موقعاً بـ 20$. أنشئ ملف نشاطي التجاري على جوجل بدلاً من ذلك.",
+      desc: "إذا كانت الميزانية ضيقة لهذه الدرجة، فلا تجبر موقعاً سيئاً على الوجود. ابدأ بملف نشاطي التجاري على جوجل بدل أن تجعل صورتك أسوأ على الإنترنت.",
     },
     altList: ["مجاني تماماً", "يظهر في نتائج البحث المحلية", "يعرض أوقات العمل والصور والمراجعات", "العملاء يتصلون بنقرة واحدة"],
     bottomLine: {
@@ -249,7 +249,7 @@ const contentMap: Record<string, PageContent> = {
     ctaSection: {
       title: "اكتشف",
       titleItalic: "بنفسك",
-      desc: "لا تصدقني على كلامي. افتح العروض على هاتفك. قِس كم تستغرق للتحميل. حاول إيجاد معلومات التواصل. ثم اسأل نفسك: هل سأثق بهذا العمل؟",
+      desc: "افتح العروض على هاتفك واحكم عليها كأنك عميل. إذا كنت ستتردد في الطلب أو الاتصال أو الثقة، فهذه هي الفكرة كلها.",
       cta: "عرض مطعم 20$",
       back: "← العودة إلى المدونة",
     },
