@@ -4,9 +4,19 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, UtensilsCrossed, ShoppingCart, Building2 } from "lucide-react";
+import {
+  ArrowDown,
+  Building2,
+  ExternalLink,
+  Quote,
+  ShoppingCart,
+  Star,
+  UtensilsCrossed,
+} from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
 import { Locale, Dictionary } from "@/lib/i18n";
+
+const hasArabicScript = (value: string) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(value);
 
 export default function Home({
   params,
@@ -71,6 +81,26 @@ export default function Home({
   }, [params]);
 
   if (!dict) return null;
+
+  const testimonial = dict.home.testimonial.review;
+  const rating = Number(testimonial.rating);
+  const showHandle = testimonial.handle && testimonial.handle !== testimonial.name;
+  const quoteDirection = hasArabicScript(testimonial.quote) ? "rtl" : "ltr";
+  const identityDirection = hasArabicScript(`${testimonial.name} ${testimonial.company}`) ? "rtl" : "ltr";
+  const isQuoteRtl = quoteDirection === "rtl";
+  const isIdentityRtl = identityDirection === "rtl";
+  const testimonialLabels =
+    isQuoteRtl
+      ? {
+          outOf: "نجوم",
+          websiteLabel: "الموقع",
+          sourceLabel: "المنصة",
+        }
+      : {
+          outOf: "Stars",
+          websiteLabel: "Website",
+          sourceLabel: "Platform",
+        };
 
   const jsonLdData = {
     "@context": "https://schema.org",
@@ -359,6 +389,110 @@ export default function Home({
                 desc={dict.home.experience.fullstack.desc}
               />
             </div>
+          </div>
+        </section>
+
+        <section className="py-32 px-6 relative overflow-hidden">
+          <motion.div
+            className="absolute inset-x-[15%] top-10 h-40 rounded-full bg-linear-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-champagne))]/8 to-[hsl(var(--accent-bronze))]/10 blur-[90px] pointer-events-none"
+            animate={
+              reduceMotion ? undefined : { opacity: [0.55, 0.9, 0.65], scale: [1, 1.04, 1] }
+            }
+            transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+          />
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              viewport={{ once: true }}
+              className="text-center mb-14"
+            >
+              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
+                {dict.home.testimonial.eyebrow}
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
+                {dict.home.testimonial.title}
+              </h2>
+            </motion.div>
+
+            <motion.article
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="relative border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-white/70 via-white/50 to-[hsl(var(--accent-gold))]/8 p-8 md:p-12 shadow-[0_30px_100px_-60px_rgba(0,0,0,0.45)] backdrop-blur-sm"
+            >
+              <div className="absolute right-8 top-8 text-[hsl(var(--accent-gold))]/30 rtl:right-auto rtl:left-8">
+                <Quote className="w-12 h-12" strokeWidth={1.25} />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3 mb-8">
+                <div className="flex items-center gap-1 text-[hsl(var(--accent-gold))]">
+                  {Array.from({ length: rating }, (_, index) => (
+                    <Star key={index} className="w-5 h-5 fill-current" strokeWidth={1.5} />
+                  ))}
+                </div>
+                <span
+                  dir="ltr"
+                  className="text-sm uppercase tracking-[0.25em] text-text/45 font-semibold"
+                >
+                  {testimonial.rating} {testimonialLabels.outOf}
+                </span>
+              </div>
+
+              <p
+                className={`text-xl md:text-2xl leading-relaxed text-text/80 max-w-3xl ${
+                  isQuoteRtl ? "text-right ml-auto" : "text-left mr-auto"
+                }`}
+              >
+                <span dir={quoteDirection}>
+                  &ldquo;{testimonial.quote}&rdquo;
+                </span>
+              </p>
+
+              <div
+                className={`mt-10 pt-8 border-t border-[hsl(var(--accent-gold))]/15 flex flex-col gap-6 md:items-end md:justify-between ${
+                  isQuoteRtl ? "md:flex-row-reverse" : "md:flex-row"
+                }`}
+              >
+                <div className="grid gap-3 text-sm text-left" dir="ltr">
+                  <a
+                    href={`https://${testimonial.website}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    dir="ltr"
+                    className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
+                  >
+                    <span>{testimonialLabels.websiteLabel}: {testimonial.website}</span>
+                    <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
+                  </a>
+                  <a
+                    href={testimonial.platformUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    dir="ltr"
+                    className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
+                  >
+                    <span>{testimonialLabels.sourceLabel}: {testimonial.platform}</span>
+                    <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
+                  </a>
+                </div>
+
+                <div
+                  dir={identityDirection}
+                  className={`md:max-w-[45%] ${isIdentityRtl ? "text-right" : "text-left"}`}
+                >
+                  <div className="text-2xl font-display font-semibold text-text">
+                    {testimonial.name}
+                  </div>
+                  <div className="mt-2 text-sm uppercase tracking-[0.2em] text-text/45">
+                    {showHandle ? `@${testimonial.handle} / ` : ""}
+                    {testimonial.company}
+                  </div>
+                </div>
+              </div>
+            </motion.article>
           </div>
         </section>
 

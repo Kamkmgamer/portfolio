@@ -49,6 +49,23 @@
     "whoIHelpLocalTitle": "Local Businesses",
     "whoIHelpLocalDesc": "Professional websites that build trust and make you look legit online.",
     "whoIHelpLocalCta": "See My Work",
+    "testimonial": {
+      "eyebrow": "Client Feedback",
+      "title": "Testimonials",
+      "websiteLabel": "Website",
+      "sourceLabel": "Platform",
+      "outOf": "Stars",
+      "review": {
+        "name": "davidaki07",
+        "handle": "davidaki07",
+        "company": "MtPhotography",
+        "website": "mtphotography.website",
+        "platform": "Fiverr",
+        "platformUrl": "https://www.fiverr.com/khalilmageed/design-and-build-an-award-winning-style-website",
+        "rating": "5",
+        "quote": "Khalil did an outstanding job designing and developing my website. He is extremely talented, professional, and detail-oriented. The entire process was smooth, and he delivered exactly what I was looking for. Communication was clear and timely, and he went above and beyond to make sure everything was perfect. I highly recommend him to anyone looking for high-quality work. Thank you again for the amazing job!"
+      }
+    },
     "exploreWork": "What I've Built",
     "viewProjects": "Restaurant Websites",
     "viewProjectsDesc": "9 restaurant demo sites with different styles and different price points. See exactly what your future site could look like.",

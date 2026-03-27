@@ -49,6 +49,23 @@
     "whoIHelpLocalTitle": "الشركات المحلية",
     "whoIHelpLocalDesc": "مواقع احترافية تبني الثقة وتخليك تبان جدي أونلاين.",
     "whoIHelpLocalCta": "شوف أعمالي",
+    "testimonial": {
+      "eyebrow": "آراء العملاء",
+      "title": "التزكيات",
+      "websiteLabel": "الموقع",
+      "sourceLabel": "المنصة",
+      "outOf": "نجوم",
+      "review": {
+        "name": "davidaki07",
+        "handle": "davidaki07",
+        "company": "MtPhotography",
+        "website": "mtphotography.website",
+        "platform": "Fiverr",
+        "platformUrl": "https://www.fiverr.com/khalilmageed/design-and-build-an-award-winning-style-website",
+        "rating": "5",
+        "quote": "Khalil did an outstanding job designing and developing my website. He is extremely talented, professional, and detail-oriented. The entire process was smooth, and he delivered exactly what I was looking for. Communication was clear and timely, and he went above and beyond to make sure everything was perfect. I highly recommend him to anyone looking for high-quality work. Thank you again for the amazing job!"
+      }
+    },
     "exploreWork": "اللي عملته",
     "viewProjects": "مواقع المطاعم",
     "viewProjectsDesc": "9 مواقع مطاعم توضيحية بأساليب مختلفة وميزانيات مختلفة. شوف بالضبط كيف ممكن يكون موقعك.",
