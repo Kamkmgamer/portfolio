@@ -1,72 +1,37 @@
-"use client";
+import type { Metadata } from "next";
+import PageClient from "./page-client";
+import { Locale } from "@/i18n.config";
+import { getDictionary } from "@/lib/i18n/server";
+import { buildLocalizedMetadata } from "@/lib/seo";
 
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import CaseStudiesGrid from "./CaseStudiesGrid";
-import { Locale, Dictionary, getDictionarySync } from "@/lib/i18n";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = await getDictionary(locale);
 
-export default function CaseStudiesIndexPage({
+  return buildLocalizedMetadata(locale, "/case-studies", {
+    title: dict.caseStudies.title,
+    description: dict.caseStudies.description,
+    openGraph: {
+      title: dict.caseStudies.title,
+      description: dict.caseStudies.description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.caseStudies.title,
+      description: dict.caseStudies.description,
+    },
+  });
+}
+
+export default function Page({
   params,
 }: {
   params: Promise<{ locale: Locale }>;
 }) {
-  const [dict, setDict] = useState<Dictionary | null>(null);
-
-  useEffect(() => {
-    params.then((p) => {
-      setDict(getDictionarySync(p.locale));
-    });
-  }, [params]);
-
-  if (!dict) return null;
-
-  return (
-    <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
-
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-24 text-center max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-              <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
-                {dict.caseStudies.title}
-              </span>
-              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-            </div>
-
-            <h1 className="text-5xl md:text-7xl font-display mb-8">
-              {dict.caseStudies.heading} <br />
-              <span className="italic text-text/50">{dict.caseStudies.headingItalic}</span>
-            </h1>
-
-            <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-12">
-              {dict.caseStudies.description}
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <Badge color="bg-green-500" label={dict.caseStudies.badge1} />
-              <Badge color="bg-amber-500" label={dict.caseStudies.badge2} />
-              <Badge color="bg-blue-500" label={dict.caseStudies.badge3} />
-            </div>
-          </motion.div>
-        </header>
-
-        <CaseStudiesGrid />
-      </div>
-    </main>
-  );
-}
-
-function Badge({ color, label }: { color: string; label: string }) {
-  return (
-    <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm text-xs font-bold uppercase tracking-widest text-text/80">
-      <span className={`w-2 h-2 rounded-full ${color}`} />
-      {label}
-    </span>
-  );
+  return <PageClient params={params} />;
 }

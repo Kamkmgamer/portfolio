@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import ShareButton from "@/components/ShareButton";
 import { Research } from "@prisma/client";
+import { Locale } from "@/i18n.config";
+import { buildLocalizedMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   try {
@@ -19,16 +21,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const paper = await prisma.research.findUnique({ where: { slug } });
+  const { locale, slug } = await params;
+  let paper = null;
+
+  try {
+    paper = await prisma.research.findUnique({ where: { slug } });
+  } catch {
+    return { title: "Research" };
+  }
+
   if (!paper) return { title: "Research" };
 
   const title = `${paper.title} — Research`;
   const description = paper.abstract;
 
-  return {
+  return buildLocalizedMetadata(locale, `/research/${slug}`, {
     title,
     description,
     openGraph: {
@@ -41,8 +50,7 @@ export async function generateMetadata({
       title,
       description,
     },
-    alternates: { canonical: `/research/${slug}` },
-  };
+  });
 }
 
 export default async function ResearchPaperPage({
@@ -51,16 +59,28 @@ export default async function ResearchPaperPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const paper = await prisma.research.findUnique({ where: { slug } });
+  let paper = null;
+
+  try {
+    paper = await prisma.research.findUnique({ where: { slug } });
+  } catch {
+    return notFound();
+  }
 
   if (!paper) return notFound();
 
   // Find related papers (dummy logic: just other papers)
-  const relatedPapers = await prisma.research.findMany({
-    where: { slug: { not: slug } },
-    take: 2,
-    orderBy: { year: "desc" },
-  });
+  let relatedPapers: Research[] = [];
+
+  try {
+    relatedPapers = await prisma.research.findMany({
+      where: { slug: { not: slug } },
+      take: 2,
+      orderBy: { year: "desc" },
+    });
+  } catch {
+    relatedPapers = [];
+  }
 
   return (
     <section className="relative w-full py-20 sm:py-28 transition-colors duration-500">

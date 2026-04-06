@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { Locale } from "@/i18n.config";
+import { buildLocalizedMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const articlePath = "/case-studies/kamkmpdf-scaling";
+
+const baseMetadata: Metadata = {
   title: "KamkmPDF Scaling: From 100 to 6,000 PDFs/Hour",
   description:
     "How I scaled a PDF generation service from 100 to 6,000 PDFs per hour. Architecture evolution, caching strategies, and infrastructure decisions for high-throughput document processing.",
@@ -8,7 +12,6 @@ export const metadata: Metadata = {
     title: "KamkmPDF Scaling: From 100 to 6,000 PDFs/Hour",
     description:
       "How I scaled a PDF generation service from 100 to 6,000 PDFs per hour. Architecture evolution and caching strategies.",
-    url: "https://www.khalil.mageed.net/case-studies/kamkmpdf-scaling",
     type: "article",
   },
   twitter: {
@@ -17,10 +20,16 @@ export const metadata: Metadata = {
     description:
       "How I scaled a PDF generation service from 100 to 6,000 PDFs per hour.",
   },
-  alternates: {
-    canonical: "/case-studies/kamkmpdf-scaling",
-  },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildLocalizedMetadata(locale, articlePath, baseMetadata);
+}
 
 export default function KamkmPDFScalingLayout({
   children,

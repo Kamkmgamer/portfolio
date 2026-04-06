@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { Locale } from "@/i18n.config";
+import { buildLocalizedMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const articlePath = "/case-studies/devserve";
+
+const baseMetadata: Metadata = {
   title: "DevServe: Building a Full-Stack Dev Tool in 35 Days",
   description:
     "A solo development case study: building a full-stack developer tool valued at $90k-$130k in just 35 days. Architecture decisions, trade-offs, and lessons learned.",
@@ -8,7 +12,6 @@ export const metadata: Metadata = {
     title: "DevServe: Building a Full-Stack Dev Tool in 35 Days",
     description:
       "A solo development case study: building a full-stack dev tool valued at $90k-$130k in 35 days.",
-    url: "https://www.khalil.mageed.net/case-studies/devserve",
     type: "article",
   },
   twitter: {
@@ -17,10 +20,16 @@ export const metadata: Metadata = {
     description:
       "Solo development case study: building a dev tool valued at $90k-$130k in 35 days.",
   },
-  alternates: {
-    canonical: "/case-studies/devserve",
-  },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildLocalizedMetadata(locale, articlePath, baseMetadata);
+}
 
 export default function DevServeLayout({
   children,

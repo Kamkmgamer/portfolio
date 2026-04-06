@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import JsonLd from '@/components/seo/JsonLd';
 import { locales, localeDirections, type Locale } from '@/i18n.config';
 import { getDictionary } from '@/lib/i18n/server';
+import { SITE_URL, buildLocalizedAbsoluteUrl, getOpenGraphLocale } from '@/lib/seo';
 
 const playfair = Playfair_Display({
   variable: '--font-display',
@@ -60,15 +61,7 @@ export async function generateMetadata({
       template: dict.metadata.title.template,
     },
     description: dict.metadata.description,
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.khalil.mageed.net'
-    ),
-    alternates: {
-      languages: {
-        en: '/en',
-        ar: '/ar',
-      },
-    },
+    metadataBase: new URL(SITE_URL),
     applicationName: 'Khalil AbdalMageed Portfolio',
     authors: [{ name: 'Khalil AbdalMageed', url: 'https://www.khalil.mageed.net' }],
     generator: 'Next.js',
@@ -108,9 +101,8 @@ export async function generateMetadata({
         template: dict.metadata.title.template,
       },
       description: dict.metadata.description,
-      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.khalil.mageed.net',
       siteName: 'Khalil AbdalMageed Portfolio',
-      locale: locale === 'ar' ? 'ar_EG' : 'en_US',
+      locale: getOpenGraphLocale(locale),
       type: 'website',
     },
     twitter: {
@@ -160,6 +152,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
   const direction = localeDirections[locale];
   const dict = await getDictionary(locale);
+  const localizedHomepageUrl = buildLocalizedAbsoluteUrl(locale);
 
   const jsonLdData = {
     '@context': 'https://schema.org',
@@ -211,7 +204,7 @@ export default async function LocaleLayout({
         inLanguage: locale,
         potentialAction: {
           '@type': 'SearchAction',
-          target: 'https://www.khalil.mageed.net/${locale}/?q={search_term_string}',
+          target: `${localizedHomepageUrl}?q={search_term_string}`,
           'query-input': 'required name=search_term_string',
         },
       },
@@ -258,9 +251,6 @@ export default async function LocaleLayout({
       <head>
         <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://ik.imagekit.io" />
-        <link rel="alternate" hrefLang="en" href="https://www.khalil.mageed.net/en" />
-        <link rel="alternate" hrefLang="ar" href="https://www.khalil.mageed.net/ar" />
-        <link rel="alternate" hrefLang="x-default" href="https://www.khalil.mageed.net/en" />
         <meta
           name="theme-color"
           content="#ffffff"
