@@ -4,10 +4,13 @@ import path from "path";
 import { Locale } from "@/i18n.config";
 import React from "react";
 import { CopyButton } from "./CopyButton";
+import { buildLocalizedAbsoluteUrl, buildLocalizedMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: Locale }>;
 };
+
+const articlePath = "/blog/why-not-to-use-local-models";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -28,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const t = translations[locale] || translations.en;
 
-  return {
+  return buildLocalizedMetadata(locale, articlePath, {
     title: t.title,
     description: t.description,
     keywords: [
@@ -43,7 +46,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: t.title,
       description: t.description,
-      url: `https://www.khalil.mageed.net/${locale}/blog/why-not-to-use-local-models`,
       type: "article",
       authors: ["Khalil AbdalMageed"],
       section: "AI & Development",
@@ -54,8 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: t.title,
       description: t.description,
     },
-    alternates: { canonical: "/blog/why-not-to-use-local-models" },
-  };
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -275,6 +276,7 @@ const FREE_MODEL_FOOTNOTE = {
 // ---------------------------------------------------------------------------
 export default async function Page({ params }: Props) {
   const { locale } = await params;
+  const articleUrl = buildLocalizedAbsoluteUrl(locale, articlePath);
 
   const fileName =
     locale === "ar"
@@ -324,6 +326,11 @@ export default async function Page({ params }: Props) {
     },
     datePublished: "2026-03-04",
     dateModified: "2026-03-04",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
+    url: articleUrl,
   };
 
   // Shared mutable state for token footnote insertion

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { Locale } from "@/i18n.config";
+import { buildLocalizedMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const articlePath = "/case-studies/reducing-friction";
+
+const baseMetadata: Metadata = {
   title: "Reducing Friction: A Premium Web Design Case Study",
   description:
     "How I transformed a client's digital presence by focusing on human experience first. No mockups until clarity was achieved. An emotion-driven design approach.",
@@ -8,7 +12,6 @@ export const metadata: Metadata = {
     title: "Reducing Friction: A Premium Web Design Case Study",
     description:
       "How I transformed a client's digital presence by focusing on human experience first. An emotion-driven design approach.",
-    url: "https://www.khalil.mageed.net/case-studies/reducing-friction",
     type: "article",
   },
   twitter: {
@@ -17,10 +20,16 @@ export const metadata: Metadata = {
     description:
       "How I transformed a client's digital presence by focusing on human experience first.",
   },
-  alternates: {
-    canonical: "/case-studies/reducing-friction",
-  },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildLocalizedMetadata(locale, articlePath, baseMetadata);
+}
 
 export default function ReducingFrictionLayout({
   children,

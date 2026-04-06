@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { Locale } from "@/i18n.config";
+import { buildLocalizedMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const articlePath = "/blog/what-100-dollar-website-gets-you";
+
+const baseMetadata: Metadata = {
   title: "What a $100 Website Actually Gets You",
   description:
     "A $100 website works. It's not broken. It just doesn't do much. Here's the honest breakdown of what that budget delivers - nothing more, nothing less.",
@@ -8,7 +12,6 @@ export const metadata: Metadata = {
     title: "What a $100 Website Actually Gets You",
     description:
       "A $100 website works. It's not broken. It just doesn't do much. Here's the honest breakdown.",
-    url: "https://www.khalil.mageed.net/blog/what-100-dollar-website-gets-you",
     type: "article",
   },
   twitter: {
@@ -17,10 +20,16 @@ export const metadata: Metadata = {
     description:
       "A $100 website works. It's not broken. It just doesn't do much. Here's the honest breakdown.",
   },
-  alternates: {
-    canonical: "/blog/what-100-dollar-website-gets-you",
-  },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return buildLocalizedMetadata(locale, articlePath, baseMetadata);
+}
 
 export default function What100DollarWebsiteLayout({
   children,

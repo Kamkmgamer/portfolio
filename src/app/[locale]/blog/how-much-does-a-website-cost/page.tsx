@@ -1,78 +1,90 @@
 import type { Metadata } from "next";
 import HowMuchDoesAWebsiteCostPage from "./page-client";
+import { Locale } from "@/i18n.config";
+import { buildLocalizedAbsoluteUrl, buildLocalizedMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "How Much Does a Website Cost? $20 to $10,000 Compared",
-  description:
-    "See exactly what different website budgets buy. Live demos of $20, $100, $500, $1,000, $5,000, and $10,000 websites for restaurants and ecommerce. Honest comparison with real examples.",
-  keywords: [
-    "how much does a website cost",
-    "website cost",
-    "website pricing",
-    "how much is a website",
-    "website cost 2024",
-    "website cost 2025",
-    "restaurant website cost",
-    "ecommerce website cost",
-    "small business website cost",
-    "website development cost",
-  ],
-  openGraph: {
+const articlePath = "/blog/how-much-does-a-website-cost";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return buildLocalizedMetadata(locale, articlePath, {
     title: "How Much Does a Website Cost? $20 to $10,000 Compared",
     description:
-      "See exactly what different website budgets buy. Live demos comparing $20 to $10,000 websites.",
-    url: "https://www.khalil.mageed.net/blog/how-much-does-a-website-cost",
-    type: "article",
-    authors: ["Khalil AbdalMageed"],
-    section: "Web Development",
-    tags: [
+      "See exactly what different website budgets buy. Live demos of $20, $100, $500, $1,000, $5,000, and $10,000 websites for restaurants and ecommerce. Honest comparison with real examples.",
+    keywords: [
+      "how much does a website cost",
       "website cost",
       "website pricing",
-      "web development",
-      "small business",
+      "how much is a website",
+      "website cost 2024",
+      "website cost 2025",
+      "restaurant website cost",
+      "ecommerce website cost",
+      "small business website cost",
+      "website development cost",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "How Much Does a Website Cost? $20 to $10,000 Compared",
-    description:
-      "See exactly what different website budgets buy. Live demos comparing $20 to $10,000 websites.",
-  },
-  alternates: {
-    canonical: "/blog/how-much-does-a-website-cost",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    "max-image-preview": "large",
-    "max-snippet": -1,
-    "max-video-preview": -1,
-  },
-};
+    openGraph: {
+      title: "How Much Does a Website Cost? $20 to $10,000 Compared",
+      description:
+        "See exactly what different website budgets buy. Live demos comparing $20 to $10,000 websites.",
+      type: "article",
+      authors: ["Khalil AbdalMageed"],
+      section: "Web Development",
+      tags: [
+        "website cost",
+        "website pricing",
+        "web development",
+        "small business",
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "How Much Does a Website Cost? $20 to $10,000 Compared",
+      description:
+        "See exactly what different website budgets buy. Live demos comparing $20 to $10,000 websites.",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  });
+}
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: "How Much Does a Website Cost? $20 to $10,000 Compared",
-  description:
-    "See exactly what different website budgets buy. Live demos of $20, $100, $500, $1,000, $5,000, and $10,000 websites for restaurants and ecommerce.",
-  author: {
-    "@type": "Person",
-    name: "Khalil AbdalMageed",
-    url: "https://www.khalil.mageed.net",
-  },
-  publisher: {
-    "@type": "Person",
-    name: "Khalil AbdalMageed",
-    url: "https://www.khalil.mageed.net",
-  },
-  datePublished: "2026-02-22",
-  dateModified: "2026-02-22",
-  mainEntityOfPage: {
-    "@type": "WebPage",
-    "@id": "https://www.khalil.mageed.net/blog/how-much-does-a-website-cost",
-  },
-  image: "https://www.khalil.mageed.net/blog/how-much-does-a-website-cost/og.png",
+const getJsonLd = (locale: Locale) => {
+  const articleUrl = buildLocalizedAbsoluteUrl(locale, articlePath);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "How Much Does a Website Cost? $20 to $10,000 Compared",
+    description:
+      "See exactly what different website budgets buy. Live demos of $20, $100, $500, $1,000, $5,000, and $10,000 websites for restaurants and ecommerce.",
+    author: {
+      "@type": "Person",
+      name: "Khalil AbdalMageed",
+      url: "https://www.khalil.mageed.net",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Khalil AbdalMageed",
+      url: "https://www.khalil.mageed.net",
+    },
+    datePublished: "2026-02-22",
+    dateModified: "2026-02-22",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
+    image: "https://www.khalil.mageed.net/blog/how-much-does-a-website-cost/og.png",
+  };
 };
 
 const faqJsonLd = {
@@ -122,7 +134,7 @@ const faqJsonLd = {
   ],
 };
 
-const breadcrumbJsonLd = {
+const getBreadcrumbJsonLd = (locale: Locale) => ({
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
@@ -130,27 +142,28 @@ const breadcrumbJsonLd = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://www.khalil.mageed.net",
+      item: buildLocalizedAbsoluteUrl(locale),
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Blog",
-      item: "https://www.khalil.mageed.net/blog",
+      item: buildLocalizedAbsoluteUrl(locale, "/blog"),
     },
     {
       "@type": "ListItem",
       position: 3,
       name: "How Much Does a Website Cost?",
-      item: "https://www.khalil.mageed.net/blog/how-much-does-a-website-cost",
+      item: buildLocalizedAbsoluteUrl(locale, articlePath),
     },
   ],
-};
-
-import { Locale } from "@/i18n.config";
+});
 
 export default async function Page({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
+  const jsonLd = getJsonLd(locale);
+  const breadcrumbJsonLd = getBreadcrumbJsonLd(locale);
+
   return (
     <>
       <script
