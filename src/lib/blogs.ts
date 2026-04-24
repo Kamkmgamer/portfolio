@@ -91,6 +91,17 @@ const blogPostsEn: BlogPost[] = [
     publishedDate: new Date("2026-03-04"),
     readTime: 6,
   },
+  {
+    slug: "why-claude-mythos-wont-break-cybersecurity",
+    title: "Why Claude Mythos Won't Break Cybersecurity",
+    summary:
+      "People are panicking about Claude Mythos breaking cybersecurity. Here's why the economics of vulnerabilities and open-weight models mean it actually favors defenders.",
+    category: "AI & Cybersecurity",
+    tags: ["AI", "cybersecurity", "Claude", "Mythos", "open-weight models"],
+    author: "Khalil AbdalMageed",
+    publishedDate: new Date("2026-04-24"),
+    readTime: 4,
+  },
 ];
 
 const blogPostsAr: BlogPost[] = [
@@ -171,6 +182,17 @@ const blogPostsAr: BlogPost[] = [
     author: "خليل عبدالمجيد",
     publishedDate: new Date("2026-03-04"),
     readTime: 6,
+  },
+  {
+    slug: "why-claude-mythos-wont-break-cybersecurity",
+    title: "لماذا لن يدمر Claude Mythos الأمن السيبراني",
+    summary:
+      "يشعر الناس بالذعر من أن Claude Mythos سيدمر الأمن السيبراني. إليك السبب في أن اقتصاديات الثغرات ونماذج الأوزان المفتوحة تعني في الواقع أنه يخدم المدافعين.",
+    category: "الذكاء الاصطناعي والأمن السيبراني",
+    tags: ["الذكاء الاصطناعي", "الأمن السيبراني", "كلاود", "ميثوس", "النماذج المفتوحة"],
+    author: "خليل عبدالمجيد",
+    publishedDate: new Date("2026-04-24"),
+    readTime: 4,
   },
 ];
 
