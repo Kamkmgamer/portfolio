@@ -58,7 +58,7 @@ export default async function Image() {
             letterSpacing: "-0.02em",
           }}
         >
-          Why Claude Mythos Won't
+          Why Claude Mythos Won&apos;t
         </h1>
         <h2
           style={{
