@@ -14,9 +14,9 @@ But this will only be true if we assume that there is an infinite number of vuln
 
 Open-weight models used to be six months to a year behind the frontier models, but if we look at the current state of the AI market, we can see that open models like GLM and Kimi are at the same level as frontier models like GPT and Claude. Even if Claude Mythos was released today, open-weight models would be at the same level as Mythos in a few months and would be cheaper to run to get equivalent results. According to Artificial Analysis, running GLM 5.1 benchmarks costs nine times less than Claude Opus 4.6. 
 
-@[iframe](https://artificialanalysis.ai/#artificial-analysis-intelligence-index)
+@[responsive-embed](https://artificialanalysis.ai/#artificial-analysis-intelligence-index|https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/blog/Why%20Claude%20Mythos%20Won't%20Break%20Cybersecurity/Artificial%20Analysis%20Intelligence%20Index.png)
 
-@[iframe](https://artificialanalysis.ai/#cost-to-run-artificial-analysis-intelligence-index)
+@[responsive-embed](https://artificialanalysis.ai/#cost-to-run-artificial-analysis-intelligence-index|https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/blog/Why%20Claude%20Mythos%20Won't%20Break%20Cybersecurity/Artificial%20Analysis%20Intelligence%20Index.png)
 
 If the cost is one-ninth, you would assume that the cost of finding an exploit in the newer Mythos-class models would be around this range. Finding the exploit would cost around $2,222. It would be significantly cheaper to find exploits, and the more exploits the defenders find and fix, the fewer exploits the attacker can find. As vulnerabilities are patched, the attack surface area will shrink. 
 

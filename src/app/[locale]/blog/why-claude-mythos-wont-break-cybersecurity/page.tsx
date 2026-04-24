@@ -5,6 +5,8 @@ import { Locale } from "@/i18n.config";
 import React from "react";
 import { buildLocalizedAbsoluteUrl, buildLocalizedMetadata } from "@/lib/seo";
 
+import { ResponsiveEmbed } from "./ResponsiveEmbed";
+
 type Props = {
   params: Promise<{ locale: Locale }>;
 };
@@ -304,6 +306,19 @@ export default async function Page({ params }: Props) {
             {line.replace(/^##\s*/, "")}
           </h2>
         );
+      } else if (line.match(/^@\[responsive-embed\]\((.*?)\|(.*?)\)$/)) {
+        flushParagraph(`p-${i}`);
+        flushList(`ul-${i}`);
+        const match = line.match(/^@\[responsive-embed\]\((.*?)\|(.*?)\)$/);
+        if (match) {
+          elements.push(
+            <ResponsiveEmbed
+              key={`responsive-embed-${i}`}
+              iframeUrl={match[1]}
+              imageUrl={match[2]}
+            />
+          );
+        }
       } else if (line.match(/^!\[(.*?)\]\((.*?)\)$/)) {
         flushParagraph(`p-${i}`);
         flushList(`ul-${i}`);
@@ -316,23 +331,6 @@ export default async function Page({ params }: Props) {
                 alt={match[1]} 
                 className="w-full h-auto object-cover"
                 loading="lazy"
-              />
-            </div>
-          );
-        }
-      } else if (line.match(/^@\[iframe\]\((.*?)\)$/)) {
-        flushParagraph(`p-${i}`);
-        flushList(`ul-${i}`);
-        const match = line.match(/^@\[iframe\]\((.*?)\)$/);
-        if (match) {
-          elements.push(
-            <div key={`iframe-container-${i}`} className="my-10 rounded-xl overflow-hidden border border-white/10 bg-white/5 relative h-[600px] w-full">
-              <iframe 
-                src={match[1]} 
-                className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                frameBorder="0"
-                allowFullScreen
-                scrolling="no"
               />
             </div>
           );

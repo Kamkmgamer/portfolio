@@ -14,9 +14,9 @@
 
 زمان، الموديلات مفتوحة الأوزان كانت متأخرة عن الموديلات الرائدة (frontier models) بحوالي ستة شهور لسنة، لكن لو عاينّا لوضع سوق الذكاء الاصطناعي هسي، بنلقى إنو الموديلات المفتوحة زي GLM و Kimi بقت في نفس مستوى الموديلات الرائدة زي GPT و Claude. حتى لو Claude Mythos نزل الليلة، الموديلات المفتوحة حتوصل لنفس مستواهو في كم شهر بس، وحتكون أرخص بكتير عشان تديك نفس النتيجة. وحسب إحصائيات موقع Artificial Analysis، تشغيل موديل GLM 5.1 بكلف أقل بـ 9 مرات من تكلفة Claude Opus 4.6.
 
-@[iframe](https://artificialanalysis.ai/#artificial-analysis-intelligence-index)
+@[responsive-embed](https://artificialanalysis.ai/#artificial-analysis-intelligence-index|https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/blog/Why%20Claude%20Mythos%20Won't%20Break%20Cybersecurity/Artificial%20Analysis%20Intelligence%20Index.png)
 
-@[iframe](https://artificialanalysis.ai/#cost-to-run-artificial-analysis-intelligence-index)
+@[responsive-embed](https://artificialanalysis.ai/#cost-to-run-artificial-analysis-intelligence-index|https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/blog/Why%20Claude%20Mythos%20Won't%20Break%20Cybersecurity/Artificial%20Analysis%20Intelligence%20Index.png)
 
 لو التكلفة بقت التُسع (1/9)، ممكن تتخيل إنو تكلفة اكتشاف ثغرة باستخدام موديلات قوية زي Mythos حتكون في الحدود دي. يعني عشان تلقى ثغرة حتكلفك حوالي 2,222 دولار بس. الموضوع حيبقى أرخص شديد، وكل ما المدافعين يلقوا ثغرات ويصلحوها، الثغرات الممكن المهاجم يلقاها حتقل. ولما تتصلح الثغرات دي، المساحة الممكن تتهاجم حتتقلص شديد.
 
