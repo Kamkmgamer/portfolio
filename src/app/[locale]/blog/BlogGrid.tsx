@@ -39,7 +39,13 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
         viewport={{ once: true, amount: 0.2 }}
         className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {getBlogPostsByLocale(locale).map((post) => {
+        {getBlogPostsByLocale(locale)
+          .filter(
+            (post) =>
+              post.slug === "why-not-to-use-local-models" ||
+              post.slug === "why-claude-mythos-wont-break-cybersecurity"
+          )
+          .map((post) => {
           const formattedDate = post.publishedDate.toLocaleDateString(
             locale === "ar" ? "ar-EG" : "en-US",
             {
@@ -51,57 +57,59 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
 
           return (
             <motion.article key={post.slug} variants={item}>
-              <div className="group relative h-full flex flex-col justify-between p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-[hsl(var(--accent-gold))]/30 hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-500">
-                <div>
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-[hsl(var(--accent-gold))] text-xs font-bold uppercase tracking-widest border border-[hsl(var(--accent-gold))]/20 px-3 py-1 bg-[hsl(var(--accent-gold))]/5">
-                      {post.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-display mb-4 group-hover:text-[hsl(var(--accent-gold))] transition-colors duration-300">
-                    {post.title}
-                  </h3>
-
-                  <p className="text-text/70 text-sm mb-4 leading-relaxed">
-                    {post.summary}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs text-text/50 font-mono"
-                      >
-                        #{tag}
+              <Link
+                href={`/${locale}/blog/${post.slug}`}
+                className="block group relative h-full"
+              >
+                <div className="relative h-full flex flex-col justify-between p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-[hsl(var(--accent-gold))]/30 hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-500">
+                  <div>
+                    <div className="flex justify-between items-start mb-6">
+                      <span className="text-[hsl(var(--accent-gold))] text-xs font-bold uppercase tracking-widest border border-[hsl(var(--accent-gold))]/20 px-3 py-1 bg-[hsl(var(--accent-gold))]/5">
+                        {post.category}
                       </span>
-                    ))}
+                    </div>
+
+                    <h3 className="text-2xl font-display mb-4 group-hover:text-[hsl(var(--accent-gold))] transition-colors duration-300">
+                      {post.title}
+                    </h3>
+
+                    <p className="text-text/70 text-sm mb-4 leading-relaxed">
+                      {post.summary}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs text-text/50 font-mono"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-4 text-xs text-text/50 mb-8">
+                      <span className="flex items-center gap-1.5">
+                        <User className="h-3.5 w-3.5" />
+                        {post.author}
+                      </span>
+                      <span className="flex items-center gap-1.5">
+                        <Clock className="h-3.5 w-3.5" />
+                        {post.readTime} {dict.blog.minRead}
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-text/40 mb-4">{formattedDate}</div>
+
+                    <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))]">
+                      {dict.blog.readArticle}
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform rtl:rotate-180" />
+                    </span>
                   </div>
                 </div>
-
-                <div>
-                  <div className="flex items-center gap-4 text-xs text-text/50 mb-8">
-                    <span className="flex items-center gap-1.5">
-                      <User className="h-3.5 w-3.5" />
-                      {post.author}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="h-3.5 w-3.5" />
-                      {post.readTime} {dict.blog.minRead}
-                    </span>
-                  </div>
-
-                  <div className="text-xs text-text/40 mb-4">{formattedDate}</div>
-
-                  <Link
-                    href={`/${locale}/blog/${post.slug}`}
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))] group/link"
-                  >
-                    {dict.blog.readArticle}
-                    <ArrowRight className="h-4 w-4 group-hover/link:translate-x-1 transition-transform rtl:rotate-180" />
-                  </Link>
-                </div>
-              </div>
+              </Link>
             </motion.article>
           );
         })}
