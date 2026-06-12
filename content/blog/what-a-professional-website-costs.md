@@ -1,89 +1,83 @@
-# What a Professional Website Actually Costs ($200-$500)
+# What a Professional Website Actually Costs
 
-*Category: Smart Investment | Read Time: 9 min*
+Cheap websites are everywhere. After you see enough of them, the pattern becomes obvious: low price, weak result, then you pay again later.
 
-Let's be real: cheap websites are everywhere. You can find someone to build you one for $20 or $100, but usually, they're either broken or barely functional. 
-
-This post is for when you're done with that. When you start asking, "Okay, what does a professional website actually look like?" This is where a website stops being just a cost and starts becoming an investment in your business.
+This post is for the point where you stop asking how cheap a website can be and start asking what a proper one actually costs.
 
 ## See the Difference Yourself
 
-I built three functional demos at two price points. Think of these as mockups of how a real-world site should look and feel at these tiers. Open them on your phone, click around, and try the checkout.
+I built demos at the useful starting tiers.
 
-**$200 Tier:**
+**$200 tier:**
+
 - [$200 Restaurant](https://200-dollar-restaurant.vercel.app)
 
-**$500 Tier:**
+**$500 tier:**
+
 - [$500 Restaurant](https://500-dollar-restaurant.vercel.app)
 - [$500 Ecommerce](https://500-dollar-ecommerce-app.vercel.app)
 
-## What Changed
+Open them on your phone. Click around. Try to order. Pay attention to how much less friction there is compared to the cheap versions.
 
-Moving from $100 up to $200 or $500 isn't just about picking better colors. It's about a fundamental shift in how the site actually works.
+## What Changes at $200+
 
-- **Real Checkout** - Customers add to cart, enter their details, and complete the order. No WhatsApp. No manual follow-up. The website handles it.
-- **Real Mobile Experience** - Actually designed for phones first. Fast, smooth, thumb-friendly. Because that's where your customers are.
-- **Real SEO** - Proper page titles, meta descriptions, fast loading, structured data. Google can actually find you.
-- **The Backend Difference** - A $100 site is a poster. A $200+ site has logic behind it. You're not just paying for how it looks. You're paying for what it does.
+This is not just where the colors get better.
 
-## $200 vs $500 - The Honest Difference
+This is where the website starts doing actual work.
 
-Both are real websites. Both work. But they serve different stages of business.
+At $100, the site mostly shows information. At $200 and above, the site can start handling forms, orders, checkout flows, mobile UX, basic SEO, and cleaner customer paths.
 
-### $200 - Functional
-- Functional checkout that actually processes orders
-- Mobile-first design that looks good on every screen
-- Basic SEO so Google knows you exist
-- Clean, professional design - not a template
-- Fast loading - under 2 seconds
-- Contact forms that actually send emails
+That is the difference. You are not paying for prettier pixels. You are paying for usefulness.
 
-$200 is the sweet spot for small businesses that need to look professional and accept orders online. It's the first tier where the site starts working for you.
+## The $200 Tier
 
-### $500 - Competitive
-- Everything in $200, plus:
-- Advanced product filtering and search
-- Customer accounts and order history
-- Inventory management with stock tracking
-- Multiple payment methods
-- Analytics dashboard to track sales
-- Optimized for high traffic
-- Competitive with established businesses
+$200 is the first tier I would call sane for a real small business.
 
-$500 is where your website stops being "good enough" and starts being a competitive advantage.
+You get a site that loads properly, works on phones, looks professional, has working contact forms, and gives Google enough structure to understand what you are.
 
-## The Verdict
+It is not a huge system. It is not trying to be Amazon. It is just a real website that does not embarrass you.
 
-Look, both of these tiers are solid. But you have to be honest with yourself about where your business is right now.
+For many local businesses, that is enough.
 
-### Stop at $200 If
-- You sell fewer than 20 products or menu items
-- Your business is local and reputation-driven
-- You need a professional presence but not an e-commerce powerhouse
-- You're moving from WhatsApp orders to online online for the first time
-- Your competitors also have basic websites
+## The $500 Tier
 
-### Stretch to $500 If
-- You have a growing catalog with variants (sizes, colors, options)
-- You're competing with businesses that already look established online
-- You need to track inventory, orders, and customer data
-- You want customers to come back and reorder without messaging you
-- You're ready for your website to be a sales channel, not just a brochure
+$500 is where the site starts becoming competitive.
 
-## Wondering About Cheaper Options?
+This is where you can add stronger checkout, filtering, better product pages, cleaner ordering flows, analytics, inventory awareness, and a mobile experience that feels intentional instead of tolerated.
 
-- [Why a $20 Website Will Cost You Thousands](/blog/why-not-to-buy-cheap-websites)
+The difference between $200 and $500 is not good versus bad. Both can be good. The difference is how much responsibility the website has to carry.
+
+If your website is just there to prove you exist, $200 may be enough.
+
+If the website is supposed to help you sell, compete, and reduce manual work, $500 makes more sense.
+
+## Stop at $200 If
+
+You sell a small number of products or menu items. Your business is local. Your competitors are not doing anything advanced online. Your main problem is that your current site is missing, slow, or embarrassing.
+
+In that case, do not overcomplicate it. A clean $200 site can be the right move.
+
+## Stretch to $500 If
+
+You have a growing catalog. You need checkout to work properly. You want customers to reorder without messaging you. You are competing with businesses that already look serious online.
+
+At that point, the extra money is not decoration. It is capacity.
+
+## What About Cheaper Options?
+
+Read these first:
+
+- [Why Not to Buy Cheap Websites](/blog/why-not-to-buy-cheap-websites)
 - [What a $100 Website Actually Gets You](/blog/what-100-dollar-website-gets-you)
+
+They explain why the cheap tiers can be fine for testing but bad for a real business.
 
 ## The Bottom Line
 
-The $200-$500 range is where websites stop being expenses and start paying for themselves. 
+$200 gets you functional.
 
-**$200 gets you functional.**
-**$500 gets you competitive.**
+$500 gets you competitive.
 
-Both are investments. Pick the one that matches where your business is today.
+Both can be good investments if they match the stage of the business. The mistake is not choosing the cheaper one. The mistake is expecting the cheaper one to do the job of the expensive one.
 
----
-
-Ready to invest? [Start here](/contact).
+Ready to build it properly? [Start here](/contact).
