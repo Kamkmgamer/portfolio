@@ -4,7 +4,7 @@
       "default": "Khalil Mageed | Web Developer & Designer",
       "template": "%s | Khalil Mageed"
     },
-    "description": "Khalil Mageed (Khalil AbdalMageed) is a web developer based in Cairo specializing in restaurant websites, ecommerce stores, and local business sites built with Next.js and React. Get a free quote today!"
+    "description": "Khalil Mageed (Khalil AbdalMageed) is a web developer based in Cairo specializing in AI app interfaces, product demos, and SaaS features built with Next.js, TypeScript, and AI APIs. Get a free quote today!"
   },
   "nav": {
     "projects": "Projects",
@@ -18,8 +18,8 @@
   "home": {
     "title": "Hey, I'm",
     "subtitle": "Web Developer",
-    "description": "I build websites that actually work for businesses.",
-    "descriptionExtended": "Restaurants? Ecommerce? I create sites that bring in customers, not generic templates.",
+    "description": "I help founders and agencies ship polished AI app interfaces, product demos,",
+    "descriptionExtended": "and SaaS features with Next.js, TypeScript, and AI APIs.",
     "viewWork": "See What I've Built",
     "getInTouch": "Let's Talk",
     "scroll": "Scroll",
@@ -29,7 +29,7 @@
         "year": "2021 - Present",
         "role": "Freelance Web Developer",
         "company": "Self employed",
-        "desc": "Building custom websites for restaurants, ecommerce stores, and local businesses. Focused on sites that actually convert visitors into customers."
+        "desc": "Building AI-powered web apps, interactive product demos, and SaaS interfaces. Focused on polished UIs that ship fast."
       },
       "fullstack": {
         "year": "2018 - 2021",
@@ -40,14 +40,14 @@
     },
     "whoIHelpTitle": "Who I Help",
     "whoIHelpEyebrow": "The Right Fit",
-    "whoIHelpRestaurantsTitle": "Restaurants & Cafes",
-    "whoIHelpRestaurantsDesc": "Online menus, reservations, and ordering systems that turn visitors into customers.",
-    "whoIHelpRestaurantsCta": "See Restaurant Sites",
-    "whoIHelpEcommerceTitle": "Ecommerce Businesses",
-    "whoIHelpEcommerceDesc": "Online stores that actually sell, built to be fast, clean, and ready to grow.",
-    "whoIHelpEcommerceCta": "See Ecommerce Sites",
-    "whoIHelpLocalTitle": "Local Businesses",
-    "whoIHelpLocalDesc": "Professional websites that build trust and make you look legit online.",
+    "whoIHelpRestaurantsTitle": "Founders & Startups",
+    "whoIHelpRestaurantsDesc": "MVP interfaces and product demos that help you validate ideas and ship fast.",
+    "whoIHelpRestaurantsCta": "See AI App Demos",
+    "whoIHelpEcommerceTitle": "Agencies & Studios",
+    "whoIHelpEcommerceDesc": "White-label SaaS features and client projects delivered with modern tech stacks.",
+    "whoIHelpEcommerceCta": "See SaaS Demos",
+    "whoIHelpLocalTitle": "Product Teams",
+    "whoIHelpLocalDesc": "Polished UI components and AI integrations that level up your product experience.",
     "whoIHelpLocalCta": "See My Work",
     "testimonial": {
       "eyebrow": "Client Feedback",
@@ -67,12 +67,7 @@
       }
     },
     "exploreWork": "What I've Built",
-    "viewProjects": "Restaurant Websites",
-    "viewProjectsDesc": "9 restaurant demo sites with different styles and different price points. See exactly what your future site could look like.",
-    "viewProjectsCta": "Browse Restaurant Demos",
-    "viewDemos": "Ecommerce Stores",
-    "viewDemosDesc": "From simple product pages to full-blown online stores. Pick a style that fits your business.",
-    "viewDemosCta": "Browse Ecommerce Demos",
+    "exploreWorkSubtitle": "Real work, real proof.",
     "viewCaseStudies": "Case Studies",
     "viewCaseStudiesDesc": "Real projects, real decisions, real results. Here's how I actually think and build.",
     "viewCaseStudiesCta": "Read Case Studies",
@@ -82,7 +77,7 @@
   },
   "projects": {
     "title": "Projects",
-    "description": "Explore Khalil AbdalMageed's portfolio of web development projects. Restaurant websites, ecommerce platforms, and custom web applications built with React and Next.js.",
+    "description": "Explore Khalil AbdalMageed's portfolio of web development projects. AI app interfaces, SaaS features, and product demos built with React, Next.js, and TypeScript.",
     "viewPastOffers": "View Past Offers",
     "eyebrow": "Portfolio",
     "heading": "Selected",
@@ -92,7 +87,7 @@
   },
   "demos": {
     "title": "Live Demos",
-    "description": "Interactive live demos of websites at different price points. Compare $20 websites to $10,000 platforms and see exactly what each budget delivers.",
+    "description": "Interactive live demos of AI app interfaces and SaaS features. See polished UI components and AI integrations in action.",
     "eyebrow": "Live Demos",
     "heading": "Interactive",
     "headingItalic": "Demos",

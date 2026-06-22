@@ -511,13 +511,13 @@ export default function Home({
                 {dict.home.exploreWork}
               </span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium">
-                {dict.home.viewProjects}{" "}
+                {dict.home.viewCaseStudies}{" "}
                 <span className="italic text-text/50 font-semibold">
-                  & {dict.home.viewDemos}
+                  & {dict.home.viewBlog}
                 </span>
               </h2>
               <p className="mt-4 text-text/50 text-lg max-w-xl mx-auto">
-                Real work, real proof.
+                {dict.home.exploreWorkSubtitle}
               </p>
             </motion.div>
 
@@ -527,102 +527,6 @@ export default function Home({
                   initial={{ opacity: 0, x: -50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies/restaurant-websites-tiers`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <div className="mb-5 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-gold))]">
-                        <UtensilsCrossed className="w-8 h-8" strokeWidth={1.5} />
-                      </div>
-                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
-                        {dict.home.viewProjects}
-                      </h3>
-                      <p className="text-text/60 mb-8 text-lg flex-1">
-                        {dict.home.viewProjectsDesc}
-                      </p>
-                      <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 mt-auto">
-                        <span className="uppercase tracking-widest text-sm font-semibold">
-                          {dict.home.viewProjectsCta}
-                        </span>
-                        <svg
-                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies/ecommerce-websites-tiers`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-bronze))]/20 bg-linear-to-br from-[hsl(var(--accent-bronze))]/5 to-transparent hover:border-[hsl(var(--accent-bronze))]/50 transition-all duration-500 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-bronze))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <div className="mb-5 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-bronze))]">
-                        <ShoppingCart className="w-8 h-8" strokeWidth={1.5} />
-                      </div>
-                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-bronze))]">
-                        {dict.home.viewDemos}
-                      </h3>
-                      <p className="text-text/60 mb-8 text-lg flex-1">
-                        {dict.home.viewDemosDesc}
-                      </p>
-                      <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300 mt-auto">
-                        <span className="uppercase tracking-widest text-sm font-semibold">
-                          {dict.home.viewDemosCta}
-                        </span>
-                        <svg
-                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02, y: -5 }}
                   whileTap={{ scale: 0.98 }}
@@ -667,7 +571,7 @@ export default function Home({
                 <motion.div
                   initial={{ opacity: 0, x: 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02, y: -5 }}
                   whileTap={{ scale: 0.98 }}
