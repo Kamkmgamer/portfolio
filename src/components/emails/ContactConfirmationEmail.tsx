@@ -79,7 +79,7 @@ export const ContactConfirmationEmail = ({
 
                 <Section
                   style={{ background: "linear-gradient(90deg, #FFFBEB 0%, #FFEDD5 100%)" }}
-                  className="rounded-xl p-6 mb-6 border-l-4 border-[#D4AF37]"
+                  className="rounded-xl p-6 mb-6 border border-[#D4AF37]"
                 >
                   <Text className="text-gray-700 m-0 font-medium">
                     I&apos;ll carefully review your message and get back to you

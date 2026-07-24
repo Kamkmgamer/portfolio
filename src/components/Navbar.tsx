@@ -200,19 +200,11 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
           href={`/${locale}`}
           className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-display tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 rounded"
         >
-          <motion.span
-            className="relative bg-linear-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
+          <span
+            className="relative text-[hsl(var(--accent-gold))]"
           >
             Khalil
-            <span
-              className="absolute inset-0 bg-linear-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"
-              aria-hidden="true"
-            >
-              Khalil
-            </span>
-          </motion.span>
+          </span>
           <span className="sr-only">{dict.nav.home}</span>
         </Link>
 

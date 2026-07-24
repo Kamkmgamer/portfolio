@@ -204,8 +204,8 @@ export default function KamkmPDFReliabilityCaseStudyPage({ params }: { params: P
             </div>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="glass-card p-8 border-l-2 border-l-[hsl(var(--accent-gold))]"><h3 className="text-xl font-display mb-4 flex items-center gap-3"><CheckCircle className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.out1Title}</h3><p className="text-text/60 mb-4">{c.out1Desc}</p><div className="font-mono text-xs text-text/40 bg-white/5 p-3 rounded">{c.out1File}</div></div>
-            <div className="glass-card p-8 border-l-2 border-l-[hsl(var(--accent-gold))]"><h3 className="text-xl font-display mb-4 flex items-center gap-3"><FileCode className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.out2Title}</h3><p className="text-text/60 mb-4">{c.out2Desc}</p><div className="font-mono text-xs text-text/40 bg-white/5 p-3 rounded">{c.out2File}</div></div>
+            <div className="glass-card p-8 border border-[hsl(var(--accent-gold))]/50"><h3 className="text-xl font-display mb-4 flex items-center gap-3"><CheckCircle className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.out1Title}</h3><p className="text-text/60 mb-4">{c.out1Desc}</p><div className="font-mono text-xs text-text/40 bg-white/5 p-3 rounded">{c.out1File}</div></div>
+            <div className="glass-card p-8 border border-[hsl(var(--accent-gold))]/50"><h3 className="text-xl font-display mb-4 flex items-center gap-3"><FileCode className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.out2Title}</h3><p className="text-text/60 mb-4">{c.out2Desc}</p><div className="font-mono text-xs text-text/40 bg-white/5 p-3 rounded">{c.out2File}</div></div>
           </div>
         </motion.section>
 

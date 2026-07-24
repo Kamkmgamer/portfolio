@@ -126,7 +126,7 @@ export default async function ResearchPaperPage({
               src={paper.image}
               alt={paper.title}
               fill
-              className="object-cover hover:scale-105 transition-transform duration-700"
+              className="object-cover"
               priority
             />
           </div>

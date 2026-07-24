@@ -207,7 +207,7 @@ export default function HowMuchDoesAWebsiteCostPage({ locale = "en" }: { locale?
           <div className="space-y-4">
             {c.priceRanges.map((tier, index) => (
               <motion.div key={tier.range} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: index * 0.05 }} viewport={{ once: true }}
-                className={`glass-card p-6 border-l-4 ${tier.color === "red" ? "border-l-red-500" : tier.color === "green" ? "border-l-green-500" : tier.color === "gold" ? "border-l-[hsl(var(--accent-gold))]" : "border-l-purple-500"}`}>
+                className={`glass-card p-6 border ${tier.color === "red" ? "border-red-500/50" : tier.color === "green" ? "border-green-500/50" : "border-[hsl(var(--accent-gold))]/50"}`}>
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-2">
                   <div><span className="text-2xl font-display font-bold">{tier.range}</span><span className="ml-3 text-text/60">{tier.label}</span></div>
                   <span className={`text-sm ${tier.color === "red" ? "text-red-400" : tier.color === "green" ? "text-green-400" : tier.color === "gold" ? "text-[hsl(var(--accent-gold))]" : "text-purple-400"}`}>{tier.verdict}</span>

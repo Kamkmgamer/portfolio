@@ -149,11 +149,11 @@ export default function ReducingFrictionCaseStudyPage({ params }: { params: Prom
             <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.situationDesc}</p>
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className="glass-card p-8 border-l-2 border-l-text/20">
+            <div className="glass-card p-8 border border-text/20">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3"><Users className="h-5 w-5 text-[hsl(var(--accent-bronze))]" />{c.problemTitle}</h3>
               <ul className="space-y-4">{c.problemPoints.map((item, i) => (<li key={i} className="flex items-start gap-3 text-sm text-text/60"><span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--accent-bronze))] mt-2 shrink-0" />{item}</li>))}</ul>
             </div>
-            <div className="glass-card p-8 border-l-2 border-l-[hsl(var(--accent-gold))]">
+            <div className="glass-card p-8 border border-[hsl(var(--accent-gold))]/50">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3"><Lightbulb className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.realIssueTitle}</h3>
               <p className="text-sm text-text/60 leading-relaxed mb-4">{c.realIssueP1}</p>
               <p className="text-sm text-text/60 leading-relaxed">{c.realIssueP2}</p>

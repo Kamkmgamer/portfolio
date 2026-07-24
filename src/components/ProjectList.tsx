@@ -100,14 +100,14 @@ function ProjectCard({ project, index, dict }: { project: Project; index: number
           muted
           playsInline
           onLoadedData={() => setIsVideoLoaded(true)}
-          className="absolute inset-0 object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+          className="absolute inset-0 object-cover w-full h-full"
         />
       )}
       <Image
         src={project.image}
         alt={project.title}
         fill
-        className={`absolute inset-0 object-cover transition-all duration-1000 group-hover:scale-105 ${project.video && isVideoLoaded ? "opacity-0" : "opacity-100"
+        className={`absolute inset-0 object-cover transition-opacity duration-500 ${project.video && isVideoLoaded ? "opacity-0" : "opacity-100"
           }`}
         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
       />

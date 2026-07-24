@@ -164,7 +164,7 @@ export default function Home({
 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-semibold leading-[0.95] text-text mb-8">
                   {dict.home.title} <br />
-                  <span className="text-transparent bg-clip-text bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] italic pr-4">
+                  <span className="text-[hsl(var(--accent-gold))] italic pr-4">
                     Khalil
                   </span>
                 </h1>
@@ -229,7 +229,7 @@ export default function Home({
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20 animate-fade-out">
             <span className="text-xs uppercase tracking-widest">{dict.home.scroll}</span>
-            <ArrowDown className="w-4 h-4 animate-bounce" />
+            <ArrowDown className="w-4 h-4 animate-scroll-cue" />
           </div>
         </section>
 
@@ -251,9 +251,6 @@ export default function Home({
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-                {dict.home.whoIHelpEyebrow}
-              </span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
                 {dict.home.whoIHelpTitle}
               </h2>
@@ -410,9 +407,6 @@ export default function Home({
               viewport={{ once: true }}
               className="text-center mb-14"
             >
-              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-                {dict.home.testimonial.eyebrow}
-              </span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
                 {dict.home.testimonial.title}
               </h2>
@@ -464,7 +458,7 @@ export default function Home({
                     target="_blank"
                     rel="noreferrer"
                     dir="ltr"
-                    className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
+                  className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
                   >
                     <span>{testimonialLabels.websiteLabel}: {testimonial.website}</span>
                     <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
@@ -474,7 +468,7 @@ export default function Home({
                     target="_blank"
                     rel="noreferrer"
                     dir="ltr"
-                    className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
+                  className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
                   >
                     <span>{testimonialLabels.sourceLabel}: {testimonial.platform}</span>
                     <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
@@ -507,9 +501,6 @@ export default function Home({
               viewport={{ once: true }}
               className="text-center mb-16"
             >
-              <span className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-                {dict.home.exploreWork}
-              </span>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium">
                 {dict.home.viewCaseStudies}{" "}
                 <span className="italic text-text/50 font-semibold">
@@ -534,14 +525,14 @@ export default function Home({
                 >
                   <Link
                     href={`/${locale}/case-studies`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-[hsl(var(--accent-gold))]/5 to-transparent hover:border-[hsl(var(--accent-gold))]/50 transition-all duration-500 cursor-pointer"
+                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/30 bg-[hsl(var(--accent-gold))]/[0.04] hover:border-[hsl(var(--accent-gold))]/60 hover:bg-[hsl(var(--accent-gold))]/[0.08] transition-all duration-500 cursor-pointer"
                   >
                     <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative z-10 flex flex-col flex-1">
                       <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
                         {dict.home.viewCaseStudies}
                       </h3>
-                      <p className="text-text/60 mb-8 text-lg flex-1">
+                      <p className="text-text/85 mb-8 text-lg flex-1">
                         {dict.home.viewCaseStudiesDesc}
                       </p>
                       <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 mt-auto">
@@ -579,14 +570,14 @@ export default function Home({
                 >
                   <Link
                     href={`/${locale}/blog`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-champagne))]/20 bg-linear-to-br from-[hsl(var(--accent-champagne))]/5 to-transparent hover:border-[hsl(var(--accent-champagne))]/50 transition-all duration-500 cursor-pointer"
+                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-champagne))]/35 bg-[hsl(var(--accent-champagne))]/[0.05] hover:border-[hsl(var(--accent-champagne))]/60 hover:bg-[hsl(var(--accent-champagne))]/[0.08] transition-all duration-500 cursor-pointer"
                   >
                     <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-champagne))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative z-10 flex flex-col flex-1">
                       <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-champagne))]">
                         {dict.home.viewBlog}
                       </h3>
-                      <p className="text-text/60 mb-8 text-lg flex-1">
+                      <p className="text-text/85 mb-8 text-lg flex-1">
                         {dict.home.viewBlogDesc}
                       </p>
                       <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 mt-auto">
@@ -640,7 +631,7 @@ function ExperienceCard({
       <div className="text-sm font-bold uppercase tracking-widest mb-6 text-text/40 group-hover:text-text/80 transition-colors">
         {company}
       </div>
-      <p className="text-text/60">{desc}</p>
+      <p className="text-text/80">{desc}</p>
     </div>
   );
 }

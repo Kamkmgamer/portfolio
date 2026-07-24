@@ -115,11 +115,11 @@ export default function KamkmPDFScalingCaseStudyPage({ params }: { params: Promi
         <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
           <div className="text-center mb-16"><h2 className="text-4xl md:text-5xl font-display mb-6">{c.challengeTitle} <span className="italic text-text/50">{c.challengeItalic}</span></h2><p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.challengeDesc}</p></div>
           <div className="grid lg:grid-cols-2 gap-8">
-            <div className="glass-card p-8 border-l-2 border-l-text/20">
+            <div className="glass-card p-8 border border-text/20">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3"><TrendingUp className="h-5 w-5 text-[hsl(var(--accent-bronze))]" />{c.beforeTitle}</h3>
               <ul className="space-y-4">{c.beforeRows.map(([label, val], i) => (<li key={i} className="flex items-center justify-between text-sm"><span className="text-text/60">{label}</span><span className="font-mono text-text/40">{val}</span></li>))}</ul>
             </div>
-            <div className="glass-card p-8 border-l-2 border-l-[hsl(var(--accent-gold))]">
+            <div className="glass-card p-8 border border-[hsl(var(--accent-gold))]/50">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3"><CheckCircle className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.afterTitle}</h3>
               <ul className="space-y-4">{c.afterRows.map(([label, val], i) => (<li key={i} className="flex items-center justify-between text-sm"><span className="text-text/60">{label}</span><span className="font-mono text-[hsl(var(--accent-gold))] font-semibold">{val}</span></li>))}</ul>
             </div>

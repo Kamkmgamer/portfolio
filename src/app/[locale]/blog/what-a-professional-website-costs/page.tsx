@@ -248,7 +248,7 @@ export default function WhatAProfessionalWebsiteCostsPage({ params }: { params: 
               const icons = [ShoppingCart, Smartphone, Search, Server];
               const Icon = icons[index];
               return (
-                <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} viewport={{ once: true }} className="glass-card p-6 border-l-2 border-l-[hsl(var(--accent-gold))]/50">
+                <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} viewport={{ once: true }} className="glass-card p-6 border border-[hsl(var(--accent-gold))]/50">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"><Icon className="h-5 w-5" /></div>
                     <h3 className="text-lg font-display">{item.title}</h3>

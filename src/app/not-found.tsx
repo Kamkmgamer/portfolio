@@ -245,7 +245,7 @@ export default function NotFound() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
           </span>
-          <span className="text-xs font-bold uppercase tracking-widest bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+          <span className="text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))]">
             Page Not Found
           </span>
         </motion.div>
@@ -258,7 +258,7 @@ export default function NotFound() {
           className="relative mb-6"
         >
           <h1 className="text-[8rem] sm:text-[10rem] md:text-[14rem] lg:text-[18rem] font-display leading-none tracking-tighter">
-            <span className="bg-linear-to-b from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+            <span className="text-[hsl(var(--accent-gold))]">
               404
             </span>
           </h1>
@@ -281,7 +281,7 @@ export default function NotFound() {
           className="text-2xl sm:text-3xl md:text-4xl font-display tracking-tight mb-6"
         >
           <span className="text-text italic">Lost in</span>{" "}
-          <span className="bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+          <span className="text-[hsl(var(--accent-gold))]">
             Elegance
           </span>
         </motion.h2>

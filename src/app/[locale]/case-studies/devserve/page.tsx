@@ -137,7 +137,7 @@ export default function DevServeCaseStudyPage({ params }: { params: Promise<{ lo
               <h3 className="text-xl font-display mb-6 flex items-center gap-3"><Users className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.roleTitle}</h3>
               <ul className="space-y-4">{c.roleItems.map((item, i) => (<li key={i} className="flex items-start gap-3 text-sm text-text/60"><span className="w-1.5 h-1.5 rounded-full bg-[hsl(var(--accent-gold))] mt-2 shrink-0" />{item}</li>))}</ul>
             </div>
-            <div className="glass-card p-8 border-l-2 border-l-[hsl(var(--accent-gold))]">
+            <div className="glass-card p-8 border border-[hsl(var(--accent-gold))]/50">
               <h3 className="text-xl font-display mb-6 flex items-center gap-3"><Zap className="h-5 w-5 text-[hsl(var(--accent-gold))]" />{c.achievementsTitle}</h3>
               <ul className="space-y-4">{c.achievements.slice(0, 4).map((a, i) => (<li key={i} className="flex items-start gap-3 text-sm text-text/60"><CheckCircle className="h-4 w-4 text-[hsl(var(--accent-gold))] mt-0.5 shrink-0" />{a}</li>))}</ul>
             </div>

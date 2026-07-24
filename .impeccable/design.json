@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-24T00:00:00.000Z",
+  "title": "Design System: Khalil AbdalMageed Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "gold": {
+        "role": "primary",
+        "displayName": "Polished Gold",
+        "canonical": "hsl(42 65% 38%)",
+        "tonalRamp": ["oklch(25% 0.06 80)", "oklch(35% 0.08 80)", "oklch(45% 0.10 80)", "oklch(55% 0.11 80)", "oklch(65% 0.10 80)", "oklch(75% 0.08 80)", "oklch(85% 0.05 80)", "oklch(95% 0.02 80)"]
+      }
+    },
+    "shadows": [
+      {"name": "ambient-card", "value": "0 10px 40px -10px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03)", "purpose": "Raised content surfaces."}
+    ],
+    "motion": [
+      {"name": "interactive-lift", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Purposeful button and card state feedback."}
+    ],
+    "breakpoints": [
+      {"name": "md", "value": "768px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The decisive action treatment for high-intent portfolio paths.",
+      "html": "<button class=\"ds-button-primary\">VIEW WORK</button>",
+      "css": ".ds-button-primary { background: #a07a22; border: 0; border-radius: 2px; color: #050505; cursor: pointer; font: 600 12px Arial, sans-serif; letter-spacing: .1em; padding: 16px 40px; text-transform: uppercase; transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1); } .ds-button-primary:hover { box-shadow: 0 12px 30px -10px rgba(184,134,11,.4); transform: translateY(-2px); } .ds-button-primary:focus-visible { outline: 2px solid #231e1a; outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Gold Standard",
+    "overview": "A composed bilingual portfolio that makes premium web craft feel calm, legible, and materially considered.",
+    "keyCharacteristics": ["Warm gold-and-onyx identity", "Editorial display hierarchy", "Precise composed controls", "Equivalent LTR and RTL care"],
+    "rules": [
+      {"name": "The Solid Voice Rule", "body": "Text emphasis uses a single solid color, weight, or scale.", "section": "colors"},
+      {"name": "The Quiet Depth Rule", "body": "A surface earns elevation through hierarchy or interaction.", "section": "elevation"}
+    ],
+    "dos": ["Do use smooth, meaningful movement.", "Do keep image composition stable during hover states."],
+    "donts": ["Don't use decorative gradient text.", "Don't use thick colored side stripes, bouncy motion, or image zoom hover effects."]
+  }
+}

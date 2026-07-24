@@ -462,7 +462,7 @@ export default function WhyNotCheapWebsitesPage({
           viewport={{ once: true }}
           className="mb-32"
         >
-          <div className="glass-card p-8 md:p-12 border-l-4 border-l-[hsl(var(--accent-gold))]">
+          <div className="glass-card p-8 md:p-12 border border-[hsl(var(--accent-gold))]/50">
             <div className="flex items-center gap-4 mb-6">
               <RefreshCw className="h-6 w-6 text-[hsl(var(--accent-gold))]" />
               <h2 className="text-2xl font-display">{c.hiddenSection.title}</h2>

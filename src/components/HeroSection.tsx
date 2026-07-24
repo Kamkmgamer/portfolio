@@ -263,7 +263,7 @@ const HeroSection: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          <span className="text-xs font-bold uppercase tracking-widest bg-linear-to-r from-[hsl(var(--accent-gold))] to-[hsl(var(--accent-bronze))] bg-clip-text text-transparent">
+          <span className="text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))]">
             Available for new projects
           </span>
         </motion.div>
@@ -278,7 +278,7 @@ const HeroSection: React.FC = () => {
           <span className="block text-text italic font-normal">
             Hi, I&rsquo;m
           </span>
-          <span className="block mt-2 bg-linear-to-r from-[hsl(var(--accent-gold))] via-[hsl(var(--accent-champagne))] to-[hsl(var(--accent-bronze))] text-transparent bg-clip-text animate-gradient pb-4">
+          <span className="block mt-2 text-[hsl(var(--accent-gold))] pb-4">
             Khalil AbdalMageed
           </span>
         </motion.h1>

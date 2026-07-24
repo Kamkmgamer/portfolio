@@ -236,13 +236,7 @@ html.dark .glass-card {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .gradient-text {
-  background: linear-gradient(135deg,
-      hsl(var(--accent-gold)) 0%,
-      hsl(var(--accent-bronze)) 50%,
-      hsl(var(--accent-gold)) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: hsl(var(--accent-gold));
 }
 
 .gradient-border {
@@ -432,4 +426,27 @@ html.dark .glass-card {
 
 .animate-fade-out {
   animation: fadeOut 0.3s ease-out 3s forwards;
+}
+
+@keyframes scrollCue {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(3px);
+  }
+}
+
+.animate-scroll-cue {
+  animation: scrollCue 1.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll-cue {
+    animation: none;
+  }
 }

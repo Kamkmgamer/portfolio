@@ -65,15 +65,9 @@ export function CopyButton({ code, locale }: { code: string; locale: string }) {
         `}
             >
                 {copiedLabel}
-                {/* arrow */}
                 <span
-                    className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0"
-                    style={{
-                        borderLeft: "5px solid transparent",
-                        borderRight: "5px solid transparent",
-                        borderTop: "5px solid",
-                        borderTopColor: "inherit",
-                    }}
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-full size-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-neutral-900 dark:bg-white"
                 />
             </span>
         </span>

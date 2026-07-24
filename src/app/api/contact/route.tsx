@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
               Thank you for taking the time to reach out! I've received your message and I'm genuinely excited to connect with you.
             </p>
             
-            <div style="background: linear-gradient(90deg, #FFFBEB 0%, #FFEDD5 100%); border-left: 4px solid #D4AF37; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <div style="background: linear-gradient(90deg, #FFFBEB 0%, #FFEDD5 100%); border: 1px solid #D4AF37; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <p style="margin: 0; font-size: 15px; color: #374151;">
                 I'll carefully review your message and get back to you as soon as possible. Typically, I respond within 24-48 hours.
               </p>
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
               <strong>From:</strong> ${name} &lt;${email}&gt;
             </p>
             
-            <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #D4AF37; margin: 20px 0;">
+            <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #D4AF37; margin: 20px 0;">
               <p style="margin: 0; white-space: pre-wrap; font-size: 15px;">${message}</p>
             </div>
             
