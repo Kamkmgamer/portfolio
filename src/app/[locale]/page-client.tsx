@@ -153,21 +153,21 @@ export default function Home({
                 className="text-center lg:text-left max-w-lg"
                 style={{ y: heroTextY }}
               >
-                <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="inline-block text-[hsl(var(--accent-gold))] text-sm tracking-[0.2em] uppercase mb-6 font-semibold"
-                >
-                  {dict.home.subtitle}
-                </motion.span>
-
-                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-semibold leading-[0.95] text-text mb-8">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-semibold leading-[0.95] text-text mb-4">
                   {dict.home.title} <br />
                   <span className="text-[hsl(var(--accent-gold))] italic pr-4">
                     Khalil
                   </span>
                 </h1>
+
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="block text-lg md:text-xl font-display text-text/60 mb-8"
+                >
+                  {dict.home.subtitle}
+                </motion.span>
 
                 <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/70 leading-relaxed font-medium">
                   {dict.home.description}
