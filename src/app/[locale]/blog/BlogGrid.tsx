@@ -61,7 +61,7 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
                 href={`/${locale}/blog/${post.slug}`}
                 className="block group relative h-full"
               >
-                <div className="relative h-full flex flex-col justify-between p-8 border border-white/5 bg-white/5 backdrop-blur-sm hover:border-[hsl(var(--accent-gold))]/30 hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-500">
+                <div className="relative h-full flex flex-col justify-between p-8 border border-white/5 bg-white/5 hover:border-[hsl(var(--accent-gold))]/30 hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-500">
                   <div>
                     <div className="flex justify-between items-start mb-6">
                       <span className="text-[hsl(var(--accent-gold))] text-xs font-bold uppercase tracking-widest border border-[hsl(var(--accent-gold))]/20 px-3 py-1 bg-[hsl(var(--accent-gold))]/5">
@@ -73,7 +73,7 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
                       {post.title}
                     </h3>
 
-                    <p className="text-text/70 text-sm mb-4 leading-relaxed">
+                    <p className="text-text/80 text-sm mb-4 leading-relaxed">
                       {post.summary}
                     </p>
 
@@ -81,7 +81,7 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
                       {post.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs text-text/50 font-mono"
+                          className="text-xs text-text/70 font-mono"
                         >
                           #{tag}
                         </span>
@@ -90,7 +90,7 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
                   </div>
 
                   <div>
-                    <div className="flex items-center gap-4 text-xs text-text/50 mb-8">
+                    <div className="flex items-center gap-4 text-xs text-text/70 mb-8">
                       <span className="flex items-center gap-1.5">
                         <User className="h-3.5 w-3.5" />
                         {post.author}
@@ -101,7 +101,7 @@ export default function BlogGrid({ locale, dict }: BlogGridProps) {
                       </span>
                     </div>
 
-                    <div className="text-xs text-text/40 mb-4">{formattedDate}</div>
+                    <div className="text-xs text-text/60 mb-4">{formattedDate}</div>
 
                     <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))]">
                       {dict.blog.readArticle}

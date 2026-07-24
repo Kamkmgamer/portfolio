@@ -417,7 +417,7 @@ export default function Home({
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               viewport={{ once: true }}
-              className="relative border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-white/70 via-white/50 to-[hsl(var(--accent-gold))]/8 p-8 md:p-12 shadow-[0_30px_100px_-60px_rgba(0,0,0,0.45)] backdrop-blur-sm"
+              className="relative border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-white/70 via-white/50 to-[hsl(var(--accent-gold))]/8 p-8 md:p-12 shadow-[0_30px_100px_-60px_rgba(0,0,0,0.45)]"
             >
               <div className="absolute right-8 top-8 text-[hsl(var(--accent-gold))]/30 rtl:right-auto rtl:left-8">
                 <Quote className="w-12 h-12" strokeWidth={1.25} />
@@ -431,7 +431,7 @@ export default function Home({
                 </div>
                 <span
                   dir="ltr"
-                  className="text-sm uppercase tracking-[0.25em] text-text/45 font-semibold"
+                  className="text-sm uppercase tracking-[0.25em] text-text/70 font-semibold"
                 >
                   {testimonial.rating} {testimonialLabels.outOf}
                 </span>
@@ -482,7 +482,7 @@ export default function Home({
                   <div className="text-2xl font-display font-semibold text-text">
                     {testimonial.name}
                   </div>
-                  <div className="mt-2 text-sm uppercase tracking-[0.2em] text-text/45">
+                  <div className="mt-2 text-sm uppercase tracking-[0.2em] text-text/60">
                     {showHandle ? `@${testimonial.handle} / ` : ""}
                     {testimonial.company}
                   </div>
@@ -623,15 +623,15 @@ function ExperienceCard({
   desc: string;
 }) {
   return (
-    <div className="p-8 border border-white/10 bg-white/5 backdrop-blur-sm rounded-none hover:bg-[hsl(var(--accent-gold))]/5 transition-colors duration-300 group">
+    <div className="p-8 border border-white/10 bg-white/5 rounded-none hover:bg-[hsl(var(--accent-gold))]/5 transition-colors duration-300 group">
       <span className="block text-xs font-mono mb-4 text-[hsl(var(--accent-gold))]">
         {year}
       </span>
       <h4 className="text-2xl font-display font-semibold mb-2">{role}</h4>
-      <div className="text-sm font-bold uppercase tracking-widest mb-6 text-text/40 group-hover:text-text/80 transition-colors">
+      <div className="text-sm font-bold uppercase tracking-widest mb-6 text-text/60 group-hover:text-text transition-colors">
         {company}
       </div>
-      <p className="text-text/80">{desc}</p>
+      <p className="text-text">{desc}</p>
     </div>
   );
 }
