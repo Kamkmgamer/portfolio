@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, Inter, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic } from 'next/font/google';
+import { Playfair_Display, DM_Sans, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic } from 'next/font/google';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
@@ -17,9 +17,10 @@ const playfair = Playfair_Display({
   adjustFontFallback: true,
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   variable: '--font-sans',
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   display: 'optional',
   preload: true,
   adjustFontFallback: true,
@@ -243,8 +244,8 @@ export default async function LocaleLayout({
 
   const fontClasses =
     locale === 'ar'
-      ? `${notoNaskhArabic.variable} ${ibmPlexArabic.variable} ${inter.variable}`
-      : `${playfair.variable} ${inter.variable}`;
+      ? `${notoNaskhArabic.variable} ${ibmPlexArabic.variable} ${dmSans.variable}`
+      : `${playfair.variable} ${dmSans.variable}`;
 
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>

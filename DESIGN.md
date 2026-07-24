@@ -75,11 +75,11 @@ Warm neutrals carry the surface while gold and bronze identify emphasis, interac
 ## Typography
 
 **Display Font:** Playfair Display (with Georgia fallback)
-**Body Font:** Inter (with Arial fallback)
+**Body Font:** DM Sans (with Arial fallback)
 **Arabic Display Font:** Noto Naskh Arabic
 **Arabic Body Font:** IBM Plex Sans Arabic
 
-**Character:** The display face gives headings a confident, literary presence while the body face keeps service details, case studies, and contact paths direct. Arabic typography follows the same hierarchy without borrowing Latin spacing conventions.
+**Character:** The display face gives headings a confident, literary presence while the body face keeps service details, case studies, and contact paths direct. DM Sans brings geometric warmth with rounder terminals than Inter, adding personality without sacrificing readability. Arabic typography follows the same hierarchy without borrowing Latin spacing conventions.
 
 ### Hierarchy
 - **Display** (600, responsive 36px to 60px, 1): hero and section titles.
