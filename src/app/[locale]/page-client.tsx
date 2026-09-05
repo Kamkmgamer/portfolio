@@ -133,29 +133,50 @@ function Glyph({ className = "" }: { className?: string }) {
 
 type PivotItem = { id: string; label: string };
 
+/** Which section owns the viewport right now, judged just below the sticky chrome. */
+const useActiveSection = (ids: string[]) => {
+  const [active, setActive] = React.useState<string>(ids[0]);
+  React.useEffect(() => {
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (!sections.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-160px 0px -55% 0px", threshold: 0 },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [ids]);
+  return active;
+};
+
 /**
- * Section header in the Metro pivot idiom: the titles of the sections still to
- * come peek in, dimmed and cropped, and each one jumps to its section.
+ * The Metro pivot bar: one sticky row under the navbar listing every hub
+ * section. The section in view is Ink, the rest are dimmed and crop at the
+ * trailing edge; each jumps to its section.
  */
-function HubHeader({ id, title, next = [], line, navLabel }: { id: string; title: string; next?: PivotItem[]; line?: string; navLabel: string }) {
+function PivotBar({ items, label }: { items: PivotItem[]; label: string }) {
+  const ids = React.useMemo(() => items.map((i) => i.id), [items]);
+  const active = useActiveSection(ids);
+  const barRef = React.useRef<HTMLElement>(null);
+
+  React.useEffect(() => {
+    const el = barRef.current?.querySelector<HTMLElement>('a[aria-current="true"]');
+    el?.scrollIntoView({ block: "nearest", inline: "start", behavior: "smooth" });
+  }, [active]);
+
   return (
-    <div className="m-crop mb-10 lg:mb-12" style={{ marginInline: "calc(-1 * var(--page-inline))", paddingInline: "var(--page-inline)" }}>
-      <div className="m-headline m-lower flex gap-[0.7em] whitespace-nowrap">
-        <h2 id={id} className="m-headline scroll-mt-20">
-          {title}
-        </h2>
-        {next.length > 0 && (
-          <nav aria-label={navLabel} className="contents">
-            {next.map((n) => (
-              <a key={n.id} href={`#${n.id}`} className="m-pivot-peek">
-                {n.label}
-              </a>
-            ))}
-          </nav>
-        )}
-      </div>
-      {line && <p className="m-subtitle mt-3 max-w-[48ch] font-light text-ink-muted">{line}</p>}
-    </div>
+    <nav ref={barRef} aria-label={label} className="m-pivotbar m-lower" style={{ paddingInline: "var(--page-inline)" }}>
+      {items.map((n) => (
+        <a key={n.id} href={`#${n.id}`} aria-current={active === n.id ? "true" : undefined}>
+          {n.label}
+        </a>
+      ))}
+    </nav>
   );
 }
 
@@ -346,10 +367,13 @@ export default function Home({
           </div>
         </section>
 
+        <PivotBar items={pivots} label={home.onThisPage} />
+
         {/* ── Work ──────────────────────────────────────────────────────── */}
-        <section className="pt-8 lg:pt-12" aria-labelledby="work">
-          <div style={pageInline}>
-            <HubHeader id="work" title={home.workTitle} navLabel={home.onThisPage} next={pivots.slice(1)} line={home.workLine} />
+        <section id="work" className="m-hub pt-10 lg:pt-14" aria-labelledby="work-title">
+          <div className="mb-8" style={pageInline}>
+            <h2 id="work-title" className="sr-only">{home.workTitle}</h2>
+            <p className="m-subtitle max-w-[48ch] font-light text-ink-muted">{home.workLine}</p>
           </div>
 
           {projects.length > 0 ? (
@@ -397,8 +421,8 @@ export default function Home({
         </section>
 
         {/* ── Who I help ────────────────────────────────────────────────── */}
-        <section className="pt-28 lg:pt-36" aria-labelledby="who" style={pageInline}>
-          <HubHeader id="who" title={home.whoIHelpTitle} navLabel={home.onThisPage} next={pivots.slice(2)} />
+        <section id="who" className="m-hub pt-28 lg:pt-36" aria-labelledby="who-title" style={pageInline}>
+          <h2 id="who-title" className="sr-only">{home.whoIHelpTitle}</h2>
           <div className="m-grid">
             <Tile href={`${base}/projects`} tone="magenta" cols={2} rows={2}>
               <span className="m-tile__title m-lower text-[2rem]">{home.whoIHelpRestaurantsTitle}</span>
@@ -425,8 +449,8 @@ export default function Home({
         </section>
 
         {/* ── Story ─────────────────────────────────────────────────────── */}
-        <section className="pt-28 lg:pt-36" aria-labelledby="story" style={pageInline}>
-          <HubHeader id="story" title={home.storyTitle} navLabel={home.onThisPage} next={pivots.slice(3)} />
+        <section id="story" className="m-hub pt-28 lg:pt-36" aria-labelledby="story-title" style={pageInline}>
+          <h2 id="story-title" className="sr-only">{home.storyTitle}</h2>
           <ol className="max-w-[1100px]">
             {[home.experience.freelance, home.experience.fullstack].map((row) => (
               <li
@@ -447,8 +471,8 @@ export default function Home({
         </section>
 
         {/* ── Testimonial ───────────────────────────────────────────────── */}
-        <section className="pt-28 lg:pt-36" aria-labelledby="review" style={pageInline}>
-          <HubHeader id="review" title={home.testimonial.title} navLabel={home.onThisPage} next={pivots.slice(4)} />
+        <section id="review" className="m-hub pt-28 lg:pt-36" aria-labelledby="review-title" style={pageInline}>
+          <h2 id="review-title" className="sr-only">{home.testimonial.title}</h2>
           <figure className="grid bg-magenta text-white md:grid-cols-[minmax(0,1fr)_280px] lg:grid-cols-[minmax(0,1fr)_320px]">
             <blockquote className="p-7 md:p-10 lg:p-12" dir={quoteDir} lang={quoteDir === "rtl" ? "ar" : "en"}>
               <div className="mb-6 flex items-center gap-1" aria-label={`${testimonial.rating} ${home.testimonial.outOf}`}>
@@ -482,8 +506,8 @@ export default function Home({
         </section>
 
         {/* ── Read ──────────────────────────────────────────────────────── */}
-        <section className="pt-28 lg:pt-36" aria-labelledby="read" style={pageInline}>
-          <HubHeader id="read" title={home.moreTitle} navLabel={home.onThisPage} next={pivots.slice(5)} />
+        <section id="read" className="m-hub pt-28 lg:pt-36" aria-labelledby="read-title" style={pageInline}>
+          <h2 id="read-title" className="sr-only">{home.moreTitle}</h2>
           <div className="m-grid">
             <LiveTile
               href={`${base}/case-studies`}
@@ -518,10 +542,10 @@ export default function Home({
         </section>
 
         {/* ── Contact ───────────────────────────────────────────────────── */}
-        <section className="pt-28 lg:pt-36" aria-labelledby="contact" style={pageInline}>
+        <section id="contact" className="m-hub pt-28 lg:pt-36" aria-labelledby="contact-title" style={pageInline}>
           <div className="m-grid">
             <Tile href={`${base}/contact`} tone="lime" cols={2} rows={2}>
-              <h2 id="contact" className="m-poster m-lower scroll-mt-20 text-[clamp(2.5rem,6vw,4rem)]">{home.contactTitle}</h2>
+              <h2 id="contact-title" className="m-poster m-lower text-[clamp(2.5rem,6vw,4rem)]">{home.contactTitle}</h2>
               <span className="m-tile__peek m-lower mt-3 text-base opacity-100">{home.contactLine}</span>
               <span className="m-tile__peek m-lower mt-6 inline-flex items-center gap-2 text-base opacity-100">
                 {home.contactCta} <Glyph />

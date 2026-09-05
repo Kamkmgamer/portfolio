@@ -209,8 +209,8 @@ Everything is rectangular with square corners. Tiles are exact multiples of the 
 - **Brand:** "khalil" in Subtitle weight 300 with the dot-matrix mark; links home.
 - **App bar controls:** 40px square outline buttons (2px Ink outline) holding a 20px icon; theme and language switches. Focus-visible: Lime outline.
 
-### Hub header
-A section heading followed, on the same line, by the titles of the sections still to come in Ink Faint, cropped by the trailing edge. Each peeking title is an in-page link (`<nav aria-label="on this page">`) that scrolls to its section; hover and focus turn it Lime. Section headings carry `scroll-margin-top` equal to the sticky header height.
+### Pivot bar
+One sticky row directly under the navbar (`top: 64px`) listing every hub section as an in-page link at clamp(1.5rem, 2.6vw, 2.25rem), weight 300. The section in view is Ink (`aria-current="true"`, tracked with an IntersectionObserver), the rest are Ink Faint and crop at the trailing edge; hover and focus turn a link Lime. On narrow screens the row scrolls and the active link is kept in view. Hub sections carry `scroll-margin-top: 140px` so jumps land below the navbar and the bar; their headings are visually hidden because the bar names them.
 
 ### Panorama
 A section's tile row that overflows horizontally with `scroll-snap-type: x proximity`, `scroll-padding-inline: page padding`, and a cropped last tile when content exceeds the viewport. The row closes with a lime 1×2 "all projects" tile. Keyboard users move through tiles by Tab; the row is also reachable with arrow keys via native scroll.

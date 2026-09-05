@@ -341,17 +341,51 @@ html[dir="rtl"] .m-pivot {
   outline: 0;
 }
 
-/* Pivot peek links inside a hub header: the sections still to come */
-.m-pivot-peek {
-  color: var(--ink-faint);
-  text-decoration: none;
-  transition: color 0.2s var(--ease-metro);
+/* Sticky pivot bar: every hub section on one row under the navbar */
+.m-pivotbar {
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  display: flex;
+  gap: 0.7em;
+  padding-block: 12px 14px;
+  background: var(--ground);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 48px), transparent 100%);
 }
 
-.m-pivot-peek:hover,
-.m-pivot-peek:focus-visible {
+html[dir="rtl"] .m-pivotbar {
+  mask-image: linear-gradient(to left, #000 0, #000 calc(100% - 48px), transparent 100%);
+}
+
+.m-pivotbar::-webkit-scrollbar {
+  display: none;
+}
+
+.m-pivotbar a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.25s var(--ease-metro);
+}
+
+.m-pivotbar a[aria-current="true"] {
+  color: var(--ink);
+}
+
+.m-pivotbar a:hover,
+.m-pivotbar a:focus-visible {
   color: var(--lime-ink);
   outline: 0;
+}
+
+/* Hub sections land below the navbar and the pivot bar when jumped to */
+.m-hub {
+  scroll-margin-top: 140px;
 }
 
 /* Tiles */
