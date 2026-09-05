@@ -10,6 +10,7 @@
     "lint": "next lint",
     "analyze": "cross-env ANALYZE=true next build",
     "deploy": "vercel --prod",
+    "screens": "node scripts/capture-project-screens.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {
