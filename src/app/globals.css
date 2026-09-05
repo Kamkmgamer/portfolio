@@ -96,6 +96,12 @@ html.light {
   color-scheme: light;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   background: var(--ground);
   color: var(--ink);
@@ -331,6 +337,19 @@ html[dir="rtl"] .m-pivot {
 
 .m-pivot a:hover,
 .m-pivot a:focus-visible {
+  color: var(--lime-ink);
+  outline: 0;
+}
+
+/* Pivot peek links inside a hub header: the sections still to come */
+.m-pivot-peek {
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-metro);
+}
+
+.m-pivot-peek:hover,
+.m-pivot-peek:focus-visible {
   color: var(--lime-ink);
   outline: 0;
 }

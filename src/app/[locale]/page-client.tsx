@@ -131,18 +131,29 @@ function Glyph({ className = "" }: { className?: string }) {
   return <span aria-hidden="true" className={`m-glyph ${className}`} />;
 }
 
-/** Section header in the Metro pivot idiom: the next titles peek in, dimmed and cropped. */
-function HubHeader({ id, title, next = [], line }: { id: string; title: string; next?: string[]; line?: string }) {
+type PivotItem = { id: string; label: string };
+
+/**
+ * Section header in the Metro pivot idiom: the titles of the sections still to
+ * come peek in, dimmed and cropped, and each one jumps to its section.
+ */
+function HubHeader({ id, title, next = [], line, navLabel }: { id: string; title: string; next?: PivotItem[]; line?: string; navLabel: string }) {
   return (
     <div className="m-crop mb-10 lg:mb-12" style={{ marginInline: "calc(-1 * var(--page-inline))", paddingInline: "var(--page-inline)" }}>
-      <h2 id={id} className="m-headline m-lower flex gap-[0.7em] whitespace-nowrap">
-        <span>{title}</span>
-        {next.map((n) => (
-          <span key={n} aria-hidden="true" className="text-ink-faint">
-            {n}
-          </span>
-        ))}
-      </h2>
+      <div className="m-headline m-lower flex gap-[0.7em] whitespace-nowrap">
+        <h2 id={id} className="m-headline scroll-mt-20">
+          {title}
+        </h2>
+        {next.length > 0 && (
+          <nav aria-label={navLabel} className="contents">
+            {next.map((n) => (
+              <a key={n.id} href={`#${n.id}`} className="m-pivot-peek">
+                {n.label}
+              </a>
+            ))}
+          </nav>
+        )}
+      </div>
       {line && <p className="m-subtitle mt-3 max-w-[48ch] font-light text-ink-muted">{line}</p>}
     </div>
   );
@@ -277,6 +288,15 @@ export default function Home({
 
   const pageInline: React.CSSProperties = { paddingInline: "var(--page-inline)" };
 
+  const pivots: PivotItem[] = [
+    { id: "work", label: home.workTitle },
+    { id: "who", label: home.whoIHelpTitle },
+    { id: "story", label: home.storyTitle },
+    { id: "review", label: home.testimonial.title },
+    { id: "read", label: home.moreTitle },
+    { id: "contact", label: home.contactTitle },
+  ];
+
   return (
     <>
       <JsonLd data={jsonLdData} />
@@ -329,7 +349,7 @@ export default function Home({
         {/* ── Work ──────────────────────────────────────────────────────── */}
         <section className="pt-8 lg:pt-12" aria-labelledby="work">
           <div style={pageInline}>
-            <HubHeader id="work" title={home.workTitle} next={[home.whoIHelpTitle, home.storyTitle, home.testimonial.title, home.moreTitle, home.contactTitle]} line={home.workLine} />
+            <HubHeader id="work" title={home.workTitle} navLabel={home.onThisPage} next={pivots.slice(1)} line={home.workLine} />
           </div>
 
           {projects.length > 0 ? (
@@ -378,7 +398,7 @@ export default function Home({
 
         {/* ── Who I help ────────────────────────────────────────────────── */}
         <section className="pt-28 lg:pt-36" aria-labelledby="who" style={pageInline}>
-          <HubHeader id="who" title={home.whoIHelpTitle} next={[home.storyTitle, home.testimonial.title, home.moreTitle, home.contactTitle]} />
+          <HubHeader id="who" title={home.whoIHelpTitle} navLabel={home.onThisPage} next={pivots.slice(2)} />
           <div className="m-grid">
             <Tile href={`${base}/projects`} tone="magenta" cols={2} rows={2}>
               <span className="m-tile__title m-lower text-[2rem]">{home.whoIHelpRestaurantsTitle}</span>
@@ -406,7 +426,7 @@ export default function Home({
 
         {/* ── Story ─────────────────────────────────────────────────────── */}
         <section className="pt-28 lg:pt-36" aria-labelledby="story" style={pageInline}>
-          <HubHeader id="story" title={home.storyTitle} next={[home.testimonial.title, home.moreTitle, home.contactTitle]} />
+          <HubHeader id="story" title={home.storyTitle} navLabel={home.onThisPage} next={pivots.slice(3)} />
           <ol className="max-w-[1100px]">
             {[home.experience.freelance, home.experience.fullstack].map((row) => (
               <li
@@ -428,7 +448,7 @@ export default function Home({
 
         {/* ── Testimonial ───────────────────────────────────────────────── */}
         <section className="pt-28 lg:pt-36" aria-labelledby="review" style={pageInline}>
-          <HubHeader id="review" title={home.testimonial.title} next={[home.moreTitle, home.contactTitle]} />
+          <HubHeader id="review" title={home.testimonial.title} navLabel={home.onThisPage} next={pivots.slice(4)} />
           <figure className="grid bg-magenta text-white md:grid-cols-[minmax(0,1fr)_280px] lg:grid-cols-[minmax(0,1fr)_320px]">
             <blockquote className="p-7 md:p-10 lg:p-12" dir={quoteDir} lang={quoteDir === "rtl" ? "ar" : "en"}>
               <div className="mb-6 flex items-center gap-1" aria-label={`${testimonial.rating} ${home.testimonial.outOf}`}>
@@ -463,7 +483,7 @@ export default function Home({
 
         {/* ── Read ──────────────────────────────────────────────────────── */}
         <section className="pt-28 lg:pt-36" aria-labelledby="read" style={pageInline}>
-          <HubHeader id="read" title={home.moreTitle} next={[home.contactTitle]} />
+          <HubHeader id="read" title={home.moreTitle} navLabel={home.onThisPage} next={pivots.slice(5)} />
           <div className="m-grid">
             <LiveTile
               href={`${base}/case-studies`}
@@ -498,10 +518,10 @@ export default function Home({
         </section>
 
         {/* ── Contact ───────────────────────────────────────────────────── */}
-        <section className="pt-28 lg:pt-36" aria-label={home.contactTitle} style={pageInline}>
+        <section className="pt-28 lg:pt-36" aria-labelledby="contact" style={pageInline}>
           <div className="m-grid">
             <Tile href={`${base}/contact`} tone="lime" cols={2} rows={2}>
-              <span className="m-poster m-lower text-[clamp(2.5rem,6vw,4rem)]">{home.contactTitle}</span>
+              <h2 id="contact" className="m-poster m-lower scroll-mt-20 text-[clamp(2.5rem,6vw,4rem)]">{home.contactTitle}</h2>
               <span className="m-tile__peek m-lower mt-3 text-base opacity-100">{home.contactLine}</span>
               <span className="m-tile__peek m-lower mt-6 inline-flex items-center gap-2 text-base opacity-100">
                 {home.contactCta} <Glyph />
