@@ -1,108 +1,302 @@
 "use client";
 
+/*
+DIRECTION CONTRACT
+THESIS: Type is the interface. A Metro typographic-tile homepage where flat
+colour tiles and giant lowercase statements carry everything; refuses the
+centred avatar-hero with three same-size cards.
+OWN-WORLD: black ground, white ink, lime as the only live colour, magenta /
+cobalt / amber tile fields, Hanken Grotesk 200-400 (Readex Pro in Arabic),
+zero radius, zero shadow, ▸ glyphs, dot-matrix brand mark.
+STORY: a founder reads "i build ai interfaces that ship", sees real shipped
+products peeking off the edge, finds their route (AI/SaaS or local business),
+trusts the review, taps "let's talk".
+FIRST VIEWPORT: pivot header; poster statement start-aligned, support line,
+lime primary + outlined secondary; a column of project tiles cropped by the
+trailing edge.
+FORM: Metro typographic tiles (dealt challenger, seed 6dff7285); staging: hub
+sections with pivot-style headers whose next titles peek in cropped.
+*/
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowDown,
-  Building2,
-  ExternalLink,
-  Quote,
-  ShoppingCart,
-  Star,
-  UtensilsCrossed,
-} from "lucide-react";
+import { Star } from "lucide-react";
 import JsonLd from "@/components/seo/JsonLd";
+import { DotMatrix } from "@/components/Navbar";
 import { Locale, Dictionary } from "@/lib/i18n";
 import { buildLocalizedAbsoluteUrl } from "@/lib/seo";
 
-const hasArabicScript = (value: string) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(value);
+export type HomeProject = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  tags: string[];
+  demo: string | null;
+};
 
-export default function Home({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
-  const reduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
+const hasArabicScript = (value: string) =>
+  /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(value);
 
-  const heroImageY = useTransform(
-    scrollY,
-    [0, 700],
-    reduceMotion ? [0, 0] : [0, -90],
-  );
-  const heroImageScale = useTransform(
-    scrollY,
-    [0, 700],
-    reduceMotion ? [1, 1] : [1, 1.08],
-  );
-  const heroTextY = useTransform(
-    scrollY,
-    [0, 700],
-    reduceMotion ? [0, 0] : [0, 28],
-  );
-  const blobGoldY = useTransform(
-    scrollY,
-    [0, 900],
-    reduceMotion ? [0, 0] : [0, -140],
-  );
-  const blobBronzeY = useTransform(
-    scrollY,
-    [0, 900],
-    reduceMotion ? [0, 0] : [0, 110],
-  );
-  const whoHelpGlowY = useTransform(
-    scrollY,
-    [200, 1400],
-    reduceMotion ? [0, 0] : [0, -80],
-  );
-  const exploreGlowY = useTransform(
-    scrollY,
-    [800, 2000],
-    reduceMotion ? [0, 0] : [0, 90],
-  );
+const usePrefersReducedMotion = () => {
+  const [reduce, setReduce] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduce(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return reduce;
+};
 
-  const slowFloat = reduceMotion
-    ? undefined
-    : {
-        y: [0, -10, 0],
-        rotate: [0, 1.5, 0],
-      };
-  const [locale, setLocale] = React.useState<Locale>("en");
-  const [dict, setDict] = React.useState<Dictionary | null>(null);
+/** Pointer-down tilts the tile toward the pointer, at most 6 degrees. */
+const useTilt = () => {
+  const ref = React.useRef<HTMLAnchorElement>(null);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    el.style.transform = `perspective(700px) rotateX(${(-py * 6).toFixed(2)}deg) rotateY(${(px * 6).toFixed(2)}deg)`;
+  };
+  const reset = () => {
+    if (ref.current) ref.current.style.transform = "";
+  };
+
+  return { ref, onPointerDown, onPointerUp: reset, onPointerLeave: reset, onPointerCancel: reset };
+};
+
+type TileProps = {
+  href: string;
+  external?: boolean;
+  tone?: "magenta" | "cobalt" | "amber" | "lime" | "outline" | "image";
+  cols?: 1 | 2;
+  rows?: 1 | 2;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  ariaLabel?: string;
+};
+
+function Tile({ href, external, tone = "magenta", cols = 1, rows = 1, className = "", style, children, ariaLabel }: TileProps) {
+  const tilt = useTilt();
+  const cls = `m-tile m-tile--${tone} ${cols === 1 && rows === 1 ? "m-tile--small" : ""} ${className}`;
+  const gridStyle: React.CSSProperties = {
+    gridColumn: `span ${cols}`,
+    gridRow: `span ${rows}`,
+    ...style,
+  };
+  const handlers = {
+    onPointerDown: tilt.onPointerDown,
+    onPointerUp: tilt.onPointerUp,
+    onPointerLeave: tilt.onPointerLeave,
+    onPointerCancel: tilt.onPointerCancel,
+  };
+
+  if (external) {
+    return (
+      <a
+        ref={tilt.ref}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cls}
+        style={gridStyle}
+        aria-label={ariaLabel}
+        {...handlers}
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link
+      ref={tilt.ref}
+      href={href}
+      className={cls}
+      style={gridStyle}
+      aria-label={ariaLabel}
+      {...handlers}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function Glyph({ className = "" }: { className?: string }) {
+  return <span aria-hidden="true" className={`m-glyph ${className}`} />;
+}
+
+type PivotItem = { id: string; label: string };
+
+/** Which section owns the viewport right now, judged just below the sticky chrome. */
+const useActiveSection = (ids: string[]) => {
+  const [active, setActive] = React.useState<string>(ids[0]);
+  React.useEffect(() => {
+    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    if (!sections.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-160px 0px -55% 0px", threshold: 0 },
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, [ids]);
+  return active;
+};
+
+/**
+ * The Metro pivot bar: one sticky row under the navbar listing every hub
+ * section. The section in view is Ink, the rest are dimmed and crop at the
+ * trailing edge; each jumps to its section.
+ */
+function PivotBar({ items, label }: { items: PivotItem[]; label: string }) {
+  const ids = React.useMemo(() => items.map((i) => i.id), [items]);
+  const active = useActiveSection(ids);
+  const barRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
-    params.then((p) => {
-      setLocale(p.locale);
-      import("@/lib/i18n").then(({ getDictionarySync }) => {
-        setDict(getDictionarySync(p.locale));
-      });
-    });
-  }, [params]);
+    const el = barRef.current?.querySelector<HTMLElement>('a[aria-current="true"]');
+    el?.scrollIntoView({ block: "nearest", inline: "start", behavior: "smooth" });
+  }, [active]);
 
-  if (!dict) return null;
+  return (
+    <nav ref={barRef} aria-label={label} className="m-pivotbar m-lower" style={{ paddingInline: "var(--page-inline)" }}>
+      {items.map((n) => (
+        <a key={n.id} href={`#${n.id}`} aria-current={active === n.id ? "true" : undefined}>
+          {n.label}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+function ProjectTile({ project, cols, rows, sizes }: { project: HomeProject; cols: 1 | 2; rows: 1 | 2; sizes: string }) {
+  return (
+    <Tile
+      href={project.demo ?? "#"}
+      external={Boolean(project.demo)}
+      tone="image"
+      cols={cols}
+      rows={rows}
+      ariaLabel={`${project.title}: ${project.description}`}
+    >
+      <Image
+        src={project.image}
+        alt=""
+        fill
+        sizes={sizes}
+        className="m-tile__img"
+        priority={rows === 2}
+      />
+      <span className="m-tile__label">
+        <span className="m-tile__title block">{project.title}</span>
+        {cols > 1 && <span className="m-tile__peek block">{project.tags.slice(0, 3).join(" · ")}</span>}
+      </span>
+      <Glyph className="m-tile__glyph text-lime" />
+    </Tile>
+  );
+}
+
+/** A tile with two faces; the hub flips one at a time on an interval. */
+function LiveTile({
+  href,
+  tone,
+  front,
+  back,
+  flipped,
+  cols = 2,
+  rows = 1,
+}: {
+  href: string;
+  tone: "cobalt" | "amber" | "magenta";
+  front: React.ReactNode;
+  back: React.ReactNode;
+  flipped: boolean;
+  cols?: 1 | 2;
+  rows?: 1 | 2;
+}) {
+  return (
+    <Tile href={href} tone={tone} cols={cols} rows={rows} className="m-live">
+      <div className="m-live__inner" data-flipped={flipped}>
+        <div className="m-live__face" aria-hidden={flipped}>
+          {front}
+        </div>
+        <div className="m-live__face m-live__face--back" aria-hidden={!flipped}>
+          {back}
+        </div>
+      </div>
+      <Glyph className="m-tile__glyph" />
+    </Tile>
+  );
+}
+
+const glide = (i: number): React.CSSProperties => ({ ["--i" as string]: i });
+
+/**
+ * Panorama sizing after the 2x2 lead: chunks of [2x1, 1x1, 1x1] fill two
+ * columns exactly; the final tile absorbs any remainder so the row has no holes.
+ */
+const panoramaSize = (i: number, total: number): { cols: 1 | 2; rows: 1 | 2 } => {
+  const isLast = i === total - 1;
+  const remainder = total % 3;
+  if (isLast && remainder === 1) return { cols: 1, rows: 2 };
+  if (isLast && remainder === 2) return { cols: 2, rows: 1 };
+  return i % 3 === 0 ? { cols: 2, rows: 1 } : { cols: 1, rows: 1 };
+};
+
+export default function Home({
+  locale,
+  dict,
+  projects,
+}: {
+  locale: Locale;
+  dict: Dictionary;
+  projects: HomeProject[];
+}) {
+  const reduceMotion = usePrefersReducedMotion();
+  const home = dict.home;
+  const base = `/${locale}`;
   const localizedHomepageUrl = buildLocalizedAbsoluteUrl(locale);
 
-  const testimonial = dict.home.testimonial.review;
+  // Live tiles: one of the two "read" tiles flips at a time, every 9-14s, and flips back after 5s.
+  const [flipped, setFlipped] = React.useState<number | null>(null);
+  React.useEffect(() => {
+    if (reduceMotion) return;
+    let timer: ReturnType<typeof setTimeout>;
+    let cancelled = false;
+    const cycle = (idx: number) => {
+      timer = setTimeout(() => {
+        if (cancelled) return;
+        setFlipped(idx);
+        timer = setTimeout(() => {
+          if (cancelled) return;
+          setFlipped(null);
+          cycle(idx === 0 ? 1 : 0);
+        }, 5000);
+      }, 9000 + Math.random() * 5000);
+    };
+    cycle(0);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [reduceMotion]);
+
+  const [lead, ...rest] = projects;
+  const heroTiles = projects.slice(0, 3);
+  const testimonial = home.testimonial.review;
   const rating = Number(testimonial.rating);
-  const showHandle = testimonial.handle && testimonial.handle !== testimonial.name;
-  const quoteDirection = hasArabicScript(testimonial.quote) ? "rtl" : "ltr";
-  const identityDirection = hasArabicScript(`${testimonial.name} ${testimonial.company}`) ? "rtl" : "ltr";
-  const isQuoteRtl = quoteDirection === "rtl";
-  const isIdentityRtl = identityDirection === "rtl";
-  const testimonialLabels =
-    isQuoteRtl
-      ? {
-          outOf: "نجوم",
-          websiteLabel: "الموقع",
-          sourceLabel: "المنصة",
-        }
-      : {
-          outOf: "Stars",
-          websiteLabel: "Website",
-          sourceLabel: "Platform",
-        };
+  const quoteDir = hasArabicScript(testimonial.quote) ? "rtl" : "ltr";
 
   const jsonLdData = {
     "@context": "https://schema.org",
@@ -113,525 +307,270 @@ export default function Home({
     inLanguage: locale,
   };
 
+  const pageInline: React.CSSProperties = { paddingInline: "var(--page-inline)" };
+
+  const pivots: PivotItem[] = [
+    { id: "work", label: home.workTitle },
+    { id: "who", label: home.whoIHelpTitle },
+    { id: "story", label: home.storyTitle },
+    { id: "review", label: home.testimonial.title },
+    { id: "read", label: home.moreTitle },
+    { id: "contact", label: home.contactTitle },
+  ];
+
   return (
     <>
       <JsonLd data={jsonLdData} />
-      <main className="min-h-screen pt-24 pb-20 overflow-hidden">
-        <section className="relative min-h-[90vh] flex items-center justify-center px-6 pb-24">
-          <div className="relative z-10 max-w-7xl mx-auto w-full">
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10">
-              <motion.div
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-64 h-64 md:w-80 md:h-80 lg:w-80 lg:h-80 mx-auto lg:mx-0 lg:mr-4 rounded-full overflow-hidden border-4 border-[hsl(var(--accent-gold))]/30 shadow-2xl shrink-0"
-                style={{ y: heroImageY, scale: heroImageScale }}
-              >
-                <motion.div
-                  animate={slowFloat}
-                  transition={{ duration: 10, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/image.png?tr=w-320,h-320,q-85"
-                    alt="Khalil Abd Almageed"
-                    width={320}
-                    height={320}
-                    className="object-cover w-full h-full"
-                    priority
-                    fetchPriority="high"
-                    sizes="(max-width: 768px) 256px, 320px"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
-                </motion.div>
-              </motion.div>
+      <main className="pb-24">
+        {/* ── Cover ─────────────────────────────────────────────────────── */}
+        <section className="m-crop" aria-labelledby="statement">
+          <div
+            className="grid gap-12 pb-14 pt-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)] lg:items-start lg:gap-16 lg:pb-28 lg:pt-20"
+            style={pageInline}
+          >
+            <div className="min-w-0">
+              <h1 id="statement" className="m-poster m-lower m-glide max-w-[11ch]" style={glide(0)}>
+                {home.statement}
+              </h1>
+              <p className="m-subtitle m-glide mt-8 max-w-[52ch] font-light text-ink-muted lg:mt-10" style={glide(2)}>
+                {home.support}
+              </p>
+              <div className="m-glide mt-10 flex flex-wrap items-center gap-4" style={glide(4)}>
+                <Link href={`${base}/contact`} className="m-btn m-btn-primary m-lower">
+                  <span>{home.startProject}</span>
+                  <Glyph />
+                </Link>
+                <Link href={`${base}/projects`} className="m-btn m-btn-secondary m-lower">
+                  <span>{home.seeWork}</span>
+                  <Glyph />
+                </Link>
+              </div>
+            </div>
 
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-                className="text-center lg:text-left max-w-lg"
-                style={{ y: heroTextY }}
-              >
-                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-semibold leading-[0.95] text-text mb-4">
-                  {dict.home.title} <br />
-                  <span className="text-[hsl(var(--accent-gold))] italic pr-4">
-                    Khalil
-                  </span>
-                </h1>
-
-                <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="block text-lg md:text-xl font-display text-text/60 mb-8"
-                >
-                  {dict.home.subtitle}
-                </motion.span>
-
-                <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/70 leading-relaxed font-medium">
-                  {dict.home.description}
+            {heroTiles.length > 0 && (
+              <aside className="hidden lg:block" aria-label={home.latest}>
+                <p className="m-subtitle m-lower m-glide mb-3 font-light text-lime-ink" style={glide(1)}>
+                  {home.latest}
                 </p>
-                <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/70 leading-relaxed mb-10 font-medium">
-                  {dict.home.descriptionExtended}
-                </p>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center lg:justify-start"
+                <div
+                  className="grid gap-[var(--tile-gap)]"
+                  style={{ gridTemplateColumns: "calc(var(--tile-unit) * 3.25)", gridAutoRows: "var(--tile-unit)" }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Link
-                      href={`/${locale}/projects`}
-                      className="btn-premium w-full sm:w-auto text-center inline-block"
-                    >
-                      <span>{dict.home.viewWork}</span>
-                    </Link>
-                  </motion.div>
-
-                  <Link
-                    href={`/${locale}/contact`}
-                    className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500 w-full sm:w-auto"
-                  >
-                    <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text px-4">
-                      {dict.home.getInTouch}
-                    </span>
-                  </Link>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-
-          <motion.div
-            className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none"
-            style={{ y: blobGoldY }}
-            animate={
-              reduceMotion
-                ? undefined
-                : { scale: [1, 1.08, 1], opacity: [0.8, 1, 0.85] }
-            }
-            transition={{ duration: 12, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-linear-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none"
-            style={{ y: blobBronzeY }}
-            animate={
-              reduceMotion
-                ? undefined
-                : { scale: [1, 1.1, 1], opacity: [0.75, 1, 0.8] }
-            }
-            transition={{ duration: 14, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 1.5 }}
-          />
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20 animate-fade-out">
-            <span className="text-xs uppercase tracking-widest">{dict.home.scroll}</span>
-            <ArrowDown className="w-4 h-4 animate-scroll-cue" />
-          </div>
-        </section>
-
-        {/* Who I Help Section */}
-        <section className="py-24 px-6 relative overflow-hidden">
-          <motion.div
-            className="absolute inset-0 bg-linear-to-b from-[hsl(var(--accent-gold))]/3 to-transparent pointer-events-none"
-            style={{ y: whoHelpGlowY }}
-            animate={
-              reduceMotion ? undefined : { opacity: [0.7, 1, 0.8] }
-            }
-            transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
-                {dict.home.whoIHelpTitle}
-              </h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Restaurants */}
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies/restaurant-websites-tiers`}
-                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-gold))]/20 bg-[hsl(var(--accent-gold))]/5 hover:border-[hsl(var(--accent-gold))]/50 hover:bg-[hsl(var(--accent-gold))]/10 transition-all duration-500"
-                  >
-                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-gold))]">
-                      <UtensilsCrossed className="w-8 h-8" strokeWidth={1.5} />
+                  {heroTiles.map((p, i) => (
+                    <div key={p.id} className="m-glide grid" style={glide(3 + i * 2)}>
+                      <ProjectTile project={p} cols={1} rows={1} sizes="520px" />
                     </div>
-                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-gold))]">
-                      {dict.home.whoIHelpRestaurantsTitle}
-                    </h3>
-                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
-                      {dict.home.whoIHelpRestaurantsDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
-                      <span>{dict.home.whoIHelpRestaurantsCta}</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              {/* Ecommerce */}
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies/ecommerce-websites-tiers`}
-                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-bronze))]/20 bg-[hsl(var(--accent-bronze))]/5 hover:border-[hsl(var(--accent-bronze))]/50 hover:bg-[hsl(var(--accent-bronze))]/10 transition-all duration-500"
-                  >
-                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-bronze))]">
-                      <ShoppingCart className="w-8 h-8" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-bronze))]">
-                      {dict.home.whoIHelpEcommerceTitle}
-                    </h3>
-                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
-                      {dict.home.whoIHelpEcommerceDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
-                      <span>{dict.home.whoIHelpEcommerceCta}</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              {/* Local Businesses */}
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/demos`}
-                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-champagne))]/20 bg-[hsl(var(--accent-champagne))]/5 hover:border-[hsl(var(--accent-champagne))]/50 hover:bg-[hsl(var(--accent-champagne))]/10 transition-all duration-500"
-                  >
-                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-champagne))]">
-                      <Building2 className="w-8 h-8" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-champagne))]">
-                      {dict.home.whoIHelpLocalTitle}
-                    </h3>
-                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
-                      {dict.home.whoIHelpLocalDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
-                      <span>{dict.home.whoIHelpLocalCta}</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-32 bg-secondary/5 relative overflow-hidden">
-          <motion.div
-            className="absolute -top-24 right-[8%] w-[32vh] h-[32vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-champagne))]/12 to-transparent blur-[110px] pointer-events-none"
-            style={{ y: exploreGlowY }}
-            animate={
-              reduceMotion ? undefined : { scale: [1, 1.12, 1], opacity: [0.6, 0.9, 0.7] }
-            }
-            transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl md:text-6xl font-display font-semibold mb-20 text-center">
-              <span className="italic text-text/50 font-medium">{dict.home.journeyTitle.split(' ')[0]}</span>{" "}
-              {dict.home.journeyTitle.split(' ').slice(1).join(' ')}
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <ExperienceCard
-                year={dict.home.experience.freelance.year}
-                role={dict.home.experience.freelance.role}
-                company={dict.home.experience.freelance.company}
-                desc={dict.home.experience.freelance.desc}
-              />
-              <ExperienceCard
-                year={dict.home.experience.fullstack.year}
-                role={dict.home.experience.fullstack.role}
-                company={dict.home.experience.fullstack.company}
-                desc={dict.home.experience.fullstack.desc}
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-32 px-6 relative overflow-hidden">
-          <motion.div
-            className="absolute inset-x-[15%] top-10 h-40 rounded-full bg-linear-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-champagne))]/8 to-[hsl(var(--accent-bronze))]/10 blur-[90px] pointer-events-none"
-            animate={
-              reduceMotion ? undefined : { opacity: [0.55, 0.9, 0.65], scale: [1, 1.04, 1] }
-            }
-            transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="text-center mb-14"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
-                {dict.home.testimonial.title}
-              </h2>
-            </motion.div>
-
-            <motion.article
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="relative border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-white/70 via-white/50 to-[hsl(var(--accent-gold))]/8 p-8 md:p-12 shadow-[0_30px_100px_-60px_rgba(0,0,0,0.45)]"
-            >
-              <div className="absolute right-8 top-8 text-[hsl(var(--accent-gold))]/30 rtl:right-auto rtl:left-8">
-                <Quote className="w-12 h-12" strokeWidth={1.25} />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 mb-8">
-                <div className="flex items-center gap-1 text-[hsl(var(--accent-gold))]">
-                  {Array.from({ length: rating }, (_, index) => (
-                    <Star key={index} className="w-5 h-5 fill-current" strokeWidth={1.5} />
                   ))}
                 </div>
-                <span
-                  dir="ltr"
-                  className="text-sm uppercase tracking-[0.25em] text-text/70 font-semibold"
-                >
-                  {testimonial.rating} {testimonialLabels.outOf}
-                </span>
-              </div>
-
-              <p
-                className={`text-xl md:text-2xl leading-relaxed text-text/80 max-w-3xl ${
-                  isQuoteRtl ? "text-right ml-auto" : "text-left mr-auto"
-                }`}
-              >
-                <span dir={quoteDirection}>
-                  &ldquo;{testimonial.quote}&rdquo;
-                </span>
-              </p>
-
-              <div
-                className={`mt-10 pt-8 border-t border-[hsl(var(--accent-gold))]/15 flex flex-col gap-6 md:items-end md:justify-between ${
-                  isQuoteRtl ? "md:flex-row-reverse" : "md:flex-row"
-                }`}
-              >
-                <div className="grid gap-3 text-sm text-left" dir="ltr">
-                  <a
-                    href={`https://${testimonial.website}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    dir="ltr"
-                  className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
-                  >
-                    <span>{testimonialLabels.websiteLabel}: {testimonial.website}</span>
-                    <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
-                  </a>
-                  <a
-                    href={testimonial.platformUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    dir="ltr"
-                  className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
-                  >
-                    <span>{testimonialLabels.sourceLabel}: {testimonial.platform}</span>
-                    <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
-                  </a>
-                </div>
-
-                <div
-                  dir={identityDirection}
-                  className={`md:max-w-[45%] ${isIdentityRtl ? "text-right" : "text-left"}`}
-                >
-                  <div className="text-2xl font-display font-semibold text-text">
-                    {testimonial.name}
-                  </div>
-                  <div className="mt-2 text-sm uppercase tracking-[0.2em] text-text/60">
-                    {showHandle ? `@${testimonial.handle} / ` : ""}
-                    {testimonial.company}
-                  </div>
-                </div>
-              </div>
-            </motion.article>
+              </aside>
+            )}
           </div>
         </section>
 
-        <section className="py-32 px-6 relative">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium">
-                {dict.home.viewCaseStudies}{" "}
-                <span className="italic text-text/50 font-semibold">
-                  & {dict.home.viewBlog}
-                </span>
-              </h2>
-              <p className="mt-4 text-text/50 text-lg max-w-xl mx-auto">
-                {dict.home.exploreWorkSubtitle}
-              </p>
-            </motion.div>
+        <PivotBar items={pivots} label={home.onThisPage} />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/30 bg-[hsl(var(--accent-gold))]/[0.04] hover:border-[hsl(var(--accent-gold))]/60 hover:bg-[hsl(var(--accent-gold))]/[0.08] transition-all duration-500 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
-                        {dict.home.viewCaseStudies}
-                      </h3>
-                      <p className="text-text/85 mb-8 text-lg flex-1">
-                        {dict.home.viewCaseStudiesDesc}
-                      </p>
-                      <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 mt-auto">
-                        <span className="uppercase tracking-widest text-sm font-semibold">
-                          {dict.home.viewCaseStudiesCta}
-                        </span>
-                        <svg
-                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
+        {/* ── Work ──────────────────────────────────────────────────────── */}
+        <section id="work" className="m-hub pt-10 lg:pt-14" aria-labelledby="work-title">
+          <div className="mb-8" style={pageInline}>
+            <h2 id="work-title" className="sr-only">{home.workTitle}</h2>
+            <p className="m-subtitle max-w-[48ch] font-light text-ink-muted">{home.workLine}</p>
+          </div>
 
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/blog`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-champagne))]/35 bg-[hsl(var(--accent-champagne))]/[0.05] hover:border-[hsl(var(--accent-champagne))]/60 hover:bg-[hsl(var(--accent-champagne))]/[0.08] transition-all duration-500 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-champagne))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-champagne))]">
-                        {dict.home.viewBlog}
-                      </h3>
-                      <p className="text-text/85 mb-8 text-lg flex-1">
-                        {dict.home.viewBlogDesc}
-                      </p>
-                      <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 mt-auto">
-                        <span className="uppercase tracking-widest text-sm font-semibold">
-                          {dict.home.viewBlogCta}
-                        </span>
-                        <svg
-                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
+          {projects.length > 0 ? (
+            <div className="m-panorama">
+              {lead && <ProjectTile project={lead} cols={2} rows={2} sizes="320px" />}
+              {rest.map((p, i) => {
+                const { cols, rows } = panoramaSize(i, rest.length);
+                return <ProjectTile key={p.id} project={p} cols={cols} rows={rows} sizes="320px" />;
+              })}
+              <Tile href={`${base}/projects`} tone="lime" cols={1} rows={2}>
+                <span className="m-tile__title m-lower">{home.allProjects}</span>
+                <Glyph className="m-tile__glyph" />
+              </Tile>
             </div>
+          ) : (
+            <div className="m-grid" style={pageInline}>
+              <Tile href={`${base}/projects`} tone="lime" cols={2} rows={1}>
+                <span className="m-tile__title m-lower">{home.allProjects}</span>
+                <span className="m-tile__peek">{home.workLine}</span>
+                <Glyph className="m-tile__glyph" />
+              </Tile>
+            </div>
+          )}
 
+          <div className="mt-16 lg:mt-20" style={pageInline}>
+            <p className="m-subtitle m-lower mb-5 font-light text-ink-muted">{home.localTitle}</p>
+            <div className="m-grid">
+              <Tile href={`${base}/case-studies/restaurant-websites-tiers`} tone="outline" cols={1} rows={1}>
+                <span className="m-tile__title m-lower">{home.localRestaurants}</span>
+                <span className="m-tile__peek">{home.localRestaurantsPeek}</span>
+                <Glyph className="m-tile__glyph" />
+              </Tile>
+              <Tile href={`${base}/case-studies/ecommerce-websites-tiers`} tone="outline" cols={1} rows={1}>
+                <span className="m-tile__title m-lower">{home.localEcommerce}</span>
+                <span className="m-tile__peek">{home.localEcommercePeek}</span>
+                <Glyph className="m-tile__glyph" />
+              </Tile>
+              <Tile href={`${base}/demos`} tone="outline" cols={1} rows={1}>
+                <span className="m-tile__title m-lower">{home.localDemos}</span>
+                <span className="m-tile__peek">{home.localDemosPeek}</span>
+                <Glyph className="m-tile__glyph" />
+              </Tile>
+            </div>
           </div>
         </section>
+
+        {/* ── Who I help ────────────────────────────────────────────────── */}
+        <section id="who" className="m-hub pt-28 lg:pt-36" aria-labelledby="who-title" style={pageInline}>
+          <h2 id="who-title" className="sr-only">{home.whoIHelpTitle}</h2>
+          <div className="m-grid">
+            <Tile href={`${base}/projects`} tone="magenta" cols={2} rows={2}>
+              <span className="m-tile__title m-lower text-[2rem]">{home.whoIHelpRestaurantsTitle}</span>
+              <span className="m-tile__peek max-w-[26ch] text-base">{home.whoIHelpRestaurantsDesc}</span>
+              <span className="m-tile__peek m-lower mt-4 inline-flex items-center gap-2 text-base opacity-100">
+                {home.whoIHelpRestaurantsCta} <Glyph />
+              </span>
+            </Tile>
+            <Tile href={`${base}/demos`} tone="cobalt" cols={2} rows={2}>
+              <span className="m-tile__title m-lower text-[2rem]">{home.whoIHelpEcommerceTitle}</span>
+              <span className="m-tile__peek max-w-[26ch] text-base">{home.whoIHelpEcommerceDesc}</span>
+              <span className="m-tile__peek m-lower mt-4 inline-flex items-center gap-2 text-base opacity-100">
+                {home.whoIHelpEcommerceCta} <Glyph />
+              </span>
+            </Tile>
+            <Tile href={`${base}/case-studies`} tone="amber" cols={2} rows={2}>
+              <span className="m-tile__title m-lower text-[2rem]">{home.whoIHelpLocalTitle}</span>
+              <span className="m-tile__peek max-w-[26ch] text-base">{home.whoIHelpLocalDesc}</span>
+              <span className="m-tile__peek m-lower mt-4 inline-flex items-center gap-2 text-base opacity-100">
+                {home.whoIHelpLocalCta} <Glyph />
+              </span>
+            </Tile>
+          </div>
+        </section>
+
+        {/* ── Story ─────────────────────────────────────────────────────── */}
+        <section id="story" className="m-hub pt-28 lg:pt-36" aria-labelledby="story-title" style={pageInline}>
+          <h2 id="story-title" className="sr-only">{home.storyTitle}</h2>
+          <ol className="max-w-[1100px]">
+            {[home.experience.freelance, home.experience.fullstack].map((row) => (
+              <li
+                key={row.year}
+                className="m-hair grid gap-2 py-7 md:grid-cols-[220px_minmax(0,1fr)] md:gap-10 lg:grid-cols-[260px_minmax(0,1fr)]"
+              >
+                <span className="m-title font-extralight text-lime-ink" dir="ltr">
+                  {row.year}
+                </span>
+                <div>
+                  <h3 className="m-title">{row.role}</h3>
+                  <p className="m-caption mt-1 text-ink-muted">{row.company}</p>
+                  <p className="mt-4 max-w-[60ch] text-ink-muted">{row.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* ── Testimonial ───────────────────────────────────────────────── */}
+        <section id="review" className="m-hub pt-28 lg:pt-36" aria-labelledby="review-title" style={pageInline}>
+          <h2 id="review-title" className="sr-only">{home.testimonial.title}</h2>
+          <figure className="grid bg-magenta text-white md:grid-cols-[minmax(0,1fr)_280px] lg:grid-cols-[minmax(0,1fr)_320px]">
+            <blockquote className="p-7 md:p-10 lg:p-12" dir={quoteDir} lang={quoteDir === "rtl" ? "ar" : "en"}>
+              <div className="mb-6 flex items-center gap-1" aria-label={`${testimonial.rating} ${home.testimonial.outOf}`}>
+                {Array.from({ length: rating }, (_, i) => (
+                  <Star key={i} className="h-5 w-5 fill-current" strokeWidth={1.5} aria-hidden="true" />
+                ))}
+              </div>
+              <p className="max-w-[46ch] text-[1.375rem] font-light leading-[1.4] md:text-[1.625rem]">
+                {testimonial.quote}
+              </p>
+            </blockquote>
+            <figcaption className="flex flex-col justify-end gap-6 border-t border-white/40 p-7 md:border-s md:border-t-0 md:p-10 lg:p-12">
+              <div dir="ltr" className="text-start">
+                <p className="m-title">{testimonial.name}</p>
+                <p className="m-caption mt-1">{testimonial.company}</p>
+              </div>
+              <ul dir="ltr" className="m-caption flex flex-col gap-2 text-start">
+                <li>
+                  <a href={`https://${testimonial.website}`} target="_blank" rel="noreferrer" className="underline underline-offset-4 decoration-white/50 hover:decoration-white">
+                    {testimonial.website}
+                  </a>
+                </li>
+                <li>
+                  <a href={testimonial.platformUrl} target="_blank" rel="noreferrer" className="underline underline-offset-4 decoration-white/50 hover:decoration-white">
+                    {home.testimonial.sourceLabel}: {testimonial.platform}
+                  </a>
+                </li>
+              </ul>
+            </figcaption>
+          </figure>
+        </section>
+
+        {/* ── Read ──────────────────────────────────────────────────────── */}
+        <section id="read" className="m-hub pt-28 lg:pt-36" aria-labelledby="read-title" style={pageInline}>
+          <h2 id="read-title" className="sr-only">{home.moreTitle}</h2>
+          <div className="m-grid">
+            <LiveTile
+              href={`${base}/case-studies`}
+              tone="cobalt"
+              flipped={flipped === 0}
+              front={
+                <>
+                  <span className="m-tile__title m-lower">{home.viewCaseStudies}</span>
+                  <span className="m-tile__peek m-lower">{home.viewCaseStudiesCta}</span>
+                </>
+              }
+              back={<span className="m-tile__peek text-base opacity-100">{home.viewCaseStudiesDesc}</span>}
+            />
+            <LiveTile
+              href={`${base}/blog`}
+              tone="amber"
+              flipped={flipped === 1}
+              front={
+                <>
+                  <span className="m-tile__title m-lower">{home.viewBlog}</span>
+                  <span className="m-tile__peek m-lower">{home.viewBlogCta}</span>
+                </>
+              }
+              back={<span className="m-tile__peek text-base opacity-100">{home.viewBlogDesc}</span>}
+            />
+            <Tile href={`${base}/research`} tone="outline" cols={1} rows={1}>
+              <span className="m-tile__title m-lower">{dict.nav.research}</span>
+              <span className="m-tile__peek m-lower">{dict.research.readPaper}</span>
+              <Glyph className="m-tile__glyph" />
+            </Tile>
+          </div>
+        </section>
+
+        {/* ── Contact ───────────────────────────────────────────────────── */}
+        <section id="contact" className="m-hub pt-28 lg:pt-36" aria-labelledby="contact-title" style={pageInline}>
+          <div className="m-grid">
+            <Tile href={`${base}/contact`} tone="lime" cols={2} rows={2}>
+              <h2 id="contact-title" className="m-poster m-lower text-[clamp(2.5rem,6vw,4rem)]">{home.contactTitle}</h2>
+              <span className="m-tile__peek m-lower mt-3 text-base opacity-100">{home.contactLine}</span>
+              <span className="m-tile__peek m-lower mt-6 inline-flex items-center gap-2 text-base opacity-100">
+                {home.contactCta} <Glyph />
+              </span>
+            </Tile>
+            <Tile href="https://www.linkedin.com/in/kamkm-gamer" external tone="outline" cols={1} rows={1}>
+              <span className="m-tile__title">LinkedIn</span>
+              <span className="m-tile__peek">kamkm-gamer</span>
+              <Glyph className="m-tile__glyph" />
+            </Tile>
+            <Tile href="https://github.com/Kamkmgamer" external tone="outline" cols={1} rows={1}>
+              <span className="m-tile__title">GitHub</span>
+              <span className="m-tile__peek">Kamkmgamer</span>
+              <Glyph className="m-tile__glyph" />
+            </Tile>
+          </div>
+        </section>
+
+        <footer className="m-hair mt-28 pt-6 lg:mt-36" style={pageInline}>
+          <p className="m-caption flex items-center gap-2 text-ink-muted">
+            <DotMatrix className="text-lime-ink" />
+            <span>{home.footerLine}</span>
+          </p>
+        </footer>
       </main>
     </>
-  );
-}
-
-function ExperienceCard({
-  year,
-  role,
-  company,
-  desc,
-}: {
-  year: string;
-  role: string;
-  company: string;
-  desc: string;
-}) {
-  return (
-    <div className="p-8 border border-white/10 bg-white/5 rounded-none hover:bg-[hsl(var(--accent-gold))]/5 transition-colors duration-300 group">
-      <span className="block text-xs font-mono mb-4 text-[hsl(var(--accent-gold))]">
-        {year}
-      </span>
-      <h4 className="text-2xl font-display font-semibold mb-2">{role}</h4>
-      <div className="text-sm font-bold uppercase tracking-widest mb-6 text-text/60 group-hover:text-text transition-colors">
-        {company}
-      </div>
-      <p className="text-text">{desc}</p>
-    </div>
   );
 }

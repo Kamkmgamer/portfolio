@@ -1,140 +1,234 @@
 ---
 name: Khalil AbdalMageed Portfolio
-description: A bilingual portfolio for considered web-development work.
+description: A bilingual portfolio built in the Metro typographic-tile language, where type and flat colour tiles are the whole interface.
 colors:
-  background: "#fcf9f3"
-  surface: "#ffffff"
-  text: "#231e1a"
-  onyx: "#050505"
-  gold: "#a07a22"
-  bronze: "#865125"
-  champagne: "#ba9a5e"
+  ground: "#000000"
+  ink: "#ffffff"
+  ink-muted: "rgba(255, 255, 255, 0.62)"
+  ink-faint: "rgba(255, 255, 255, 0.34)"
+  lime: "#a4c400"
+  lime-ink-light: "#4c7a00"
+  magenta: "#e3008c"
+  cobalt: "#0050ef"
+  amber: "#f09609"
+  ground-light: "#ffffff"
+  ink-light: "#000000"
 typography:
-  display:
-    fontFamily: "Playfair Display, Georgia, serif"
-    fontWeight: 600
-    lineHeight: 1
-    letterSpacing: "-0.01em"
+  poster:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "clamp(3.25rem, 8.5vw, 6rem)"
+    fontWeight: 200
+    lineHeight: 0.95
+    letterSpacing: "-0.02em"
+  headline:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 4vw, 3.25rem)"
+    fontWeight: 300
+    lineHeight: 1.05
+    letterSpacing: "-0.015em"
+  title:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "1.75rem"
+    fontWeight: 300
+    lineHeight: 1.15
+  quote:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "1.625rem"
+    fontWeight: 300
+    lineHeight: 1.4
+  title-small:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "1.375rem"
+    fontWeight: 300
+    lineHeight: 1.15
+  pivot:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 300
+    lineHeight: 1.2
+  subtitle:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 400
+    lineHeight: 1.4
   body:
-    fontFamily: "Inter, Arial, sans-serif"
-  display-ar:
-    fontFamily: "Noto Naskh Arabic, serif"
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.6
+  caption:
+    fontFamily: "Hanken Grotesk, Segoe UI, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.4
+  poster-ar:
+    fontFamily: "Readex Pro, Segoe UI, system-ui, sans-serif"
+    fontWeight: 200
+    lineHeight: 1.15
   body-ar:
-    fontFamily: "IBM Plex Sans Arabic, Arial, sans-serif"
+    fontFamily: "Readex Pro, Segoe UI, system-ui, sans-serif"
+    fontWeight: 400
 rounded:
-  sharp: "2px"
+  none: "0px"
 spacing:
-  control-y: "16px"
-  control-x: "40px"
+  tile-gap: "8px"
+  tile-unit: "160px"
+  control-y: "14px"
+  control-x: "24px"
+  page-inline: "clamp(20px, 4vw, 56px)"
 components:
   button-primary:
-    backgroundColor: "{colors.gold}"
-    textColor: "{colors.onyx}"
-    rounded: "{rounded.sharp}"
-    padding: "16px 40px"
-  surface-card:
-    backgroundColor: "{colors.surface}"
-    rounded: "{rounded.sharp}"
+    backgroundColor: "{colors.lime}"
+    textColor: "{colors.ground}"
+    rounded: "{rounded.none}"
+    padding: "14px 24px"
+    typography: "{typography.subtitle}"
+  button-secondary:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    padding: "12px 22px"
+    typography: "{typography.subtitle}"
+  tile:
+    backgroundColor: "{colors.magenta}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    padding: "16px"
+  input:
+    backgroundColor: "{colors.ground}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.none}"
+    padding: "12px 14px"
 ---
 
 # Design System: Khalil AbdalMageed Portfolio
 
 ## Overview
 
-**Creative North Star: "The Gold Standard"**
+**Creative North Star: "Type Is The Interface"**
 
-The portfolio is a composed case for premium web craft. It uses warm, light surfaces and onyx dark mode as a quiet field for rich gold accents, selected work, and bilingual content. The visual system leads with clarity and evidence, not visual spectacle.
+The portfolio speaks the Metro typographic-tile language. A solid ground (black by default, white in the light theme) carries giant, light-weight, lowercase headlines that are allowed to run off the trailing edge of the viewport, and flat colour tiles that are content, not containers. Nothing on screen is decoration: every element is a word, a colour field, a screenshot of shipped work, or a control. There are no gradients, bevels, shadows, borders-as-decoration, glass, or glow.
 
-Tonal depth creates separation through surface, fine gold-tinted borders, and sparse ambient shadows. The system rejects generic AI-interface signals: decorative gradient text, purple or cyan palettes, heavy side stripes, bouncy motion, image zooming, default glassmorphism, and repeated template cards.
+The system is authoritative and calm because it is so reduced. Hierarchy comes from type size and weight steps and from tile size, never from ornament. Colour is committed: each tile owns one saturated flat field, and a single accent (lime) owns every live state (links, focus, primary action, active navigation). The Arabic surface is native to the same grammar, using Readex Pro at the same weights and the same cropping rule mirrored to the left edge.
 
 **Key Characteristics:**
-- Warm gold-and-onyx identity with restrained accent use.
-- Editorial display typography paired with clear body text.
-- Low-radius, precise controls and composed hover feedback.
-- Equal care for English LTR and Arabic RTL content.
+- Solid ground, white ink, flat saturated tiles; zero gradients, shadows, or radii.
+- Giant light lowercase headlines cropped off the trailing edge.
+- A strict tile grid with varied tile sizes (1×1, 2×1, 2×2) as the page structure.
+- One accent (lime) for every live state; other tile colours never signal interaction.
+- Motion is Metro-native: staggered glide-in from the trailing edge, press tilt, live-tile flip.
 
 ## Colors
 
-Warm neutrals carry the surface while gold and bronze identify emphasis, interaction, and moments of craft.
+Black and white are the ground and the ink; four flat Metro colours carry tiles; lime alone carries state.
 
 ### Primary
-- **Polished Gold:** used for key actions, eyebrow labels, and focused emphasis.
+- **Lime** (#a4c400): the one live colour. Primary button fill, focus ring, active pivot item, link hover, live-tile back faces. In the light theme, lime remains the fill colour but lime text on white uses **Lime Ink Light** (#4c7a00) to hold 5:1 contrast.
 
-### Secondary
-- **Aged Bronze:** supports gold in surfaces and non-text decoration.
-- **Champagne:** a restrained highlight, never a second primary action color.
+### Secondary (tile fields)
+- **Magenta** (#e3008c): white ink on it. Used for the first audience tile and the testimonial tile.
+- **Cobalt** (#0050ef): white ink on it. Used for the second audience tile and case-study tiles.
+- **Amber** (#f09609): black ink on it. Used for the third audience tile and the blog tile.
 
 ### Neutral
-- **Ivory Field:** page background in light mode.
-- **Paper Surface:** raised light-mode content surface.
-- **Ink:** primary readable text in light mode.
-- **Onyx:** dark-mode background and primary button text.
+- **Ground** (#000000 dark / #ffffff light): page and app-bar background; also the label block laid over image tiles.
+- **Ink** (#ffffff dark / #000000 light): all headlines and body text on the ground.
+- **Ink Muted** (rgba(255,255,255,0.62) dark; rgba(0,0,0,0.62) light): supporting copy, inactive pivot items. Never used on a coloured tile.
+- **Ink Faint** (rgba(255,255,255,0.34)): hairline dividers only.
 
-**The Solid Voice Rule.** Text emphasis uses a single solid color, weight, or scale. Gradient-clipped text is prohibited.
+### Named Rules
+**The One Live Colour Rule.** Lime is the only colour that may change on hover, focus, or active state. Magenta, cobalt, and amber are content fields and never react.
+
+**The Tinted Secondary Rule.** Secondary text on a coloured tile is the tile's ink at 85% opacity, never gray. Magenta is the exception: white on magenta is exactly 4.5:1, so all text on a magenta tile stays at 100%.
 
 ## Typography
 
-**Display Font:** Playfair Display (with Georgia fallback)
-**Body Font:** DM Sans (with Arial fallback)
-**Arabic Display Font:** Noto Naskh Arabic
-**Arabic Body Font:** IBM Plex Sans Arabic
+**Display and Body Font (Latin):** Hanken Grotesk (with Segoe UI, system-ui fallback)
+**Display and Body Font (Arabic):** Readex Pro (with Segoe UI, system-ui fallback)
 
-**Character:** The display face gives headings a confident, literary presence while the body face keeps service details, case studies, and contact paths direct. DM Sans brings geometric warmth with rounder terminals than Inter, adding personality without sacrificing readability. Arabic typography follows the same hierarchy without borrowing Latin spacing conventions.
+**Character:** One humanist family per script, used from 200 to 500. The light weights at poster scale read as confident rather than delicate because they are large and lowercase. Latin headlines, titles, labels, and controls are lowercase except proper nouns and product names. Arabic has no case, so its authority comes from the same size and weight steps.
 
 ### Hierarchy
-- **Display** (600, responsive 36px to 60px, 1): hero and section titles.
-- **Headline** (600, 24px to 36px, 1.2): feature and article headings.
-- **Body** (400, 16px, at least 1.5): reading content, constrained to 65 to 75 characters where practical.
-- **Label** (600, 12px, 0.1em to 0.3em tracking, uppercase in Latin only): navigation and short contextual labels.
+- **Poster** (200, clamp(3.25rem, 8.5vw, 6rem), 0.95, -0.02em): the homepage statement and page titles. May overflow the trailing edge inside an `overflow: hidden` section; must remain readable in full at the smallest breakpoint by wrapping.
+- **Headline** (300, clamp(2rem, 4vw, 3.25rem), 1.05): section titles such as "work", "who i help".
+- **Title** (300, 1.75rem, 1.15): tile titles on 2-unit tiles and list headings.
+- **Quote** (300, 1.625rem, 1.4; 1.375rem below md): the testimonial quote.
+- **Title Small** (300, 1.375rem, 1.15): titles on 1×1 tiles; 1.125rem inside an image-tile label block.
+- **Subtitle** (400, 1.25rem, 1.4): the hero's supporting sentence and button labels.
+- **Pivot** (300, 1.125rem, 1.2): the header navigation row.
+- **Body** (400, 1rem, 1.6): reading copy, max measure 65ch.
+- **Caption** (400, 0.875rem, 1.4): tile peek lines, metadata, app-bar labels.
 
-**The Contrast Rule.** Adjacent text levels require a meaningful scale or weight change. Do not construct a hierarchy from closely spaced sizes alone.
+### Named Rules
+**The Lowercase Rule.** Latin UI text is lowercase, including headings and button labels. Proper nouns (Khalil, Next.js, Fiverr) keep their casing.
 
-## Elevation
+**The Big Step Rule.** Adjacent levels differ by at least 1.3× in size or two weight steps. No hierarchy is built from 16/18/20px.
 
-This is a tonal-depth system. Light-mode surfaces use fine gold-tinted borders and sparse ambient shadows; dark mode reduces border brightness and uses deeper, less frequent shadows. Glass treatment is reserved for a purposeful layered surface, never used as the default container style.
+## Layout
 
-### Shadow Vocabulary
-- **Ambient Card:** a low, layered shadow used by a raised content surface.
-- **Interactive Lift:** a compact upward translation and soft shadow for primary actions only.
+The page is start-aligned (left in LTR, right in RTL) on a strict tile grid. The tile unit is 160px square with an 8px gap; tiles span 1×1, 2×1, or 2×2 units. Sections stack vertically; inside a section, tile rows may become a horizontal panorama (`overflow-x: auto; scroll-snap-type: x proximity`, so the row never traps the scroll) whose last tile is cropped by the viewport edge whenever the content exceeds it. Page inline padding is clamp(20px, 4vw, 56px); there is no centred max-width container, but text blocks cap at 65ch.
 
-**The Quiet Depth Rule.** A surface earns elevation through hierarchy or interaction. Decorative blur and stacked containers are forbidden.
+Breakpoints: below 640px the tile unit drops to `calc((100vw - 2 * padding - gap) / 2)` so two columns always fit, 2×2 tiles become full width, and panoramas become a single column. Headline cropping is preserved at every width by letting the poster line overflow the section, while the full text is always reachable via wrapping on the next line.
+
+Spacing rhythm: 8px inside tiles between title and peek line, 16px tile padding, 8px between tiles, 48px between a section heading and its grid, 96px to 128px between sections. More space sits above a heading than below it.
+
+## Elevation & Depth
+
+Flat. There are no shadows, no borders as elevation, and no blur. Depth is expressed only through the tile press tilt (a 3D rotation toward the pointer of at most 6°) and the live-tile flip, both of which are motion, not resting state. Hairline dividers (1px, Ink Faint) separate list rows where needed.
+
+### Named Rules
+**The Flat Rule.** `box-shadow: none`, `border-radius: 0`, `backdrop-filter: none`. A control's outline is its only edge.
+
+## Shapes
+
+Everything is rectangular with square corners. Tiles are exact multiples of the unit. Buttons are rectangles with 2px outlines (secondary) or solid fills (primary). Icons are 1.5px-stroke outline glyphs; the only decorative mark is a 4×4 dot-matrix square next to the brand name. The directional glyph is a small solid triangle (▸) that mirrors in RTL.
 
 ## Components
 
 ### Buttons
-- **Shape:** sharp, low-radius edges (2px).
-- **Primary:** polished gold background with onyx text and generous horizontal padding (16px 40px).
-- **Hover / Focus:** a small upward lift, a soft gold shadow, and a visible keyboard focus treatment. Never bounce or elastic easing.
-- **Secondary:** text-led action with a fine bottom border that strengthens on hover.
+- **Shape:** rectangle, 0 radius.
+- **Primary:** Lime fill, Ground-coloured text, padding 14px 24px, Subtitle type, trailing ▸ glyph. Hover: fill lightens to #b6d81a; active: translateY(1px). Focus-visible: 2px Ink outline offset 2px.
+- **Secondary:** transparent fill, 2px Ink outline, Ink text, padding 12px 22px. Hover: Lime outline and Lime text. Focus-visible as primary.
+- **Text link:** Ink, no underline at rest; hover and focus turn Lime; an underline appears only inside running body copy.
 
-### Cards / Containers
-- **Corner Style:** square to low-radius, never pill-like.
-- **Background:** ivory or paper surfaces in light mode; onyx-adjacent surfaces in dark mode.
-- **Shadow Strategy:** tonal depth only where grouping or interaction needs it.
-- **Border:** fine, gold-tinted full borders when a boundary is required.
-- **Internal Padding:** spacious and varied by content density.
+### Tiles
+- **Corner Style:** 0.
+- **Background:** one flat colour from Magenta, Cobalt, Amber, or Lime, or an image filling the tile.
+- **Title:** Title type at bottom-start with 16px padding; a Caption peek line under it in the tile's ink at 85%.
+- **Image tiles:** the screenshot fills the tile with `object-fit: cover`; the title sits in a Ground-coloured label block bottom-start; no gradient scrim. 1×1 image tiles show the title only; 2-unit tiles add the tag line. The hero column uses wide 3.25-unit image tiles so they crop at the trailing edge.
+- **Interaction:** pointer-down tilts the tile up to 6° toward the pointer; hover shows the ▸ glyph at bottom-end (Lime on image tiles, the tile's ink elsewhere). Focus-visible: 3px Lime outline, or Ink outline on Lime tiles. No scale, no zoom of the image.
+- **Live tiles:** flip on the X axis over 600ms to reveal a back face, one tile at a time, every 9 to 14 seconds; disabled under reduced motion.
 
-### Navigation
-- **Style:** display-led brand mark, compact labels, and a restrained gold state treatment.
-- **Mobile treatment:** preserves route clarity and direction-aware behavior without hiding primary navigation behind decoration.
+### Inputs / Fields
+- **Style:** Ground fill, 2px Ink Muted outline, Ink text, 0 radius, padding 12px 14px, placeholder Ink Muted.
+- **Focus:** outline becomes Lime.
+- **Error:** outline becomes Magenta and a Caption line names the problem and the fix.
 
-### Content Callouts
-- **Style:** full-border or tonal-surface emphasis with a leading icon, number, or label where needed.
-- **Direction:** visual emphasis must mirror correctly in RTL layouts.
-- **Prohibition:** colored left or right borders wider than 1px are forbidden.
+### Navigation (pivot header and app bar)
+- **Pivot:** the site navigation is a horizontal row of lowercase Subtitle-size links; the current page is Ink, others Ink Muted, hover Lime. On narrow screens the row scrolls horizontally with the tail cropped by the edge; there is no hamburger.
+- **Brand:** "khalil" in Subtitle weight 300 with the dot-matrix mark; links home.
+- **App bar controls:** 40px square outline buttons (2px Ink outline) holding a 20px icon; theme and language switches. Focus-visible: Lime outline.
+
+### Pivot bar
+One sticky row directly under the navbar (`top: 64px`) listing every hub section as an in-page link at clamp(1.5rem, 2.6vw, 2.25rem), weight 300. The section in view is Ink (`aria-current="true"`, tracked with an IntersectionObserver), the rest are Ink Faint and crop at the trailing edge; hover and focus turn a link Lime. On narrow screens the row scrolls and the active link is kept in view. Hub sections carry `scroll-margin-top: 140px` so jumps land below the navbar and the bar; their headings are visually hidden because the bar names them.
+
+### Panorama
+A section's tile row that overflows horizontally with `scroll-snap-type: x proximity`, `scroll-padding-inline: page padding`, and a cropped last tile when content exceeds the viewport. The row closes with a lime 1×2 "all projects" tile. Keyboard users move through tiles by Tab; the row is also reachable with arrow keys via native scroll.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** use the existing gold, bronze, ivory, and onyx roles to make content hierarchy legible.
-- **Do** use Playfair Display and Inter for Latin content, with Noto Naskh Arabic and IBM Plex Sans Arabic for Arabic content.
-- **Do** make interactive movement brief, smooth, and meaningful; retain reduced-motion behavior.
-- **Do** use full borders, tonal fills, icons, or labels for callout emphasis.
-- **Do** keep image composition stable during hover states.
+- **Do** make headlines lowercase, light (200–300), and large enough to crop at the trailing edge on desktop.
+- **Do** build sections from varied tile sizes (1×1, 2×1, 2×2) and let the grid, not cards, be the structure.
+- **Do** use Lime for every live state and nothing else for interaction.
+- **Do** set black ink on Lime and Amber, white ink on Magenta and Cobalt.
+- **Do** mirror the crop edge, the ▸ glyph, and tile alignment in RTL, and use Readex Pro for Arabic at the same weights.
+- **Do** orchestrate one entrance (glide-in from the trailing edge with 40ms stagger, `cubic-bezier(0.1, 0.9, 0.2, 1)`) and honour `prefers-reduced-motion` by removing flips and glides.
 
 ### Don't:
-- **Don't** use decorative gradient text or `background-clip: text` on user-facing copy.
-- **Don't** introduce purple or cyan AI palettes, thick colored side stripes, bouncy motion, or image zoom hover effects.
-- **Don't** use gray text on saturated colored backgrounds when a high-contrast text color is available.
-- **Don't** make default glassmorphism or identical card grids the page structure.
-- **Don't** compromise LTR, RTL, responsive, or reduced-motion behavior for visual treatment.
+- **Don't** use gradients, shadows, blur, glass, glow, or border-radius anywhere.
+- **Don't** use gold, cream, or serif type; the previous identity is an anti-reference.
+- **Don't** scale or zoom images on hover; tilt is the only pointer response.
+- **Don't** use gray text on a coloured tile; tint from the tile's ink.
+- **Don't** add eyebrows, section numbers, or uppercase tracked labels; Metro has no eyebrow.
+- **Don't** hide navigation behind a hamburger; the pivot row scrolls.

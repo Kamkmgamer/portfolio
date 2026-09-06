@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, DM_Sans, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic } from 'next/font/google';
+import { Hanken_Grotesk, Readex_Pro } from 'next/font/google';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
@@ -8,39 +8,21 @@ import { locales, localeDirections, type Locale } from '@/i18n.config';
 import { getDictionary } from '@/lib/i18n/server';
 import { SITE_URL, buildLocalizedAbsoluteUrl, getOpenGraphLocale } from '@/lib/seo';
 
-const playfair = Playfair_Display({
-  variable: '--font-display',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const dmSans = DM_Sans({
+const hankenGrotesk = Hanken_Grotesk({
   variable: '--font-sans',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'optional',
+  weight: 'variable',
+  display: 'swap',
   preload: true,
   adjustFontFallback: true,
 });
 
-const notoNaskhArabic = Noto_Naskh_Arabic({
-  variable: '--font-display-ar',
-  subsets: ['arabic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
+const readexPro = Readex_Pro({
   variable: '--font-sans-ar',
-  subsets: ['arabic'],
-  weight: ['300', '400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
+  subsets: ['arabic', 'latin'],
+  weight: 'variable',
+  display: 'swap',
+  preload: false,
   adjustFontFallback: true,
 });
 
@@ -139,8 +121,6 @@ export async function generateMetadata({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };
 
 export default async function LocaleLayout({
@@ -244,27 +224,18 @@ export default async function LocaleLayout({
 
   const fontClasses =
     locale === 'ar'
-      ? `${notoNaskhArabic.variable} ${ibmPlexArabic.variable} ${dmSans.variable}`
-      : `${playfair.variable} ${dmSans.variable}`;
+      ? `${readexPro.variable} ${hankenGrotesk.variable}`
+      : hankenGrotesk.variable;
 
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://ik.imagekit.io" />
-        <meta
-          name="theme-color"
-          content="#ffffff"
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="theme-color"
-          content="#050505"
-          media="(prefers-color-scheme: dark)"
-        />
+        <meta name="theme-color" content="#000000" />
       </head>
       <body
-        className={`${fontClasses} antialiased bg-background text-text relative font-sans ${locale === 'ar' ? 'font-arabic' : ''}`}
+        className={`${fontClasses} antialiased bg-ground text-ink relative font-sans ${locale === 'ar' ? 'font-arabic' : ''}`}
       >
         <JsonLd data={jsonLdData} />
         <Providers>

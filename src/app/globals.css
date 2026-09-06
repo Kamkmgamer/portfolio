@@ -1,86 +1,115 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ═══════════════════════════════════════════════════════════════════════════
-   DESIGN TOKENS - Hyper-Luxury Gold & Onyx System
+   DESIGN TOKENS - Metro typographic tiles (see DESIGN.md)
+   Solid ground, white ink, flat colour tiles, lime owns every live state.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Core palette - Light Luxury (Ivory & Gold) */
-  --background: 45 30% 97%;
-  --surface: 0 0% 100%;
-  --text: 20 15% 12%;
-  /* Richer Onyx */
+  --ground: #000000;
+  --ink: #ffffff;
+  --ink-muted: rgba(255, 255, 255, 0.62);
+  --ink-faint: rgba(255, 255, 255, 0.34);
+  --ink-hair: rgba(255, 255, 255, 0.16);
 
-  /* Premium Gold accents - Polished Brass Legibility */
-  --accent-gold: 42 65% 38%;
-  /* Rich Gold */
-  --accent-bronze: 32 55% 32%;
-  /* Polished Bronze */
-  --accent-champagne: 38 40% 55%;
-  /* Warm Gold */
+  --lime: #a4c400;
+  --lime-hover: #b6d81a;
+  --lime-ink: #a4c400;
+  --magenta: #e3008c;
+  --cobalt: #0050ef;
+  --amber: #f09609;
 
-  /* Glow colors (light mode) */
-  --glow-gold: hsla(42, 65%, 38%, 0.12);
-  --glow-bronze: hsla(32, 55%, 32%, 0.08);
+  --tile-unit: 160px;
+  --tile-gap: 8px;
+  --page-inline: clamp(20px, 4vw, 56px);
 
-  /* Glass effect */
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(184, 134, 11, 0.15);
-  /* Darker gold border */
+  --ease-metro: cubic-bezier(0.1, 0.9, 0.2, 1);
 
-  /* Scrollbar */
-  --scrollbar-bg: hsl(var(--background));
-  --scrollbar-thumb: hsl(42 40% 50% / 0.4);
+  /* Legacy aliases so inner pages inherit the new world without edits. */
+  --background: 0 0% 0%;
+  --surface: 0 0% 4%;
+  --text: 0 0% 100%;
+  --accent-gold: 70 100% 38%;
+  --accent-bronze: 37 93% 49%;
+  --accent-champagne: 71 75% 62%;
+  --glow-gold: transparent;
+  --glow-bronze: transparent;
+  --glass-bg: var(--ground);
+  --glass-border: var(--ink-hair);
+  --scrollbar-bg: var(--ground);
+  --scrollbar-thumb: var(--ink-faint);
 }
 
-html.dark {
-  /* Core palette - Dark Luxury (Onyx & Gold) */
-  --background: 0 0% 2%;
-  --surface: 0 0% 5%;
-  --text: 45 10% 95%;
+html.light,
+html:not(.dark).light {
+  --ground: #ffffff;
+  --ink: #000000;
+  --ink-muted: rgba(0, 0, 0, 0.62);
+  --ink-faint: rgba(0, 0, 0, 0.34);
+  --ink-hair: rgba(0, 0, 0, 0.14);
+  --lime-ink: #4c7a00;
 
-  /* Glow colors (dark mode) */
-  --glow-gold: hsla(45, 60%, 55%, 0.25);
-  --glow-bronze: hsla(35, 50%, 45%, 0.2);
-
-  /* Glass effect - dark */
-  --glass-bg: rgba(5, 5, 5, 0.85);
-  --glass-border: rgba(212, 175, 55, 0.1);
-
-  /* Scrollbar - dark */
-  --scrollbar-bg: hsl(var(--background));
-  --scrollbar-thumb: hsl(45 50% 30% / 0.4);
+  --background: 0 0% 100%;
+  --surface: 0 0% 97%;
+  --text: 0 0% 0%;
+  --accent-gold: 83 100% 24%;
+  --accent-bronze: 38 100% 28%;
+  --accent-champagne: 83 100% 24%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--text);
+  --color-ground: var(--ground);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-lime: var(--lime);
+  --color-lime-ink: var(--lime-ink);
+  --color-magenta: var(--magenta);
+  --color-cobalt: var(--cobalt);
+  --color-amber: var(--amber);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--text));
+  --color-text: hsl(var(--text));
+  --color-surface: hsl(var(--surface));
+
   --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
+  --font-display: var(--font-sans);
   --font-mono: var(--font-geist-mono);
+
+  --ease-metro: var(--ease-metro);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BODY & BACKGROUND EFFECTS
+   BASE
    ═══════════════════════════════════════════════════════════════════════════ */
 
-body {
-  background: hsl(var(--background));
-  color: hsl(var(--text));
-  position: relative;
-  z-index: 0;
-  overflow-x: hidden;
-  font-family: var(--font-sans), sans-serif;
-}
-
+@layer base {
 html {
-  scroll-behavior: smooth;
+  background: var(--ground);
+  color-scheme: dark;
 }
 
-@media (prefers-reduced-motion: reduce) {
+html.light {
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: no-preference) {
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
   }
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-sans), "Segoe UI", system-ui, sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
@@ -88,31 +117,18 @@ h2,
 h3,
 h4,
 .display-font {
-  font-family: var(--font-display), serif;
-  letter-spacing: -0.01em;
-  font-weight: 600;
+  font-family: var(--font-sans), "Segoe UI", system-ui, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.015em;
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RTL & ARABIC FONT SUPPORT
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 html[dir="rtl"] body,
-html[dir="rtl"].font-arabic body {
-  font-family: var(--font-sans-ar), var(--font-sans), sans-serif;
-}
-
 html[dir="rtl"] h1,
 html[dir="rtl"] h2,
 html[dir="rtl"] h3,
 html[dir="rtl"] h4,
-html[dir="rtl"] .display-font,
-html[dir="rtl"].font-arabic h1,
-html[dir="rtl"].font-arabic h2,
-html[dir="rtl"].font-arabic h3,
-html[dir="rtl"].font-arabic h4,
-html[dir="rtl"].font-arabic .display-font {
-  font-family: var(--font-display-ar), var(--font-display), serif;
+html[dir="rtl"] .display-font {
+  font-family: var(--font-sans-ar), var(--font-sans), "Segoe UI", system-ui, sans-serif;
   letter-spacing: 0;
 }
 
@@ -120,333 +136,588 @@ html[dir="rtl"] {
   text-align: right;
 }
 
-html[dir="rtl"] .gradient-border::before {
-  background: linear-gradient(-135deg,
-      hsl(var(--accent-gold)),
-      transparent,
-      hsl(var(--accent-bronze)));
-}
-
-html[dir="rtl"] .section-title::after {
-  left: auto;
-  right: 0;
-  background: linear-gradient(to left, hsl(var(--accent-gold)), transparent);
-}
-
-html[dir="rtl"] .btn-premium {
-  letter-spacing: 0.05em;
-}
-
-/* Luxury Animated Ambient Glow */
-body::before {
-  content: "";
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 20% 80%,
-      var(--glow-gold) 0%,
-      transparent 40%),
-    radial-gradient(circle at 80% 20%, var(--glow-bronze) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
-  animation: meshFloat 40s ease-in-out infinite;
-  z-index: -2;
-  opacity: 1;
-  pointer-events: none;
-}
-
-@keyframes meshFloat {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(1%, -1%);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   GLASSMORPHISM UTILITIES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
-}
-
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid var(--glass-border);
-  /* Richer multi-layered shadow for light mode DEPTH */
-  box-shadow:
-    0 10px 40px -10px rgba(0, 0, 0, 0.05),
-    0 4px 12px -2px rgba(0, 0, 0, 0.03),
-    inset 0 1px 0 rgba(212, 175, 55, 0.1);
-}
-
-html.dark .glass-card {
-  box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.5),
-    0 4px 12px -4px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(212, 175, 55, 0.05);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   GLOW EFFECTS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.glow-gold {
-  box-shadow: 0 0 40px var(--glow-gold), 0 0 80px var(--glow-gold);
-}
-
-.glow-bronze {
-  box-shadow: 0 0 40px var(--glow-bronze), 0 0 80px var(--glow-bronze);
-}
-
-.glow-gradient {
-  box-shadow: 0 0 30px var(--glow-gold), 0 0 60px var(--glow-bronze);
-}
-
-/* Animated glow pulse */
-.glow-pulse {
-  animation: glowPulse 4s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 20px var(--glow-gold), 0 0 40px var(--glow-bronze);
-  }
-
-  50% {
-    box-shadow: 0 0 40px var(--glow-gold), 0 0 80px var(--glow-bronze),
-      0 0 100px hsla(45, 60%, 55%, 0.3);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   GRADIENT TEXT & BORDERS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.gradient-text {
-  color: hsl(var(--accent-gold));
-}
-
-.gradient-border {
-  position: relative;
-  background: transparent;
-  border: none;
-}
-
-.gradient-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg,
-      hsl(var(--accent-gold)),
-      transparent,
-      hsl(var(--accent-bronze)));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
-}
-
-.gradient-border:hover::before {
-  opacity: 1;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CARD EFFECTS & ANIMATIONS
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.card-3d {
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.card-3d:hover {
-  transform: translateY(-12px) rotateX(4deg) rotateY(-2deg);
-}
-
-.card-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-shine::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg,
-      transparent 40%,
-      rgba(212, 175, 55, 0.05) 45%,
-      rgba(212, 175, 55, 0.1) 50%,
-      rgba(212, 175, 55, 0.05) 55%,
-      transparent 60%);
-  transform: translateX(-100%);
-  transition: transform 0.8s ease;
-}
-
-.card-shine:hover::after {
-  transform: translateX(100%);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   BUTTON STYLES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.btn-premium {
-  position: relative;
-  background: linear-gradient(135deg,
-      hsl(var(--accent-gold)) 0%,
-      hsl(var(--accent-bronze)) 100%);
+::selection {
+  background: var(--lime);
   color: #000;
-  font-weight: 600;
-  padding: 1rem 2.5rem;
-  border-radius: 2px;
-  /* Sharp luxury edges */
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
 }
 
-.btn-premium:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px hsla(45, 60%, 55%, 0.4);
+:focus-visible {
+  outline: 2px solid var(--lime-ink);
+  outline-offset: 2px;
 }
 
-.btn-premium::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-      white 0%,
-      hsl(var(--accent-gold)) 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-.btn-premium:hover::before {
-  opacity: 0.2;
+::-webkit-scrollbar-track {
+  background: var(--ground);
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FLOATING PARTICLES
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: hsl(var(--accent-gold));
-  opacity: 0.3;
-  filter: blur(1px);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CUSTOM SCROLLBAR
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg,
-      hsl(var(--accent-gold) / 0.3),
-      hsl(var(--accent-bronze) / 0.3));
-  border-radius: 0px;
-  border: 4px solid transparent;
-  background-clip: padding-box;
+  background: var(--ink-faint);
+  border-radius: 0;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg,
-      hsl(var(--accent-gold) / 0.5),
-      hsl(var(--accent-bronze) / 0.5));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SECTION TITLES
+   METRO PRIMITIVES (in the components layer so utilities can override)
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.section-title {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  margin-bottom: 4rem;
-  position: relative;
+@layer components {
+/* Directional glyph: a small solid triangle that mirrors in RTL. */
+.m-glyph {
   display: inline-block;
+  width: 0;
+  height: 0;
+  border-block: 0.32em solid transparent;
+  border-inline-start: 0.42em solid currentColor;
+  vertical-align: middle;
 }
 
-@media (min-width: 768px) {
-  .section-title {
-    font-size: 3.75rem;
-    line-height: 1;
-  }
+/* Lowercase Latin UI text; Arabic has no case so the rule is inert there. */
+.m-lower {
+  text-transform: lowercase;
 }
 
-.section-title::after {
-  content: "";
+html[dir="rtl"] .m-lower {
+  text-transform: none;
+}
+
+/* Poster type. Allowed to run past the trailing edge inside .m-crop. */
+.m-poster {
+  font-size: clamp(3.25rem, 8.5vw, 6rem);
+  font-weight: 200;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+html[dir="rtl"] .m-poster {
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.m-headline {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 300;
+  line-height: 1.05;
+}
+
+html[dir="rtl"] .m-headline {
+  line-height: 1.3;
+}
+
+.m-title {
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.m-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.m-caption {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.m-crop {
+  overflow: hidden;
+}
+
+/* Buttons */
+.m-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  border-radius: 0;
+  padding: 14px 24px;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 0.2s var(--ease-metro),
+    color 0.2s var(--ease-metro),
+    border-color 0.2s var(--ease-metro),
+    transform 0.12s var(--ease-metro);
+}
+
+.m-btn:active {
+  transform: translateY(1px);
+}
+
+.m-btn-primary {
+  background: var(--lime);
+  color: #000;
+  border: 2px solid var(--lime);
+}
+
+.m-btn-primary:hover {
+  background: var(--lime-hover);
+  border-color: var(--lime-hover);
+}
+
+.m-btn-primary:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.m-btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 12px 22px;
+}
+
+.m-btn-secondary:hover {
+  color: var(--lime-ink);
+  border-color: var(--lime-ink);
+}
+
+/* Square outline icon button for the app bar */
+.m-appbar-btn {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    color 0.2s var(--ease-metro),
+    border-color 0.2s var(--ease-metro);
+}
+
+.m-appbar-btn:hover {
+  color: var(--lime-ink);
+  border-color: var(--lime-ink);
+}
+
+/* Pivot navigation */
+.m-pivot {
+  display: flex;
+  gap: clamp(18px, 2.4vw, 32px);
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 40px), transparent 100%);
+}
+
+html[dir="rtl"] .m-pivot {
+  mask-image: linear-gradient(to left, #000 0, #000 calc(100% - 40px), transparent 100%);
+}
+
+.m-pivot::-webkit-scrollbar {
+  display: none;
+}
+
+.m-pivot a {
+  color: var(--ink-muted);
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.2;
+  text-decoration: none;
+  padding-block: 4px;
+  transition: color 0.2s var(--ease-metro);
+}
+
+.m-pivot a[aria-current="page"] {
+  color: var(--ink);
+}
+
+.m-pivot a:hover,
+.m-pivot a:focus-visible {
+  color: var(--lime-ink);
+  outline: 0;
+}
+
+/* Sticky pivot bar: every hub section on one row under the navbar */
+.m-pivotbar {
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  display: flex;
+  gap: 0.7em;
+  padding-block: 12px 14px;
+  background: var(--ground);
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 48px), transparent 100%);
+}
+
+html[dir="rtl"] .m-pivotbar {
+  mask-image: linear-gradient(to left, #000 0, #000 calc(100% - 48px), transparent 100%);
+}
+
+.m-pivotbar::-webkit-scrollbar {
+  display: none;
+}
+
+.m-pivotbar a {
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.25s var(--ease-metro);
+}
+
+.m-pivotbar a[aria-current="true"] {
+  color: var(--ink);
+}
+
+.m-pivotbar a:hover,
+.m-pivotbar a:focus-visible {
+  color: var(--lime-ink);
+  outline: 0;
+}
+
+/* Hub sections land below the navbar and the pivot bar when jumped to */
+.m-hub {
+  scroll-margin-top: 140px;
+}
+
+/* Tiles */
+.m-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--tile-unit));
+  grid-auto-rows: var(--tile-unit);
+  grid-auto-flow: dense;
+  gap: var(--tile-gap);
+}
+
+.m-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  border-radius: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.14s var(--ease-metro);
+  will-change: transform;
+}
+
+.m-tile:focus-visible {
+  outline: 3px solid var(--lime-ink);
+  outline-offset: 2px;
+}
+
+.m-tile--ink-dark {
+  color: #000;
+}
+
+.m-tile--magenta {
+  background: var(--magenta);
+  color: #fff;
+}
+
+/* White on magenta sits at 4.5:1, so secondary text cannot be tinted here. */
+.m-tile--magenta .m-tile__peek {
+  opacity: 1;
+}
+
+.m-tile--cobalt {
+  background: var(--cobalt);
+  color: #fff;
+}
+
+.m-tile--amber {
+  background: var(--amber);
+  color: #000;
+}
+
+.m-tile--lime {
+  background: var(--lime);
+  color: #000;
+}
+
+.m-tile--lime:hover {
+  background: var(--lime-hover);
+}
+
+.m-tile--lime:focus-visible,
+.m-btn-primary:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.m-tile--outline {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  transition:
+    transform 0.14s var(--ease-metro),
+    color 0.2s var(--ease-metro),
+    border-color 0.2s var(--ease-metro);
+}
+
+.m-tile--outline:hover {
+  color: var(--lime-ink);
+  border-color: var(--lime-ink);
+}
+
+.m-tile--image {
+  background: var(--ink-hair);
+}
+
+.m-tile__title {
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1.1;
+  overflow-wrap: break-word;
+}
+
+.m-tile--small .m-tile__title {
+  font-size: 1.375rem;
+}
+
+.m-tile--small .m-tile__label .m-tile__title {
+  font-size: 1.125rem;
+}
+
+.m-tile__peek {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.m-tile__glyph {
   position: absolute;
-  bottom: -1rem;
-  left: 0;
-  width: 6rem;
-  height: 1px;
-  background: linear-gradient(to right, hsl(var(--accent-gold)), transparent);
+  inset-inline-end: 16px;
+  bottom: 18px;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-metro);
+}
+
+.m-tile:hover .m-tile__glyph,
+.m-tile:focus-visible .m-tile__glyph {
+  opacity: 1;
+}
+
+.m-tile__img {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: top;
+  width: 100%;
+  height: 100%;
+}
+
+.m-tile__label {
+  position: relative;
+  align-self: flex-start;
+  max-width: calc(100% + 32px);
+  background: var(--ground);
+  color: var(--ink);
+  padding: 8px 12px;
+  margin: -16px;
+  margin-inline-end: 0;
+  margin-top: 0;
+}
+
+.m-tile__label .m-tile__title {
+  font-size: 1.25rem;
+}
+
+.m-tile__label .m-tile__peek {
+  margin-top: 2px;
+  color: var(--ink-muted);
+  opacity: 1;
+}
+
+/* Live tile: two faces that flip on the X axis */
+.m-live {
+  perspective: 900px;
+  padding: 0;
+}
+
+.m-live__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--ease-metro);
+}
+
+.m-live[data-flipped="true"] .m-live__inner {
+  transform: rotateX(180deg);
+}
+
+.m-live__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  backface-visibility: hidden;
+}
+
+.m-live__face--back {
+  transform: rotateX(180deg);
+}
+
+/* Panorama: a tile row that overflows horizontally with snap */
+.m-panorama {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--tile-unit);
+  grid-template-rows: repeat(2, var(--tile-unit));
+  gap: var(--tile-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: var(--page-inline);
+  padding-inline: var(--page-inline);
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-faint) transparent;
+}
+
+.m-panorama > * {
+  scroll-snap-align: start;
+}
+
+/* Hairline row divider */
+.m-hair {
+  border-top: 1px solid var(--ink-hair);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PERFORMANCE OPTIMIZATIONS
+   MOTION - one entrance, from the trailing edge
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Fade out scroll indicator on scroll */
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
+@keyframes m-glide {
+  from {
     opacity: 0;
+    transform: translateX(var(--glide-from, 48px));
   }
-}
-
-.animate-fade-out {
-  animation: fadeOut 0.3s ease-out 3s forwards;
-}
-
-@keyframes scrollCue {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: translateY(0);
-  }
-
-  50% {
+  to {
     opacity: 1;
-    transform: translateY(3px);
+    transform: translateX(0);
   }
 }
 
-.animate-scroll-cue {
-  animation: scrollCue 1.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+.m-glide {
+  --glide-from: 48px;
+  animation: m-glide 0.6s var(--ease-metro) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+html[dir="rtl"] .m-glide {
+  --glide-from: -48px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-scroll-cue {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .m-glide {
     animation: none;
   }
+
+  .m-live__inner,
+  .m-tile,
+  .m-btn {
+    transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE TILE UNIT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 639px) {
+  :root {
+    --tile-unit: calc((100vw - 2 * var(--page-inline) - var(--tile-gap)) / 2);
+  }
+
+  .m-panorama {
+    grid-template-rows: repeat(2, var(--tile-unit));
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LEGACY UTILITIES (inner pages) - flattened into the new world
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.glass,
+.glass-card {
+  background: var(--ground);
+  border: 1px solid var(--ink-hair);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.gradient-text {
+  color: var(--lime-ink);
+}
+
+.gradient-border {
+  border: 1px solid var(--ink-hair);
+}
+
+.glow-gold,
+.glow-bronze,
+.glow-gradient,
+.glow-pulse,
+.card-3d,
+.card-shine::after {
+  box-shadow: none;
+  animation: none;
+}
+
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  background: var(--lime);
+  color: #000;
+  border: 2px solid var(--lime);
+  border-radius: 0;
+  padding: 14px 24px;
+  font-size: 1.125rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: background-color 0.2s var(--ease-metro);
+}
+
+.btn-premium:hover {
+  background: var(--lime-hover);
+  border-color: var(--lime-hover);
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: 3rem;
+}
+
+.animate-fade-out {
+  animation: none;
+}
+
+.animate-scroll-cue {
+  animation: none;
+}
 }
