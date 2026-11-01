@@ -234,17 +234,14 @@ export default function NotFound() {
 
       {/* Main Content */}
       <section className="relative z-10 text-center px-4 max-w-4xl mx-auto py-20">
-        {/* Status Badge */}
+        {/* Page state */}
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease }}
-          className="inline-flex items-center gap-2 px-4 py-2 mb-10 rounded-full glass-card"
+          className="inline-flex items-center gap-2 px-0 py-2 mb-10 border-b border-text/20"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-          </span>
+          <span className="h-px w-6 bg-[hsl(var(--accent-gold))]" aria-hidden="true" />
           <span className="text-xs font-bold uppercase tracking-widest text-[hsl(var(--accent-gold))]">
             Page Not Found
           </span>

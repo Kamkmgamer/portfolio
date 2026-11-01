@@ -126,9 +126,9 @@ function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dict
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500"
+      className="surface-card group relative overflow-hidden"
     >
-      <div className="aspect-4/3 relative overflow-hidden bg-secondary/10">
+      <div className="aspect-4/3 relative overflow-hidden bg-evt-panel2">
         {demo.demo ? (
           <a
             href={demo.demo}
@@ -150,7 +150,7 @@ function DemoCard({ demo, index, dict }: { demo: Demo; index: number; dict: Dict
             <a href={demo.demo} target="_blank" rel="noopener noreferrer">
               <motion.div
                 whileHover={{ rotate: 45 }}
-                className="p-2 border border-text/10 rounded-full text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors cursor-pointer"
+                className="p-2 border border-text/10 text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors cursor-pointer"
               >
                 <ArrowUpRight className="w-5 h-5" />
               </motion.div>

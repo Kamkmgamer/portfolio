@@ -61,7 +61,7 @@ export default async function DemosPage({
   const dict = await getDictionary(locale);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="site-page pt-28 md:pt-32 pb-20 px-6">
       <div className="max-w-1800px mx-auto">
         <DemoList demos={demos} dict={dict} />
       </div>

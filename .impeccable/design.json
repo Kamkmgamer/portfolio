@@ -1,45 +1,73 @@
-{
+﻿{
   "schemaVersion": 2,
-  "generatedAt": "2026-07-24T00:00:00.000Z",
+  "generatedAt": "2026-10-26T04:55:00.000Z",
   "title": "Design System: Khalil AbdalMageed Portfolio",
   "extensions": {
     "colorMeta": {
-      "gold": {
-        "role": "primary",
-        "displayName": "Polished Gold",
-        "canonical": "hsl(42 65% 38%)",
-        "tonalRamp": ["oklch(25% 0.06 80)", "oklch(35% 0.08 80)", "oklch(45% 0.10 80)", "oklch(55% 0.11 80)", "oklch(65% 0.10 80)", "oklch(75% 0.08 80)", "oklch(85% 0.05 80)", "oklch(95% 0.02 80)"]
-      }
+      "vacuum": { "role": "dark-background", "displayName": "Vacuum", "canonical": "#0a0f16", "tonalRamp": ["#05080d", "#0a0f16", "#0e1622", "#121c2b"] },
+      "line": { "role": "measurement", "displayName": "Detector Line", "canonical": "#22374f", "tonalRamp": ["#17283a", "#22374f", "#3a5c82", "#93a7bb"] },
+      "steel": { "role": "secondary-text", "displayName": "Steel", "canonical": "#9fb0c3", "tonalRamp": ["#45566a", "#72879f", "#9fb0c3", "#e9eff6"] },
+      "track": { "role": "work-and-action", "displayName": "Signal Yellow", "canonical": "#e8b93a", "tonalRamp": ["#7d5f14", "#b18b25", "#e8b93a", "#f5d779"] },
+      "muon": { "role": "flagship-ai", "displayName": "Muon Cyan", "canonical": "#56c8e0", "tonalRamp": ["#0a6e8a", "#2ca2bd", "#56c8e0", "#b5f0fa"] },
+      "energy": { "role": "energy-readout", "displayName": "Calorimeter Red", "canonical": "#e5484d", "tonalRamp": ["#8e2228", "#b32630", "#e5484d", "#ff9a9e"] },
+      "nominal": { "role": "healthy-state", "displayName": "Nominal Green", "canonical": "#3ddc84", "tonalRamp": ["#147a4c", "#229e61", "#3ddc84", "#a5f5c7"] },
+      "print": { "role": "light-rendition", "displayName": "Publication Print", "canonical": "#f2f4f7", "tonalRamp": ["#e9edf2", "#f2f4f7", "#ffffff", "#14202e"] }
     },
     "shadows": [
-      {"name": "ambient-card", "value": "0 10px 40px -10px rgba(0, 0, 0, 0.05), 0 4px 12px -2px rgba(0, 0, 0, 0.03)", "purpose": "Raised content surfaces."}
+      { "name": "instrument-card", "value": "0 18px 50px -24px rgba(4, 10, 18, 0.55)", "purpose": "Isolated project data card." },
+      { "name": "focus-lift", "value": "0 8px 24px -14px rgba(232, 185, 58, 0.35)", "purpose": "Short feedback for decisive controls." }
     ],
     "motion": [
-      {"name": "interactive-lift", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Purposeful button and card state feedback."}
+      { "name": "event-draw", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Tracks trace from the vertex once." },
+      { "name": "ring-settle", "value": "0.9s cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Detector chrome resolves after the tracks." },
+      { "name": "isolation", "value": "opacity 0.35s ease", "purpose": "Dims the field around the selected project." }
     ],
     "breakpoints": [
-      {"name": "md", "value": "768px"}
-    ]
+      { "name": "md", "value": "768px", "purpose": "Two-column detector composition." },
+      { "name": "lg", "value": "1024px", "purpose": "Full navigation and wider readouts." }
+    ],
+    "interaction": {
+      "activeTrack": "Hover, keyboard focus, or first touch dims the field and opens its data card.",
+      "touchNavigation": "The second activation follows the project's real demo link.",
+      "reducedMotion": "Track, ring, dot, and status animations are disabled under prefers-reduced-motion."
+    }
   },
   "components": [
     {
-      "name": "Primary Button",
-      "kind": "button",
-      "refersTo": "button-primary",
-      "description": "The decisive action treatment for high-intent portfolio paths.",
-      "html": "<button class=\"ds-button-primary\">VIEW WORK</button>",
-      "css": ".ds-button-primary { background: #a07a22; border: 0; border-radius: 2px; color: #050505; cursor: pointer; font: 600 12px Arial, sans-serif; letter-spacing: .1em; padding: 16px 40px; text-transform: uppercase; transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1); } .ds-button-primary:hover { box-shadow: 0 12px 30px -10px rgba(184,134,11,.4); transform: translateY(-2px); } .ds-button-primary:focus-visible { outline: 2px solid #231e1a; outline-offset: 3px; }"
+      "name": "Primary action",
+      "kind": "link-button",
+      "refersTo": "primary-action",
+      "description": "Signal-yellow action with onyx text and a sharp 2px edge.",
+      "html": "<a class=\"bg-evt-track text-evt-on-track\">SEE WHAT I'VE BUILT</a>",
+      "css": ".primary-action { background: #e8b93a; color: #0a0f16; border-radius: 2px; }"
+    },
+    {
+      "name": "Instrument panel",
+      "kind": "panel",
+      "refersTo": "instrument-panel",
+      "description": "Flat detector surface with a hairline measurement border.",
+      "html": "<section class=\"instr-panel\">...</section>",
+      "css": ".instr-panel { background: #0e1622; border: 1px solid #22374f; }"
+    },
+    {
+      "name": "Event display",
+      "kind": "interactive-diagram",
+      "refersTo": "src/components/EventDisplay.tsx",
+      "description": "Decorative SVG geometry plus real HTML anchor hit targets for six projects.",
+      "html": "<div role=\"group\" aria-label=\"...\"><svg aria-hidden=\"true\">...</svg><a ... /></div>",
+      "css": ".evt-card { width: min(248px, 72%); border: 1px solid var(--evt-line); }"
     }
   ],
   "narrative": {
-    "northStar": "The Gold Standard",
-    "overview": "A composed bilingual portfolio that makes premium web craft feel calm, legible, and materially considered.",
-    "keyCharacteristics": ["Warm gold-and-onyx identity", "Editorial display hierarchy", "Precise composed controls", "Equivalent LTR and RTL care"],
+    "northStar": "The Event Display",
+    "overview": "A bilingual portfolio where real projects radiate from a scientific collision display and can be isolated as evidence.",
+    "keyCharacteristics": ["Vacuum-blue-black run rendition", "Semantic yellow/cyan/red/green accents", "Archivo plus IBM Plex data voice", "Equivalent LTR and RTL interaction"],
     "rules": [
-      {"name": "The Solid Voice Rule", "body": "Text emphasis uses a single solid color, weight, or scale.", "section": "colors"},
-      {"name": "The Quiet Depth Rule", "body": "A surface earns elevation through hierarchy or interaction.", "section": "elevation"}
+      { "name": "One accent, one meaning", "body": "Yellow is work and action, cyan is flagship AI, red is energy, and green is nominal state.", "section": "colors" },
+      { "name": "Evidence before decoration", "body": "The event display, project routes, subsystem rows, and data panels carry the experience.", "section": "layout" },
+      { "name": "Isolation is an affordance", "body": "Selecting a track dims the field and exposes the project's data without hiding the route.", "section": "interaction" }
     ],
-    "dos": ["Do use smooth, meaningful movement.", "Do keep image composition stable during hover states."],
-    "donts": ["Don't use decorative gradient text.", "Don't use thick colored side stripes, bouncy motion, or image zoom hover effects."]
+    "dos": ["Keep SVG geometry decorative and expose interaction through real anchors.", "Keep focus, touch, RTL, and reduced-motion behavior equivalent."],
+    "donts": ["Don't use generic gradients or decorative glass.", "Don't turn the journey into identical icon cards or hide route names from touch and keyboard users."]
   }
 }

@@ -47,7 +47,7 @@ export default async function OffersPage({
   const dict = await getDictionary(locale);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="site-page pt-28 md:pt-32 pb-20 px-6">
       <div className="max-w-1800px mx-auto">
         <OfferList offers={offers} dict={dict} />
       </div>

@@ -31,7 +31,7 @@ export default function OfferList({ offers, dict }: OfferListProps) {
 
       <motion.div
         layout
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
       >
         {offers.map((offer, index) => (
           <OfferCard key={offer.id} offer={offer} index={index} />
@@ -50,9 +50,9 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500 flex flex-col h-full"
+      className="surface-card group relative overflow-hidden flex flex-col h-full"
     >
-      <div className="aspect-4/3 relative overflow-hidden">
+      <div className="aspect-4/3 relative overflow-hidden bg-evt-panel2">
         <Image
           src={offer.image}
           alt={offer.title}
@@ -63,7 +63,7 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60" />
       </div>
 
-      <div className="p-8 flex flex-col grow">
+      <div className="p-6 md:p-7 flex flex-col grow">
         <div className="mb-4">
           <h3 className="text-3xl font-display mb-2">{offer.title}</h3>
           <p className="text-[hsl(var(--accent-gold))] font-mono text-lg">

@@ -1,0 +1,207 @@
+{
+  "title": "Choose the visual world",
+  "question": "The roll assigned Token Grammar. Keep it, take an alternate, or re-roll. (No image generator on this machine, so the build runs code-led whichever you choose.)",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Token Grammar",
+      "kicker": "THE ROLL",
+      "lineage": "the code editor's syntax-highlight grammar, promoted to a whole editorial design system",
+      "thesis": "Khalil colors interfaces for a living — so the portfolio itself is typed like code. Every element carries a lexer's role: labels as comments, titles as definitions, quotes as strings, actions as keywords. The color system stops decorating and starts meaning.",
+      "palette": [
+        "#f6f3ec",
+        "#20242b",
+        "#a03e6d",
+        "#1f6f6b",
+        "#8a8579"
+      ],
+      "materials": [
+        "token-colored typography",
+        "hairline grammar rules",
+        "tabular metadata"
+      ],
+      "viewport": "A working editor surface, not a hero: the newest shipped interface fragment is the open document, the statement about Khalil set around it as tokenized text — comment labels, keyword actions — cursor blinking at the work, not the name.",
+      "risk": "One hairline from a fake terminal: if tokens decorate instead of typing real content, the grammar collapses into gimmick.",
+      "raised": [
+        {
+          "from": "challenger-j-card",
+          "raise": "Timed to the margin — every index entry carries tabular metadata (year, stack, role) right-ruled like a tracklist's running times."
+        },
+        {
+          "from": "challenger-filmstrip",
+          "raise": "Frame-accurate artifacts — every motion or visual artifact is bound to the exact element that earned it; no generic filters."
+        },
+        {
+          "from": "challenger-daylight",
+          "raise": "One continuous section — the page reads as a single ruled strip with tabular time stamps and annotations pinned to structure."
+        },
+        {
+          "from": "challenger-arcade",
+          "raise": "Palette law — the keyword accent is reserved with legal restraint; decorative layers are togglable capability layers, off under reduced motion."
+        }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "The Diff",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "git diff and patch notation",
+      "thesis": "Every project ships as a diff: additions and deletions, before and after, impact written in the exact notation this audience reads all day.",
+      "palette": [
+        "#f5f4f0",
+        "#1f2428",
+        "#12693c",
+        "#b42318",
+        "#6e7781"
+      ],
+      "materials": [
+        "+/− gutters",
+        "line numbers",
+        "patch headers"
+      ],
+      "viewport": "One big honest diff as the first viewport: the before state on one side, Khalil's shipped after on the other, the +lines telling the story of what changed.",
+      "risk": "Diff motifs are a known dev-portfolio device — effective, and also the direction many runs in this category land on."
+    },
+    {
+      "id": "challenger-saul-bass",
+      "label": "Bass Title Sequence",
+      "verdict": "competitive",
+      "lineage": "Saul Bass cut-paper title sequences",
+      "thesis": "The portfolio as a timed title sequence: flat saturated fields, cut-paper symbols, one idea per card, and scroll scrubs the reel.",
+      "palette": [
+        "#c8451f",
+        "#141210",
+        "#efe7d3"
+      ],
+      "materials": [
+        "cut-paper silhouettes",
+        "jittering hand line"
+      ],
+      "viewport": "A full-bleed burnt-orange card: a black paper shape building the product's name, credits ranked as timed cards, one idea per screen.",
+      "case": "Holds identification — unforgettable and profoundly anti-template. Loses clarity: one-idea-per-card fights dense bilingual case-study content.",
+      "risk": "Sequence pacing burdens a content-heavy portfolio; bilingual type must be cut twice.",
+      "hero": "https://impeccable.style/worlds/cards/posters-covers-sleeves-saul-bass-title-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/posters-covers-sleeves-saul-bass-title.webp"
+    },
+    {
+      "id": "challenger-collider",
+      "label": "Event Display",
+      "verdict": "competitive",
+      "lineage": "particle-detector event displays",
+      "thesis": "One central event — the practice — radiating tracks: projects, writing, and demos curving out through detector layers; pick a track and the rest dim.",
+      "palette": [
+        "#0a0e15",
+        "#54718c",
+        "#e0b23c",
+        "#43b3a4"
+      ],
+      "materials": [
+        "curved tracks",
+        "concentric rings",
+        "calorimeter bars"
+      ],
+      "viewport": "The frozen collision: the hero event held still, tracks labeled by discipline, confidence written as line weight, one track already isolated.",
+      "case": "Holds identification — distinctive and technically credible. Loses clarity: editorial content needs metaphor scaffolding where token grammar maps with zero translation loss.",
+      "risk": "Metaphor load on real content; WebGL weight on a bilingual site.",
+      "hero": "https://impeccable.style/worlds/cards/scientific-notation-particle-detector-event-display-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/scientific-notation-particle-detector-event-display.webp"
+    },
+    {
+      "id": "challenger-j-card",
+      "label": "Mixtape J-Card",
+      "verdict": "declined",
+      "lineage": "hand-lettered cassette inlay cards",
+      "palette": [
+        "#f2efe6",
+        "#2b3f8c",
+        "#c0102f"
+      ],
+      "materials": [
+        "ballpoint caps",
+        "lined inlay stock"
+      ],
+      "case": "Fuses poorly: founders and agencies do not live in cassette ephemera.",
+      "kept": "Running-time metadata ruled tight to the margin.",
+      "hero": "https://impeccable.style/worlds/cards/vernacular-ephemera-cassette-j-card-hero.webp"
+    },
+    {
+      "id": "challenger-filmstrip",
+      "label": "16mm Bloom",
+      "verdict": "declined",
+      "lineage": "hand-processed 16mm film",
+      "palette": [
+        "#141210",
+        "#a8a29a",
+        "#c96f2a"
+      ],
+      "materials": [
+        "silver emulsion",
+        "edge-code stamps"
+      ],
+      "case": "Wear and scratch aesthetics contradict the polished-craft product truth.",
+      "kept": "Frame-accurate artifacts, never generic filters.",
+      "hero": "https://impeccable.style/worlds/cards/cinema-cinematography-editing-hand-processed-film-bloom-hero.webp"
+    },
+    {
+      "id": "challenger-daylight",
+      "label": "Daylight Section",
+      "verdict": "declined",
+      "lineage": "architectural daylight section drawings",
+      "palette": [
+        "#f1ece2",
+        "#26241f",
+        "#c49a3c",
+        "#5a6c86"
+      ],
+      "materials": [
+        "limewash ground",
+        "poché section cuts"
+      ],
+      "case": "The architects' world, not this audience's daily reading.",
+      "kept": "The one-continuous-section page with tabular time stamps.",
+      "hero": "https://impeccable.style/worlds/cards/architecture-inhabitable-space-daylight-section-hero.webp"
+    },
+    {
+      "id": "challenger-arcade",
+      "label": "CRT Arcade",
+      "verdict": "declined",
+      "lineage": "phosphor arcade screens",
+      "palette": [
+        "#0d0d10",
+        "#f2c14e",
+        "#3ddc84",
+        "#e86a17"
+      ],
+      "materials": [
+        "fat luminous pixels",
+        "scanline gaps"
+      ],
+      "case": "Phosphor-near-black is exactly the AI-portfolio rut; a strict tile grid fights editorial density.",
+      "kept": "Palette law and togglable capability layers.",
+      "hero": "https://impeccable.style/worlds/cards/medium-native-crt-arcade-pixel-glow-hero.webp"
+    }
+  ],
+  "reroll": {
+    "registers": [
+      "safer",
+      "bolder"
+    ]
+  },
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "The portfolio every web developer ships: hero with name and role, service cards, work grid, testimonial, contact — executed impeccably.",
+    "palette": [
+      "#ffffff",
+      "#111827",
+      "#2563eb"
+    ],
+    "materials": [
+      "clean grid",
+      "product photography"
+    ],
+    "viewport": "Name, role, two CTAs, featured project just below.",
+    "risk": "Indistinguishable from the competition by design."
+  },
+  "steer": true
+}

@@ -66,6 +66,20 @@
         "quote": "Khalil did an outstanding job designing and developing my website. He is extremely talented, professional, and detail-oriented. The entire process was smooth, and he delivered exactly what I was looking for. Communication was clear and timely, and he went above and beyond to make sure everything was perfect. I highly recommend him to anyone looking for high-quality work. Thank you again for the amazing job!"
       }
     },
+    "instrument": {
+      "status": "Available for new projects",
+      "openProject": "Open project",
+      "hint": "Hover a track to isolate a project",
+      "subsystems": "Who I help",
+      "runLog": "Run log",
+      "transmission": "Transmission",
+      "datasets": "Data sets",
+      "records": "records",
+      "articles": "articles",
+      "endLog": "End of run",
+      "basedIn": "Based in Cairo, Egypt",
+      "legend": { "title": "Legend", "tracks": "Projects", "muons": "AI work", "energy": "Energy", "stack": "Stack" }
+    },
     "exploreWork": "What I've Built",
     "exploreWorkSubtitle": "Real work, real proof.",
     "viewCaseStudies": "Case Studies",
@@ -79,6 +93,9 @@
     "title": "Projects",
     "description": "Explore Khalil AbdalMageed's portfolio of web development projects. AI app interfaces, SaaS features, and product demos built with React, Next.js, and TypeScript.",
     "viewPastOffers": "View Past Offers",
+    "ossEyebrow": "OPEN SOURCE",
+    "ossHeading": "Contributions",
+    "ossDescription": "Selected open-source work I contribute to beyond my own products.",
     "eyebrow": "Portfolio",
     "heading": "Selected",
     "headingItalic": "Works",

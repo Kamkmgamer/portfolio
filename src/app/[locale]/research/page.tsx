@@ -60,7 +60,7 @@ export default async function ResearchPage({
   }
 
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
+    <main className="site-page pt-28 md:pt-32 pb-20 px-6 relative overflow-hidden">
       <div className="fixed inset-0 -z-10">
         <div className="absolute top-0 right-0 w-800px h-800px bg-[hsl(var(--accent-gold))]/5 rounded-full blur-100px translate-x-1/3 -translate-y-1/3" />
         <div className="absolute bottom-0 left-0 w-600px h-600px bg-[hsl(var(--accent-bronze))]/5 rounded-full blur-80px -translate-x-1/3 translate-y-1/3" />

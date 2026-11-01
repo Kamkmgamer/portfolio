@@ -1,9 +1,9 @@
 import React from "react";
 import type { Metadata } from "next";
 import ProjectList from "@/components/ProjectList";
-import { prisma } from "@/lib/db";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/lib/i18n/server";
+import { projects as portfolioProjects } from "@/data/projects";
 
 export const revalidate = 3600;
 
@@ -48,21 +48,10 @@ export default async function ProjectsPage({
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
-  let projects: Awaited<ReturnType<typeof prisma.project.findMany>> = [];
-  try {
-    projects = await prisma.project.findMany({
-      orderBy: {
-        id: "desc",
-      },
-    });
-  } catch (error) {
-    console.error("Failed to fetch projects:", error);
-  }
-
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
+    <main className="site-page pt-28 md:pt-32 pb-20 px-6">
       <div className="max-w-1800px mx-auto">
-        <ProjectList projects={projects} dict={dict} />
+        <ProjectList projects={portfolioProjects} dict={dict} />
 
         <div className="mt-20 flex justify-center">
           <a

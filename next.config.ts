@@ -33,6 +33,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'odoocdn.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'hoy17gy8fx.ufs.sh',
+      },
     ],
   },
   poweredByHeader: false,

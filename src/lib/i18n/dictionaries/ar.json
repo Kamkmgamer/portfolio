@@ -66,6 +66,20 @@
         "quote": "Khalil did an outstanding job designing and developing my website. He is extremely talented, professional, and detail-oriented. The entire process was smooth, and he delivered exactly what I was looking for. Communication was clear and timely, and he went above and beyond to make sure everything was perfect. I highly recommend him to anyone looking for high-quality work. Thank you again for the amazing job!"
       }
     },
+    "instrument": {
+      "status": "متاح لمشاريع جديدة",
+      "openProject": "افتح المشروع",
+      "hint": "مرر فوق المسار لعزل المشروع",
+      "subsystems": "من أساعد",
+      "runLog": "سجل التشغيل",
+      "transmission": "الإرسال",
+      "datasets": "مجموعات البيانات",
+      "records": "سجلات",
+      "articles": "مقالات",
+      "endLog": "نهاية التشغيل",
+      "basedIn": "مقيم في القاهرة، مصر",
+      "legend": { "title": "المفتاح", "tracks": "المشاريع", "muons": "أعمال الذكاء الاصطناعي", "energy": "الطاقة", "stack": "التقنيات" }
+    },
     "exploreWork": "اللي عملته",
     "exploreWorkSubtitle": "شغل حقيقي، دليل حقيقي.",
     "viewCaseStudies": "دراسات حالة",
@@ -79,6 +93,9 @@
     "title": "المشاريع",
     "description": "استكشف معرض مشاريع تطوير الويب لخليل عبد المجيد. واجهات تطبيقات الذكاء الاصطناعي وميزات SaaS وعروض توضيحية للمنتجات مبنية بـ React وNext.js وTypeScript.",
     "viewPastOffers": "عرض العروض السابقة",
+    "ossEyebrow": "مفتوح المصدر",
+    "ossHeading": "مساهمات",
+    "ossDescription": "أعمال مختارة أساهم فيها ضمن مشاريع مفتوحة المصدر خارج منتجاتي الخاصة.",
     "eyebrow": "المعرض",
     "heading": "أعمال",
     "headingItalic": "مختارة",

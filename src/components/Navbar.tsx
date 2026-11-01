@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence, cubicBezier, useScroll } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { DynamicThemeToggle as ThemeToggle } from "@/lib/dynamic-imports";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Locale, Dictionary } from "@/lib/i18n";
@@ -21,8 +21,6 @@ const links: NavLink[] = [
   { labelKey: "caseStudies", href: "/case-studies" },
   { labelKey: "demos", href: "/demos" },
 ];
-
-const ease = cubicBezier(0.22, 1, 0.36, 1);
 
 const useActiveHash = (ids: string[]) => {
   const [active, setActive] = React.useState<string | null>(null);
@@ -60,6 +58,17 @@ const useActiveHash = (ids: string[]) => {
   return active;
 };
 
+function BrandMark() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="10.5" stroke="var(--evt-line-strong)" strokeWidth="1.25" strokeDasharray="42 8" />
+      <circle cx="12" cy="12" r="6" stroke="var(--evt-line)" strokeWidth="1.25" strokeDasharray="22 6" />
+      <circle cx="12" cy="12" r="2" fill="var(--evt-track)" />
+      <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="var(--evt-line-strong)" strokeWidth="1" />
+    </svg>
+  );
+}
+
 interface NavbarProps {
   locale: Locale;
   dict: Dictionary;
@@ -70,22 +79,20 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
   const menuId = "mobile-nav-menu";
   const backdropId = "mobile-nav-backdrop";
   const toggleBtnRef = React.useRef<HTMLButtonElement | null>(null);
-
-  const { scrollY } = useScroll();
-  const [hasScrolled, setHasScrolled] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
-    return scrollY.on("change", (y) => {
-      setHasScrolled(y > 50);
-    });
-  }, [scrollY]);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const activeHash = useActiveHash(
     links.map((l) => l.href).filter((h) => h.startsWith("#")),
   );
   const pathname = usePathname();
 
-  const toggleMenu = () => setIsOpen((v) => !v);
   const closeMenu = () => setIsOpen(false);
 
   React.useEffect(() => {
@@ -169,47 +176,31 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
   };
 
   return (
-    <motion.nav
+    <nav
       aria-label="Main"
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${hasScrolled ? "py-2" : "py-4"
-        }`}
+      className="instrument fixed top-0 left-0 right-0 z-50 font-instr-sans transition-colors duration-300"
+      style={{
+        background: scrolled ? "color-mix(in srgb, var(--evt-bg) 92%, transparent)" : "transparent",
+        borderBottom: `1px solid ${scrolled ? "var(--evt-line)" : "transparent"}`,
+      }}
     >
-      <motion.div
-        className="absolute inset-0 -z-10"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: hasScrolled ? 1 : 0,
-          backdropFilter: hasScrolled
-            ? "blur(20px) saturate(180%)"
-            : "blur(0px)",
-        }}
-        transition={{ duration: 0.3 }}
-        style={{
-          background: hasScrolled ? "var(--glass-bg)" : "transparent",
-          borderBottom: hasScrolled
-            ? "1px solid var(--glass-border)"
-            : "1px solid transparent",
-        }}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 md:h-[4.5rem] flex items-center justify-between gap-4">
         <Link
           href={`/${locale}`}
-          className="group relative inline-flex items-center gap-2 text-2xl sm:text-3xl font-display tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 rounded"
+          className="group inline-flex items-center gap-3 rounded-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--evt-track)] focus-visible:outline-offset-3"
         >
-          <span
-            className="relative text-[hsl(var(--accent-gold))]"
-          >
-            Khalil
+          <BrandMark />
+          <span className="font-instr-display font-extrabold text-lg tracking-[-0.01em] text-evt-ink">
+            {locale === "ar" ? "خليل" : "Khalil"}
+            <span className="hidden sm:inline font-instr-mono font-medium text-[0.625rem] tracking-[0.22em] uppercase text-evt-steel ms-2.5 align-middle">
+              ABDALMAGEED
+            </span>
           </span>
           <span className="sr-only">{dict.nav.home}</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-3">
-          <div className="flex items-center gap-1 rounded-full glass-card px-2 py-1.5">
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex items-center gap-5">
             {links.map((item) => {
               const isActive = getAriaCurrent(item.href) === "page";
               return (
@@ -217,54 +208,35 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
                   key={item.href}
                   href={`/${locale}${item.href}`}
                   aria-current={isActive ? "page" : undefined}
-                  className="relative group px-4 py-2 rounded-full text-sm font-medium text-text/70 hover:text-text outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent-gold))] focus-visible:ring-offset-2 transition-colors duration-200"
+                  className={`instr-label group relative py-1 transition-colors duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--evt-track)] focus-visible:outline-offset-3 ${
+                    isActive ? "text-evt-track" : "text-evt-steel hover:text-evt-ink"
+                  }`}
                 >
-                  <span className="relative z-10 uppercase tracking-widest text-[0.7rem] font-semibold">
-                    {dict.nav[item.labelKey]}
-                  </span>
-
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.span
-                        layoutId="active-nav-pill"
-                        className="absolute inset-0 rounded-full bg-linear-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-gold))]/5 to-transparent"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3, ease }}
-                      />
-                    )}
-                  </AnimatePresence>
-
-                  <span className="pointer-events-none absolute left-4 right-4 bottom-1 h-0.5 origin-left scale-x-0 group-hover:scale-x-100 bg-linear-to-r from-[hsl(var(--accent-gold))] to-transparent transition-transform duration-300 rounded-full" />
+                  {dict.nav[item.labelKey]}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute inset-x-0 -bottom-0.5 h-0.5 bg-evt-track origin-center transition-transform duration-200 rtl:origin-right ${
+                      isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
+                  />
                 </Link>
               );
             })}
           </div>
 
-          <motion.div
-            className="ml-2 p-1 rounded-full glass-card"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <LanguageSwitcher currentLocale={locale} />
-          </motion.div>
+          <span className="w-px h-5 bg-evt-line" aria-hidden="true" />
 
-          <motion.div
-            className="p-1 rounded-full glass-card"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher currentLocale={locale} />
             <ThemeToggle />
-          </motion.div>
+          </div>
         </div>
 
-        <motion.button
+        <button
           ref={toggleBtnRef}
           type="button"
-          onClick={toggleMenu}
-          whileTap={{ scale: 0.95 }}
-          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl glass-card text-text/80 hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition-colors duration-200"
+          onClick={() => setIsOpen((v) => !v)}
+          className="md:hidden inline-flex h-10 w-10 items-center justify-center border border-evt-line-strong text-evt-ink hover:border-evt-track hover:text-evt-track transition-colors duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--evt-track)] focus-visible:outline-offset-2"
           aria-label="Toggle mobile menu"
           aria-expanded={isOpen}
           aria-controls={menuId}
@@ -276,19 +248,14 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
                 initial={{ rotate: -90, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="h-6 w-6"
+                transition={{ duration: 0.15 }}
+                className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
               </motion.svg>
             ) : (
               <motion.svg
@@ -296,23 +263,18 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
                 initial={{ rotate: 90, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="h-6 w-6"
+                transition={{ duration: 0.15 }}
+                className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 7h16M4 12h16M4 17h16" />
               </motion.svg>
             )}
           </AnimatePresence>
-        </motion.button>
+        </button>
       </div>
 
       <AnimatePresence>
@@ -323,93 +285,58 @@ const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
               aria-hidden
               onClick={closeMenu}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.2, ease } }}
-              exit={{ opacity: 0, transition: { duration: 0.2, ease } }}
-              className="md:hidden fixed inset-0 z-70 bg-black/20 backdrop-blur-sm"
+              animate={{ opacity: 1, transition: { duration: 0.15 } }}
+              exit={{ opacity: 0, transition: { duration: 0.15 } }}
+              className="md:hidden fixed inset-0 z-[-1] bg-black/30"
             />
 
             <motion.div
               id={menuId}
-              role="menu"
               aria-label="Mobile navigation"
-              initial={{ y: -20, opacity: 0, scale: 0.95 }}
-              animate={{
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                transition: { duration: 0.3, ease },
-              }}
-              exit={{
-                y: -20,
-                opacity: 0,
-                scale: 0.95,
-                transition: { duration: 0.2, ease },
-              }}
-              className="md:hidden fixed top-[env(safe-area-inset-top)] left-0 right-0 z-80 pt-20 px-4"
+              initial={{ y: -12, opacity: 0 }}
+              animate={{ y: 0, opacity: 1, transition: { duration: 0.2 } }}
+              exit={{ y: -12, opacity: 0, transition: { duration: 0.15 } }}
+              className="md:hidden fixed top-[calc(env(safe-area-inset-top)+4rem)] left-0 right-0 px-4"
+              style={{ background: "transparent" }}
             >
-              <div className="rounded-3xl glass-card shadow-2xl overflow-hidden">
-                <div className="flex flex-col gap-1 p-4">
-                  {links.map((item, index) => {
+              <div className="instr-panel shadow-[0_24px_60px_-30px_rgba(4,10,18,0.6)]">
+                <div className="flex flex-col py-2">
+                  {links.map((item) => {
                     const isActive = getAriaCurrent(item.href) === "page";
                     return (
-                      <motion.div
+                      <Link
                         key={item.href}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05, duration: 0.3 }}
+                        href={`/${locale}${item.href}`}
+                        aria-current={isActive ? "page" : undefined}
+                        onClick={closeMenu}
+                        className={`flex items-center justify-between px-5 py-3.5 border-b border-evt-line last:border-b-0 text-base font-semibold transition-colors duration-150 ${
+                          isActive ? "text-evt-track" : "text-evt-ink hover:bg-evt-panel2"
+                        }`}
                       >
-                        <Link
-                          href={`/${locale}${item.href}`}
-                          role="menuitem"
-                          aria-current={isActive ? "page" : undefined}
-                          onClick={closeMenu}
-                          className={`relative flex items-center gap-3 rounded-2xl px-4 py-4 text-lg font-semibold tracking-wide transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${isActive
-                            ? "bg-linear-to-r from-blue-500/10 via-cyan-500/10 to-emerald-500/10 text-gray-900 dark:text-white"
-                            : "text-text/80 hover:bg-black/5 dark:hover:bg-white/5"
-                            }`}
-                        >
-                          {dict.nav[item.labelKey]}
-                          {isActive && (
-                            <motion.span
-                              layoutId="mobile-active-indicator"
-                              className="ml-auto inline-block h-2 w-2 rounded-full bg-linear-to-r from-blue-500 via-cyan-500 to-emerald-500"
-                            />
-                          )}
-                        </Link>
-                      </motion.div>
+                        {dict.nav[item.labelKey]}
+                        {isActive && (
+                          <span className="inline-block w-2 h-2 rounded-full bg-evt-track" aria-hidden="true" />
+                        )}
+                      </Link>
                     );
                   })}
+                </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: links.length * 0.05, duration: 0.3 }}
-                    className="mt-2 pt-4 flex items-center justify-between rounded-2xl px-4 py-4 border-t border-gray-200/50 dark:border-white/10"
-                  >
-                    <span className="text-base font-semibold text-text/80">
-                      {dict.common.language}
-                    </span>
-                    <LanguageSwitcher currentLocale={locale} directToggle />
-                  </motion.div>
+                <div className="flex items-center justify-between px-5 py-3.5 border-t border-evt-line">
+                  <span className="instr-label text-evt-steel">{dict.common.language}</span>
+                  <LanguageSwitcher currentLocale={locale} directToggle />
+                </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: (links.length + 1) * 0.05, duration: 0.3 }}
-                    className="flex items-center justify-between rounded-2xl px-4 py-4 border-t border-gray-200/50 dark:border-white/10"
-                  >
-                    <span className="text-base font-semibold text-text/80">
-                      {dict.common.theme}
-                    </span>
-                    <ThemeToggle />
-                  </motion.div>
+                <div className="flex items-center justify-between px-5 py-3.5 border-t border-evt-line">
+                  <span className="instr-label text-evt-steel">{dict.common.theme}</span>
+                  <ThemeToggle />
                 </div>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </nav>
   );
 };
 

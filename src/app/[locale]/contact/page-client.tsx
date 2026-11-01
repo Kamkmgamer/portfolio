@@ -83,7 +83,7 @@ export default function ContactPage({
   if (!dict) return null;
 
   return (
-    <main className="min-h-screen pt-24 pb-20 px-6 max-w-7xl mx-auto relative overflow-hidden">
+    <main className="site-page pt-28 md:pt-32 pb-20 px-6 max-w-7xl mx-auto relative overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
         <div className="flex flex-col justify-center">
           <motion.div
@@ -298,7 +298,7 @@ function ContactItem({
       transition={{ delay, duration: 0.5 }}
       className="flex items-center gap-6 group cursor-pointer"
     >
-      <div className="w-12 h-12 rounded-full border border-text/10 flex items-center justify-center text-text/60 group-hover:border-[hsl(var(--accent-gold))] group-hover:text-[hsl(var(--accent-gold))] transition-all duration-300">
+      <div className="w-12 h-12 border border-text/10 flex items-center justify-center text-text/60 group-hover:border-[hsl(var(--accent-gold))] group-hover:text-[hsl(var(--accent-gold))] transition-all duration-300">
         {icon}
       </div>
       <div>
@@ -315,7 +315,7 @@ function SocialLink({ href, icon }: { href: string; icon: React.ReactNode }) {
   return (
     <a
       href={href}
-      className="w-12 h-12 flex items-center justify-center border border-text/10 rounded-full hover:bg-[hsl(var(--accent-gold))] hover:text-white hover:border-transparent transition-all duration-300 text-text/60"
+      className="w-12 h-12 flex items-center justify-center border border-text/10 hover:bg-[hsl(var(--accent-gold))] hover:text-white hover:border-transparent transition-all duration-300 text-text/60"
     >
       {icon}
     </a>

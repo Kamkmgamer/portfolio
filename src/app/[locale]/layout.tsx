@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, DM_Sans, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic } from 'next/font/google';
+import { Playfair_Display, DM_Sans, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic, Archivo, IBM_Plex_Sans, IBM_Plex_Mono, Cairo } from 'next/font/google';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
@@ -39,6 +39,42 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   variable: '--font-sans-ar',
   subsets: ['arabic'],
   weight: ['300', '400', '500', '600', '700'],
+  display: 'optional',
+  preload: true,
+  adjustFontFallback: true,
+});
+
+const archivo = Archivo({
+  variable: '--font-archivo',
+  subsets: ['latin'],
+  weight: ['500', '600', '700', '800', '900'],
+  display: 'optional',
+  preload: true,
+  adjustFontFallback: true,
+});
+
+const plexSans = IBM_Plex_Sans({
+  variable: '--font-plex-sans',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'optional',
+  preload: true,
+  adjustFontFallback: true,
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: '--font-plex-mono',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'optional',
+  preload: true,
+  adjustFontFallback: true,
+});
+
+const cairo = Cairo({
+  variable: '--font-cairo',
+  subsets: ['arabic'],
+  weight: ['600', '700', '800', '900'],
   display: 'optional',
   preload: true,
   adjustFontFallback: true,
@@ -85,13 +121,13 @@ export async function generateMetadata({
       'خليل ماجد', 'خليل عبد الماجد', 'خليل عبدالماجد',
       'Web Developer', 'React Developer', 'Next.js Developer',
       'Frontend Engineer', 'UI/UX Designer', 'Portfolio',
-      'Restaurant Website Developer', 'Ecommerce Website Developer',
+      'AI App Interface Developer', 'SaaS Feature Developer',
       'JavaScript', 'TypeScript',
       'Web Developer Cairo', 'Web Developer Egypt', 'React Developer Cairo',
       'Next.js Developer Egypt', 'Frontend Developer Cairo', 'Freelance Web Developer Cairo',
       'Website Developer Cairo', 'Website Developer Egypt', 'Egypt Web Developer',
-      'Cairo Web Developer', 'Restaurant Website Cairo', 'Ecommerce Website Egypt',
-      'مطور ويب القاهرة', 'مصمم مواقع مصر', 'مطور مواقع مطاعم',
+      'Cairo Web Developer', 'AI Product Demos', 'SaaS Interfaces',
+      'مطور ويب القاهرة', 'مصمم مواقع مصر', 'مطور تطبيقات الذكاء الاصطناعي',
     ],
     referrer: 'origin-when-cross-origin',
     creator: 'Khalil AbdalMageed',
@@ -139,8 +175,6 @@ export async function generateMetadata({
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };
 
 export default async function LocaleLayout({
@@ -190,7 +224,7 @@ export default async function LocaleLayout({
           'https://www.linkedin.com/in/kamkm-gamer/',
         ],
         jobTitle: 'Web Developer',
-        description: 'Khalil AbdalMageed (also spelled Khalil Mageed, Khalil Majeed, or Khalil AbdalMajeed) is a web developer based in Cairo, Egypt, specializing in restaurant websites, ecommerce stores, and local business web solutions.',
+        description: 'Khalil AbdalMageed (also spelled Khalil Mageed, Khalil Majeed, or Khalil AbdalMajeed) is a web developer based in Cairo, Egypt, specializing in AI app interfaces, product demos, and SaaS features built with Next.js and TypeScript.',
         nationality: { '@type': 'Country', name: 'Sudan' },
         knowsLanguage: ['en', 'ar'],
         worksFor: {
@@ -213,7 +247,7 @@ export default async function LocaleLayout({
         '@type': 'LocalBusiness',
         '@id': 'https://www.khalil.mageed.net/#business',
         name: 'Khalil AbdalMageed Web Development',
-        description: 'Professional web development services in Cairo, Egypt. Specializing in restaurant websites, ecommerce stores, and business websites built with Next.js and React.',
+        description: 'Professional web development services in Cairo, Egypt. Specializing in AI app interfaces, product demos, and SaaS features built with Next.js and TypeScript.',
         url: 'https://www.khalil.mageed.net',
         telephone: '+20-15-00-4055-67',
         email: 'khalil@khalil.mageed.net',
@@ -244,8 +278,8 @@ export default async function LocaleLayout({
 
   const fontClasses =
     locale === 'ar'
-      ? `${notoNaskhArabic.variable} ${ibmPlexArabic.variable} ${dmSans.variable}`
-      : `${playfair.variable} ${dmSans.variable}`;
+      ? `${notoNaskhArabic.variable} ${ibmPlexArabic.variable} ${dmSans.variable} ${archivo.variable} ${plexSans.variable} ${plexMono.variable} ${cairo.variable}`
+      : `${playfair.variable} ${dmSans.variable} ${archivo.variable} ${plexSans.variable} ${plexMono.variable}`;
 
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>

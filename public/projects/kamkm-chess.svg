@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kamkm Chess project preview</title>
+  <desc id="desc">AI CHESS</desc>
+  <rect width="1200" height="900" fill="#f4f1ea"/>
+  <rect x="54" y="54" width="1092" height="792" fill="#ebe7de" stroke="#171717" stroke-width="2"/>
+  <path d="M54 764h1092" stroke="#2d7dd2" stroke-width="22"/>
+  <circle cx="1048" cy="152" r="48" fill="#2d7dd2" opacity=".16"/>
+  <circle cx="1048" cy="152" r="18" fill="#2d7dd2"/>
+  <text x="104" y="178" font-family="Arial, sans-serif" font-size="22" letter-spacing="5" fill="#5c5a55">PROJECT / PREVIEW</text>
+  <text x="104" y="470" font-family="Georgia, serif" font-size="72" fill="#171717">Kamkm Chess</text>
+  <text x="108" y="530" font-family="Arial, sans-serif" font-size="24" letter-spacing="4" fill="#5c5a55">AI CHESS</text>
+  <text x="104" y="742" font-family="monospace" font-size="20" fill="#5c5a55">KAMKMGAMER / GITHUB</text>
+</svg>

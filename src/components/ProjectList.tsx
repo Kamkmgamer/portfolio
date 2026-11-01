@@ -4,11 +4,22 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { Project } from "@prisma/client";
 import { Dictionary } from "@/lib/i18n";
 
+type PortfolioProject = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  video?: string | null;
+  tags: string[];
+  github?: string | null;
+  demo?: string | null;
+  category: string;
+};
+
 interface ProjectListProps {
-  projects: Project[];
+  projects: PortfolioProject[];
   dict: Dictionary;
 }
 
@@ -23,6 +34,19 @@ export default function ProjectList({ projects, dict }: ProjectListProps) {
     filter === dict.projects.all
       ? projects
       : projects.filter((p) => p.tags?.includes(filter));
+
+  const portfolioProjects = filteredProjects.filter((project) => project.category !== "OSS Contribution");
+  const ossProjects = filteredProjects.filter((project) => project.category === "OSS Contribution");
+
+  const renderProjects = (items: PortfolioProject[]) => (
+    <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <AnimatePresence>
+        {items.map((project, index) => (
+          <ProjectCard key={project.id} project={project} index={index} dict={dict} />
+        ))}
+      </AnimatePresence>
+    </motion.div>
+  );
 
   return (
     <>
@@ -65,21 +89,27 @@ export default function ProjectList({ projects, dict }: ProjectListProps) {
         </div>
       </div>
 
-      <motion.div
-        layout
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-      >
-        <AnimatePresence>
-          {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} dict={dict} />
-          ))}
-        </AnimatePresence>
-      </motion.div>
+      {renderProjects(portfolioProjects)}
+
+      {ossProjects.length > 0 && (
+        <section className="mt-28" aria-labelledby="oss-heading">
+          <div className="mb-10 max-w-2xl">
+            <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase block mb-4">
+              {dict.projects.ossEyebrow}
+            </span>
+            <h2 id="oss-heading" className="text-4xl md:text-6xl font-display leading-none">
+              {dict.projects.ossHeading}
+            </h2>
+            <p className="mt-5 text-text/60 max-w-xl">{dict.projects.ossDescription}</p>
+          </div>
+          {renderProjects(ossProjects)}
+        </section>
+      )}
     </>
   );
 }
 
-function ProjectCard({ project, index, dict }: { project: Project; index: number; dict: Dictionary }) {
+function ProjectCard({ project, index, dict }: { project: PortfolioProject; index: number; dict: Dictionary }) {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -114,7 +144,7 @@ function ProjectCard({ project, index, dict }: { project: Project; index: number
       {project.demo && (
         <div className="absolute z-10 inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <span className="px-6 py-3 border border-white/30 text-white uppercase tracking-widest text-xs backdrop-blur-md hover:bg-white hover:text-black transition-all">
-            {dict.projects.viewCaseStudy}
+          {dict.projects.viewCaseStudy}
           </span>
         </div>
       )}
@@ -128,9 +158,9 @@ function ProjectCard({ project, index, dict }: { project: Project; index: number
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-secondary/5 border border-white/5 overflow-hidden hover:border-[hsl(var(--accent-gold))]/30 transition-colors duration-500"
+      className="surface-card group relative overflow-hidden"
     >
-      <div className="aspect-4/3 relative overflow-hidden bg-secondary/10">
+      <div className="aspect-4/3 relative overflow-hidden bg-evt-panel2">
         {project.demo ? (
           <a
             href={project.demo}
@@ -145,14 +175,14 @@ function ProjectCard({ project, index, dict }: { project: Project; index: number
         )}
       </div>
 
-      <div className="p-8">
+      <div className="p-6 md:p-7">
         <div className="flex justify-between items-start mb-4">
-          <h3 className="text-3xl font-display">{project.title}</h3>
-          {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer">
+          <h3 className="text-2xl font-display">{project.title}</h3>
+          {(project.demo || project.github) && (
+            <a href={project.demo || project.github || "#"} target="_blank" rel="noopener noreferrer">
               <motion.div
                 whileHover={{ rotate: 45 }}
-                className="p-2 border border-text/10 rounded-full text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors cursor-pointer"
+                className="p-2 border border-text/10 text-text/50 group-hover:text-[hsl(var(--accent-gold))] group-hover:border-[hsl(var(--accent-gold))] transition-colors cursor-pointer"
               >
                 <ArrowUpRight className="w-5 h-5" />
               </motion.div>

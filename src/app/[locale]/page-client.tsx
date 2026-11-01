@@ -1,23 +1,38 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import {
-  ArrowDown,
-  Building2,
-  ExternalLink,
-  Quote,
-  ShoppingCart,
-  Star,
-  UtensilsCrossed,
-} from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import EventDisplay from "@/components/EventDisplay";
 import JsonLd from "@/components/seo/JsonLd";
 import { Locale, Dictionary } from "@/lib/i18n";
 import { buildLocalizedAbsoluteUrl } from "@/lib/seo";
 
 const hasArabicScript = (value: string) => /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(value);
+
+/* Authored-content counts; keep in sync with content directories and src/data. */
+const COUNTS = { projects: 6, caseStudies: 6, articles: 7, demos: 12 } as const;
+const FIRST_YEAR = 2018;
+
+const STACK_LAYERS = ["Next.js", "TypeScript", "AI APIs", "SaaS"];
+
+function ArcGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" className={className} fill="none" aria-hidden="true">
+      <path d="M10 2a8 8 0 0 1 6.9 4" stroke="var(--evt-track)" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M2.6 12.5A8 8 0 0 1 2 10" stroke="var(--evt-line-strong)" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="10" cy="10" r="1.6" fill="var(--evt-track)" />
+    </svg>
+  );
+}
+
+function ArrowGlyph({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 18 18" className={className} fill="none" aria-hidden="true">
+      <path d="M2 9h12M9 4l5 5-5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function Home({
   params,
@@ -25,50 +40,6 @@ export default function Home({
   params: Promise<{ locale: Locale }>;
 }) {
   const reduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-
-  const heroImageY = useTransform(
-    scrollY,
-    [0, 700],
-    reduceMotion ? [0, 0] : [0, -90],
-  );
-  const heroImageScale = useTransform(
-    scrollY,
-    [0, 700],
-    reduceMotion ? [1, 1] : [1, 1.08],
-  );
-  const heroTextY = useTransform(
-    scrollY,
-    [0, 700],
-    reduceMotion ? [0, 0] : [0, 28],
-  );
-  const blobGoldY = useTransform(
-    scrollY,
-    [0, 900],
-    reduceMotion ? [0, 0] : [0, -140],
-  );
-  const blobBronzeY = useTransform(
-    scrollY,
-    [0, 900],
-    reduceMotion ? [0, 0] : [0, 110],
-  );
-  const whoHelpGlowY = useTransform(
-    scrollY,
-    [200, 1400],
-    reduceMotion ? [0, 0] : [0, -80],
-  );
-  const exploreGlowY = useTransform(
-    scrollY,
-    [800, 2000],
-    reduceMotion ? [0, 0] : [0, 90],
-  );
-
-  const slowFloat = reduceMotion
-    ? undefined
-    : {
-        y: [0, -10, 0],
-        rotate: [0, 1.5, 0],
-      };
   const [locale, setLocale] = React.useState<Locale>("en");
   const [dict, setDict] = React.useState<Dictionary | null>(null);
 
@@ -82,27 +53,20 @@ export default function Home({
   }, [params]);
 
   if (!dict) return null;
+
+  const instr = dict.home.instrument;
+  const nav = dict.nav;
   const localizedHomepageUrl = buildLocalizedAbsoluteUrl(locale);
+  const name = locale === "ar" ? "خليل" : "Khalil";
 
   const testimonial = dict.home.testimonial.review;
   const rating = Number(testimonial.rating);
   const showHandle = testimonial.handle && testimonial.handle !== testimonial.name;
   const quoteDirection = hasArabicScript(testimonial.quote) ? "rtl" : "ltr";
   const identityDirection = hasArabicScript(`${testimonial.name} ${testimonial.company}`) ? "rtl" : "ltr";
-  const isQuoteRtl = quoteDirection === "rtl";
-  const isIdentityRtl = identityDirection === "rtl";
-  const testimonialLabels =
-    isQuoteRtl
-      ? {
-          outOf: "نجوم",
-          websiteLabel: "الموقع",
-          sourceLabel: "المنصة",
-        }
-      : {
-          outOf: "Stars",
-          websiteLabel: "Website",
-          sourceLabel: "Platform",
-        };
+  const labels = locale === "ar"
+    ? { outOf: "نجوم", websiteLabel: "الموقع", sourceLabel: "المنصة" }
+    : { outOf: "Stars", websiteLabel: "Website", sourceLabel: "Platform" };
 
   const jsonLdData = {
     "@context": "https://schema.org",
@@ -113,525 +77,336 @@ export default function Home({
     inLanguage: locale,
   };
 
+  const reveal = (delay = 0) =>
+    reduceMotion
+      ? {}
+      : {
+          initial: { opacity: 0, y: 14 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true, margin: "-60px" },
+          transition: { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] as const },
+        };
+
+  const subsystems = [
+    {
+      title: dict.home.whoIHelpRestaurantsTitle,
+      desc: dict.home.whoIHelpRestaurantsDesc,
+      cta: dict.home.whoIHelpRestaurantsCta,
+      href: `/${locale}/demos`,
+    },
+    {
+      title: dict.home.whoIHelpEcommerceTitle,
+      desc: dict.home.whoIHelpEcommerceDesc,
+      cta: dict.home.viewCaseStudiesCta,
+      href: `/${locale}/case-studies`,
+    },
+    {
+      title: dict.home.whoIHelpLocalTitle,
+      desc: dict.home.whoIHelpLocalDesc,
+      cta: dict.home.whoIHelpLocalCta,
+      href: `/${locale}/projects`,
+    },
+  ];
+
+  const statItems = [
+    { value: String(COUNTS.projects), label: nav.projects },
+    { value: String(COUNTS.caseStudies), label: nav.caseStudies },
+    { value: String(COUNTS.articles), label: instr.articles },
+    { value: String(COUNTS.demos), label: nav.demos },
+  ];
+
+  const legendItems = [
+    { label: instr.legend.tracks, value: COUNTS.projects, color: "var(--evt-track)" },
+    { label: instr.legend.muons, value: 2, color: "var(--evt-muon)" },
+    { label: instr.legend.energy, value: 3, color: "var(--evt-energy)" },
+  ];
+
   return (
     <>
       <JsonLd data={jsonLdData} />
-      <main className="min-h-screen pt-24 pb-20 overflow-hidden">
-        <section className="relative min-h-[90vh] flex items-center justify-center px-6 pb-24">
-          <div className="relative z-10 max-w-7xl mx-auto w-full">
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-10">
-              <motion.div
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-64 h-64 md:w-80 md:h-80 lg:w-80 lg:h-80 mx-auto lg:mx-0 lg:mr-4 rounded-full overflow-hidden border-4 border-[hsl(var(--accent-gold))]/30 shadow-2xl shrink-0"
-                style={{ y: heroImageY, scale: heroImageScale }}
-              >
-                <motion.div
-                  animate={slowFloat}
-                  transition={{ duration: 10, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src="https://ik.imagekit.io/gtnmxyt2d/khalil-portfolio/image.png?tr=w-320,h-320,q-85"
-                    alt="Khalil Abd Almageed"
-                    width={320}
-                    height={320}
-                    className="object-cover w-full h-full"
-                    priority
-                    fetchPriority="high"
-                    sizes="(max-width: 768px) 256px, 320px"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
-                </motion.div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-                className="text-center lg:text-left max-w-lg"
-                style={{ y: heroTextY }}
-              >
-                <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-semibold leading-[0.95] text-text mb-4">
-                  {dict.home.title} <br />
-                  <span className="text-[hsl(var(--accent-gold))] italic pr-4">
-                    Khalil
+      <main className="instrument min-h-screen font-instr-sans bg-evt-bg text-evt-ink pt-20 md:pt-24">
+        {/* ── THE EVENT ─────────────────────────────────────────────────── */}
+        <section className="relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-8 pb-0 md:pt-10 grid lg:grid-cols-[1.02fr_1fr] gap-12 lg:gap-8 items-center">
+            <div>
+              <h1 className="font-instr-display font-extrabold uppercase leading-[0.94] tracking-[-0.02em] text-[clamp(3.2rem,7.5vw,5.75rem)]">
+                <span className="block text-evt-ink">{name}</span>
+                <span className="mt-3 flex items-center gap-3">
+                  <span className="inline-block h-px w-10 bg-evt-track" aria-hidden="true" />
+                  <span className="font-instr-mono text-evt-track text-[clamp(0.95rem,1.8vw,1.3rem)] font-medium tracking-[0.08em] normal-case">
+                    {dict.home.subtitle}
                   </span>
-                </h1>
-
-                <motion.span
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="block text-lg md:text-xl font-display text-text/60 mb-8"
-                >
-                  {dict.home.subtitle}
-                </motion.span>
-
-                <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/70 leading-relaxed font-medium">
-                  {dict.home.description}
-                </p>
-                <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-text/70 leading-relaxed mb-10 font-medium">
-                  {dict.home.descriptionExtended}
-                </p>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.5 }}
-                  className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center lg:justify-start"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Link
-                      href={`/${locale}/projects`}
-                      className="btn-premium w-full sm:w-auto text-center inline-block"
-                    >
-                      <span>{dict.home.viewWork}</span>
-                    </Link>
-                  </motion.div>
-
-                  <Link
-                    href={`/${locale}/contact`}
-                    className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500 w-full sm:w-auto"
-                  >
-                    <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text px-4">
-                      {dict.home.getInTouch}
-                    </span>
-                  </Link>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-
-          <motion.div
-            className="absolute top-[10%] right-[10%] w-[30vh] h-[30vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent blur-[100px] pointer-events-none"
-            style={{ y: blobGoldY }}
-            animate={
-              reduceMotion
-                ? undefined
-                : { scale: [1, 1.08, 1], opacity: [0.8, 1, 0.85] }
-            }
-            transition={{ duration: 12, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-[10%] left-[10%] w-[40vh] h-[40vh] rounded-full bg-linear-to-tr from-[hsl(var(--accent-bronze))]/10 to-transparent blur-[100px] pointer-events-none"
-            style={{ y: blobBronzeY }}
-            animate={
-              reduceMotion
-                ? undefined
-                : { scale: [1, 1.1, 1], opacity: [0.75, 1, 0.8] }
-            }
-            transition={{ duration: 14, repeat: Infinity, repeatType: "mirror", ease: "easeInOut", delay: 1.5 }}
-          />
-
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[hsl(var(--accent-gold))] z-20 animate-fade-out">
-            <span className="text-xs uppercase tracking-widest">{dict.home.scroll}</span>
-            <ArrowDown className="w-4 h-4 animate-scroll-cue" />
-          </div>
-        </section>
-
-        {/* Who I Help Section */}
-        <section className="py-24 px-6 relative overflow-hidden">
-          <motion.div
-            className="absolute inset-0 bg-linear-to-b from-[hsl(var(--accent-gold))]/3 to-transparent pointer-events-none"
-            style={{ y: whoHelpGlowY }}
-            animate={
-              reduceMotion ? undefined : { opacity: [0.7, 1, 0.8] }
-            }
-            transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
-                {dict.home.whoIHelpTitle}
-              </h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Restaurants */}
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies/restaurant-websites-tiers`}
-                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-gold))]/20 bg-[hsl(var(--accent-gold))]/5 hover:border-[hsl(var(--accent-gold))]/50 hover:bg-[hsl(var(--accent-gold))]/10 transition-all duration-500"
-                  >
-                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-gold))]">
-                      <UtensilsCrossed className="w-8 h-8" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-gold))]">
-                      {dict.home.whoIHelpRestaurantsTitle}
-                    </h3>
-                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
-                      {dict.home.whoIHelpRestaurantsDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
-                      <span>{dict.home.whoIHelpRestaurantsCta}</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              {/* Ecommerce */}
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies/ecommerce-websites-tiers`}
-                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-bronze))]/20 bg-[hsl(var(--accent-bronze))]/5 hover:border-[hsl(var(--accent-bronze))]/50 hover:bg-[hsl(var(--accent-bronze))]/10 transition-all duration-500"
-                  >
-                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-bronze))]">
-                      <ShoppingCart className="w-8 h-8" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-bronze))]">
-                      {dict.home.whoIHelpEcommerceTitle}
-                    </h3>
-                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
-                      {dict.home.whoIHelpEcommerceDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-bronze))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
-                      <span>{dict.home.whoIHelpEcommerceCta}</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              {/* Local Businesses */}
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -6 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/demos`}
-                    className="group flex flex-col flex-1 p-8 border border-[hsl(var(--accent-champagne))]/20 bg-[hsl(var(--accent-champagne))]/5 hover:border-[hsl(var(--accent-champagne))]/50 hover:bg-[hsl(var(--accent-champagne))]/10 transition-all duration-500"
-                  >
-                    <div className="mb-6 w-10 h-10 flex items-center justify-center text-[hsl(var(--accent-champagne))]">
-                      <Building2 className="w-8 h-8" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-2xl font-display font-semibold mb-3 text-[hsl(var(--accent-champagne))]">
-                      {dict.home.whoIHelpLocalTitle}
-                    </h3>
-                    <p className="text-text/60 leading-relaxed mb-6 flex-1">
-                      {dict.home.whoIHelpLocalDesc}
-                    </p>
-                    <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 text-sm font-semibold uppercase tracking-widest mt-auto">
-                      <span>{dict.home.whoIHelpLocalCta}</span>
-                      <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-32 bg-secondary/5 relative overflow-hidden">
-          <motion.div
-            className="absolute -top-24 right-[8%] w-[32vh] h-[32vh] rounded-full bg-linear-to-br from-[hsl(var(--accent-champagne))]/12 to-transparent blur-[110px] pointer-events-none"
-            style={{ y: exploreGlowY }}
-            animate={
-              reduceMotion ? undefined : { scale: [1, 1.12, 1], opacity: [0.6, 0.9, 0.7] }
-            }
-            transition={{ duration: 18, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-4xl md:text-6xl font-display font-semibold mb-20 text-center">
-              <span className="italic text-text/50 font-medium">{dict.home.journeyTitle.split(' ')[0]}</span>{" "}
-              {dict.home.journeyTitle.split(' ').slice(1).join(' ')}
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <ExperienceCard
-                year={dict.home.experience.freelance.year}
-                role={dict.home.experience.freelance.role}
-                company={dict.home.experience.freelance.company}
-                desc={dict.home.experience.freelance.desc}
-              />
-              <ExperienceCard
-                year={dict.home.experience.fullstack.year}
-                role={dict.home.experience.fullstack.role}
-                company={dict.home.experience.fullstack.company}
-                desc={dict.home.experience.fullstack.desc}
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-32 px-6 relative overflow-hidden">
-          <motion.div
-            className="absolute inset-x-[15%] top-10 h-40 rounded-full bg-linear-to-r from-[hsl(var(--accent-gold))]/10 via-[hsl(var(--accent-champagne))]/8 to-[hsl(var(--accent-bronze))]/10 blur-[90px] pointer-events-none"
-            animate={
-              reduceMotion ? undefined : { opacity: [0.55, 0.9, 0.65], scale: [1, 1.04, 1] }
-            }
-            transition={{ duration: 16, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-          />
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-              className="text-center mb-14"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-semibold">
-                {dict.home.testimonial.title}
-              </h2>
-            </motion.div>
-
-            <motion.article
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="relative border border-[hsl(var(--accent-gold))]/20 bg-linear-to-br from-white/70 via-white/50 to-[hsl(var(--accent-gold))]/8 p-8 md:p-12 shadow-[0_30px_100px_-60px_rgba(0,0,0,0.45)]"
-            >
-              <div className="absolute right-8 top-8 text-[hsl(var(--accent-gold))]/30 rtl:right-auto rtl:left-8">
-                <Quote className="w-12 h-12" strokeWidth={1.25} />
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 mb-8">
-                <div className="flex items-center gap-1 text-[hsl(var(--accent-gold))]">
-                  {Array.from({ length: rating }, (_, index) => (
-                    <Star key={index} className="w-5 h-5 fill-current" strokeWidth={1.5} />
-                  ))}
-                </div>
-                <span
-                  dir="ltr"
-                  className="text-sm uppercase tracking-[0.25em] text-text/70 font-semibold"
-                >
-                  {testimonial.rating} {testimonialLabels.outOf}
                 </span>
+              </h1>
+
+              <div className="mt-5 inline-flex items-center gap-2.5 border-b border-evt-line-strong pb-2">
+                <span className="evt-status-dot inline-block w-2 h-2 bg-evt-nominal" aria-hidden="true" />
+                <span className="instr-label text-evt-steel">{instr.status}</span>
               </div>
 
-              <p
-                className={`text-xl md:text-2xl leading-relaxed text-text/80 max-w-3xl ${
-                  isQuoteRtl ? "text-right ml-auto" : "text-left mr-auto"
-                }`}
-              >
-                <span dir={quoteDirection}>
-                  &ldquo;{testimonial.quote}&rdquo;
-                </span>
+              <p className="mt-8 max-w-[54ch] text-[1.0625rem] md:text-lg leading-relaxed text-evt-steel">
+                {dict.home.description} {dict.home.descriptionExtended}
               </p>
 
-              <div
-                className={`mt-10 pt-8 border-t border-[hsl(var(--accent-gold))]/15 flex flex-col gap-6 md:items-end md:justify-between ${
-                  isQuoteRtl ? "md:flex-row-reverse" : "md:flex-row"
-                }`}
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+                <Link
+                  href={`/${locale}/projects`}
+                  className="group inline-flex items-center justify-center gap-3 bg-evt-track px-8 py-4 instr-label font-semibold text-evt-on-track hover:-translate-y-0.5 transition-transform duration-200"
+                >
+                  {dict.home.viewWork}
+                  <ArrowGlyph className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" />
+                </Link>
+                <Link
+                  href={`/${locale}/contact`}
+                  className="inline-flex items-center justify-center border border-evt-line-strong px-8 py-4 instr-label font-semibold text-evt-ink hover:border-evt-track hover:text-evt-track transition-colors duration-200"
+                >
+                  {dict.home.getInTouch}
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="grid items-start gap-5 md:grid-cols-[minmax(0,1fr)_11.5rem]">
+                <EventDisplay openLabel={instr.openProject} groupLabel={dict.home.exploreWork} />
+                <aside className="instr-panel p-5" aria-label={instr.legend.title}>
+                  <div className="instr-label text-evt-steel">{instr.legend.title}</div>
+                  <div className="mt-5 space-y-4">
+                    {legendItems.map((item) => (
+                      <div key={item.label} className="flex items-center justify-between gap-3">
+                        <span className="inline-flex min-w-0 items-center gap-2 instr-label text-evt-steel">
+                          <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: item.color }} aria-hidden="true" />
+                          <span className="truncate">{item.label}</span>
+                        </span>
+                        <span className="font-instr-mono text-sm font-semibold text-evt-ink" dir="ltr">{item.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-5 border-t border-evt-line pt-4">
+                    <div className="instr-label text-evt-steel">{instr.legend.stack}</div>
+                    <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                      {STACK_LAYERS.map((layer) => (
+                        <span key={layer} className="font-instr-mono text-[0.6875rem] text-evt-steel">{layer}</span>
+                      ))}
+                    </div>
+                  </div>
+                </aside>
+              </div>
+              <p className="mt-3 text-center instr-label text-evt-steel">{instr.hint}</p>
+            </div>
+          </div>
+
+          {/* run stat strip */}
+          <div className="mt-10 md:mt-12 border-y border-evt-line">
+            <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex flex-wrap items-center gap-x-8 gap-y-2">
+              <span className="font-instr-mono text-[0.8125rem] font-semibold tracking-[0.06em] text-evt-track" dir="ltr">
+                RUN {FIRST_YEAR} — {new Date().getFullYear()}
+              </span>
+              {statItems.map((item) => (
+                <span key={item.label} className="inline-flex items-baseline gap-2">
+                  <span className="font-instr-mono text-[0.8125rem] font-semibold text-evt-ink" dir="ltr">
+                    {item.value.padStart(2, "0")}
+                  </span>
+                  <span className="instr-label text-evt-steel">{item.label}</span>
+                </span>
+              ))}
+              <span className="ms-auto instr-label text-evt-steel">{instr.basedIn}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* ── DETECTOR SUBSYSTEMS (who I help) ──────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-6 lg:px-10 py-24 md:py-32">
+          <motion.h2 {...reveal()} className="font-instr-display font-bold text-3xl md:text-[2.75rem] leading-tight">
+            {instr.subsystems}
+          </motion.h2>
+
+          <motion.div {...reveal(0.08)} className="instr-panel mt-12">
+            {subsystems.map((row) => (
+              <Link
+                key={row.title}
+                href={row.href}
+                className="group grid md:grid-cols-[minmax(180px,0.85fr)_1.6fr_auto] items-center gap-3 md:gap-8 px-6 md:px-8 py-7 hover:bg-evt-panel2 transition-colors duration-200 border-b border-evt-line last:border-b-0"
               >
-                <div className="grid gap-3 text-sm text-left" dir="ltr">
+                <span className="flex items-center gap-3.5">
+                  <ArcGlyph className="w-5 h-5 shrink-0 opacity-70 group-hover:opacity-100 transition-opacity" />
+                  <span className="font-instr-display font-bold text-lg leading-snug group-hover:text-evt-track transition-colors duration-200">
+                    {row.title}
+                  </span>
+                </span>
+                <span className="text-[0.9375rem] leading-relaxed text-evt-steel">{row.desc}</span>
+                <span className="inline-flex items-center gap-2 instr-label font-semibold text-evt-track">
+                  {row.cta}
+                  <ArrowGlyph className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
+                </span>
+              </Link>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* ── RUN LOG (journey) ─────────────────────────────────────────── */}
+        <section className="max-w-5xl mx-auto px-6 lg:px-10 py-24 md:py-32">
+          <motion.h2 {...reveal()} className="font-instr-display font-bold text-3xl md:text-[2.75rem] leading-tight">
+            {instr.runLog}
+          </motion.h2>
+
+          <motion.div {...reveal(0.08)} className="relative mt-12 border-s border-evt-line-strong ms-2">
+            {[
+              dict.home.experience.freelance,
+              dict.home.experience.fullstack,
+            ].map((entry, i, arr) => (
+              <div
+                key={entry.year}
+                className={`relative ps-8 md:ps-10 ${i < arr.length - 1 ? "pb-14" : ""}`}
+              >
+                <span
+                  className="absolute top-1.5 -start-[5px] w-2.5 h-2.5 rounded-full border border-evt-track bg-evt-bg"
+                  aria-hidden="true"
+                />
+                <div className="font-instr-mono text-sm font-semibold text-evt-track" dir="ltr">
+                  {entry.year}
+                </div>
+                <h3 className="mt-2 font-instr-display font-bold text-xl md:text-2xl">{entry.role}</h3>
+                <div className="mt-1 instr-label text-evt-steel">{entry.company}</div>
+                <p className="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-evt-steel">{entry.desc}</p>
+              </div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* ── TRANSMISSION (testimonial) ────────────────────────────────── */}
+        <section className="max-w-5xl mx-auto px-6 lg:px-10 py-24 md:py-32">
+          <motion.h2 {...reveal()} className="font-instr-display font-bold text-3xl md:text-[2.75rem] leading-tight">
+            {instr.transmission}
+          </motion.h2>
+
+          <motion.article {...reveal(0.08)} className="instr-panel mt-12">
+            <div className="flex flex-wrap items-center justify-end gap-4 px-6 md:px-10 py-4 border-b border-evt-line">
+              <span className="flex items-center gap-3" aria-label={`${testimonial.rating} ${labels.outOf}`}>
+                <span className="flex gap-1" aria-hidden="true" dir="ltr">
+                  {Array.from({ length: rating }, (_, i) => (
+                    <span key={i} className="block w-[5px] h-4 bg-evt-energy" />
+                  ))}
+                </span>
+                <span className="font-instr-mono text-[0.8125rem] font-semibold text-evt-ink" dir="ltr">
+                  {testimonial.rating}/{rating}
+                </span>
+              </span>
+            </div>
+
+            <div className="px-6 md:px-10 py-10">
+              <p className="max-w-[64ch] text-lg md:text-[1.375rem] leading-relaxed text-evt-ink">
+                <span dir={quoteDirection}>&ldquo;{testimonial.quote}&rdquo;</span>
+              </p>
+
+              <div className="mt-10 pt-6 border-t border-evt-line flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <div className="grid gap-2" dir="ltr">
                   <a
                     href={`https://${testimonial.website}`}
                     target="_blank"
                     rel="noreferrer"
-                    dir="ltr"
-                  className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
+                    className="group inline-flex items-center gap-3"
                   >
-                    <span>{testimonialLabels.websiteLabel}: {testimonial.website}</span>
-                    <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
+                    <span className="instr-label text-evt-steel">{labels.websiteLabel}</span>
+                    <span className="font-instr-mono text-[0.8125rem] text-evt-ink group-hover:text-evt-track transition-colors">
+                      {testimonial.website} <ArrowGlyph className="inline-block h-3.5 w-3.5 align-[-0.15em]" />
+                    </span>
                   </a>
                   <a
                     href={testimonial.platformUrl}
                     target="_blank"
                     rel="noreferrer"
-                    dir="ltr"
-                  className="inline-flex items-center gap-2 text-[hsl(var(--accent-bronze))] hover:text-[hsl(var(--accent-gold))] transition-colors"
+                    className="group inline-flex items-center gap-3"
                   >
-                    <span>{testimonialLabels.sourceLabel}: {testimonial.platform}</span>
-                    <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
+                    <span className="instr-label text-evt-steel">{labels.sourceLabel}</span>
+                    <span className="font-instr-mono text-[0.8125rem] text-evt-ink group-hover:text-evt-track transition-colors">
+                      {testimonial.platform} <ArrowGlyph className="inline-block h-3.5 w-3.5 align-[-0.15em]" />
+                    </span>
                   </a>
                 </div>
 
-                <div
-                  dir={identityDirection}
-                  className={`md:max-w-[45%] ${isIdentityRtl ? "text-right" : "text-left"}`}
-                >
-                  <div className="text-2xl font-display font-semibold text-text">
-                    {testimonial.name}
-                  </div>
-                  <div className="mt-2 text-sm uppercase tracking-[0.2em] text-text/60">
+                <div dir={identityDirection} className="md:text-end">
+                  <div className="font-instr-mono text-sm font-semibold text-evt-ink">{testimonial.name}</div>
+                  <div className="mt-1 instr-label text-evt-steel">
                     {showHandle ? `@${testimonial.handle} / ` : ""}
                     {testimonial.company}
                   </div>
                 </div>
               </div>
-            </motion.article>
-          </div>
+            </div>
+          </motion.article>
         </section>
 
-        <section className="py-32 px-6 relative">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium">
-                {dict.home.viewCaseStudies}{" "}
-                <span className="italic text-text/50 font-semibold">
-                  & {dict.home.viewBlog}
-                </span>
-              </h2>
-              <p className="mt-4 text-text/50 text-lg max-w-xl mx-auto">
-                {dict.home.exploreWorkSubtitle}
-              </p>
+        {/* ── DATA SETS (case studies + writing) ────────────────────────── */}
+        <section className="max-w-7xl mx-auto px-6 lg:px-10 py-24 md:py-32">
+          <motion.div {...reveal()}>
+            <h2 className="font-instr-display font-bold text-3xl md:text-[2.75rem] leading-tight">
+              {instr.datasets}
+            </h2>
+            <p className="mt-3 text-evt-steel">{dict.home.exploreWorkSubtitle}</p>
+          </motion.div>
+
+          <div className="mt-12 grid lg:grid-cols-[1.3fr_1fr] gap-6">
+            <motion.div {...reveal(0.08)}>
+              <Link
+                href={`/${locale}/case-studies`}
+                className="group flex flex-col h-full instr-panel p-8 md:p-12 hover:border-evt-track transition-colors duration-200"
+              >
+                <h3 className="font-instr-display font-bold text-2xl md:text-4xl leading-tight group-hover:text-evt-track transition-colors duration-200">
+                  {dict.home.viewCaseStudies}
+                </h3>
+                <p className="mt-4 max-w-[48ch] text-evt-steel leading-relaxed">{dict.home.viewCaseStudiesDesc}</p>
+                <div className="mt-auto pt-10 flex items-end justify-between">
+                  <span className="flex items-baseline gap-2.5">
+                    <span className="font-instr-mono text-4xl font-semibold text-evt-ink" dir="ltr">06</span>
+                    <span className="instr-label text-evt-steel">{instr.records}</span>
+                  </span>
+                  <span className="inline-flex items-center gap-2 instr-label font-semibold text-evt-track">
+                    {dict.home.viewCaseStudiesCta}
+                    <ArrowGlyph className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
+                  </span>
+                </div>
+              </Link>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/case-studies`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-gold))]/30 bg-[hsl(var(--accent-gold))]/[0.04] hover:border-[hsl(var(--accent-gold))]/60 hover:bg-[hsl(var(--accent-gold))]/[0.08] transition-all duration-500 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-gold))]">
-                        {dict.home.viewCaseStudies}
-                      </h3>
-                      <p className="text-text/85 mb-8 text-lg flex-1">
-                        {dict.home.viewCaseStudiesDesc}
-                      </p>
-                      <div className="flex items-center gap-2 text-[hsl(var(--accent-gold))] group-hover:gap-4 transition-all duration-300 mt-auto">
-                        <span className="uppercase tracking-widest text-sm font-semibold">
-                          {dict.home.viewCaseStudiesCta}
-                        </span>
-                        <svg
-                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-
-              <div className="flex flex-col">
-                <motion.div
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex flex-col flex-1"
-                >
-                  <Link
-                    href={`/${locale}/blog`}
-                    className="group relative flex flex-col flex-1 p-12 border border-[hsl(var(--accent-champagne))]/35 bg-[hsl(var(--accent-champagne))]/[0.05] hover:border-[hsl(var(--accent-champagne))]/60 hover:bg-[hsl(var(--accent-champagne))]/[0.08] transition-all duration-500 cursor-pointer"
-                  >
-                    <div className="absolute inset-0 bg-linear-to-br from-[hsl(var(--accent-champagne))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative z-10 flex flex-col flex-1">
-                      <h3 className="text-3xl md:text-4xl font-display font-semibold mb-4 text-[hsl(var(--accent-champagne))]">
-                        {dict.home.viewBlog}
-                      </h3>
-                      <p className="text-text/85 mb-8 text-lg flex-1">
-                        {dict.home.viewBlogDesc}
-                      </p>
-                      <div className="flex items-center gap-2 text-[hsl(var(--accent-champagne))] group-hover:gap-4 transition-all duration-300 mt-auto">
-                        <span className="uppercase tracking-widest text-sm font-semibold">
-                          {dict.home.viewBlogCta}
-                        </span>
-                        <svg
-                          className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300 rtl:rotate-180"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-
+            <motion.div {...reveal(0.16)}>
+              <Link
+                href={`/${locale}/blog`}
+                className="group flex flex-col h-full instr-panel p-8 md:p-10 hover:border-evt-track transition-colors duration-200"
+              >
+                <h3 className="font-instr-display font-bold text-2xl md:text-3xl leading-tight group-hover:text-evt-track transition-colors duration-200">
+                  {dict.home.viewBlog}
+                </h3>
+                <p className="mt-4 text-evt-steel leading-relaxed">{dict.home.viewBlogDesc}</p>
+                <div className="mt-auto pt-10 flex items-end justify-between">
+                  <span className="flex items-baseline gap-2.5">
+                    <span className="font-instr-mono text-4xl font-semibold text-evt-ink" dir="ltr">07</span>
+                    <span className="instr-label text-evt-steel">{instr.articles}</span>
+                  </span>
+                  <span className="inline-flex items-center gap-2 instr-label font-semibold text-evt-track">
+                    {dict.home.viewBlogCta}
+                    <ArrowGlyph className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
           </div>
         </section>
+
+        {/* ── CLOSE ─────────────────────────────────────────────────────── */}
+        <footer className="border-t border-evt-line">
+          <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 flex flex-wrap items-center justify-between gap-4">
+            <span className="instr-label text-evt-steel">{instr.endLog}</span>
+            <Link
+              href={`/${locale}/contact`}
+              className="group inline-flex items-center gap-2 instr-label font-semibold text-evt-track"
+            >
+              {dict.home.getInTouch}
+              <ArrowGlyph className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180" />
+            </Link>
+            <span className="instr-label text-evt-steel">{instr.basedIn}</span>
+          </div>
+        </footer>
       </main>
     </>
-  );
-}
-
-function ExperienceCard({
-  year,
-  role,
-  company,
-  desc,
-}: {
-  year: string;
-  role: string;
-  company: string;
-  desc: string;
-}) {
-  return (
-    <div className="p-8 border border-white/10 bg-white/5 rounded-none hover:bg-[hsl(var(--accent-gold))]/5 transition-colors duration-300 group">
-      <span className="block text-xs font-mono mb-4 text-[hsl(var(--accent-gold))]">
-        {year}
-      </span>
-      <h4 className="text-2xl font-display font-semibold mb-2">{role}</h4>
-      <div className="text-sm font-bold uppercase tracking-widest mb-6 text-text/60 group-hover:text-text transition-colors">
-        {company}
-      </div>
-      <p className="text-text">{desc}</p>
-    </div>
   );
 }

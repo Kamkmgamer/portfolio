@@ -63,7 +63,7 @@ function ResearchCard({ paper, index, dict }: { paper: Research; index: number; 
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className="group relative grid grid-cols-1 lg:grid-cols-12 gap-8 p-8 lg:p-12 border-t border-text/10 hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500"
     >
-      <div className="lg:col-span-4 relative aspect-4/3 lg:aspect-auto lg:h-full overflow-hidden rounded-lg bg-secondary/5">
+      <div className="lg:col-span-4 relative aspect-4/3 lg:aspect-auto lg:h-full overflow-hidden bg-evt-panel2">
         <Image
           src={paper.image || "/file.svg"}
           alt={paper.title}
@@ -102,7 +102,7 @@ function ResearchCard({ paper, index, dict }: { paper: Research; index: number; 
             {paper.tags?.map((tag: string, i: number) => (
               <span
                 key={i}
-                className="px-3 py-1 text-[10px] uppercase tracking-widest border border-text/10 text-text/60 rounded-full"
+                className="px-3 py-1 text-[10px] uppercase tracking-widest border-b border-text/20 text-text/60"
               >
                 {tag}
               </span>
