@@ -207,6 +207,32 @@ export function getBlogPostBySlug(
   return getBlogPostsByLocale(locale).find((post) => post.slug === slug);
 }
 
+/** Posts surfaced on the blog index and home page (others stay reachable by URL). */
+export const FEATURED_POST_SLUGS = [
+  "why-claude-mythos-wont-break-cybersecurity",
+  "why-not-to-use-local-models",
+] as const;
+
+export function getFeaturedPosts(locale: Locale): BlogPost[] {
+  return getBlogPostsByLocale(locale)
+    .filter((post) => (FEATURED_POST_SLUGS as readonly string[]).includes(post.slug))
+    .sort((a, b) => b.publishedDate.getTime() - a.publishedDate.getTime());
+}
+
+/** Other featured posts to suggest at the end of an article. */
+export function getRelatedPosts(slug: string, locale: Locale, limit = 2): BlogPost[] {
+  return getFeaturedPosts(locale).filter((post) => post.slug !== slug).slice(0, limit);
+}
+
+export function formatPostDate(date: Date, locale: Locale) {
+  return date.toLocaleDateString(locale === "ar" ? "ar-EG" : "en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 // Keep backward-compatible default export
 export const blogPosts = blogPostsEn;
 

@@ -1,40 +1,45 @@
 "use client";
 
-import { Share2 } from "lucide-react";
-import React from "react";
+import { Check, Share2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 type ShareButtonProps = {
   title: string;
+  label: string;
+  copiedLabel: string;
   className?: string;
 };
 
-export default function ShareButton({ title, className }: ShareButtonProps) {
+/** Native share sheet when available, otherwise copies the URL with inline feedback. */
+export default function ShareButton({ title, label, copiedLabel, className }: ShareButtonProps) {
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (timer.current) clearTimeout(timer.current);
+  }, []);
+
   const onClick = async () => {
+    const url = window.location.href;
     try {
-      const url = window.location.href;
       if (navigator.share) {
         await navigator.share({ title, url });
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(url);
-        // Optional: simple UX feedback
-        alert("Link copied to clipboard");
+        return;
       }
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => setCopied(false), 2000);
     } catch {
-      // no-op on user cancel or failure
+      // User dismissed the share sheet or clipboard is unavailable — nothing to do.
     }
   };
 
   return (
-    <button
-      type="button"
-      className={
-        className ??
-        "inline-flex items-center gap-2 px-5 py-3 rounded-none border border-[hsl(var(--accent-gold))]/20 text-text/70 hover:text-text hover:bg-[hsl(var(--accent-gold))]/5 transition focus:outline-none focus:ring-2 focus:ring-[hsl(var(--accent-gold))] focus:ring-offset-2 dark:focus:ring-offset-black uppercase tracking-widest text-[0.7rem] font-bold"
-      }
-      onClick={onClick}
-    >
-      <Share2 className="w-4 h-4" />
-      Share
+    <button type="button" onClick={onClick} className={cn("btn btn-secondary", className)}>
+      {copied ? <Check aria-hidden="true" className="text-success" /> : <Share2 aria-hidden="true" strokeWidth={1.75} />}
+      <span aria-live="polite">{copied ? copiedLabel : label}</span>
     </button>
   );
 }

@@ -1,17 +1,14 @@
 import React from "react";
 import type { Metadata } from "next";
-import ResearchList from "@/components/ResearchList";
-import { prisma } from "@/lib/db";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/lib/i18n/server";
+import { getPapers } from "@/lib/research";
+import { EmptyState, IndexRow } from "@/components/site/cards";
+import { MetaRow, PageHeader } from "@/components/site/layout";
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
@@ -32,43 +29,52 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: `/${locale}/research`,
-      languages: {
-        en: "/en/research",
-        ar: "/ar/research",
-      },
+      languages: { en: "/en/research", ar: "/ar/research" },
     },
   };
 }
 
-export default async function ResearchPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+export default async function ResearchPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
-
-  let researchPapers: Awaited<ReturnType<typeof prisma.research.findMany>> = [];
-  try {
-    researchPapers = await prisma.research.findMany({
-      orderBy: {
-        year: "desc",
-      },
-    });
-  } catch (error) {
-    console.error("Failed to fetch research papers:", error);
-  }
+  const r = dict.research;
+  const papers = await getPapers();
 
   return (
-    <main className="site-page pt-28 md:pt-32 pb-20 px-6 relative overflow-hidden">
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-800px h-800px bg-[hsl(var(--accent-gold))]/5 rounded-full blur-100px translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-600px h-600px bg-[hsl(var(--accent-bronze))]/5 rounded-full blur-80px -translate-x-1/3 translate-y-1/3" />
-      </div>
-
-      <div className="max-w-7xl mx-auto">
-        <ResearchList researchPapers={researchPapers} dict={dict} />
-      </div>
-    </main>
+    <>
+      <PageHeader title={r.heading} lead={r.intro} />
+      <section aria-label={r.heading} className="container-site pb-[calc(var(--section-y)*0.75)]">
+        {papers.length === 0 ? (
+          <EmptyState title={r.emptyTitle} description={r.emptyBody} />
+        ) : (
+          <ul className="reveal">
+            {papers.map((paper) => (
+              <IndexRow
+                key={paper.id}
+                headingLevel="h2"
+                href={`/${locale}/research/${paper.slug}`}
+                label={[paper.year, paper.venue].filter(Boolean).join(" · ") || r.readPaper}
+                title={paper.title}
+                summary={<span className="line-clamp-3">{paper.abstract}</span>}
+                meta={
+                  <div className="flex flex-col gap-3">
+                    {paper.authors.length > 0 && <MetaRow items={paper.authors} />}
+                    {paper.tags.length > 0 && (
+                      <ul className="flex flex-wrap gap-1.5">
+                        {paper.tags.map((tag) => (
+                          <li key={tag} className="tag">
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                }
+              />
+            ))}
+          </ul>
+        )}
+      </section>
+    </>
   );
 }

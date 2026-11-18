@@ -1,13 +1,13 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  CheckCircle, XCircle, ExternalLink, ArrowRight,
-  ShoppingCart, Smartphone, Search, Zap, TrendingUp, Target, Server, DollarSign, Crown,
-} from "lucide-react";
 import { Locale } from "@/i18n.config";
+import { getDictionary } from "@/lib/i18n/server";
+import { formatPostDate, getBlogPostBySlug } from "@/lib/blogs";
+import { cn } from "@/lib/utils";
+import { ArticleHeader, READING, RelatedPosts } from "@/components/site/article";
+import { Callout, CheckList, InfoCard } from "@/components/site/layout";
+import { ButtonLink } from "@/components/site/Button";
+import { ArrowForward, ArrowOut } from "@/components/site/icons";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -55,7 +55,7 @@ type Comparison = { feature: string; two: string; five: string };
 type ChangedItem = { title: string; description: string };
 
 type PageContent = {
-  eyebrow: string; h1a: string; h1b: string; intro: string;
+  h1a: string; h1b: string; intro: string;
   badge1: string; badge2: string; badge3: string;
   demosSection: { title: string; desc: string; tier200: string; tier500: string };
   btn200rest: string; btn500rest: string; btn500ecom: string;
@@ -84,7 +84,7 @@ type PageContent = {
 };
 
 const en: PageContent = {
-  eyebrow: "Smart Investment", h1a: "What a Professional Website", h1b: "Actually Costs",
+  h1a: "What a Professional Website", h1b: "Actually Costs",
   intro: "Cheap websites are everywhere. After you see enough of them, the pattern becomes obvious: low price, weak result, then you pay again later. This is for the point where you stop asking how cheap a website can be and start asking what a proper one actually costs.",
   badge1: "Live Demos", badge2: "Honest Comparison", badge3: "Clear Guidance",
   demosSection: { title: "See the Difference Yourself", desc: "I built demos at the useful starting tiers. Open them on your phone, click around, and pay attention to how much less friction there is compared to the cheap versions.", tier200: "$200 Tier", tier500: "$500 Tier" },
@@ -132,7 +132,7 @@ const en: PageContent = {
 };
 
 const ar: PageContent = {
-  eyebrow: "استثمار ذكي", h1a: "ما التكلفة الحقيقية", h1b: "لموقع احترافي؟",
+  h1a: "ما التكلفة الحقيقية", h1b: "لموقع احترافي؟",
   intro: "المواقع الرخيصة موجودة في كل مكان. وأغلب الوقت القصة نفسها: سعر قليل، نتيجة ضعيفة، ثم تدفع مرة ثانية لاحقاً. هذا المقال للمرحلة التي تتوقف فيها عن سؤال كيف تحصل على موقع رخيص، وتبدأ تسأل: الموقع المحترم فعلاً يكلف كم؟",
   badge1: "عروض حية", badge2: "مقارنة صادقة", badge3: "توجيه واضح",
   demosSection: { title: "اكتشف الفرق بنفسك", desc: "بنيت عروضاً حية لهذه المستويات حتى لا يبقى الكلام نظرياً. افتحها على هاتفك، تصفحها، ولاحظ كيف تشعر بها، لا كيف تبدو فقط.", tier200: "مستوى 200$", tier500: "مستوى 500$" },
@@ -179,224 +179,360 @@ const ar: PageContent = {
   ctaSection: { title: "مستعد", titleItalic: "للاستثمار؟", desc: "إذا كنت تعرف بالفعل أي مستوى يناسبك، فالخطوة التالية واضحة: ابنه صح من أول مرة.", startBtn: "ابدأ من هنا", backBtn: "العودة إلى المدونة" },
 };
 
-export default function WhatAProfessionalWebsiteCostsPage({ params }: { params: Promise<{ locale: Locale }> }) {
-  const [locale, setLocale] = useState<Locale>("en");
-  const [c, setC] = useState<PageContent>(en);
-  useEffect(() => { params.then(({ locale: l }) => { setLocale(l); setC(l === "ar" ? ar : en); }); }, [params]);
+const SLUG = "what-a-professional-website-costs";
+
+const DEMOS = {
+  r200: "https://200-dollar-restaurant.vercel.app",
+  r500: "https://500-dollar-restaurant.vercel.app",
+  e500: "https://500-dollar-ecommerce-app.vercel.app",
+  r1000: "https://1000-dollar-restaurant.vercel.app",
+  e1000: "https://1000-dollar-ecommerce-app.vercel.app",
+};
+
+/** Joins a heading that the legacy copy split into two styled halves. */
+const join = (...parts: string[]) => parts.filter(Boolean).join(" ");
+/** Drops the hand-typed arrow from legacy link labels; an icon replaces it. */
+const bare = (label: string) => label.replace(/\s*[→←]\s*$/, "");
+/** "$200 - Functional" → "Functional", "200$: وظيفي" → "وظيفي". */
+const tierName = (title: string) => title.replace(/^\S+\s*[-:]\s*/, "");
+
+export default async function WhatAProfessionalWebsiteCostsPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const isAr = locale === "ar";
+  const c = isAr ? ar : en;
+  const dict = await getDictionary(locale);
+  const post = getBlogPostBySlug(SLUG, locale);
+
+  const [plusLine, ...fiveHundredRest] = c.fiveHundredGets;
+  const comparisonTitle = `${c.comparisonSection.title.replace(/\s*-\s*$/, "")}: ${c.comparisonSection.titleItalic}`;
+  const cheaper = [
+    { slug: "why-not-to-buy-cheap-websites", title: c.cheapBlog1title, desc: c.cheapBlog1desc },
+    { slug: "what-100-dollar-website-gets-you", title: c.cheapBlog2title, desc: c.cheapBlog2desc },
+  ];
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
-      <div className="max-w-7xl mx-auto">
-
-        <motion.header initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-24 text-center max-w-4xl mx-auto">
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-            <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">{c.eyebrow}</span>
-            <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-          </div>
-          <h1 className="text-5xl md:text-7xl font-display mb-8">
-            {c.h1a} <br /><span className="italic text-text/50">{c.h1b}</span>
-          </h1>
-          <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto mb-12">{c.intro}</p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge label={c.badge1} /><Badge label={c.badge2} /><Badge label={c.badge3} />
-          </div>
-        </motion.header>
-
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }} className="mb-32">
-          <div className="glass-card p-8 md:p-12 border border-[hsl(var(--accent-gold))]/20">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-display mb-6 text-center">{c.demosSection.title}</h2>
-              <p className="text-lg text-text/60 leading-relaxed mb-8 text-center">{c.demosSection.desc}</p>
-              <div className="space-y-6">
-                <div>
-                  <p className="text-sm text-text/50 uppercase tracking-widest mb-3 text-center">{c.demosSection.tier200}</p>
-                  <div className="flex flex-wrap justify-center gap-4">
-                    <a href="https://200-dollar-restaurant.vercel.app" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 px-6 py-3 border border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-300">
-                      <span className="text-sm font-semibold uppercase tracking-wider">{c.btn200rest}</span><ExternalLink className="h-4 w-4" />
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4"><span className="flex-1 h-px bg-white/10" /><span className="text-xs text-text/30 uppercase tracking-widest">vs</span><span className="flex-1 h-px bg-white/10" /></div>
-                <div>
-                  <p className="text-sm text-text/50 uppercase tracking-widest mb-3 text-center">{c.demosSection.tier500}</p>
-                  <div className="flex flex-wrap justify-center gap-4">
-                    <a href="https://500-dollar-restaurant.vercel.app" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 px-6 py-3 border border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] hover:bg-[hsl(var(--accent-gold))]/5 transition-all duration-300">
-                      <span className="text-sm font-semibold uppercase tracking-wider">{c.btn500rest}</span><ExternalLink className="h-4 w-4" />
-                    </a>
-                    <a href="https://500-dollar-ecommerce-app.vercel.app" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 px-6 py-3 border border-white/10 hover:border-white/30 transition-all duration-300">
-                      <span className="text-sm font-semibold uppercase tracking-wider text-text/70">{c.btn500ecom}</span><ExternalLink className="h-4 w-4 text-text/70" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">{c.changedSection.title} <span className="italic text-text/50">{c.changedSection.titleItalic}</span></h2>
-            <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.changedSection.desc}</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {c.whatChanged.map((item, index) => {
-              const icons = [ShoppingCart, Smartphone, Search, Server];
-              const Icon = icons[index];
-              return (
-                <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} viewport={{ once: true }} className="glass-card p-6 border border-[hsl(var(--accent-gold))]/50">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"><Icon className="h-5 w-5" /></div>
-                    <h3 className="text-lg font-display">{item.title}</h3>
-                  </div>
-                  <p className="text-sm text-text/60">{item.description}</p>
-                </motion.div>
-              );
-            })}
-          </div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} viewport={{ once: true }} className="mt-8 p-6 bg-[hsl(var(--accent-gold))]/5 border border-[hsl(var(--accent-gold))]/20 rounded-lg">
-            <p className="text-text/70 text-center"><strong className="text-[hsl(var(--accent-gold))]">{c.whyCostMore}</strong>{" "}{c.whyCostMoreBody}</p>
-          </motion.div>
-        </motion.section>
-
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">{c.comparisonSection.title}{" "}<span className="italic text-text/50">{c.comparisonSection.titleItalic}</span></h2>
-            <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.comparisonSection.desc}</p>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="glass-card p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-800/10 text-green-500"><DollarSign className="h-5 w-5" /></div>
-                <div><h3 className="text-xl font-display">{c.tier200title}</h3><p className="text-xs text-text/50">{c.tier200sub}</p></div>
-              </div>
-              <ul className="space-y-3">{c.twoHundredGets.map((item, idx) => (<li key={idx} className="flex items-start gap-3 text-sm text-text/60"><CheckCircle className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />{item}</li>))}</ul>
-              <p className="text-sm text-text/50 mt-6 pt-6 border-t border-white/10">{c.tier200footer}</p>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }} className="glass-card p-8 border-[hsl(var(--accent-gold))]/20">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"><Crown className="h-5 w-5" /></div>
-                <div><h3 className="text-xl font-display">{c.tier500title}</h3><p className="text-xs text-text/50">{c.tier500sub}</p></div>
-              </div>
-              <ul className="space-y-3">{c.fiveHundredGets.map((item, idx) => (<li key={idx} className={`flex items-start gap-3 text-sm text-text/60 ${idx === 0 ? "font-semibold text-[hsl(var(--accent-gold))]/80" : ""}`}>{idx === 0 ? <Zap className="h-4 w-4 text-[hsl(var(--accent-gold))] mt-0.5 shrink-0" /> : <CheckCircle className="h-4 w-4 text-[hsl(var(--accent-gold))] mt-0.5 shrink-0" />}{item}</li>))}</ul>
-              <p className="text-sm text-text/50 mt-6 pt-6 border-t border-white/10">{c.tier500footer}</p>
-            </motion.div>
-          </div>
-          <div className="glass-card overflow-hidden">
-            <div className="grid grid-cols-3 gap-4 p-4 border-b border-white/10 bg-white/5">
-              <div className="font-display text-text/80">{c.tableFeature}</div>
-              <div className="font-display text-green-500 text-center">{c.tableTwo}</div>
-              <div className="font-display text-[hsl(var(--accent-gold))] text-center">{c.tableFive}</div>
-            </div>
-            {c.comparison.map((row, idx) => (
-              <div key={row.feature} className={`grid grid-cols-3 gap-4 p-4 ${idx % 2 === 0 ? "bg-white/[0.02]" : ""}`}>
-                <div className="text-text/70">{row.feature}</div>
-                <div className="text-green-500/80 text-center text-sm">{row.two}</div>
-                <div className="text-[hsl(var(--accent-gold))]/80 text-center text-sm">{row.five}</div>
-              </div>
+      <article>
+        <ArticleHeader
+          backHref={`/${locale}/blog`}
+          backLabel={dict.blog.allArticles}
+          title={join(c.h1a, c.h1b)}
+          lead={c.intro}
+          meta={[
+            post?.author,
+            post && (
+              <time key="d" dateTime="2026-02-21">
+                {formatPostDate(post.publishedDate, locale)}
+              </time>
+            ),
+            post && `${post.readTime} ${dict.blog.minRead}`,
+          ]}
+        >
+          <ul className="flex flex-wrap gap-1.5">
+            {[c.badge1, c.badge2, c.badge3].map((badge) => (
+              <li key={badge} className="tag">
+                {badge}
+              </li>
             ))}
-          </div>
-        </motion.section>
+          </ul>
+        </ArticleHeader>
 
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">{c.verdictSection.title} <span className="italic text-text/50">{c.verdictSection.titleItalic}</span></h2>
-            <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.verdictSection.desc}</p>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-8">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="glass-card p-8">
-              <div className="flex items-center gap-3 mb-6"><Target className="h-5 w-5 text-green-500" /><h3 className="text-xl font-display">{c.stopAt200title}</h3></div>
-              <ul className="space-y-4">{c.stopAt200list.map((item, idx) => (<li key={idx} className="flex items-start gap-3 text-sm text-text/60"><ArrowRight className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />{item}</li>))}</ul>
-              <div className="mt-6 pt-6 border-t border-white/10"><p className="text-sm text-text/50">{c.stopAt200footer}</p></div>
-            </motion.div>
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }} className="glass-card p-8 border-[hsl(var(--accent-gold))]/20">
-              <div className="flex items-center gap-3 mb-6"><TrendingUp className="h-5 w-5 text-[hsl(var(--accent-gold))]" /><h3 className="text-xl font-display">{c.stretchTo500title}</h3></div>
-              <ul className="space-y-4">{c.stretchTo500list.map((item, idx) => (<li key={idx} className="flex items-start gap-3 text-sm text-text/60"><ArrowRight className="h-4 w-4 text-[hsl(var(--accent-gold))] mt-0.5 shrink-0" />{item}</li>))}</ul>
-              <div className="mt-6 pt-6 border-t border-white/10"><p className="text-sm text-text/50">{c.stretchTo500footer}</p></div>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">{c.nextSection.title} <span className="italic text-text/50">{c.nextSection.titleItalic}</span></h2>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div className="glass-card p-8">
-              <div className="flex items-center gap-3 mb-4"><Zap className="h-5 w-5 text-[hsl(var(--accent-gold))]" /><h3 className="text-xl font-display">{c.tier1000title}</h3></div>
-              <p className="text-sm text-text/60 leading-relaxed mb-6">{c.tier1000desc}</p>
-              <div className="flex flex-wrap gap-4">
-                <a href="https://1000-dollar-restaurant.vercel.app" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--accent-gold))] hover:underline text-sm">{c.r1000link}</a>
-                <a href="https://1000-dollar-ecommerce-app.vercel.app" target="_blank" rel="noopener noreferrer" className="text-[hsl(var(--accent-gold))] hover:underline text-sm">{c.e1000link}</a>
+        <div className="container-site">
+          <div className={READING}>
+            {/* Live demos */}
+            <Section title={c.demosSection.title} lead={c.demosSection.desc}>
+              <div className="card overflow-hidden">
+                <DemoRow label={c.demosSection.tier200}>
+                  <DemoLink href={DEMOS.r200}>{c.btn200rest}</DemoLink>
+                </DemoRow>
+                <div aria-hidden="true" className="flex items-center gap-4 px-6">
+                  <span className="h-px flex-1 bg-line" />
+                  <span className="text-sm text-muted">{isAr ? "مقابل" : "vs"}</span>
+                  <span className="h-px flex-1 bg-line" />
+                </div>
+                <DemoRow label={c.demosSection.tier500} featured>
+                  <DemoLink href={DEMOS.r500}>{c.btn500rest}</DemoLink>
+                  <DemoLink href={DEMOS.e500}>{c.btn500ecom}</DemoLink>
+                </DemoRow>
               </div>
-            </div>
-            <div className="glass-card p-8">
-              <div className="flex items-center gap-3 mb-4"><TrendingUp className="h-5 w-5 text-[hsl(var(--accent-gold))]" /><h3 className="text-xl font-display">{c.caseStudiesTitle}</h3></div>
-              <p className="text-sm text-text/60 leading-relaxed mb-6">{c.caseStudiesDesc}</p>
-              <div className="flex flex-wrap gap-4">
-                <Link href={`/${locale}/case-studies/restaurant-websites-tiers`} className="text-[hsl(var(--accent-gold))] hover:underline text-sm">{c.rCaseLink}</Link>
-                <Link href={`/${locale}/case-studies/ecommerce-websites-tiers`} className="text-[hsl(var(--accent-gold))] hover:underline text-sm">{c.eCaseLink}</Link>
+            </Section>
+
+            {/* What changes */}
+            <Section title={join(c.changedSection.title, c.changedSection.titleItalic)} lead={c.changedSection.desc}>
+              <ol className="grid gap-4 sm:grid-cols-2">
+                {c.whatChanged.map((item) => (
+                  <li key={item.title}>
+                    <InfoCard title={item.title} className="h-full">
+                      <p className="text-[0.9375rem]">{item.description}</p>
+                    </InfoCard>
+                  </li>
+                ))}
+              </ol>
+              <Callout title={c.whyCostMore} className="mt-4">
+                {c.whyCostMoreBody}
+              </Callout>
+            </Section>
+
+            {/* $200 vs $500 */}
+            <Section title={comparisonTitle} lead={c.comparisonSection.desc}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Panel footer={c.tier200footer}>
+                  <TierHead price={c.tableTwo} name={tierName(c.tier200title)} sub={c.tier200sub} />
+                  <CheckList items={c.twoHundredGets} className="mt-6 border-t border-line pt-6 text-[0.9375rem]" />
+                </Panel>
+                <Panel featured footer={c.tier500footer}>
+                  <TierHead featured price={c.tableFive} name={tierName(c.tier500title)} sub={c.tier500sub} />
+                  <div className="mt-6 border-t border-line pt-6">
+                    <p className="text-[0.9375rem] font-medium text-ink">{plusLine}</p>
+                    <CheckList items={fiveHundredRest} className="mt-3 text-[0.9375rem]" />
+                  </div>
+                </Panel>
               </div>
-            </div>
-          </div>
-        </motion.section>
 
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-          <div className="glass-card p-8 md:p-12 border border-[hsl(var(--accent-gold))]/20 text-center">
-            <h2 className="text-3xl font-display mb-6">{c.bottomLine.title}</h2>
-            <p className="text-lg text-text/60 mb-8 max-w-2xl mx-auto">{c.bottomLine.desc}</p>
-            <div className="p-6 bg-white/5 rounded-lg inline-block">
-              <p className="text-xl text-text/80"><span className="text-green-500">{c.bottomLine.two}</span><br /><span className="text-[hsl(var(--accent-gold))]">{c.bottomLine.five}</span></p>
-            </div>
-            <p className="text-text/60 mt-6">{c.bottomLine.footer}</p>
-          </div>
-        </motion.section>
+              {/* Phones: one stacked row per feature instead of a cramped three-column table. */}
+              <dl className="mt-6 divide-y divide-line overflow-hidden rounded-[1.125rem] border border-line bg-card sm:hidden">
+                {c.comparison.map((row) => (
+                  <div key={row.feature} className="px-5 py-4">
+                    <dt className="font-medium text-ink">{row.feature}</dt>
+                    <dd className="mt-2.5 grid grid-cols-2 gap-4 text-[0.9375rem] leading-snug">
+                      <span>
+                        <span className="block text-sm font-medium text-muted tabular">{c.tableTwo}</span>
+                        <span className="mt-1 block text-ink-2">{row.two}</span>
+                      </span>
+                      <span>
+                        <span className="block text-sm font-medium text-accent tabular">{c.tableFive}</span>
+                        <span className="mt-1 block text-ink">{row.five}</span>
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
 
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">{c.cheaperSection.title}{" "}<span className="italic text-text/50">{c.cheaperSection.titleItalic}</span></h2>
-            <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.cheaperSection.desc}</p>
-          </div>
-          <div className="grid lg:grid-cols-2 gap-8">
-            <Link href={`/${locale}/blog/why-not-to-buy-cheap-websites`} className="glass-card p-8 group hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500">
-              <div className="flex items-center gap-3 mb-4"><XCircle className="h-5 w-5 text-red-400" /><h3 className="text-xl font-display group-hover:text-[hsl(var(--accent-gold))] transition-colors">{c.cheapBlog1title}</h3></div>
-              <p className="text-sm text-text/60 leading-relaxed">{c.cheapBlog1desc}</p>
-              <span className="inline-flex items-center gap-2 mt-4 text-sm text-[hsl(var(--accent-gold))]">{c.readPost} <ArrowRight className="h-4 w-4" /></span>
-            </Link>
-            <Link href={`/${locale}/blog/what-100-dollar-website-gets-you`} className="glass-card p-8 group hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500">
-              <div className="flex items-center gap-3 mb-4"><Target className="h-5 w-5 text-orange-400" /><h3 className="text-xl font-display group-hover:text-[hsl(var(--accent-gold))] transition-colors">{c.cheapBlog2title}</h3></div>
-              <p className="text-sm text-text/60 leading-relaxed">{c.cheapBlog2desc}</p>
-              <span className="inline-flex items-center gap-2 mt-4 text-sm text-[hsl(var(--accent-gold))]">{c.readPost} <ArrowRight className="h-4 w-4" /></span>
-            </Link>
-          </div>
-        </motion.section>
+              <div className="mt-6 hidden overflow-x-auto rounded-[1.125rem] border border-line bg-card sm:block">
+                <table className="data-table">
+                  <caption className="sr-only">{comparisonTitle}</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">{c.tableFeature}</th>
+                      <th scope="col" className="tabular">
+                        {c.tableTwo}
+                      </th>
+                      <th scope="col" className="tabular text-accent">
+                        {c.tableFive}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {c.comparison.map((row) => (
+                      <tr key={row.feature}>
+                        <th scope="row" className={ROW_HEADER}>
+                          {row.feature}
+                        </th>
+                        <td>{row.two}</td>
+                        <td className="text-ink">{row.five}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Section>
 
-        <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center py-20">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-display mb-6">{c.ctaSection.title}{" "}<span className="italic text-text/50">{c.ctaSection.titleItalic}</span></h2>
-            <p className="text-lg text-text/60 mb-10 leading-relaxed">{c.ctaSection.desc}</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link href={`/${locale}/contact`} className="btn-premium"><span>{c.ctaSection.startBtn}</span></Link>
-              <Link href={`/${locale}/blog`} className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500">
-                <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text">{c.ctaSection.backBtn}</span>
-              </Link>
-            </div>
+            {/* Verdict */}
+            <Section title={join(c.verdictSection.title, c.verdictSection.titleItalic)} lead={c.verdictSection.desc}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Panel footer={c.stopAt200footer}>
+                  <h3 className={CARD_TITLE}>{c.stopAt200title}</h3>
+                  <CheckList items={c.stopAt200list} className="mt-5 text-[0.9375rem]" />
+                </Panel>
+                <Panel featured footer={c.stretchTo500footer}>
+                  <h3 className={CARD_TITLE}>{c.stretchTo500title}</h3>
+                  <CheckList items={c.stretchTo500list} className="mt-5 text-[0.9375rem]" />
+                </Panel>
+              </div>
+            </Section>
+
+            {/* What comes next */}
+            <Section title={join(c.nextSection.title, c.nextSection.titleItalic)}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Panel>
+                  <h3 className={CARD_TITLE}>{c.tier1000title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-2">{c.tier1000desc}</p>
+                  <ul className="mt-5 grid gap-2.5 text-[0.9375rem]">
+                    <li>
+                      <a href={DEMOS.r1000} target="_blank" rel="noopener noreferrer" className="group link-quiet">
+                        {bare(c.r1000link)}
+                        <ArrowOut className="size-3.5" />
+                      </a>
+                    </li>
+                    <li>
+                      <a href={DEMOS.e1000} target="_blank" rel="noopener noreferrer" className="group link-quiet">
+                        {bare(c.e1000link)}
+                        <ArrowOut className="size-3.5" />
+                      </a>
+                    </li>
+                  </ul>
+                </Panel>
+                <Panel>
+                  <h3 className={CARD_TITLE}>{c.caseStudiesTitle}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-2">{c.caseStudiesDesc}</p>
+                  <ul className="mt-5 grid gap-2.5 text-[0.9375rem]">
+                    <li>
+                      <Link href={`/${locale}/case-studies/restaurant-websites-tiers`} className="group link-quiet">
+                        {bare(c.rCaseLink)}
+                        <ArrowForward className="size-3.5" />
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href={`/${locale}/case-studies/ecommerce-websites-tiers`} className="group link-quiet">
+                        {bare(c.eCaseLink)}
+                        <ArrowForward className="size-3.5" />
+                      </Link>
+                    </li>
+                  </ul>
+                </Panel>
+              </div>
+            </Section>
+
+            {/* Bottom line */}
+            <BottomLine title={c.bottomLine.title} desc={c.bottomLine.desc} lines={[c.bottomLine.two, c.bottomLine.five]} footer={c.bottomLine.footer} />
+
+            {/* Cheaper options */}
+            <Section title={join(c.cheaperSection.title, c.cheaperSection.titleItalic)} lead={c.cheaperSection.desc}>
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {cheaper.map((item) => (
+                  <PostCard
+                    key={item.slug}
+                    href={`/${locale}/blog/${item.slug}`}
+                    title={item.title}
+                    description={item.desc}
+                    cta={c.readPost}
+                  />
+                ))}
+              </ul>
+            </Section>
           </div>
-        </motion.section>
-      </div>
-    </main>
+        </div>
+
+        <RelatedPosts slug={SLUG} locale={locale} dict={dict} />
+      </article>
     </>
   );
 }
 
-function Badge({ label }: { label: string }) {
+/* ───────────────────────────────────────────────────────────────────────────
+   Local building blocks — reading-column sections for this structured post.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const CARD_TITLE = "text-lg font-semibold leading-snug tracking-[-0.015em] text-ink rtl:tracking-normal";
+const ROW_HEADER = "bg-transparent align-top font-medium text-ink border-line [tr:last-child>&]:border-b-0";
+
+function Section({ title, lead, children }: { title: string; lead?: string; children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm text-xs font-bold uppercase tracking-widest text-text/80">
-      <span className="w-2 h-2 rounded-full bg-[hsl(var(--accent-gold))]" />{label}
-    </span>
+    <section className="border-t border-line py-12 first:border-t-0 first:pt-2 md:py-16 md:first:pt-4">
+      <h2 className="text-[clamp(1.5rem,1.25rem+0.9vw,2rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-ink rtl:leading-[1.5] rtl:tracking-normal">
+        {title}
+      </h2>
+      {lead && <p className="mt-3 text-[1.0625rem] leading-[1.7] text-ink-2 rtl:text-[1.125rem] rtl:leading-[1.9]">{lead}</p>}
+      <div className="reveal mt-8">{children}</div>
+    </section>
+  );
+}
+
+function Panel({ featured, footer, children }: { featured?: boolean; footer?: ReactNode; children: ReactNode }) {
+  return (
+    <div
+      className={cn(
+        "card flex h-full flex-col p-6 md:p-7",
+        featured && "border-[color-mix(in_oklab,var(--accent)_45%,transparent)] shadow-[var(--shadow-card)]",
+      )}
+    >
+      <div className="flex-1">{children}</div>
+      {footer && <p className="mt-6 border-t border-line pt-5 text-sm leading-relaxed text-muted">{footer}</p>}
+    </div>
+  );
+}
+
+function TierHead({ price, name, sub, featured }: { price: string; name: string; sub: string; featured?: boolean }) {
+  return (
+    <div>
+      <p
+        className={cn(
+          "tabular text-[2.5rem] font-semibold leading-none tracking-[-0.035em] rtl:tracking-normal",
+          featured ? "text-accent" : "text-ink",
+        )}
+      >
+        {price}
+      </p>
+      <h3 className={cn(CARD_TITLE, "mt-4")}>{name}</h3>
+      <p className="mt-1 text-sm text-muted">{sub}</p>
+    </div>
+  );
+}
+
+function DemoRow({ label, featured, children }: { label: string; featured?: boolean; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
+      <p className={cn("font-semibold text-ink tabular", featured && "text-accent")}>{label}</p>
+      <div className="flex flex-wrap gap-2">{children}</div>
+    </div>
+  );
+}
+
+function DemoLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <ButtonLink href={href} external variant="secondary" size="sm">
+      {children}
+      <ArrowOut />
+    </ButtonLink>
+  );
+}
+
+function BottomLine({ title, desc, lines, footer }: { title: string; desc: string; lines: string[]; footer: string }) {
+  return (
+    <section className="pb-12 md:pb-16">
+      <div className="reveal rounded-[1.25rem] border border-[color-mix(in_oklab,var(--accent)_30%,transparent)] bg-accent-soft p-7 md:p-10">
+        <h2 className="text-h3">{title}</h2>
+        <p className="mt-4 text-[clamp(1.25rem,1.1rem+0.6vw,1.625rem)] font-semibold leading-[1.3] tracking-[-0.018em] text-ink rtl:leading-[1.6] rtl:tracking-normal">
+          {desc}
+        </p>
+        <ul className="mt-7 grid gap-2 border-t border-[color-mix(in_oklab,var(--accent)_25%,transparent)] pt-6 text-lg">
+          {lines.map((line, i) => (
+            <li key={line} className={i === lines.length - 1 ? "font-semibold text-ink" : "font-medium text-ink-2"}>
+              {line}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 leading-relaxed text-ink-2">{footer}</p>
+      </div>
+    </section>
+  );
+}
+
+function PostCard({
+  href,
+  title,
+  description,
+  cta,
+}: {
+  href: string;
+  title: string;
+  description: string;
+  cta: string;
+}) {
+  return (
+    <li className="card card-interactive group relative flex flex-col p-6 md:p-7">
+      <h3 className={CARD_TITLE}>
+        <Link href={href} className="stretched-link transition-colors group-hover:text-accent">
+          {title}
+        </Link>
+      </h3>
+      <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-2">{description}</p>
+      <span aria-hidden="true" className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-ink">
+        {cta}
+        <ArrowForward className="size-3.5" />
+      </span>
+    </li>
   );
 }

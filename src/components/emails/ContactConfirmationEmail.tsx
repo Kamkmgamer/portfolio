@@ -51,7 +51,7 @@ export const ContactConfirmationEmail = ({
                 className="px-8 py-12 text-center"
               >
                 <Img
-                  src={`${baseUrl}/favicon.ico`}
+                  src={`${baseUrl}/icons/icon-192x192.png`}
                   width="48"
                   height="48"
                   alt="Khalil Mageed"

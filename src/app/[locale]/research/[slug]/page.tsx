@@ -1,20 +1,23 @@
-import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { Download } from "lucide-react";
 import { prisma } from "@/lib/db";
 import ShareButton from "@/components/ShareButton";
-import { Research } from "@prisma/client";
 import { Locale } from "@/i18n.config";
+import { getDictionary } from "@/lib/i18n/server";
 import { buildLocalizedMetadata } from "@/lib/seo";
+import { getPaper, getPapers } from "@/lib/research";
+import { researchPapers as staticPapers } from "@/data/research";
+import { ArticleBody, ArticleHeader, READING } from "@/components/site/article";
+import { IndexRow } from "@/components/site/cards";
+import { cn } from "@/lib/utils";
 
 export async function generateStaticParams() {
   try {
     const papers = await prisma.research.findMany({ select: { slug: true } });
     return papers.map((p: { slug: string }) => ({ slug: p.slug }));
   } catch {
-    // Return empty array if database is not available during build
-    return [];
+    return staticPapers.map((p) => ({ slug: p.slug }));
   }
 }
 
@@ -24,198 +27,96 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  let paper = null;
-
-  try {
-    paper = await prisma.research.findUnique({ where: { slug } });
-  } catch {
-    return { title: "Research" };
-  }
-
+  const paper = await getPaper(slug);
   if (!paper) return { title: "Research" };
 
   const title = `${paper.title} — Research`;
-  const description = paper.abstract;
-
   return buildLocalizedMetadata(locale, `/research/${slug}`, {
     title,
-    description,
-    openGraph: {
-      title,
-      description,
-      images: paper.image ? [paper.image] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-    },
+    description: paper.abstract,
+    openGraph: { title, description: paper.abstract, images: paper.image ? [paper.image] : undefined },
+    twitter: { card: "summary_large_image", title, description: paper.abstract },
   });
 }
 
-export default async function ResearchPaperPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  let paper = null;
+export default async function ResearchPaperPage({ params }: { params: Promise<{ locale: Locale; slug: string }> }) {
+  const { locale, slug } = await params;
+  const dict = await getDictionary(locale);
+  const r = dict.research;
 
-  try {
-    paper = await prisma.research.findUnique({ where: { slug } });
-  } catch {
-    return notFound();
-  }
+  const paper = await getPaper(slug);
+  if (!paper) notFound();
 
-  if (!paper) return notFound();
-
-  // Find related papers (dummy logic: just other papers)
-  let relatedPapers: Research[] = [];
-
-  try {
-    relatedPapers = await prisma.research.findMany({
-      where: { slug: { not: slug } },
-      take: 2,
-      orderBy: { year: "desc" },
-    });
-  } catch {
-    relatedPapers = [];
-  }
+  const related = (await getPapers()).filter((p) => p.slug !== slug).slice(0, 2);
+  const published = [paper.venue, paper.year].filter(Boolean).join(" · ");
+  const paragraphs = (paper.content ?? "")
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
-    <section className="relative w-full py-20 sm:py-28 transition-colors duration-500">
-      <div className="max-w-5xl mx-auto px-6 lg:px-12">
-        {/* Breadcrumb */}
-        <nav className="mb-8 text-sm text-muted-foreground">
-          <Link href="/research" className="hover:underline">
-            Research
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-foreground font-medium">{paper.title}</span>
-        </nav>
-
-        {/* Title */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-          {paper.title}
-        </h1>
-
-        {/* Metadata */}
-        {(paper.authors?.length || paper.venue || paper.year) && (
-          <div className="grid sm:grid-cols-2 gap-4 mb-10 text-sm text-muted-foreground">
-            {paper.authors?.length && (
-              <div>
-                <span className="font-semibold text-foreground">Authors: </span>
-                {paper.authors.join(", ")}
-              </div>
-            )}
-            {(paper.venue || paper.year) && (
-              <div>
-                <span className="font-semibold text-foreground">
-                  Published:{" "}
-                </span>
-                {[paper.venue, paper.year].filter(Boolean).join(" · ")}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Image */}
-        {paper.image && (
-          <div className="relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 mb-10 shadow-md">
-            <Image
-              src={paper.image}
-              alt={paper.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        )}
-
-        {/* Content */}
-        <article className="prose prose-lg dark:prose-invert max-w-none leading-relaxed">
-          {paper.content ? (
-            <div className="first-letter:text-5xl first-letter:font-bold first-letter:mr-2 first-letter:float-left">
-              {paper.content}
-            </div>
-          ) : (
-            <p>{paper.abstract}</p>
-          )}
-        </article>
-
-        {/* Tags */}
-        {paper.tags?.length ? (
-          <div className="flex flex-wrap gap-2 mt-10">
-            {paper.tags.map((tag: string, i: number) => (
-              <button
-                key={`${paper.id}-tag-${i}`}
-                className="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary font-medium hover:bg-primary/20 transition"
-                aria-label={`Filter by ${tag}`}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
-        {/* Actions */}
-        <div className="mt-12 flex flex-wrap gap-4">
+    <article>
+      <ArticleHeader
+        backHref={`/${locale}/research`}
+        backLabel={r.back}
+        category={published || undefined}
+        title={paper.title}
+        meta={paper.authors.length ? [`${r.authors}: ${paper.authors.join(", ")}`] : undefined}
+      >
+        <div className="flex flex-wrap gap-3">
           {paper.pdf && (
-            <a
-              href={paper.pdf}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white bg-blue-600 dark:bg-blue-500 shadow-md hover:shadow-xl transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-            >
-              <span className="font-semibold">Download PDF</span>
-              <svg
-                className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
+            <a href={encodeURI(paper.pdf)} download target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              <Download aria-hidden="true" strokeWidth={1.75} />
+              {r.download}
             </a>
           )}
-
-          <Link
-            href="/research"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-gray-300 dark:border-gray-700 text-foreground hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-          >
-            Back to Research
-          </Link>
-
-          <ShareButton title={paper.title} />
+          <ShareButton title={paper.title} label={r.share} copiedLabel={r.linkCopied} />
         </div>
+      </ArticleHeader>
 
-        {/* Related Papers */}
-        <div className="mt-20 rounded-2xl border border-gray-300 dark:border-gray-800 bg-surface p-6">
-          <h2 className="text-2xl font-bold mb-6">Related Papers</h2>
-          <div className="grid sm:grid-cols-2 gap-6">
-            {relatedPapers.map((related: Research) => (
-              <Link
-                key={related.id}
-                href={`/research/${related.slug}`}
-                className="group block p-5 rounded-xl border border-gray-300 dark:border-gray-800 bg-surface hover:bg-gray-50/60 dark:hover:bg-white/5 transition"
-              >
-                <h3 className="text-lg font-semibold text-foreground group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                  {related.title}
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                  {related.abstract}
-                </p>
-              </Link>
+      <ArticleBody>
+        <section aria-labelledby="abstract" className="card p-6 md:p-8">
+          <h2 id="abstract" className="!mt-0 !text-base font-semibold text-ink">
+            {r.abstract}
+          </h2>
+          <p className="!mt-4 text-ink">{paper.abstract}</p>
+        </section>
+
+        {paragraphs.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
+
+        {paper.tags.length > 0 && (
+          <ul className="!mt-10 flex list-none flex-wrap gap-1.5 !ps-0">
+            {paper.tags.map((tag) => (
+              <li key={tag} className="tag !mt-0">
+                {tag}
+              </li>
             ))}
+          </ul>
+        )}
+      </ArticleBody>
+
+      {related.length > 0 && (
+        <section aria-labelledby="related" className="container-site pt-[var(--section-y)]">
+          <div className={cn(READING, "max-w-none")}>
+            <h2 id="related" className="text-h3">
+              {r.related}
+            </h2>
+            <ul className="mt-8">
+              {related.map((p) => (
+                <IndexRow
+                  key={p.id}
+                  href={`/${locale}/research/${p.slug}`}
+                  label={[p.year, p.venue].filter(Boolean).join(" · ")}
+                  title={p.title}
+                  summary={<span className="line-clamp-2">{p.abstract}</span>}
+                />
+              ))}
+            </ul>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
+      )}
+    </article>
   );
 }

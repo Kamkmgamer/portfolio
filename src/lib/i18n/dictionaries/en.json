@@ -13,48 +13,66 @@
     "research": "Research",
     "caseStudies": "Case Studies",
     "demos": "Demos",
-    "home": "Home"
+    "offers": "Offers",
+    "home": "Home",
+    "primary": "Primary",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "letsTalk": "Let's talk"
   },
   "home": {
-    "title": "Hey, I'm",
-    "subtitle": "Web Developer",
-    "description": "I help founders and agencies ship polished AI app interfaces, product demos,",
-    "descriptionExtended": "and SaaS features with Next.js, TypeScript, and AI APIs.",
-    "viewWork": "See What I've Built",
-    "getInTouch": "Let's Talk",
-    "scroll": "Scroll",
-    "journeyTitle": "Journey Through Tech",
-    "experience": {
-      "freelance": {
-        "year": "2021 - Present",
-        "role": "Freelance Web Developer",
-        "company": "Self employed",
-        "desc": "Building AI-powered web apps, interactive product demos, and SaaS interfaces. Focused on polished UIs that ship fast."
-      },
-      "fullstack": {
-        "year": "2018 - 2021",
-        "role": "Full Stack Developer",
-        "company": "Soft Magic Company Limited",
-        "desc": "Delivered award-winning web experiences for global brands and built robust enterprise applications."
-      }
+    "hero": {
+      "byline": "Khalil AbdalMageed — Web developer in Cairo",
+      "titleA": "Interfaces for AI products,",
+      "titleB": "designed and built to ship.",
+      "lead": "I help founders, agencies and product teams turn ambitious ideas into fast, polished products: AI app interfaces, product demos and SaaS features built with Next.js, TypeScript and modern AI APIs.",
+      "primaryCta": "See selected work",
+      "secondaryCta": "Let's talk"
     },
-    "whoIHelpTitle": "Who I Help",
-    "whoIHelpEyebrow": "The Right Fit",
-    "whoIHelpRestaurantsTitle": "Founders & Startups",
-    "whoIHelpRestaurantsDesc": "MVP interfaces and product demos that help you validate ideas and ship fast.",
-    "whoIHelpRestaurantsCta": "See AI App Demos",
-    "whoIHelpEcommerceTitle": "Agencies & Studios",
-    "whoIHelpEcommerceDesc": "White-label SaaS features and client projects delivered with modern tech stacks.",
-    "whoIHelpEcommerceCta": "See SaaS Demos",
-    "whoIHelpLocalTitle": "Product Teams",
-    "whoIHelpLocalDesc": "Polished UI components and AI integrations that level up your product experience.",
-    "whoIHelpLocalCta": "See My Work",
+    "stats": {
+      "since": "Building for the web since",
+      "shipped": "Projects & open-source work",
+      "caseStudies": "In-depth case studies",
+      "demos": "Live demos"
+    },
+    "work": {
+      "title": "Products I've designed and built",
+      "description": "A few recent things I've shipped, from AI tutors to agent-powered games. Every one of them is live.",
+      "cta": "All projects",
+      "ossTitle": "Also contributing to",
+      "ossDescription": "Open-source tools I help improve beyond my own products."
+    },
+    "services": {
+      "title": "A senior pair of hands for teams that need to ship",
+      "description": "I work across design and engineering, so ideas make it to production without getting lost in handoffs.",
+      "items": [
+        {
+          "title": "Founders & startups",
+          "desc": "MVP interfaces and product demos that help you validate ideas and ship fast.",
+          "cta": "See AI app demos"
+        },
+        {
+          "title": "Agencies & studios",
+          "desc": "White-label SaaS features and client projects delivered with modern tech stacks.",
+          "cta": "Read case studies"
+        },
+        {
+          "title": "Product teams",
+          "desc": "Polished UI components and AI integrations that level up your product experience.",
+          "cta": "See my work"
+        }
+      ]
+    },
+    "caseStudies": {
+      "title": "How I think and build",
+      "description": "Real projects, real decisions, real results.",
+      "cta": "All case studies"
+    },
     "testimonial": {
-      "eyebrow": "Client Feedback",
       "title": "Testimonials",
       "websiteLabel": "Website",
-      "sourceLabel": "Platform",
-      "outOf": "Stars",
+      "sourceLabel": "Verified review on",
+      "outOf": "out of 5 stars",
       "review": {
         "name": "davidaki07",
         "handle": "davidaki07",
@@ -66,115 +84,170 @@
         "quote": "Khalil did an outstanding job designing and developing my website. He is extremely talented, professional, and detail-oriented. The entire process was smooth, and he delivered exactly what I was looking for. Communication was clear and timely, and he went above and beyond to make sure everything was perfect. I highly recommend him to anyone looking for high-quality work. Thank you again for the amazing job!"
       }
     },
-    "instrument": {
-      "status": "Available for new projects",
-      "openProject": "Open project",
-      "hint": "Hover a track to isolate a project",
-      "subsystems": "Who I help",
-      "runLog": "Run log",
-      "transmission": "Transmission",
-      "datasets": "Data sets",
-      "records": "records",
-      "articles": "articles",
-      "endLog": "End of run",
-      "basedIn": "Based in Cairo, Egypt",
-      "legend": { "title": "Legend", "tracks": "Projects", "muons": "AI work", "energy": "Energy", "stack": "Stack" }
+    "experience": {
+      "title": "Shipping for the web since 2018",
+      "description": "From enterprise applications to AI products, the constant has been the same: interfaces that feel considered and code that holds up.",
+      "items": [
+        {
+          "period": "2021 — Present",
+          "role": "Freelance Web Developer",
+          "company": "Self-employed",
+          "desc": "Building AI-powered web apps, interactive product demos, and SaaS interfaces. Focused on polished UIs that ship fast."
+        },
+        {
+          "period": "2018 — 2021",
+          "role": "Full Stack Developer",
+          "company": "Soft Magic Company Limited",
+          "desc": "Delivered award-winning web experiences for global brands and built robust enterprise applications."
+        }
+      ]
     },
-    "exploreWork": "What I've Built",
-    "exploreWorkSubtitle": "Real work, real proof.",
-    "viewCaseStudies": "Case Studies",
-    "viewCaseStudiesDesc": "Real projects, real decisions, real results. Here's how I actually think and build.",
-    "viewCaseStudiesCta": "Read Case Studies",
-    "viewBlog": "Blog",
-    "viewBlogDesc": "Honest takes on what a website actually costs, and why cheap usually ends up expensive.",
-    "viewBlogCta": "Read Articles"
+    "writing": {
+      "title": "Honest notes on AI and the web",
+      "description": "Plain-spoken takes on tools, costs and trade-offs.",
+      "cta": "All articles"
+    }
+  },
+  "footer": {
+    "ctaTitle": "Have a product to ship?",
+    "ctaDescription": "Tell me about your idea, timeline and budget. I'll get back to you with clear next steps.",
+    "ctaButton": "Start a conversation",
+    "orEmail": "or email",
+    "explore": "Explore",
+    "connect": "Elsewhere",
+    "contact": "Contact",
+    "localTime": "Local time in Cairo",
+    "rights": "All rights reserved.",
+    "backToTop": "Back to top"
+  },
+  "theme": {
+    "label": "Theme",
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark",
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
   },
   "projects": {
     "title": "Projects",
     "description": "Explore Khalil AbdalMageed's portfolio of web development projects. AI app interfaces, SaaS features, and product demos built with React, Next.js, and TypeScript.",
-    "viewPastOffers": "View Past Offers",
-    "ossEyebrow": "OPEN SOURCE",
+    "lead": "Products I've designed, built and shipped — plus the open-source tools I contribute to.",
+    "viewPastOffers": "View past offers",
+    "offersPrompt": "Looking for packaged builds and pricing?",
     "ossHeading": "Contributions",
     "ossDescription": "Selected open-source work I contribute to beyond my own products.",
-    "eyebrow": "Portfolio",
-    "heading": "Selected",
-    "headingItalic": "Works",
+    "heading": "Selected work",
     "all": "All",
-    "viewCaseStudy": "View Case Study"
+    "filterLabel": "Filter projects",
+    "empty": "No projects match this filter.",
+    "clearFilter": "Show all projects",
+    "live": "Live site",
+    "source": "Source"
   },
   "demos": {
     "title": "Live Demos",
     "description": "Interactive live demos of AI app interfaces and SaaS features. See polished UI components and AI integrations in action.",
-    "eyebrow": "Live Demos",
-    "heading": "Interactive",
-    "headingItalic": "Demos",
+    "heading": "Interactive demos",
+    "lead": "Working prototypes you can click through, each built to show what a real product could feel like.",
     "all": "All",
-    "viewLiveDemo": "View Live Demo"
+    "filterLabel": "Filter demos",
+    "empty": "No demos match this filter.",
+    "clearFilter": "Show all demos",
+    "unavailableTitle": "Demos are temporarily unavailable",
+    "unavailableBody": "The demo library couldn't be loaded right now. Please check back shortly, or browse the projects in the meantime.",
+    "viewLiveDemo": "View live demo"
   },
   "contact": {
     "title": "Contact",
-    "heading": "Get In",
-    "headingAccent": "Touch",
+    "heading": "Let's build something worth using.",
+    "lead": "Share a few details about your product and where you're stuck. I read every message myself and reply with honest next steps.",
     "email": "Email",
     "phone": "Phone",
     "location": "Location",
     "locationValue": "Cairo, Egypt",
-    "socials": "Socials",
+    "socials": "Elsewhere",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyEmail": "Copy email address",
     "form": {
+      "title": "Send a message",
       "name": "Name",
-      "namePlaceholder": "Your Name",
+      "namePlaceholder": "Your name",
       "email": "Email",
-      "emailPlaceholder": "name@domain.tld",
+      "emailPlaceholder": "name@company.com",
       "message": "Message",
-      "messagePlaceholder": "Hello, I'd like to talk about...",
-      "send": "Send Message",
-      "sending": "Sending...",
-      "success": "Message sent successfully! Check your email for confirmation.",
-      "error": "Something went wrong"
+      "messagePlaceholder": "What are you building, and what would a great outcome look like?",
+      "messageHint": "A few lines about the project, timeline and budget is perfect.",
+      "send": "Send message",
+      "sending": "Sending…",
+      "nameRequired": "Please enter your name.",
+      "emailInvalid": "Please enter a valid email address.",
+      "messageShort": "Please write at least a couple of sentences (20+ characters).",
+      "successTitle": "Message sent",
+      "success": "Thanks for reaching out. A confirmation is on its way to your inbox.",
+      "sendAnother": "Send another message",
+      "errorTitle": "Your message couldn't be sent",
+      "error": "Something went wrong",
+      "errorHint": "Please try again in a moment, or email me directly."
     }
   },
   "research": {
     "title": "Research",
     "description": "Research papers and technical articles by Khalil AbdalMageed on web development, software architecture, and performance optimization.",
-    "eyebrow": "Academic & Industry",
-    "heading": "Research",
-    "headingItalic": "& Publications",
+    "heading": "Research & publications",
     "intro": "Exploring the frontiers of web engineering, user experience, and digital architecture. Documenting the journey from theory to practical application.",
-    "readPaper": "Read Paper"
+    "readPaper": "Read paper",
+    "authors": "Authors",
+    "published": "Published",
+    "abstract": "Abstract",
+    "download": "Download PDF",
+    "back": "All research",
+    "share": "Share",
+    "linkCopied": "Link copied",
+    "related": "Related papers",
+    "emptyTitle": "No papers yet",
+    "emptyBody": "Research papers will appear here once they're published."
   },
   "caseStudies": {
     "title": "Case Studies",
+    "heading": "How I think and build",
     "description": "In-depth case studies showcasing problem-solving approaches and technical solutions for complex web development challenges.",
-    "heading": "Engineering",
-    "headingItalic": "Impact",
-    "badge1": "Production-Ready",
-    "badge2": "Fast Iteration",
-    "badge3": "High Scale"
+    "lead": "The decisions, trade-offs and results behind real projects — from scaling a PDF pipeline to shipping a SaaS platform solo.",
+    "read": "Read case study",
+    "next": "Next case study",
+    "all": "All case studies",
+    "stack": "Stack"
   },
   "blog": {
     "title": "Blog",
     "description": "Articles and insights on web development, design, and the business of building professional websites.",
-    "readMore": "Read More",
-    "heading": "Thoughts &",
-    "headingItalic": "Insights",
-    "badge1": "Development",
-    "badge2": "Design",
-    "badge3": "Architecture",
+    "heading": "Honest notes on AI and the web",
+    "lead": "Plain-spoken takes on tools, costs and trade-offs — written for people who build and buy software.",
+    "readMore": "Read more",
     "minRead": "min read",
-    "readArticle": "Read article"
+    "readArticle": "Read article",
+    "keepReading": "Keep reading",
+    "allArticles": "All articles"
   },
   "offers": {
     "title": "Offers",
     "description": "Web development packages and offers from Khalil AbdalMageed.",
-    "eyebrow": "Services & Pricing",
-    "heading": "Past",
-    "headingItalic": "Offers"
+    "heading": "Past offers",
+    "lead": "Packages I've proposed to clients, each with a live demo of the build. Use them as a reference for scope and budget.",
+    "viewDemo": "View demo"
+  },
+  "notFound": {
+    "title": "This page doesn't exist.",
+    "description": "The link may be broken, or the page may have moved. Here are a few places to pick up from.",
+    "home": "Back to home",
+    "suggestions": "Popular pages"
   },
   "common": {
     "theme": "Theme",
     "language": "Language",
-    "backToHome": "Back to Home",
-    "pageNotFound": "Page Not Found",
-    "goHome": "Go Home"
+    "skipToContent": "Skip to content",
+    "backToHome": "Back to home",
+    "pageNotFound": "Page not found",
+    "goHome": "Go home"
   }
 }

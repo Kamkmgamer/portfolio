@@ -1,83 +1,41 @@
 import type { Metadata, Viewport } from 'next';
-import { Playfair_Display, DM_Sans, Noto_Naskh_Arabic, IBM_Plex_Sans_Arabic, Archivo, IBM_Plex_Sans, IBM_Plex_Mono, Cairo } from 'next/font/google';
+import { Mona_Sans, IBM_Plex_Mono, IBM_Plex_Sans_Arabic } from 'next/font/google';
 import '../globals.css';
 import { Providers } from '../providers';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/site/Footer';
 import JsonLd from '@/components/seo/JsonLd';
 import { locales, localeDirections, type Locale } from '@/i18n.config';
 import { getDictionary } from '@/lib/i18n/server';
 import { SITE_URL, buildLocalizedAbsoluteUrl, getOpenGraphLocale } from '@/lib/seo';
 
-const playfair = Playfair_Display({
-  variable: '--font-display',
+/* Three families: Mona Sans (Latin display + text), IBM Plex Mono (metadata),
+   IBM Plex Sans Arabic (Arabic). Arabic glyphs fall through from Mona Sans. */
+const mona = Mona_Sans({
+  variable: '--font-mona',
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const dmSans = DM_Sans({
-  variable: '--font-sans',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const notoNaskhArabic = Noto_Naskh_Arabic({
-  variable: '--font-display-ar',
-  subsets: ['arabic'],
-  weight: ['400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
-  variable: '--font-sans-ar',
-  subsets: ['arabic'],
-  weight: ['300', '400', '500', '600', '700'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const archivo = Archivo({
-  variable: '--font-archivo',
-  subsets: ['latin'],
-  weight: ['500', '600', '700', '800', '900'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
-});
-
-const plexSans = IBM_Plex_Sans({
-  variable: '--font-plex-sans',
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'optional',
-  preload: true,
+  display: 'swap',
   adjustFontFallback: true,
 });
 
 const plexMono = IBM_Plex_Mono({
   variable: '--font-plex-mono',
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
+  weight: ['400', '500'],
+  display: 'swap',
+  preload: false,
+  // No metric fallback: an Arial fallback would capture Arabic glyphs before Plex Arabic.
+  adjustFontFallback: false,
 });
 
-const cairo = Cairo({
-  variable: '--font-cairo',
+const plexArabic = IBM_Plex_Sans_Arabic({
+  variable: '--font-plex-ar',
   subsets: ['arabic'],
-  weight: ['600', '700', '800', '900'],
-  display: 'optional',
-  preload: true,
-  adjustFontFallback: true,
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  preload: false,
+  // Arabic subset only: without a metric fallback, Latin glyphs fall through to Mona Sans.
+  adjustFontFallback: false,
 });
 
 export async function generateStaticParams() {
@@ -164,9 +122,12 @@ export async function generateMetadata({
       },
     },
     icons: {
-      icon: '/favicon.ico',
-      shortcut: '/favicon.ico',
-      apple: '/apple-touch-icon.png',
+      // sizes="32x32" on the ICO keeps Chromium from preferring it over the adaptive SVG.
+      icon: [
+        { url: '/favicon.ico', sizes: '32x32' },
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+      ],
+      apple: { url: '/apple-touch-icon.png', sizes: '180x180' },
     },
     manifest: '/site.webmanifest',
   };
@@ -276,34 +237,30 @@ export default async function LocaleLayout({
     ],
   };
 
-  const fontClasses =
-    locale === 'ar'
-      ? `${notoNaskhArabic.variable} ${ibmPlexArabic.variable} ${dmSans.variable} ${archivo.variable} ${plexSans.variable} ${plexMono.variable} ${cairo.variable}`
-      : `${playfair.variable} ${dmSans.variable} ${archivo.variable} ${plexSans.variable} ${plexMono.variable}`;
-
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={direction}
+      suppressHydrationWarning
+      className={`${mona.variable} ${plexMono.variable} ${plexArabic.variable}`}
+    >
       <head>
         <link rel="preconnect" href="https://ik.imagekit.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://ik.imagekit.io" />
-        <meta
-          name="theme-color"
-          content="#ffffff"
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="theme-color"
-          content="#050505"
-          media="(prefers-color-scheme: dark)"
-        />
+        <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0e0d0b" media="(prefers-color-scheme: dark)" />
       </head>
-      <body
-        className={`${fontClasses} antialiased bg-background text-text relative font-sans ${locale === 'ar' ? 'font-arabic' : ''}`}
-      >
+      <body className="flex min-h-dvh flex-col bg-paper font-sans text-ink antialiased">
         <JsonLd data={jsonLdData} />
         <Providers>
+          <a href="#main" className="skip-link">
+            {dict.common.skipToContent}
+          </a>
           <Navbar locale={locale} dict={dict} />
-          {children}
+          <main id="main" tabIndex={-1} className="flex-1 outline-none">
+            {children}
+          </main>
+          <Footer locale={locale} dict={dict} />
         </Providers>
       </body>
     </html>

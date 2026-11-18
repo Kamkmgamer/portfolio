@@ -1,19 +1,27 @@
 import React from "react";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import AdminDashboard from "@/components/AdminDashboard";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPage() {
-    const projects = await prisma.project.findMany({ orderBy: { id: "desc" } });
-    const demos = await prisma.demo.findMany({ orderBy: { id: "desc" } });
+export const metadata: Metadata = {
+  title: "Admin",
+  robots: { index: false, follow: false },
+};
 
-    return (
-        <main className="min-h-screen pt-32 pb-20 px-6">
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-4xl font-display mb-10">Admin Dashboard</h1>
-                <AdminDashboard initialProjects={projects} initialDemos={demos} />
-            </div>
-        </main>
-    );
+export default async function AdminPage() {
+  const [projects, demos] = await Promise.all([
+    prisma.project.findMany({ orderBy: { id: "desc" } }),
+    prisma.demo.findMany({ orderBy: { id: "desc" } }),
+  ]);
+
+  return (
+    <div className="container-site pb-[var(--section-y)] pt-[clamp(2.5rem,6vw,4.5rem)]" lang="en" dir="ltr">
+      <h1 className="text-h2">Admin</h1>
+      <div className="mt-10">
+        <AdminDashboard initialProjects={projects} initialDemos={demos} />
+      </div>
+    </div>
+  );
 }

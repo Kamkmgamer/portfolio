@@ -1,17 +1,14 @@
 import React from "react";
 import type { Metadata } from "next";
-import ProjectList from "@/components/ProjectList";
 import { Locale } from "@/i18n.config";
 import { getDictionary } from "@/lib/i18n/server";
-import { projects as portfolioProjects } from "@/data/projects";
+import { ownProjects, ossProjects } from "@/data/projects";
+import { WorkCard } from "@/components/site/cards";
+import { PageHeader, SectionHeader, ViewAllLink } from "@/components/site/layout";
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
   const dict = await getDictionary(locale);
 
@@ -32,36 +29,62 @@ export async function generateMetadata({
     },
     alternates: {
       canonical: `/${locale}/projects`,
-      languages: {
-        en: "/en/projects",
-        ar: "/ar/projects",
-      },
+      languages: { en: "/en/projects", ar: "/ar/projects" },
     },
   };
 }
 
-export default async function ProjectsPage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+export default async function ProjectsPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const dict = await getDictionary(locale);
+  const p = dict.projects;
+  const labels = { live: p.live, source: p.source };
 
   return (
-    <main className="site-page pt-28 md:pt-32 pb-20 px-6">
-      <div className="max-w-1800px mx-auto">
-        <ProjectList projects={portfolioProjects} dict={dict} />
+    <>
+      <PageHeader title={p.heading} lead={p.lead} />
 
-        <div className="mt-20 flex justify-center">
-          <a
-            href={`/${locale}/offers`}
-            className="px-8 py-4 border border-white/10 hover:border-[hsl(var(--accent-gold))] text-text/60 hover:text-[hsl(var(--accent-gold))] transition-all duration-300 uppercase tracking-widest text-sm"
-          >
-            {dict.projects.viewPastOffers}
-          </a>
+      <section aria-label={p.heading} className="container-site pb-[var(--section-y)]">
+        <ul className="grid gap-x-8 gap-y-14 md:grid-cols-2 md:gap-y-20">
+          {ownProjects.map((project, i) => (
+            <li key={project.id} className="reveal flex">
+              <WorkCard
+                item={project}
+                labels={labels}
+                priority={i < 2}
+                headingLevel="h2"
+                sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
+                className="w-full"
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="oss-heading" className="border-t border-line">
+        <div className="container-site section-y">
+          <SectionHeader id="oss-heading" title={p.ossHeading} description={p.ossDescription} />
+          <ul className="mt-12 grid gap-x-8 gap-y-14 md:mt-16 md:grid-cols-2">
+            {ossProjects.map((project) => (
+              <li key={project.id} className="reveal flex">
+                <WorkCard
+                  item={project}
+                  labels={labels}
+                  sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
+                  className="w-full"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <div className="container-site">
+        <div className="reveal flex flex-col items-start justify-between gap-4 border-t border-line py-10 sm:flex-row sm:items-center">
+          <p className="text-lg text-ink-2">{p.offersPrompt}</p>
+          <ViewAllLink href={`/${locale}/offers`}>{p.viewPastOffers}</ViewAllLink>
         </div>
       </div>
-    </main>
+    </>
   );
 }

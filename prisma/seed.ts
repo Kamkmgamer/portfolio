@@ -250,7 +250,7 @@ async function main() {
   // Seed Projects
   console.log("📁 Seeding projects...");
   for (const project of projectsData) {
-    await prisma.project.create({ data: project });
+    await prisma.project.create({ data: { ...project, gradient: "" } });
   }
   console.log(`   ✅ Created ${projectsData.length} projects`);
 

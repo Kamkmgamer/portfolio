@@ -11,14 +11,12 @@ export function ResponsiveEmbed({ iframeUrl, imageUrl }: ResponsiveEmbedProps) {
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const handleResize = () => {
-      // Debounce the resize event to avoid constant reloading while dragging
+      // Debounce so the embed only reloads after resizing settles.
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setKey((prev) => prev + 1);
-      }, 500);
+      timeoutId = setTimeout(() => setKey((prev) => prev + 1), 500);
     };
 
     window.addEventListener("resize", handleResize);
@@ -29,28 +27,25 @@ export function ResponsiveEmbed({ iframeUrl, imageUrl }: ResponsiveEmbedProps) {
   }, []);
 
   return (
-    <div className="my-10">
-      {/* Desktop: Iframe (Shows on screens >= 1024px) */}
-      <div className="hidden lg:block rounded-xl overflow-hidden border border-white/10 bg-white/5 relative h-[600px] w-full">
+    <figure className="my-10">
+      {/* Desktop: live embed */}
+      <div className="media-frame relative hidden h-[600px] w-full lg:block">
         <iframe
           key={key}
           src={iframeUrl}
-          className="absolute top-0 left-0 w-full h-full pointer-events-none"
-          frameBorder="0"
+          title="Embedded chart"
+          loading="lazy"
+          className="pointer-events-none absolute inset-0 h-full w-full border-0"
           allowFullScreen
           scrolling="no"
         />
       </div>
 
-      {/* Mobile/Small Screen: Image (Shows on screens < 1024px) */}
-      <div className="lg:hidden rounded-xl overflow-hidden border border-white/10 bg-white/5 relative">
-        <img
-          src={imageUrl}
-          alt="Embedded Content"
-          className="w-full h-auto object-cover"
-          loading="lazy"
-        />
+      {/* Smaller screens: static image */}
+      <div className="media-frame lg:hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={imageUrl} alt="Embedded chart" className="m-0 h-auto w-full border-0" loading="lazy" />
       </div>
-    </div>
+    </figure>
   );
 }

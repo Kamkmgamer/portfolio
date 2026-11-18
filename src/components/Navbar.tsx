@@ -3,341 +3,234 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-import { DynamicThemeToggle as ThemeToggle } from "@/lib/dynamic-imports";
+import { ThemeSwitcher, ThemeToggle } from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { Locale, Dictionary } from "@/lib/i18n";
+import { site } from "@/data/site";
+import { cn } from "@/lib/utils";
+import { LogoMark } from "@/components/site/Logo";
 
-type NavLink = {
-  labelKey: keyof Dictionary["nav"];
-  href: string;
-};
+type NavKey = "projects" | "caseStudies" | "demos" | "blog" | "research";
 
-const links: NavLink[] = [
-  { labelKey: "projects", href: "/projects" },
-  { labelKey: "blog", href: "/blog" },
-  { labelKey: "contact", href: "/contact" },
-  { labelKey: "research", href: "/research" },
-  { labelKey: "caseStudies", href: "/case-studies" },
-  { labelKey: "demos", href: "/demos" },
+const links: { key: NavKey; href: string }[] = [
+  { key: "projects", href: "/projects" },
+  { key: "caseStudies", href: "/case-studies" },
+  { key: "demos", href: "/demos" },
+  { key: "blog", href: "/blog" },
+  { key: "research", href: "/research" },
 ];
 
-const useActiveHash = (ids: string[]) => {
-  const [active, setActive] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    const sections = ids
-      .map((id) => document.querySelector<HTMLElement>(id))
-      .filter(Boolean) as HTMLElement[];
-
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) =>
-              (a.target as HTMLElement).offsetTop -
-              (b.target as HTMLElement).offsetTop,
-          );
-        if (visible[0]) {
-          setActive("#" + visible[0].target.id);
-        }
-      },
-      {
-        rootMargin: "0px 0px -60% 0px",
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
-
-    sections.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [ids]);
-
-  return active;
-};
-
-function BrandMark() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="10.5" stroke="var(--evt-line-strong)" strokeWidth="1.25" strokeDasharray="42 8" />
-      <circle cx="12" cy="12" r="6" stroke="var(--evt-line)" strokeWidth="1.25" strokeDasharray="22 6" />
-      <circle cx="12" cy="12" r="2" fill="var(--evt-track)" />
-      <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="var(--evt-line-strong)" strokeWidth="1" />
-    </svg>
-  );
-}
-
-interface NavbarProps {
-  locale: Locale;
-  dict: Dictionary;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ locale, dict }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const menuId = "mobile-nav-menu";
-  const backdropId = "mobile-nav-backdrop";
-  const toggleBtnRef = React.useRef<HTMLButtonElement | null>(null);
+export default function Navbar({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const pathname = usePathname();
+  const toggleRef = React.useRef<HTMLButtonElement>(null);
+  const menuRef = React.useRef<HTMLDivElement>(null);
+  const menuId = "site-menu";
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const activeHash = useActiveHash(
-    links.map((l) => l.href).filter((h) => h.startsWith("#")),
-  );
-  const pathname = usePathname();
-
-  const closeMenu = () => setIsOpen(false);
-
+  // Close the menu whenever the route changes.
   React.useEffect(() => {
-    if (!isOpen) return;
+    setOpen(false);
+  }, [pathname]);
 
-    const focusable = Array.from(
-      document
-        .getElementById(menuId)
-        ?.querySelectorAll<HTMLElement>(
-          'a, button, [tabindex]:not([tabindex="-1"])',
-        ) ?? [],
-    );
+  // Close on desktop resize.
+  React.useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => mq.matches && setOpen(false);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+  // Scroll lock, focus trap and Escape while the menu is open.
+  React.useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = "hidden";
 
-    const onKeyDown = (e: KeyboardEvent) => {
+    const getFocusable = () =>
+      Array.from(
+        menuRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])') ?? [],
+      );
+    getFocusable()[0]?.focus({ preventScroll: true });
+
+    const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
-        closeMenu();
-        toggleBtnRef.current?.focus();
+        setOpen(false);
+        toggleRef.current?.focus();
+        return;
       }
-      if (e.key === "Tab") {
-        if (focusable.length === 0) return;
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last?.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first?.focus();
-        }
+      if (e.key !== "Tab") return;
+      const items = [toggleRef.current, ...getFocusable()].filter(Boolean) as HTMLElement[];
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
-
-    document.addEventListener("keydown", onKeyDown);
-    first?.focus({ preventScroll: true });
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [isOpen]);
-
-  React.useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) closeMenu();
-    };
-
-    window.addEventListener("resize", onResize);
-
-    const prevOverflow = document.body.style.overflow;
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    }
+    document.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener("resize", onResize);
+      root.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
     };
-  }, [isOpen]);
+  }, [open]);
 
-  React.useEffect(() => {
-    if (!isOpen) return;
-    const onDocClick = (e: MouseEvent) => {
-      const menuEl = document.getElementById(menuId);
-      const target = e.target as Node | null;
-      const clickedToggle = !!(
-        toggleBtnRef.current &&
-        target &&
-        toggleBtnRef.current.contains(target)
-      );
-      const clickedInsideMenu = !!(menuEl && target && menuEl.contains(target));
-      if (!clickedInsideMenu && !clickedToggle) {
-        closeMenu();
-      }
-    };
-    document.addEventListener("mousedown", onDocClick, true);
-    return () => document.removeEventListener("mousedown", onDocClick, true);
-  }, [isOpen]);
-
-  const getAriaCurrent = (href: string) => {
-    if (href.startsWith("#")) {
-      return activeHash === href ? "page" : undefined;
-    }
-    return pathname === `/${locale}${href}` || pathname === `/${locale}${href}/` ? "page" : undefined;
+  const isActive = (href: string) => {
+    const full = `/${locale}${href}`;
+    return pathname === full || pathname?.startsWith(`${full}/`);
   };
 
+  const contactActive = isActive("/contact");
+
   return (
-    <nav
-      aria-label="Main"
-      className="instrument fixed top-0 left-0 right-0 z-50 font-instr-sans transition-colors duration-300"
-      style={{
-        background: scrolled ? "color-mix(in srgb, var(--evt-bg) 92%, transparent)" : "transparent",
-        borderBottom: `1px solid ${scrolled ? "var(--evt-line)" : "transparent"}`,
-      }}
+    <header
+      className={cn(
+        "site-nav sticky top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300",
+        // Any backdrop-filter makes the header the containing block for the fixed
+        // mobile menu (collapsing it to the header's height), so the open state
+        // must not carry one at all.
+        open
+          ? "border-b border-line bg-paper"
+          : scrolled
+            ? "border-b border-line bg-[color-mix(in_oklab,var(--paper)_86%,transparent)] backdrop-blur-xl backdrop-saturate-150"
+            : "border-b border-transparent bg-paper",
+      )}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 h-16 md:h-[4.5rem] flex items-center justify-between gap-4">
+      <div className="container-site flex h-[var(--nav-h)] items-center justify-between gap-6">
         <Link
           href={`/${locale}`}
-          className="group inline-flex items-center gap-3 rounded-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--evt-track)] focus-visible:outline-offset-3"
+          className="group -ms-1 inline-flex items-center gap-2.5 rounded-xl p-1"
+          aria-label={`${site.name[locale]} — ${dict.nav.home}`}
         >
-          <BrandMark />
-          <span className="font-instr-display font-extrabold text-lg tracking-[-0.01em] text-evt-ink">
-            {locale === "ar" ? "خليل" : "Khalil"}
-            <span className="hidden sm:inline font-instr-mono font-medium text-[0.625rem] tracking-[0.22em] uppercase text-evt-steel ms-2.5 align-middle">
-              ABDALMAGEED
-            </span>
+          <LogoMark className="h-7 text-ink transition-colors duration-300 group-hover:text-accent" />
+          <span className="text-[0.975rem] font-semibold tracking-[-0.02em] text-ink rtl:tracking-normal">
+            <span className="sm:hidden">{site.shortName[locale]}</span>
+            <span className="hidden sm:inline">{site.name[locale]}</span>
           </span>
-          <span className="sr-only">{dict.nav.home}</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          <div className="flex items-center gap-5">
-            {links.map((item) => {
-              const isActive = getAriaCurrent(item.href) === "page";
+        <nav aria-label={dict.nav.primary} className="hidden lg:block">
+          <ul className="flex items-center gap-1">
+            {links.map((link) => {
+              const active = isActive(link.href);
               return (
-                <Link
-                  key={item.href}
-                  href={`/${locale}${item.href}`}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`instr-label group relative py-1 transition-colors duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--evt-track)] focus-visible:outline-offset-3 ${
-                    isActive ? "text-evt-track" : "text-evt-steel hover:text-evt-ink"
-                  }`}
-                >
-                  {dict.nav[item.labelKey]}
-                  <span
-                    aria-hidden="true"
-                    className={`absolute inset-x-0 -bottom-0.5 h-0.5 bg-evt-track origin-center transition-transform duration-200 rtl:origin-right ${
-                      isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                    }`}
-                  />
-                </Link>
+                <li key={link.href}>
+                  <Link
+                    href={`/${locale}${link.href}`}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "relative inline-flex h-9 items-center rounded-full px-3.5 text-[0.9rem] font-medium transition-colors",
+                      active ? "bg-paper-2 text-ink" : "text-ink-2 hover:bg-paper-2 hover:text-ink",
+                    )}
+                  >
+                    {dict.nav[link.key]}
+                  </Link>
+                </li>
               );
             })}
-          </div>
+          </ul>
+        </nav>
 
-          <span className="w-px h-5 bg-evt-line" aria-hidden="true" />
-
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <div className="hidden items-center gap-0.5 lg:flex">
             <LanguageSwitcher currentLocale={locale} />
-            <ThemeToggle />
+            <ThemeToggle labels={dict.theme} />
           </div>
-        </div>
+          <Link
+            href={`/${locale}/contact`}
+            aria-current={contactActive ? "page" : undefined}
+            className="btn btn-primary btn-sm ms-2 hidden sm:inline-flex"
+          >
+            {dict.nav.letsTalk}
+          </Link>
 
-        <button
-          ref={toggleBtnRef}
-          type="button"
-          onClick={() => setIsOpen((v) => !v)}
-          className="md:hidden inline-flex h-10 w-10 items-center justify-center border border-evt-line-strong text-evt-ink hover:border-evt-track hover:text-evt-track transition-colors duration-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-[var(--evt-track)] focus-visible:outline-offset-2"
-          aria-label="Toggle mobile menu"
-          aria-expanded={isOpen}
-          aria-controls={menuId}
-        >
-          <AnimatePresence mode="wait">
-            {isOpen ? (
-              <motion.svg
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
-              </motion.svg>
-            ) : (
-              <motion.svg
-                key="menu"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 7h16M4 12h16M4 17h16" />
-              </motion.svg>
-            )}
-          </AnimatePresence>
-        </button>
+          <button
+            ref={toggleRef}
+            type="button"
+            className="btn btn-ghost btn-icon ms-1 text-ink lg:hidden"
+            aria-expanded={open}
+            aria-controls={menuId}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="sr-only">{open ? dict.nav.closeMenu : dict.nav.openMenu}</span>
+            <span aria-hidden="true" className="relative block h-3 w-[1.15rem]">
+              <span
+                className={cn(
+                  "absolute inset-x-0 top-0 h-[1.5px] rounded-full bg-current transition-transform duration-300",
+                  open && "translate-y-[5.25px] rotate-45",
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute inset-x-0 bottom-0 h-[1.5px] rounded-full bg-current transition-transform duration-300",
+                  open && "-translate-y-[5.25px] -rotate-45",
+                )}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.div
-              id={backdropId}
-              aria-hidden
-              onClick={closeMenu}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.15 } }}
-              exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              className="md:hidden fixed inset-0 z-[-1] bg-black/30"
-            />
+      {open && (
+        <div
+          ref={menuRef}
+          id={menuId}
+          className="fixed inset-x-0 bottom-0 top-[var(--nav-h)] z-40 overflow-y-auto bg-paper lg:hidden"
+        >
+          <nav aria-label={dict.nav.primary} className="container-site flex min-h-full flex-col pt-6 pb-[max(2rem,env(safe-area-inset-bottom))]">
+            <ul className="grid">
+              {[{ key: "home" as const, href: "" }, ...links, { key: "contact" as const, href: "/contact" }].map((link, i) => {
+                const active = link.href === "" ? pathname === `/${locale}` : isActive(link.href);
+                return (
+                  <li
+                    key={link.key}
+                    className="border-b border-line"
+                    style={{ animation: `menuIn 420ms var(--ease-out) both`, animationDelay: `${i * 35}ms` }}
+                  >
+                    <Link
+                      href={`/${locale}${link.href}`}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "flex items-center justify-between py-4 text-[1.75rem] font-semibold tracking-[-0.03em] transition-colors rtl:tracking-normal",
+                        active ? "text-ink" : "text-ink-2 hover:text-ink",
+                      )}
+                    >
+                      {dict.nav[link.key]}
+                      {active && <span aria-hidden="true" className="size-2 rounded-full bg-accent" />}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
 
-            <motion.div
-              id={menuId}
-              aria-label="Mobile navigation"
-              initial={{ y: -12, opacity: 0 }}
-              animate={{ y: 0, opacity: 1, transition: { duration: 0.2 } }}
-              exit={{ y: -12, opacity: 0, transition: { duration: 0.15 } }}
-              className="md:hidden fixed top-[calc(env(safe-area-inset-top)+4rem)] left-0 right-0 px-4"
-              style={{ background: "transparent" }}
-            >
-              <div className="instr-panel shadow-[0_24px_60px_-30px_rgba(4,10,18,0.6)]">
-                <div className="flex flex-col py-2">
-                  {links.map((item) => {
-                    const isActive = getAriaCurrent(item.href) === "page";
-                    return (
-                      <Link
-                        key={item.href}
-                        href={`/${locale}${item.href}`}
-                        aria-current={isActive ? "page" : undefined}
-                        onClick={closeMenu}
-                        className={`flex items-center justify-between px-5 py-3.5 border-b border-evt-line last:border-b-0 text-base font-semibold transition-colors duration-150 ${
-                          isActive ? "text-evt-track" : "text-evt-ink hover:bg-evt-panel2"
-                        }`}
-                      >
-                        {dict.nav[item.labelKey]}
-                        {isActive && (
-                          <span className="inline-block w-2 h-2 rounded-full bg-evt-track" aria-hidden="true" />
-                        )}
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                <div className="flex items-center justify-between px-5 py-3.5 border-t border-evt-line">
-                  <span className="instr-label text-evt-steel">{dict.common.language}</span>
-                  <LanguageSwitcher currentLocale={locale} directToggle />
-                </div>
-
-                <div className="flex items-center justify-between px-5 py-3.5 border-t border-evt-line">
-                  <span className="instr-label text-evt-steel">{dict.common.theme}</span>
-                  <ThemeToggle />
-                </div>
+            <div className="mt-auto grid gap-5 pt-10">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm text-muted">{dict.common.language}</span>
+                <LanguageSwitcher currentLocale={locale} className="btn-secondary" />
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </nav>
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm text-muted">{dict.theme.label}</span>
+                <ThemeSwitcher labels={dict.theme} />
+              </div>
+              <a href={`mailto:${site.email}`} className="link mt-2 text-ink-2">
+                {site.email}
+              </a>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
-};
-
-export default Navbar;
+}

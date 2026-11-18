@@ -1,75 +1,70 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Check, Copy } from "lucide-react";
 
+/** Inline, copyable command pill with a small confirmation toast. */
 export function CopyButton({ code, locale }: { code: string; locale: string }) {
-    const [copied, setCopied] = useState(false);
-    const [toastVisible, setToastVisible] = useState(false);
+  const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(code);
-        setCopied(true);
-        setToastVisible(true);
-        setTimeout(() => {
-            setCopied(false);
-            setToastVisible(false);
-        }, 2000);
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
+  }, []);
 
-    const copiedLabel = locale === "ar" ? "تم النسخ!" : "Copied!";
+  const isAr = locale === "ar";
+  const labels = {
+    copy: isAr ? "نسخ الأمر" : "Copy command",
+    copied: isAr ? "تم النسخ!" : "Copied!",
+    failed: isAr ? "تعذّر النسخ" : "Couldn't copy",
+  };
 
-    return (
-        <span className="relative inline-flex items-center gap-1.5 mx-1 align-middle">
-            {/* The code pill */}
-            <button
-                onClick={handleCopy}
-                aria-label="Copy command"
-                title="Click to copy"
-                className={`
-          inline-flex items-center gap-2
-          px-2.5 py-0.5
-          rounded-md
-          font-mono text-sm
-          border
-          transition-all duration-200 cursor-pointer select-all
-          bg-neutral-100 border-neutral-300 text-neutral-800
-          hover:bg-neutral-200 hover:border-neutral-400
-          dark:bg-white/8 dark:border-white/15 dark:text-[hsl(var(--accent-gold))]
-          dark:hover:bg-white/12 dark:hover:border-white/25
-        `}
-            >
-                <span className="whitespace-nowrap">{code}</span>
-                <span
-                    className={`
-            flex-shrink-0 transition-colors duration-200
-            text-neutral-400 hover:text-neutral-600
-            dark:text-text/40 dark:hover:text-[hsl(var(--accent-gold))]
-          `}
-                >
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                </span>
-            </button>
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setState("copied");
+    } catch {
+      setState("failed");
+    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setState("idle"), 2000);
+  };
 
-            {/* Toast */}
-            <span
-                aria-live="polite"
-                className={`
-          pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2
-          px-2.5 py-1 rounded-lg text-xs font-sans font-medium whitespace-nowrap
-          shadow-lg
-          bg-neutral-900 text-white
-          dark:bg-white dark:text-neutral-900
-          transition-all duration-200
-          ${toastVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"}
-        `}
-            >
-                {copiedLabel}
-                <span
-                    aria-hidden="true"
-                    className="absolute left-1/2 top-full size-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-neutral-900 dark:bg-white"
-                />
-            </span>
-        </span>
-    );
+  const visible = state !== "idle";
+
+  return (
+    <span className="relative mx-1 inline-flex max-w-full items-center align-middle">
+      <button
+        type="button"
+        onClick={handleCopy}
+        aria-label={`${labels.copy}: ${code}`}
+        title={labels.copy}
+        dir="ltr"
+        className="inline-flex min-w-0 max-w-full cursor-pointer items-center gap-2 rounded-md border border-line bg-paper-2 px-2 py-0.5 text-start font-mono text-[0.85em] text-ink transition-colors hover:border-line-strong"
+      >
+        <span className="min-w-0 [overflow-wrap:anywhere]">{code}</span>
+        {state === "copied" ? (
+          <Check aria-hidden="true" strokeWidth={2} className="size-3 shrink-0 text-success" />
+        ) : (
+          <Copy aria-hidden="true" strokeWidth={1.75} className="size-3 shrink-0 text-muted" />
+        )}
+      </button>
+
+      <span
+        role="status"
+        aria-live="polite"
+        className={`pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-ink px-2.5 py-1 font-sans text-xs font-medium text-paper shadow-[var(--shadow-float)] transition-[opacity,transform] duration-200 ${
+          visible ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"
+        }`}
+      >
+        {state === "copied" ? labels.copied : state === "failed" ? labels.failed : ""}
+        <span
+          aria-hidden="true"
+          className="absolute left-1/2 top-full size-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-ink"
+        />
+      </span>
+    </span>
+  );
 }

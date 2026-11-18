@@ -4,6 +4,9 @@ import path from "path";
 import { Locale } from "@/i18n.config";
 import React from "react";
 import { buildLocalizedAbsoluteUrl, buildLocalizedMetadata } from "@/lib/seo";
+import { getDictionary } from "@/lib/i18n/server";
+import { getBlogPostBySlug, formatPostDate } from "@/lib/blogs";
+import { ArticleBody, ArticleHeader, Footnotes, RelatedPosts } from "@/components/site/article";
 
 import { ResponsiveEmbed } from "./ResponsiveEmbed";
 
@@ -109,8 +112,8 @@ const MODEL_LINKS_AR: { pattern: RegExp; url: string; marker?: "†" | "‡" }[]
   { pattern: /GPT/g, url: "https://chatgpt.com" },
 ];
 
-const LINK_CLASS =
-  "text-[hsl(var(--accent-gold))] underline underline-offset-2 decoration-[hsl(var(--accent-gold))]/40 hover:decoration-[hsl(var(--accent-gold))] transition-all duration-150 font-medium";
+// Links inherit long-form styles from .prose-site.
+const LINK_CLASS = undefined;
 
 // ---------------------------------------------------------------------------
 // parseInline
@@ -226,11 +229,8 @@ export default async function Page({ params }: Props) {
     categoryLine?.replace(/.*(?:Category|الفئة):\s*|\s*\|.*/g, "") ||
     (locale === "ar" ? "الذكاء الاصطناعي والأمن السيبراني" : "AI & Cybersecurity");
 
-  const uiT = {
-    en: { readTime: "4 min read", date: "April 24, 2026" },
-    ar: { readTime: "4 دقائق للقراءة", date: "٢٤ أبريل ٢٠٢٦" },
-  };
-  const t = uiT[locale] || uiT.en;
+  const dict = await getDictionary(locale);
+  const post = getBlogPostBySlug("why-claude-mythos-wont-break-cybersecurity", locale);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -271,9 +271,7 @@ export default async function Page({ params }: Props) {
     const flushParagraph = (key: string) => {
       if (!currentParagraph) return;
       elements.push(
-        <p key={key} className="mb-6 text-lg text-text/70 leading-relaxed">
-          {inline(currentParagraph)}
-        </p>
+        <p key={key}>{inline(currentParagraph)}</p>
       );
       currentParagraph = "";
     };
@@ -281,14 +279,9 @@ export default async function Page({ params }: Props) {
     const flushList = (key: string) => {
       if (listItems.length === 0) return;
       elements.push(
-        <ul
-          key={key}
-          className="mb-6 space-y-2 list-disc list-inside text-text/70"
-        >
+        <ul key={key}>
           {listItems.map((item, idx) => (
-            <li key={idx} className="text-lg">
-              {inline(item)}
-            </li>
+            <li key={idx}>{inline(item)}</li>
           ))}
         </ul>
       );
@@ -302,9 +295,7 @@ export default async function Page({ params }: Props) {
         flushParagraph(`p-${i}`);
         flushList(`ul-${i}`);
         elements.push(
-          <h2 key={`h2-${i}`} className="text-3xl font-display mb-6 mt-12">
-            {line.replace(/^##\s*/, "")}
-          </h2>
+          <h2 key={`h2-${i}`}>{line.replace(/^##\s*/, "")}</h2>
         );
       } else if (line.match(/^@\[responsive-embed\]\((.*?)\|(.*?)\)$/)) {
         flushParagraph(`p-${i}`);
@@ -325,14 +316,10 @@ export default async function Page({ params }: Props) {
         const match = line.match(/^!\[(.*?)\]\((.*?)\)$/);
         if (match) {
           elements.push(
-            <div key={`img-container-${i}`} className="my-10 rounded-xl overflow-hidden border border-white/10 bg-white/5 relative">
-              <img 
-                src={match[2]} 
-                alt={match[1]} 
-                className="w-full h-auto object-cover"
-                loading="lazy"
-              />
-            </div>
+            <figure key={`img-container-${i}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={match[2]} alt={match[1]} className="h-auto w-full" loading="lazy" />
+            </figure>
           );
         }
       } else if (line.startsWith("- ")) {
@@ -362,49 +349,32 @@ export default async function Page({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main
-        className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden"
-        dir={locale === "ar" ? "rtl" : "ltr"}
-      >
-        <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
-
-        <article className="max-w-4xl mx-auto">
-          <header className="mb-12 text-center">
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-              <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">
-                {category}
-              </span>
-              <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-            </div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display mb-6">
-              {title}
-            </h1>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm text-xs font-bold uppercase tracking-widest text-text/80">
-                <span className="w-2 h-2 rounded-full bg-[hsl(var(--accent-gold))]" />
-                {t.readTime}
-              </span>
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm text-xs font-bold uppercase tracking-widest text-text/80">
-                <span className="w-2 h-2 rounded-full bg-blue-500" />
-                {t.date}
-              </span>
-            </div>
-          </header>
-
-          <div className="glass-card p-8 md:p-12">
-            {renderContent()}
-
-            {/* Footnotes */}
-            <footer className="mt-10 pt-6 border-t border-white/10 space-y-2 text-sm text-text/40 leading-relaxed italic">
-              <p>{TOKEN_FOOTNOTE[locale] || TOKEN_FOOTNOTE.en}</p>
-              <p>{MYTHOS_FOOTNOTE[locale] || MYTHOS_FOOTNOTE.en}</p>
-            </footer>
-          </div>
-        </article>
-      </main>
+      <article>
+        <ArticleHeader
+          backHref={`/${locale}/blog`}
+          backLabel={dict.blog.allArticles}
+          category={category}
+          title={title}
+          lead={post?.summary}
+          meta={[
+            post?.author,
+            post && (
+              <time key="d" dateTime="2026-04-24">
+                {formatPostDate(post.publishedDate, locale)}
+              </time>
+            ),
+            post && `${post.readTime} ${dict.blog.minRead}`,
+          ]}
+        />
+        <ArticleBody>
+          {renderContent()}
+          <Footnotes>
+            <p>{TOKEN_FOOTNOTE[locale] || TOKEN_FOOTNOTE.en}</p>
+            <p>{MYTHOS_FOOTNOTE[locale] || MYTHOS_FOOTNOTE.en}</p>
+          </Footnotes>
+        </ArticleBody>
+        <RelatedPosts slug="why-claude-mythos-wont-break-cybersecurity" locale={locale} dict={dict} />
+      </article>
     </>
   );
 }

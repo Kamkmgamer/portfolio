@@ -1,21 +1,12 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-    CheckCircle,
-    ArrowRight,
-    Zap,
-    Globe,
-    Smartphone,
-    TrendingUp,
-    Server,
-    Target,
-    ShoppingCart,
-    Code,
-} from "lucide-react";
 import { Locale } from "@/i18n.config";
+import { getDictionary } from "@/lib/i18n/server";
+import { formatPostDate, getBlogPostBySlug } from "@/lib/blogs";
+import { cn } from "@/lib/utils";
+import { ArticleHeader, READING, RelatedPosts } from "@/components/site/article";
+import { CheckList, InfoCard } from "@/components/site/layout";
+import { ArrowForward } from "@/components/site/icons";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -80,7 +71,6 @@ type LimitItem = { title: string; description: string };
 type ComparisonRow = { feature: string; regular: string; headless: string; headlessWins: boolean };
 
 type PageContent = {
-    eyebrow: string;
     h1a: string;
     h1b: string;
     intro: string;
@@ -133,7 +123,6 @@ type PageContent = {
 };
 
 const en: PageContent = {
-    eyebrow: "Shopify Guide",
     h1a: "What Is Headless Shopify?",
     h1b: "Meaning & Comparison",
     intro: "People throw around the word \"headless\" like it automatically means better. It does not. Sometimes it is exactly the right move. Sometimes it is just a more expensive way to solve a problem you do not have.",
@@ -224,7 +213,6 @@ const en: PageContent = {
 };
 
 const ar: PageContent = {
-    eyebrow: "دليل شوبيفاي",
     h1a: "ما هو Headless Shopify؟",
     h1b: "المعنى والمقارنة",
     intro: "ربما رأيت ناساً يرمون كلمة \"Headless\" كأنها الخيار الأذكى تلقائياً. وهي ليست كذلك. أحياناً تكون هي القرار الصحيح فعلاً، وأحياناً تكون مجرد طريقة أغلى لحل مشكلة لا تملكها أصلاً.",
@@ -314,217 +302,337 @@ const ar: PageContent = {
     relatedPost2desc: "دليل أسعار كامل مع 15 عرضاً توضيحياً حياً. قارن بين مواقع بـ 20$ و10,000$ واكتشف ما يشتريه كل ميزانية.",
 };
 
-export default function HeadlessShopifyVsRegularPage({ params }: { params: Promise<{ locale: Locale }> }) {
-    const [locale, setLocale] = useState<Locale>("en");
-    const [c, setC] = useState<PageContent>(en);
-    useEffect(() => { params.then(({ locale: l }) => { setLocale(l); setC(l === "ar" ? ar : en); }); }, [params]);
+const SLUG = "headless-shopify-vs-regular";
 
-    const limitIcons = [Zap, Code, Globe, ShoppingCart];
-    const benefitIcons = [Zap, Code, Globe, Server];
+/** Joins a heading that the legacy copy split into two styled halves. */
+const join = (...parts: string[]) => parts.filter(Boolean).join(" ");
+const pad = (i: number) => String(i + 1).padStart(2, "0");
 
-    return (
-        <>
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-            <main className="min-h-screen pt-32 pb-20 px-6 relative overflow-hidden">
-            <div className="fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-[hsl(var(--accent-gold))]/5 via-background to-background" />
-            <div className="max-w-7xl mx-auto">
+export default async function HeadlessShopifyVsRegularPage({ params }: { params: Promise<{ locale: Locale }> }) {
+  const { locale } = await params;
+  const isAr = locale === "ar";
+  const c = isAr ? ar : en;
+  const dict = await getDictionary(locale);
+  const post = getBlogPostBySlug(SLUG, locale);
 
-                {/* Header */}
-                <motion.header initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-24 text-center max-w-4xl mx-auto">
-                    <div className="flex items-center justify-center gap-4 mb-8">
-                        <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-                        <span className="text-[hsl(var(--accent-gold))] text-sm tracking-[0.3em] uppercase">{c.eyebrow}</span>
-                        <span className="h-px w-12 bg-[hsl(var(--accent-gold))]" />
-                    </div>
-                    <h1 className="text-5xl md:text-7xl font-display mb-8">
-                        {c.h1a} <br /><span className="italic text-text/50">{c.h1b}</span>
-                    </h1>
-                    <p className="text-lg text-text/75 font-medium leading-relaxed max-w-2xl mx-auto mb-12">{c.intro}</p>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <Badge label={c.badge1} /><Badge label={c.badge2} /><Badge label={c.badge3} />
-                    </div>
-                </motion.header>
+  const comparisonTitle = join(c.comparisonTitle, c.comparisonTitleItalic);
+  const advantage = isAr ? "الأفضل هنا" : "stronger option";
+  const related = [
+    { slug: "what-a-professional-website-costs", title: c.relatedPost1title, desc: c.relatedPost1desc },
+    { slug: "how-much-does-a-website-cost", title: c.relatedPost2title, desc: c.relatedPost2desc },
+  ];
 
-                {/* What's the Difference */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.whatIsSection.title} <span className="italic text-text/50">{c.whatIsSection.titleItalic}</span></h2>
-                    </div>
-                    <div className="grid lg:grid-cols-2 gap-8">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="glass-card p-8">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-green-800/10 text-green-500"><ShoppingCart className="h-5 w-5" /></div>
-                                <h3 className="text-xl font-display">{c.whatIsSection.regularTitle}</h3>
-                            </div>
-                            <p className="text-text/60 leading-relaxed font-medium">{c.whatIsSection.regularDesc}</p>
-                        </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }} className="glass-card p-8 border-[hsl(var(--accent-gold))]/20">
-                            <div className="flex items-center gap-3 mb-6">
-                                <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"><Server className="h-5 w-5" /></div>
-                                <h3 className="text-xl font-display">{c.whatIsSection.headlessTitle}</h3>
-                            </div>
-                            <p className="text-text/60 leading-relaxed font-medium">{c.whatIsSection.headlessDesc}</p>
-                        </motion.div>
-                    </div>
-                </motion.section>
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <article>
+        <ArticleHeader
+          backHref={`/${locale}/blog`}
+          backLabel={dict.blog.allArticles}
+          title={join(c.h1a, c.h1b)}
+          lead={c.intro}
+          meta={[
+            post?.author,
+            post && (
+              <time key="d" dateTime="2026-02-25">
+                {formatPostDate(post.publishedDate, locale)}
+              </time>
+            ),
+            post && `${post.readTime} ${dict.blog.minRead}`,
+          ]}
+        >
+          <ul className="flex flex-wrap gap-1.5">
+            {[c.badge1, c.badge2, c.badge3].map((badge) => (
+              <li key={badge} className="tag">
+                {badge}
+              </li>
+            ))}
+          </ul>
+        </ArticleHeader>
 
-                {/* Regular Shopify Limits */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.regularLimitsTitle} <span className="italic text-text/50">{c.regularLimitsTitleItalic}</span></h2>
-                        <p className="text-lg text-text/75 font-medium leading-relaxed max-w-2xl mx-auto">{c.regularLimitsDesc}</p>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        {c.regularLimits.map((item, index) => {
-                            const Icon = limitIcons[index];
-                            return (
-                                <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} viewport={{ once: true }} className="glass-card p-6 border border-red-500/40">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-red-500/10 text-red-400"><Icon className="h-5 w-5" /></div>
-                                        <h3 className="text-lg font-display">{item.title}</h3>
-                                    </div>
-                                    <p className="text-[0.9rem] text-text/75 font-medium leading-relaxed">{item.description}</p>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </motion.section>
+        <div className="container-site">
+          <div className={READING}>
+            {/* What headless means */}
+            <Section title={join(c.whatIsSection.title, c.whatIsSection.titleItalic)}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Panel>
+                  <StackDiagram />
+                  <h3 className={cn(CARD_TITLE, "mt-6")}>{c.whatIsSection.regularTitle}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-2">{c.whatIsSection.regularDesc}</p>
+                </Panel>
+                <Panel featured>
+                  <StackDiagram headless />
+                  <h3 className={cn(CARD_TITLE, "mt-6")}>{c.whatIsSection.headlessTitle}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-2">{c.whatIsSection.headlessDesc}</p>
+                </Panel>
+              </div>
+            </Section>
 
-                {/* Headless Benefits */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.headlessBenefitsTitle} <span className="italic text-text/50">{c.headlessBenefitsTitleItalic}</span></h2>
-                        <p className="text-lg text-text/75 font-medium leading-relaxed max-w-2xl mx-auto">{c.headlessBenefitsDesc}</p>
+            {/* Where regular Shopify hits a wall */}
+            <Section title={join(c.regularLimitsTitle, c.regularLimitsTitleItalic)} lead={c.regularLimitsDesc}>
+              <ol className="border-b border-line">
+                {c.regularLimits.map((item, i) => (
+                  <li key={item.title} className="grid gap-x-6 gap-y-1.5 border-t border-line py-6 sm:grid-cols-[2.75rem_1fr]">
+                    <span className="pt-0.5 text-sm font-semibold tabular text-danger">{pad(i)}</span>
+                    <div>
+                      <h3 className={CARD_TITLE}>{item.title}</h3>
+                      <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-2">{item.description}</p>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        {c.headlessBenefits.map((item, index) => {
-                            const Icon = benefitIcons[index];
-                            return (
-                                <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: index * 0.1 }} viewport={{ once: true }} className="glass-card p-6 border border-[hsl(var(--accent-gold))]/50">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[hsl(var(--accent-gold))]/10 text-[hsl(var(--accent-gold))]"><Icon className="h-5 w-5" /></div>
-                                        <h3 className="text-lg font-display">{item.title}</h3>
-                                    </div>
-                                    <p className="text-[0.9rem] text-text/75 font-medium leading-relaxed">{item.description}</p>
-                                </motion.div>
-                            );
-                        })}
-                    </div>
-                </motion.section>
+                  </li>
+                ))}
+              </ol>
+            </Section>
 
-                {/* Comparison Table */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.comparisonTitle} <span className="italic text-text/50">{c.comparisonTitleItalic}</span></h2>
-                        <p className="text-lg text-text/75 font-medium leading-relaxed max-w-2xl mx-auto">{c.comparisonDesc}</p>
-                    </div>
-                    <div className="glass-card overflow-hidden">
-                        <div className="grid grid-cols-3 gap-4 p-4 border-b border-white/10 bg-white/5">
-                            <div className="font-display text-text/80">{c.tableFeature}</div>
-                            <div className="font-display text-green-500 text-center">{c.tableRegular}</div>
-                            <div className="font-display text-[hsl(var(--accent-gold))] text-center">{c.tableHeadless}</div>
-                        </div>
-                        {c.comparison.map((row, idx) => (
-                            <div key={row.feature} className={`grid grid-cols-3 gap-4 p-4 items-center ${idx % 2 === 0 ? "bg-white/[0.02]" : ""}`}>
-                                <div className="text-text/80 font-medium">{row.feature}</div>
-                                <div className={`text-center text-[0.9rem] font-medium ${row.headlessWins ? "text-text/60" : "text-green-500/90"}`}>{row.regular}</div>
-                                <div className={`text-center text-[0.9rem] font-medium flex items-center justify-center gap-1 ${row.headlessWins ? "text-[hsl(var(--accent-gold))]/90" : "text-text/60"}`}>
-                                    {row.headless}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </motion.section>
+            {/* What headless gives you */}
+            <Section title={join(c.headlessBenefitsTitle, c.headlessBenefitsTitleItalic)} lead={c.headlessBenefitsDesc}>
+              <ol className="grid gap-4 sm:grid-cols-2">
+                {c.headlessBenefits.map((item) => (
+                  <li key={item.title}>
+                    <InfoCard title={item.title} className="h-full">
+                      <p className="text-[0.9375rem]">{item.description}</p>
+                    </InfoCard>
+                  </li>
+                ))}
+              </ol>
+            </Section>
 
-                {/* Verdict */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.verdictTitle} <span className="italic text-text/50">{c.verdictTitleItalic}</span></h2>
-                        <p className="text-lg text-text/75 font-medium leading-relaxed max-w-2xl mx-auto">{c.verdictDesc}</p>
-                    </div>
-                    <div className="grid lg:grid-cols-2 gap-8">
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="glass-card p-8">
-                            <div className="flex items-center gap-3 mb-6"><Target className="h-5 w-5 text-green-500" /><h3 className="text-xl font-display">{c.stayRegularTitle}</h3></div>
-                            <ul className="space-y-4">
-                                {c.stayRegularList.map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-[0.9rem] font-medium text-text/75">
-                                        <ArrowRight className="h-4 w-4 text-green-500 mt-0.5 shrink-0" />{item}
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="mt-6 pt-6 border-t border-white/10"><p className="text-[0.9rem] text-text/65 font-medium leading-relaxed">{c.stayRegularFooter}</p></div>
-                        </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} viewport={{ once: true }} className="glass-card p-8 border-[hsl(var(--accent-gold))]/20">
-                            <div className="flex items-center gap-3 mb-6"><TrendingUp className="h-5 w-5 text-[hsl(var(--accent-gold))]" /><h3 className="text-xl font-display">{c.goHeadlessTitle}</h3></div>
-                            <ul className="space-y-4">
-                                {c.goHeadlessList.map((item, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-[0.9rem] font-medium text-text/75">
-                                        <ArrowRight className="h-4 w-4 text-[hsl(var(--accent-gold))] mt-0.5 shrink-0" />{item}
-                                    </li>
-                                ))}
-                            </ul>
-                            <div className="mt-6 pt-6 border-t border-white/10"><p className="text-[0.9rem] text-text/65 font-medium leading-relaxed">{c.goHeadlessFooter}</p></div>
-                        </motion.div>
-                    </div>
-                </motion.section>
+            {/* Comparison */}
+            <Section title={comparisonTitle} lead={c.comparisonDesc}>
+              {/* Phones: one stacked row per feature instead of a cramped three-column table. */}
+              <dl className="divide-y divide-line overflow-hidden rounded-[1.125rem] border border-line bg-card sm:hidden">
+                {c.comparison.map((row) => (
+                  <div key={row.feature} className="px-5 py-4">
+                    <dt className="font-medium text-ink">{row.feature}</dt>
+                    <dd className="mt-2.5 grid grid-cols-2 gap-4 text-[0.9375rem] leading-snug">
+                      <span>
+                        <span className="block ps-[1.375rem] text-sm font-medium text-muted">{c.tableRegular}</span>
+                        <span className="mt-1.5 block">
+                          <Verdict win={!row.headlessWins} label={advantage}>
+                            {row.regular}
+                          </Verdict>
+                        </span>
+                      </span>
+                      <span>
+                        <span className="block ps-[1.375rem] text-sm font-medium text-accent">{c.tableHeadless}</span>
+                        <span className="mt-1.5 block">
+                          <Verdict win={row.headlessWins} label={advantage}>
+                            {row.headless}
+                          </Verdict>
+                        </span>
+                      </span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
 
-                {/* Bottom Line */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="glass-card p-8 md:p-12 border border-[hsl(var(--accent-gold))]/20 text-center">
-                        <h2 className="text-3xl font-display mb-6">{c.bottomLineTitle}</h2>
-                        <p className="text-lg text-text/75 font-medium mb-8 max-w-2xl mx-auto leading-relaxed">{c.bottomLineDesc}</p>
-                        <div className="p-6 bg-white/5 rounded-lg inline-block">
-                            <p className="text-xl text-text/80"><span className="text-green-500">{c.bottomLineRegular}</span><br /><span className="text-[hsl(var(--accent-gold))]">{c.bottomLineHeadless}</span></p>
-                        </div>
-                        <p className="text-text/70 font-medium mt-6 leading-relaxed">{c.bottomLineFooter}</p>
-                    </div>
-                </motion.section>
+              <div className="hidden overflow-x-auto rounded-[1.125rem] border border-line bg-card sm:block">
+                <table className="data-table">
+                  <caption className="sr-only">{comparisonTitle}</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">{c.tableFeature}</th>
+                      {/* Indent matches the check-mark column in the cells below. */}
+                      <th scope="col">
+                        <span className="ps-[1.375rem]">{c.tableRegular}</span>
+                      </th>
+                      <th scope="col" className="text-accent">
+                        <span className="ps-[1.375rem]">{c.tableHeadless}</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {c.comparison.map((row) => (
+                      <tr key={row.feature}>
+                        <th scope="row" className={ROW_HEADER}>
+                          {row.feature}
+                        </th>
+                        <td>
+                          <Verdict win={!row.headlessWins} label={advantage}>
+                            {row.regular}
+                          </Verdict>
+                        </td>
+                        <td>
+                          <Verdict win={row.headlessWins} label={advantage}>
+                            {row.headless}
+                          </Verdict>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Section>
 
-                {/* Related Posts */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.relatedTitle} <span className="italic text-text/50">{c.relatedTitleItalic}</span></h2>
-                        <p className="text-lg text-text/60 leading-relaxed max-w-2xl mx-auto">{c.relatedDesc}</p>
-                    </div>
-                    <div className="grid lg:grid-cols-2 gap-8">
-                        <Link href={`/${locale}/blog/what-a-professional-website-costs`} className="glass-card p-8 group hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500">
-                            <div className="flex items-center gap-3 mb-4"><CheckCircle className="h-5 w-5 text-[hsl(var(--accent-gold))]" /><h3 className="text-xl font-display group-hover:text-[hsl(var(--accent-gold))] transition-colors">{c.relatedPost1title}</h3></div>
-                            <p className="text-sm text-text/60 leading-relaxed">{c.relatedPost1desc}</p>
-                            <span className="inline-flex items-center gap-2 mt-4 text-sm text-[hsl(var(--accent-gold))]">{c.readMore} <ArrowRight className="h-4 w-4" /></span>
-                        </Link>
-                        <Link href={`/${locale}/blog/how-much-does-a-website-cost`} className="glass-card p-8 group hover:border-[hsl(var(--accent-gold))]/30 transition-all duration-500">
-                            <div className="flex items-center gap-3 mb-4"><Smartphone className="h-5 w-5 text-orange-400" /><h3 className="text-xl font-display group-hover:text-[hsl(var(--accent-gold))] transition-colors">{c.relatedPost2title}</h3></div>
-                            <p className="text-sm text-text/60 leading-relaxed">{c.relatedPost2desc}</p>
-                            <span className="inline-flex items-center gap-2 mt-4 text-sm text-[hsl(var(--accent-gold))]">{c.readMore} <ArrowRight className="h-4 w-4" /></span>
-                        </Link>
-                    </div>
-                </motion.section>
+            {/* Verdict */}
+            <Section title={join(c.verdictTitle, c.verdictTitleItalic)} lead={c.verdictDesc}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Panel footer={c.stayRegularFooter}>
+                  <h3 className={CARD_TITLE}>{c.stayRegularTitle}</h3>
+                  <CheckList items={c.stayRegularList} className="mt-5 text-[0.9375rem]" />
+                </Panel>
+                <Panel featured footer={c.goHeadlessFooter}>
+                  <h3 className={CARD_TITLE}>{c.goHeadlessTitle}</h3>
+                  <CheckList items={c.goHeadlessList} className="mt-5 text-[0.9375rem]" />
+                </Panel>
+              </div>
+            </Section>
 
-                {/* CTA */}
-                <motion.section initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="text-center py-20">
-                    <div className="max-w-2xl mx-auto">
-                        <h2 className="text-4xl md:text-5xl font-display mb-6">{c.ctaTitle} <span className="italic text-text/50">{c.ctaTitleItalic}</span></h2>
-                        <p className="text-lg text-text/60 mb-10 leading-relaxed">{c.ctaDesc}</p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <Link href={`/${locale}/contact`} className="btn-premium"><span>{c.ctaStartBtn}</span></Link>
-                            <Link href={`/${locale}/blog`} className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 border-b border-[hsl(var(--accent-gold))]/30 hover:border-[hsl(var(--accent-gold))] transition-all duration-500">
-                                <span className="uppercase tracking-[0.2em] text-xs font-semibold text-text/70 group-hover:text-text">{c.ctaBackBtn}</span>
-                            </Link>
-                        </div>
-                    </div>
-                </motion.section>
+            {/* Bottom line */}
+            <BottomLine
+              title={c.bottomLineTitle}
+              desc={c.bottomLineDesc}
+              lines={[c.bottomLineRegular, c.bottomLineHeadless]}
+              footer={c.bottomLineFooter}
+            />
 
-            </div>
-        </main>
-        </>
-    );
+            {/* Related reading */}
+            <Section title={join(c.relatedTitle, c.relatedTitleItalic)} lead={c.relatedDesc}>
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {related.map((item) => (
+                  <PostCard
+                    key={item.slug}
+                    href={`/${locale}/blog/${item.slug}`}
+                    title={item.title}
+                    description={item.desc}
+                    cta={c.readMore}
+                  />
+                ))}
+              </ul>
+            </Section>
+          </div>
+        </div>
+
+        <RelatedPosts slug={SLUG} locale={locale} dict={dict} />
+      </article>
+    </>
+  );
 }
 
-function Badge({ label }: { label: string }) {
-    return (
-        <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm text-xs font-bold uppercase tracking-widest text-text/80">
-            <span className="w-2 h-2 rounded-full bg-[hsl(var(--accent-gold))]" />{label}
-        </span>
-    );
+/* ───────────────────────────────────────────────────────────────────────────
+   Local building blocks — reading-column sections for this structured post.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const CARD_TITLE = "text-lg font-semibold leading-snug tracking-[-0.015em] text-ink rtl:tracking-normal";
+const ROW_HEADER = "bg-transparent align-top font-medium text-ink border-line [tr:last-child>&]:border-b-0";
+
+function Section({ title, lead, children }: { title: string; lead?: string; children: ReactNode }) {
+  return (
+    <section className="border-t border-line py-12 first:border-t-0 first:pt-2 md:py-16 md:first:pt-4">
+      <h2 className="text-[clamp(1.5rem,1.25rem+0.9vw,2rem)] font-semibold leading-[1.2] tracking-[-0.025em] text-ink rtl:leading-[1.5] rtl:tracking-normal">
+        {title}
+      </h2>
+      {lead && <p className="mt-3 text-[1.0625rem] leading-[1.7] text-ink-2 rtl:text-[1.125rem] rtl:leading-[1.9]">{lead}</p>}
+      <div className="reveal mt-8">{children}</div>
+    </section>
+  );
+}
+
+function Panel({ featured, footer, children }: { featured?: boolean; footer?: ReactNode; children: ReactNode }) {
+  return (
+    <div
+      className={cn(
+        "card flex h-full flex-col p-6 md:p-7",
+        featured && "border-[color-mix(in_oklab,var(--accent)_45%,transparent)] shadow-[var(--shadow-card)]",
+      )}
+    >
+      <div className="flex-1">{children}</div>
+      {footer && <p className="mt-6 border-t border-line pt-5 text-sm leading-relaxed text-muted">{footer}</p>}
+    </div>
+  );
+}
+
+/**
+ * Schematic of the two setups: a theme fused to Shopify versus a separate
+ * storefront talking to Shopify over its API. Decorative; the copy explains it.
+ */
+function StackDiagram({ headless }: { headless?: boolean }) {
+  const box = "rounded-lg border px-3 py-2 font-mono text-xs leading-none";
+  return (
+    <div aria-hidden="true" dir="ltr" className="grid h-[7.5rem] content-center rounded-xl bg-paper-2 p-3">
+      {headless ? (
+        <div className="grid">
+          <span className={cn(box, "border-[color-mix(in_oklab,var(--accent)_45%,transparent)] bg-accent-soft text-ink")}>
+            React / Next.js
+          </span>
+          <span className="flex h-7 items-center gap-2 ps-4 font-mono text-[0.6875rem] text-muted">
+            <span className="h-full w-px bg-line-strong" />
+            API
+          </span>
+          <span className={cn(box, "border-line bg-card text-ink-2")}>Shopify</span>
+        </div>
+      ) : (
+        <div className="grid gap-1 rounded-[0.625rem] border border-line-strong p-1">
+          <span className={cn(box, "border-line bg-card text-ink")}>Liquid theme</span>
+          <span className={cn(box, "border-line bg-card text-ink-2")}>Shopify</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Verdict({ win, label, children }: { win: boolean; label: string; children: ReactNode }) {
+  return (
+    <span className={cn("flex items-start gap-2", win ? "font-medium text-ink" : "text-muted")}>
+      <svg
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        className={cn("mt-[0.3em] size-3.5 shrink-0 text-accent", !win && "invisible")}
+      >
+        <path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      </svg>
+      <span>
+        {children}
+        {win && <span className="sr-only"> ({label})</span>}
+      </span>
+    </span>
+  );
+}
+
+function BottomLine({ title, desc, lines, footer }: { title: string; desc: string; lines: string[]; footer: string }) {
+  return (
+    <section className="pb-12 md:pb-16">
+      <div className="reveal rounded-[1.25rem] border border-[color-mix(in_oklab,var(--accent)_30%,transparent)] bg-accent-soft p-7 md:p-10">
+        <h2 className="text-h3">{title}</h2>
+        <p className="mt-4 text-[clamp(1.25rem,1.1rem+0.6vw,1.625rem)] font-semibold leading-[1.3] tracking-[-0.018em] text-ink rtl:leading-[1.6] rtl:tracking-normal">
+          {desc}
+        </p>
+        <ul className="mt-7 grid gap-2 border-t border-[color-mix(in_oklab,var(--accent)_25%,transparent)] pt-6 text-lg">
+          {lines.map((line, i) => (
+            <li key={line} className={i === lines.length - 1 ? "font-semibold text-ink" : "font-medium text-ink-2"}>
+              {line}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 leading-relaxed text-ink-2">{footer}</p>
+      </div>
+    </section>
+  );
+}
+
+function PostCard({
+  href,
+  title,
+  description,
+  cta,
+}: {
+  href: string;
+  title: string;
+  description: string;
+  cta: string;
+}) {
+  return (
+    <li className="card card-interactive group relative flex flex-col p-6 md:p-7">
+      <h3 className={CARD_TITLE}>
+        <Link href={href} className="stretched-link transition-colors group-hover:text-accent">
+          {title}
+        </Link>
+      </h3>
+      <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-2">{description}</p>
+      <span aria-hidden="true" className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-ink">
+        {cta}
+        <ArrowForward className="size-3.5" />
+      </span>
+    </li>
+  );
 }
